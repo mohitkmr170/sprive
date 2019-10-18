@@ -1,0 +1,1 @@
+import {aType} from './actionsTypes';
