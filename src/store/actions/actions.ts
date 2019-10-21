@@ -1,1 +1,1 @@
-import {aType} from './actionsTypes';
+import {aType} from '../actionTypes/actionsTypes';

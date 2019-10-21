@@ -49,10 +49,10 @@ export class StoreFetchableData {
     return new Promise((resolve, reject) => {
       that
         .apiService(data, moreData)
-        .then(response => {
+        .then((response: any) => {
           resolve(response);
         })
-        .catch(err => reject(err));
+        .catch((err: any) => reject(err));
     });
   }
 }
