@@ -2,46 +2,85 @@ import React from 'react';
 import {View, Text, TextInput} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
-import {Header} from '../../components';
+import {Header, ReduxFormField} from '../../components';
 import {strings} from '../../utils/i18n';
+import {Field, reduxForm} from 'redux-form';
+import {
+  email,
+  minLength8,
+  maxLength16,
+  required,
+  alphaNumeric,
+} from '../../utils/validate';
 
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
     goBack: () => void;
   };
+  handleSubmit: (values: any) => any;
 }
 interface state {}
 
-export class LoginForm extends React.Component<props, state> {
+class UnConnectedLoginForm extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: '',
+      password: '',
+    };
   }
 
   async UNSAFE_componentWillMount() {}
 
-  render() {
+  handleLoginPress = async (values: any) => {
     const {navigation} = this.props;
+    console.log('handleSubmit values', values.phoneNumber);
+    await navigation.navigate('SignUpScreen');
+  };
+
+  render() {
+    const {handleSubmit} = this.props;
     return (
       <View style={styles.mainContainer}>
         <Header title={strings('login.loginButton')} onBackPress={() => {}} />
         <View style={styles.topContainer}>
-          <TextInput
-            style={styles.emailInput}
-            placeholder={strings('global.email')}
+          <Field
+            name="phoneNumber"
+            component={ReduxFormField}
+            props={{
+              keyboardType: 'email-address',
+              style: styles.emailInput,
+              returnKeyType: 'done',
+              autoCapitalize: false,
+              placeholder: 'Email',
+              onChangeText: (email: any) => this.setState({email}),
+            }}
+            validate={[email, required]}
           />
-          <TextInput
-            style={styles.emailInput}
-            placeholder={strings('global.password')}
-            secureTextEntry
+          <Field
+            name="password"
+            component={ReduxFormField}
+            props={{
+              maxLength: 16,
+              style: styles.emailInput,
+              secureTextEntry: true,
+              autoCapitalize: false,
+              placeholder: 'Password',
+              onChangeText: (password: any) => this.setState({password}),
+            }}
+            validate={[minLength8, maxLength16, alphaNumeric, required]}
           />
         </View>
         <Button
           title={strings('login.loginButton')}
-          onPress={() => navigation.navigate('SignUpScreen')}
+          onPress={handleSubmit(this.handleLoginPress)}
         />
       </View>
     );
   }
 }
+
+export const LoginForm = reduxForm({
+  form: 'logIn',
+})(UnConnectedLoginForm);

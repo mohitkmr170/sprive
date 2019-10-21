@@ -17,9 +17,10 @@ export class SignUp extends React.Component<props, state> {
     this.state = {};
   }
   render() {
+    const {navigation} = this.props;
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.mainContainer}>
-        <SignUpForm navigation={this.props.navigation} />
+        <SignUpForm navigation={navigation} />
       </KeyboardAwareScrollView>
     );
   }

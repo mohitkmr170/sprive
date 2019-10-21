@@ -13,10 +13,8 @@ export const styles = StyleSheet.create({
   },
   emailInput: {
     fontSize: 24,
-    borderBottomColor: COLOR.black,
-    borderBottomWidth: 1,
     width: '80%',
-    marginTop: 16,
+    marginTop: 4,
     padding: 4,
   },
   phoneInputContainer: {
