@@ -5,6 +5,8 @@ import {Button} from 'react-native-elements';
 import {Header, ReduxFormField} from '../../components';
 import {strings} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
+import {connect} from 'react-redux';
+import {addUserDetails} from '../../store/actions/actions';
 import {
   email,
   minLength8,
@@ -22,7 +24,7 @@ interface props {
 }
 interface state {}
 
-class UnConnectedLoginForm extends React.Component<props, state> {
+class UnConnectedLoginScreen extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
@@ -34,13 +36,21 @@ class UnConnectedLoginForm extends React.Component<props, state> {
   async UNSAFE_componentWillMount() {}
 
   handleLoginPress = async (values: any) => {
-    const {navigation} = this.props;
+    const {navigation, addUserDetails} = this.props;
     console.log('handleSubmit values', values.phoneNumber);
+    let payload = {
+      userName: this.state.email,
+      userPassword: this.state.password,
+    };
+    await addUserDetails(payload);
+    const {addUserDetailsResponse} = this.props;
+    console.log('addUserDetailsResponse', addUserDetailsResponse);
     await navigation.navigate('SignUpScreen');
   };
 
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, addUserDetailsResponse} = this.props;
+    console.log('kajbsdasd111111', addUserDetailsResponse);
     return (
       <View style={styles.mainContainer}>
         <Header title={strings('login.loginButton')} onBackPress={() => {}} />
@@ -81,6 +91,19 @@ class UnConnectedLoginForm extends React.Component<props, state> {
   }
 }
 
-export const LoginForm = reduxForm({
+export const LoginScreen = reduxForm({
   form: 'logIn',
-})(UnConnectedLoginForm);
+})(UnConnectedLoginScreen);
+
+const mapStateToProps = state => ({
+  addUserDetailsResponse: state.applicationReducer,
+});
+
+const bindActions = dispatch => ({
+  addUserDetails: payload => dispatch(addUserDetails(payload)),
+});
+
+export const LoginForm = connect(
+  mapStateToProps,
+  bindActions,
+)(LoginScreen);

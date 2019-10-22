@@ -5,16 +5,16 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {mapValues} from 'lodash';
 import logger from 'redux-logger';
 import {reducer as formReducer} from 'redux-form';
-// import * as reducers from './reducers';
+import * as reducers from './reducers';
+import {applicationReducer} from './appReducers/addUserDetails';
 
 const appReducers = {
-  // ...mapValues(reducers, 'reducers'),
-  ...mapValues({}, 'reducers'),
+  ...mapValues(reducers, 'reducers'),
   form: formReducer,
+  applicationReducer,
 };
 
 const appReducer = combineReducers(appReducers);
-
 const rootReducer = (
   state: any,
   action: {

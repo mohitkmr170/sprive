@@ -2,7 +2,7 @@ import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {Login, SideBar, SignUp} from '../screens';
+import {Login, SideBar, SignUp, Dashboard} from '../screens';
 
 /**
  * Tab Navigator
@@ -46,6 +46,9 @@ const AppStackNavigator = createStackNavigator(
     },
     SignUpScreen: {
       screen: SignUp,
+    },
+    DashBoardScreen: {
+      screen: Dashboard,
     },
   },
   {
