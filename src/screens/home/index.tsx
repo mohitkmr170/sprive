@@ -8,6 +8,9 @@ import {get} from 'lodash';
 interface props {
   getUserProfile: () => void;
   getUserProfileResponse: () => void;
+  navigation: {
+    navigate: (routeName: String) => void;
+  };
 }
 
 interface state {
@@ -21,11 +24,13 @@ class UnconnectedDashBoard extends React.Component<props, state> {
       loaded: false,
     };
   }
+
   async UNSAFE_componentWillMount() {
     const {getUserProfile} = this.props;
     await getUserProfile();
     this.setState({loaded: true});
   }
+
   render() {
     const {getUserProfileResponse} = this.props;
     const {loaded} = this.state;
