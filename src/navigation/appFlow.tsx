@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {Login, SideBar, SignUp, Dashboard} from '../screens';
 
 /**
- * Tab Navigator
+ * Tab Navigator, can be used as a screen to which we can navigate to
  */
 
 const TabNavigator = createBottomTabNavigator(
@@ -13,13 +13,13 @@ const TabNavigator = createBottomTabNavigator(
     Login: {
       screen: Login,
       navigationOptions: {
-        tabBarLabel: 'Chat',
+        tabBarLabel: 'Login',
       },
     },
     SignUp: {
       screen: SignUp,
       navigationOptions: {
-        tabBarLabel: 'Contact',
+        tabBarLabel: 'SignUp',
       },
     },
   },
@@ -50,6 +50,12 @@ const AppStackNavigator = createStackNavigator(
     DashBoardScreen: {
       screen: Dashboard,
     },
+    /**
+     * TabNavigator to be Enabled when it's requirements arises
+     */
+    // TabNavigatorScreen: {
+    //   screen: TabNavigator,
+    // },
   },
   {
     initialRouteName: 'LoginScreen',

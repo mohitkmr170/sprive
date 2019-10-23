@@ -29,7 +29,8 @@ class UnconnectedDashBoard extends React.Component<props, state> {
   render() {
     const {getUserProfileResponse} = this.props;
     const {loaded} = this.state;
-    console.log('askjhdvasd', getUserProfileResponse);
+    //These logs will be shown only in Dev mode
+    if (__DEV__) console.log('askjhdvasd', getUserProfileResponse);
     return (
       <View style={styles.mainContainer}>
         <Text>Dashboard data</Text>
