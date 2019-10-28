@@ -20,7 +20,7 @@ export class AuthLoading extends React.Component<props, state> {
 
   authCheck() {
     setTimeout(() => {
-      this.props.navigation.navigate('App');
+      this.props.navigation.navigate('Auth');
     }, 2000);
   }
   render() {

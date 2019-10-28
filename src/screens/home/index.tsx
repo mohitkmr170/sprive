@@ -4,6 +4,7 @@ import {styles} from './styles';
 import {getUserProfile} from '../../store/reducers';
 import {connect} from 'react-redux';
 import {get} from 'lodash';
+import {StackBarGraph} from '../../components';
 
 interface props {
   getUserProfile: () => void;
@@ -42,6 +43,9 @@ class UnconnectedDashBoard extends React.Component<props, state> {
         <View style={styles.topContainer}>
           <Text>API Response</Text>
           {loaded && <Text>{get(getUserProfileResponse, 'title', '')}</Text>}
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <StackBarGraph />
+          </View>
         </View>
       </View>
     );

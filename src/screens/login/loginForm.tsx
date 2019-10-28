@@ -120,6 +120,15 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           />
         </View>
         <Button
+          title="Home"
+          onPress={() => this.props.navigation.navigate('App')}
+          style={{
+            width: '40%',
+            alignSelf: 'center',
+            margin: 24,
+          }}
+        />
+        <Button
           title="Check your email"
           onPress={() => this.handleEmailCheck()}
           style={{
