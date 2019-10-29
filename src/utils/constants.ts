@@ -9,4 +9,6 @@ export const appConstants = {
   SCREEN_WIDTH: Dimensions.get('screen').width,
   WINDOW_HEIGHT: Dimensions.get('window').height,
   WINDOW_WIDTH: Dimensions.get('window').width,
+  LOGIN_FORM: 'logIn',
+  SIGNUP_FORM: 'signup',
 };

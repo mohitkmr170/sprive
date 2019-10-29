@@ -12,11 +12,15 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
+import {appConstants} from '../../utils/constants';
 
 const SIGNUP_BUTTON = 'signUp.singUpButton';
 interface props {
-  navigation: any;
-  handleSubmit: (values: any) => any;
+  navigation: {
+    navigate: (routeName: String) => void;
+    goBack: () => void;
+  };
+  handleSubmit: (values?: {email: string; password: string}) => void;
 }
 
 interface state {}
@@ -27,13 +31,16 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     this.state = {
       email: '',
       password: '',
-      configPassword: '',
+      confirmPassword: '',
     };
   }
 
-  handleSignUpSubmit = async (values: any) => {
+  handleSignUpSubmit = async (values?: {
+    email: string;
+    password: string;
+    confirm_password: string;
+  }) => {
     const {navigation} = this.props;
-    console.log('handleSubmit values', values.phoneNumber);
     await Alert.alert('Check!');
   };
 
@@ -51,7 +58,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
         />
         <View style={styles.topContainer}>
           <Field
-            name="phoneNumber"
+            name="email"
             component={ReduxFormField}
             props={{
               keyboardType: 'email-address',
@@ -77,7 +84,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
             validate={[minLength8, maxLength16, alphaNumeric, required]}
           />
           <Field
-            name="Confirm password"
+            name="Confirm_password"
             component={ReduxFormField}
             props={{
               maxLength: 16,
@@ -85,8 +92,8 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
               secureTextEntry: true,
               autoCapitalize: false,
               placeholder: 'Confirm Password',
-              onChangeText: (configPassword: any) =>
-                this.setState({configPassword}),
+              onChangeText: (confirmPassword: string) =>
+                this.setState({confirmPassword}),
             }}
             validate={[minLength8, maxLength16, alphaNumeric, required]}
           />
@@ -101,5 +108,5 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
 }
 
 export const SignUpForm = reduxForm({
-  form: 'signup',
+  form: appConstants.SIGNUP_FORM,
 })(UnConnectedSignUpForm);

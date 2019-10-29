@@ -12,6 +12,7 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
+import {appConstants} from '../../utils/constants';
 
 const LOGIN_BUTTON = 'login.loginButton';
 interface props {
@@ -19,7 +20,7 @@ interface props {
     navigate: (routeName: String) => void;
     goBack: () => void;
   };
-  handleSubmit: (values: any) => any;
+  handleSubmit: (values?: {email: string; password: string}) => void;
 }
 interface state {}
 
@@ -34,20 +35,20 @@ class UnConnectedLoginForm extends React.Component<props, state> {
 
   async UNSAFE_componentWillMount() {}
 
-  handleLoginPress = async (values: any) => {
+  handleLoginPress = async (values?: {email: string; password: string}) => {
     const {navigation} = this.props;
-    console.log('handleSubmit values', values.phoneNumber);
     await navigation.navigate('SignUpScreen');
   };
 
   render() {
     const {handleSubmit} = this.props;
+    console.log('ajksbdasd', handleSubmit);
     return (
       <View style={styles.mainContainer}>
         <Header title={localeString(LOGIN_BUTTON)} onBackPress={() => {}} />
         <View style={styles.topContainer}>
           <Field
-            name="phoneNumber"
+            name="email"
             component={ReduxFormField}
             props={{
               keyboardType: 'email-address',
@@ -83,5 +84,5 @@ class UnConnectedLoginForm extends React.Component<props, state> {
 }
 
 export const LoginForm = reduxForm({
-  form: 'logIn',
+  form: appConstants.LOGIN_FORM,
 })(UnConnectedLoginForm);

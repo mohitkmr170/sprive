@@ -5,7 +5,7 @@ import {SignUpForm} from './signupForm';
 
 interface props {
   navigation: {
-    navigate: Function;
+    navigate: (routeName: String) => void;
   };
 }
 
