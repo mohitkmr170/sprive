@@ -3,7 +3,7 @@ import {View, Text, TextInput} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
 import {Header, ReduxFormField} from '../../components';
-import {strings} from '../../utils/i18n';
+import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {
   email,
@@ -13,6 +13,7 @@ import {
   alphaNumeric,
 } from '../../utils/validate';
 
+const LOGIN_BUTTON = 'login.loginButton';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -43,7 +44,7 @@ class UnConnectedLoginForm extends React.Component<props, state> {
     const {handleSubmit} = this.props;
     return (
       <View style={styles.mainContainer}>
-        <Header title={strings('login.loginButton')} onBackPress={() => {}} />
+        <Header title={localeString(LOGIN_BUTTON)} onBackPress={() => {}} />
         <View style={styles.topContainer}>
           <Field
             name="phoneNumber"
@@ -73,7 +74,7 @@ class UnConnectedLoginForm extends React.Component<props, state> {
           />
         </View>
         <Button
-          title={strings('login.loginButton')}
+          title={localeString(LOGIN_BUTTON)}
           onPress={handleSubmit(this.handleLoginPress)}
         />
       </View>

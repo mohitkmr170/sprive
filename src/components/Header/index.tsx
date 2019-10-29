@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {COLOR} from '../../utils/colors';
-import {strings} from '../../utils/i18n';
+import {localeString} from '../../utils/i18n';
 
 interface props {
   title: String;
@@ -22,7 +22,7 @@ export class Header extends React.Component<props, state> {
         }}>
         <TouchableOpacity onPress={this.props.onBackPress}>
           <Text style={{alignSelf: 'center'}}>
-            {strings('global.backButton')}
+            {localeString('global.backButton')}
           </Text>
         </TouchableOpacity>
         <Text

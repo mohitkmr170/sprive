@@ -3,7 +3,7 @@ import {View, TextInput, Alert} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
 import {Header, ReduxFormField} from '../../components';
-import {strings} from '../../utils/i18n';
+import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {
   email,
@@ -13,6 +13,7 @@ import {
   alphaNumeric,
 } from '../../utils/validate';
 
+const SIGNUP_BUTTON = 'signUp.singUpButton';
 interface props {
   navigation: any;
   handleSubmit: (values: any) => any;
@@ -45,7 +46,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     return (
       <View style={styles.mainContainer}>
         <Header
-          title={strings('signUp.singUpButton')}
+          title={localeString(SIGNUP_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
         <View style={styles.topContainer}>
@@ -91,7 +92,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           />
         </View>
         <Button
-          title={strings('signUp.singUpButton')}
+          title={localeString(SIGNUP_BUTTON)}
           onPress={handleSubmit(this.handleSignUpSubmit)}
         />
       </View>
