@@ -1,11 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {StackedBarChart} from 'react-native-svg-charts';
+import {styles} from './styles';
+import {appConstants} from '../../utils/constants';
 
-const GRAPH_OFFSET = 6;
-const HIT_SLOP = {left: 10, right: 10, top: 10, bottom: 10};
-const GRAPH_HEIGHT = 200;
-let minStackHeight = 0;
+const GRAPH_OFFSET = 6; //Number of data to be shown along x-axis(bar count)
 let monthlyTarget = 300;
 let emi = 200;
 interface props {}
@@ -32,65 +31,53 @@ let monthNames = [
   'Nov',
   'Dec',
 ];
-let currentMonth = 'May';
+let currentMonth = monthNames[new Date().getMonth()];
 const data = [
   {
-    month: new Date(2015, 0, 1),
     emi: emi,
     overPayment: 300,
   },
   {
-    month: new Date(2015, 1, 1),
     emi: emi,
     overPayment: 370,
   },
   {
-    month: new Date(2015, 2, 1),
     emi: emi,
     overPayment: 270,
   },
   {
-    month: new Date(2015, 3, 1),
     emi: emi,
     overPayment: 350,
   },
   {
-    month: new Date(2015, 0, 1),
     emi: emi,
     overPayment: 100,
   },
   {
-    month: new Date(2015, 1, 1),
     emi: emi,
     overPayment: 210,
   },
   {
-    month: new Date(2015, 0, 1),
     emi: emi,
     overPayment: 350,
   },
   {
-    month: new Date(2015, 1, 1),
     emi: emi,
     overPayment: 270,
   },
   {
-    month: new Date(2015, 2, 1),
     emi: emi,
     overPayment: 370,
   },
   {
-    month: new Date(2015, 3, 1),
     emi: emi,
     overPayment: 0,
   },
   {
-    month: new Date(2015, 0, 1),
     emi: emi,
     overPayment: 200,
   },
   {
-    month: new Date(2015, 1, 1),
     emi: emi,
     overPayment: 310,
   },
@@ -107,12 +94,20 @@ export class StackBarGraph extends React.Component<props, state> {
     };
   }
 
+  /**
+   * This function is to decrement currentScrollIndex by 1 upon left click
+   */
+
   handleGraphLeftSwipe = () => {
     if (this.state.currentScrollIndex)
       this.setState({
         currentScrollIndex: this.state.currentScrollIndex - 1,
       });
   };
+
+  /**
+   * This function is to Increment currentScrollIndex by 1 upon right click
+   */
 
   handleGraphRightSwipe = () => {
     if (this.state.currentScrollIndex < monthNames.length / GRAPH_OFFSET - 1)
@@ -122,6 +117,8 @@ export class StackBarGraph extends React.Component<props, state> {
   };
 
   render() {
+    //Calculating current graph and month data to be rendered out of all available data
+
     let currData = data.slice(
       this.state.currentScrollIndex * GRAPH_OFFSET,
       GRAPH_OFFSET * (this.state.currentScrollIndex + 1),
@@ -136,7 +133,7 @@ export class StackBarGraph extends React.Component<props, state> {
           <TouchableOpacity
             onPress={() => this.handleGraphLeftSwipe()}
             style={{alignSelf: 'center'}}
-            hitSlop={HIT_SLOP}>
+            hitSlop={appConstants.HIT_SLOP}>
             <Text style={{fontSize: 32, alignSelf: 'center'}}>{'<'}</Text>
           </TouchableOpacity>
           <View style={{flex: 1, marginHorizontal: 4}}>
@@ -146,9 +143,10 @@ export class StackBarGraph extends React.Component<props, state> {
                 <View
                   style={{
                     position: 'absolute',
+                    //Calculating height of overlay line which depicts the MonthTarget
                     height:
-                      ((GRAPH_HEIGHT - 24) / monthlyTarget) *
-                      (GRAPH_HEIGHT - 24),
+                      ((appConstants.GRAPH_HEIGHT - 24) / monthlyTarget) *
+                      (appConstants.GRAPH_HEIGHT - 24),
                     bottom: 0,
                     flex: 1,
                     width: '100%',
@@ -220,7 +218,7 @@ export class StackBarGraph extends React.Component<props, state> {
           <TouchableOpacity
             onPress={() => this.handleGraphRightSwipe()}
             style={{alignSelf: 'center'}}
-            hitSlop={HIT_SLOP}>
+            hitSlop={appConstants.HIT_SLOP}>
             <Text style={{fontSize: 32}}>{'>'}</Text>
           </TouchableOpacity>
         </View>
@@ -228,33 +226,3 @@ export class StackBarGraph extends React.Component<props, state> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {flexDirection: 'row'},
-  barChart: {
-    height: GRAPH_HEIGHT,
-    backgroundColor: '#DEDFDF',
-    borderBottomColor: '#BEC0C0',
-    borderBottomWidth: 1,
-  },
-  monthView: {
-    flexDirection: 'row',
-    padding: 32,
-    justifyContent: 'space-between',
-    backgroundColor: '#DEDFDF',
-  },
-  monthDetails: {
-    backgroundColor: '#BEC0C0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 18,
-    width: '50%',
-  },
-  monthDetailsText: {color: '#7C7C7C', fontSize: 24},
-  monthHeaderText: {
-    fontSize: 14,
-    color: '#908F8F',
-    fontStyle: 'italic',
-    paddingBottom: 4,
-  },
-});
