@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLOR} from '../../utils/colors';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -8,5 +9,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  emailInput: {
+    fontSize: 24,
+    width: '80%',
+    marginTop: 4,
+    padding: 4,
   },
 });

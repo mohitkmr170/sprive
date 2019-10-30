@@ -1,10 +1,12 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {styles} from './styles';
-import {Button} from 'react-native-elements';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {SignUpForm} from './signupForm';
 
 interface props {
-  navigation: any;
+  navigation: {
+    navigate: (routeName: String) => void;
+  };
 }
 
 interface state {}
@@ -15,14 +17,11 @@ export class SignUp extends React.Component<props, state> {
     this.state = {};
   }
   render() {
-    const buttons = ['Hello', 'World'];
+    const {navigation} = this.props;
     return (
-      <View style={styles.mainContainer}>
-        <View style={styles.topContainer}>
-          <Text>SignUp Screen</Text>
-        </View>
-        <Button title="Login" onPress={() => this.props.navigation.goBack()} />
-      </View>
+      <KeyboardAwareScrollView contentContainerStyle={styles.mainContainer}>
+        <SignUpForm navigation={navigation} />
+      </KeyboardAwareScrollView>
     );
   }
 }

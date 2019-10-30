@@ -1,0 +1,14 @@
+{
+  "login": {
+    "loginButton": "Login"
+  },
+  "global": {
+    "backButton": "Back",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password"
+  },
+  "signUp": {
+    "singUpButton": "Sign Up"
+  }
+}

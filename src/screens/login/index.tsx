@@ -1,11 +1,12 @@
-import React, {Props} from 'react';
-import {View, Text} from 'react-native';
+import React from 'react';
+import {View, Text, TextInput} from 'react-native';
 import {styles} from './styles';
-import {Button} from 'react-native-elements';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {LoginForm} from './loginForm';
 
 interface props {
   navigation: {
-    navigate: Function;
+    navigate: (routeName: String) => void;
   };
 }
 interface state {}
@@ -16,19 +17,12 @@ export class Login extends React.Component<props, state> {
     this.state = {};
   }
 
-  async UNSAFE_componentWillMount() {}
-
   render() {
+    const {navigation} = this.props;
     return (
-      <View style={styles.mainContainer}>
-        <View style={styles.topContainer}>
-          <Text>Login Screen</Text>
-        </View>
-        <Button
-          title="SignUp"
-          onPress={() => this.props.navigation.navigate('SignUpScreen')}
-        />
-      </View>
+      <KeyboardAwareScrollView contentContainerStyle={styles.mainContainer}>
+        <LoginForm navigation={navigation} />
+      </KeyboardAwareScrollView>
     );
   }
 }
