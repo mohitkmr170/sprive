@@ -29,4 +29,13 @@ export const styles = StyleSheet.create({
     fontStyle: 'italic',
     paddingBottom: 4,
   },
+  overlayView: {
+    position: 'absolute',
+    bottom: 0,
+    flex: 1,
+    width: '100%',
+    borderTopColor: '#7C7C7C',
+    borderTopWidth: 0.3,
+    zIndex: 1,
+  },
 });

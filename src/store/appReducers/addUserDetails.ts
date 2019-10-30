@@ -1,4 +1,4 @@
-import {aType} from '../actionTypes';
+import {actionTypes} from '../actionTypes';
 
 const initialState = {
   userDetails: {
@@ -7,9 +7,9 @@ const initialState = {
   },
 };
 
-export const applicationReducer = (state = initialState, action) => {
+export const applicationReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case aType.ADD_USER_DETAILS:
+    case actionTypes.ADD_USER_DETAILS:
       return {
         ...state,
         userDetails: {

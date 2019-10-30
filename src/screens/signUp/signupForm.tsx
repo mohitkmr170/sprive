@@ -35,13 +35,13 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     };
   }
 
-  handleSignUpSubmit = async (values?: {
+  handleSignUpSubmit = async (values: {
     email: string;
     password: string;
     confirm_password: string;
   }) => {
     const {navigation} = this.props;
-    await Alert.alert('Check!');
+    Alert.alert('Check!');
   };
 
   handleBackPress = () => {

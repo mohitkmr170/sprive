@@ -2,37 +2,12 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {StackedBarChart} from 'react-native-svg-charts';
 import {styles} from './styles';
-import {appConstants} from '../../utils/constants';
+import {appConstants, styleConstants} from '../../utils/constants';
 
-const GRAPH_OFFSET = 6; //Number of data to be shown along x-axis(bar count)
-let monthlyTarget = 300;
+let TOTAL_PAYMENT_FOR_THE_MONTH = 300;
 let emi = 200;
-interface props {}
-
-interface state {
-  currentScrollIndex: number;
-}
-
-/**
- * Sample test data used for graph plotting
- */
-
-let monthNames = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
-let currentMonth = monthNames[new Date().getMonth()];
-const data = [
+const GRAPH_OFFSET = 6; //Number of data to be shown along x-axis(bar count)
+const GRAPH_DATA = [
   {
     emi: emi,
     overPayment: 300,
@@ -85,6 +60,31 @@ const data = [
 
 const COLORS = ['#989999', '#BEC0C0'];
 const KEYS = ['emi', 'overPayment'];
+interface props {}
+
+interface state {
+  currentScrollIndex: number;
+}
+
+/**
+ * Sample test data used for graph plotting
+ */
+
+const MONTH_NAMES = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+let currentMonth = MONTH_NAMES[new Date().getMonth()];
 
 export class StackBarGraph extends React.Component<props, state> {
   constructor(props: any) {
@@ -110,7 +110,7 @@ export class StackBarGraph extends React.Component<props, state> {
    */
 
   handleGraphRightSwipe = () => {
-    if (this.state.currentScrollIndex < monthNames.length / GRAPH_OFFSET - 1)
+    if (this.state.currentScrollIndex < MONTH_NAMES.length / GRAPH_OFFSET - 1)
       this.setState({
         currentScrollIndex: this.state.currentScrollIndex + 1,
       });
@@ -119,11 +119,11 @@ export class StackBarGraph extends React.Component<props, state> {
   render() {
     //Calculating current graph and month data to be rendered out of all available data
 
-    let currData = data.slice(
+    let currData = GRAPH_DATA.slice(
       this.state.currentScrollIndex * GRAPH_OFFSET,
       GRAPH_OFFSET * (this.state.currentScrollIndex + 1),
     );
-    let currMonthName = monthNames.slice(
+    let currMonthName = MONTH_NAMES.slice(
       this.state.currentScrollIndex * GRAPH_OFFSET,
       GRAPH_OFFSET * (this.state.currentScrollIndex + 1),
     );
@@ -141,19 +141,18 @@ export class StackBarGraph extends React.Component<props, state> {
               onPress={() => Alert.alert('Navigate to Monthly details')}>
               <View>
                 <View
-                  style={{
-                    position: 'absolute',
-                    //Calculating height of overlay line which depicts the MonthTarget
-                    height:
-                      ((appConstants.GRAPH_HEIGHT - 24) / monthlyTarget) *
-                      (appConstants.GRAPH_HEIGHT - 24),
-                    bottom: 0,
-                    flex: 1,
-                    width: '100%',
-                    borderTopColor: '#7C7C7C',
-                    borderTopWidth: 0.3,
-                    zIndex: 1,
-                  }}
+                  style={[
+                    styles.overlayView,
+                    {
+                      //Calculating height of overlay line which depicts the MonthTarget
+                      height:
+                        ((appConstants.GRAPH_HEIGHT -
+                          styleConstants.padding.LARGE) /
+                          TOTAL_PAYMENT_FOR_THE_MONTH) *
+                        (appConstants.GRAPH_HEIGHT -
+                          styleConstants.padding.LARGE),
+                    },
+                  ]}
                 />
                 <StackedBarChart
                   style={styles.barChart}
@@ -162,9 +161,9 @@ export class StackBarGraph extends React.Component<props, state> {
                   data={currData}
                   showGrid={false}
                   contentInset={{
-                    top: 24,
-                    left: 24,
-                    right: 24,
+                    top: styleConstants.padding.LARGE,
+                    left: styleConstants.padding.LARGE,
+                    right: styleConstants.padding.LARGE,
                   }}
                   animate={true}
                   spacingInner={0.3}

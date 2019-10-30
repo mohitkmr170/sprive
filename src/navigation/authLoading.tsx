@@ -14,11 +14,10 @@ export class AuthLoading extends React.Component<props, state> {
     this.authCheck();
   }
 
-  /**
-   * Auth check, based on which navigation to auth/app stack is decided
-   */
+  // Auth check, based on which navigation to auth/app stack is decided
 
   authCheck() {
+    //This is an API Mock, Auth check will be added here
     setTimeout(() => {
       this.props.navigation.navigate('Auth');
     }, 2000);

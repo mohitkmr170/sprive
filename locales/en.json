@@ -10,5 +10,6 @@
   },
   "signUp": {
     "singUpButton": "Sign Up"
-  }
+  },
+  'check_your_email': 'Check your email'
 }

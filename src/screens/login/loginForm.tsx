@@ -14,17 +14,28 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
-import {appConstants} from '../../utils/constants';
+import {
+  appConstants,
+  navigationScreen,
+  styleConstants,
+} from '../../utils/constants';
 
 const LOGIN_BUTTON = 'login.loginButton';
+const HOME = 'home';
+const CHECK_EMAIL = 'check_your_email';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
     goBack: () => void;
   };
+  addUserDetails: object;
+  addUserDetailsResponse: object;
   handleSubmit: (values?: {email: string; password: string}) => void;
 }
-interface state {}
+interface state {
+  email: string;
+  password: string;
+}
 
 class UnConnectedLoginScreen extends React.Component<props, state> {
   constructor(props: props) {
@@ -43,9 +54,13 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     const {navigate} = this.props.navigation;
     const route = url.replace(/.*?:\/\//g, '');
     const routeName = route.split('/')[0];
-    console.log('asjdghabsdas', route, routeName);
-    if (routeName === 'home') {
-      navigate('DashBoardScreen');
+    console.log(
+      'UnConnectedLoginScreen : navigate : extracting routeName for next condition : route, routeName',
+      route,
+      routeName,
+    );
+    if (routeName === HOME) {
+      navigate(navigationScreen.DASHBOARD_SCREEN);
     }
   };
 
@@ -54,10 +69,14 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   async UNSAFE_componentWillMount() {
-    if (Platform.OS === 'android') {
-      Linking.getInitialURL().then((url: any) => {
-        this.navigate(url);
-      });
+    if (Platform.OS === styleConstants.device.DEVICE_TYPE_ANDROID) {
+      Linking.getInitialURL()
+        .then((url: any) => {
+          this.navigate(url);
+        })
+        .catch(err =>
+          console.log('UNSAFE_componentWillMount : error catch, err', err),
+        );
     } else {
       Linking.addEventListener('url', this.handleOpenURL);
     }
@@ -67,17 +86,27 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
 
-  handleLoginPress = async (values?: {email: string; password: string}) => {
+  handleLoginPress = async (values: {email: string; password: string}) => {
     const {navigation, addUserDetails} = this.props;
-    console.log('handleSubmit values', values.phoneNumber);
+    console.log(
+      'handleLoginPress : check value entered in Fields, values.email',
+      values.email,
+    );
     let payload = {
       userName: this.state.email,
       userPassword: this.state.password,
     };
-    await addUserDetails(payload);
-    const {addUserDetailsResponse} = this.props;
-    console.log('addUserDetailsResponse', addUserDetailsResponse);
-    await navigation.navigate('SignUpScreen');
+    try {
+      await addUserDetails(payload);
+      const {addUserDetailsResponse} = this.props;
+      console.log(
+        'handleLoginPress : check the userDetails fetched from store, addUserDetailsResponse',
+        addUserDetailsResponse,
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    navigation.navigate(navigationScreen.SIGNUP_SCREEN);
   };
 
   handleEmailCheck = () => {
@@ -85,8 +114,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   render() {
-    const {handleSubmit, addUserDetailsResponse} = this.props;
-    console.log('kajbsdasd111111', addUserDetailsResponse);
+    const {handleSubmit} = this.props;
     return (
       <View style={styles.mainContainer}>
         <Header title={localeString(LOGIN_BUTTON)} onBackPress={() => {}} />
@@ -100,7 +128,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
               returnKeyType: 'done',
               autoCapitalize: false,
               placeholder: 'Email',
-              onChangeText: (email: any) => this.setState({email}),
+              onChangeText: (email: string) => this.setState({email}),
             }}
             validate={[email, required]}
           />
@@ -113,28 +141,22 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
               secureTextEntry: true,
               autoCapitalize: false,
               placeholder: 'Password',
-              onChangeText: (password: any) => this.setState({password}),
+              onChangeText: (password: string) => this.setState({password}),
             }}
             validate={[minLength8, maxLength16, alphaNumeric, required]}
           />
         </View>
         <Button
           title="Home"
-          onPress={() => this.props.navigation.navigate('App')}
-          style={{
-            width: '40%',
-            alignSelf: 'center',
-            margin: 24,
-          }}
+          onPress={() =>
+            this.props.navigation.navigate(navigationScreen.APP_STACK)
+          }
+          style={styles.buttonStyle}
         />
         <Button
-          title="Check your email"
+          title={localeString(CHECK_EMAIL)}
           onPress={() => this.handleEmailCheck()}
-          style={{
-            width: '40%',
-            alignSelf: 'center',
-            margin: 24,
-          }}
+          style={styles.buttonStyle}
         />
         <Button
           title={localeString(LOGIN_BUTTON)}

@@ -1,9 +1,12 @@
-import {aType} from '../actionTypes';
+import {actionTypes} from '../actionTypes';
 
-export const addUserDetails = userDetails => {
-  console.log('asudgjasd', userDetails);
+export const addUserDetails = (userDetails: {
+  userName: string;
+  userPassword: string;
+}) => {
+  console.log('addUserDetails : checking payload, userDetails', userDetails);
   return {
-    type: aType.ADD_USER_DETAILS,
+    type: actionTypes.ADD_USER_DETAILS,
     payload: userDetails,
   };
 };
