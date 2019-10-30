@@ -32,9 +32,13 @@ export const isRTL =
 
 // Allow RTL alignment in RTL languages
 ReactNative.I18nManager.allowRTL(isRTL);
-
-// The method we'll use instead of a regular string
-export function strings(name: any, params = {}) {
+/**
+ * The method we'll use instead of a regular string
+ * ex - string("Welcome {{name}} to our localized app!")
+ * @param name: string - A path to the locale string in the JSON file.
+ * @param params: object - Parameters we could use in the localized string
+ */
+export function localeString(name: string, params = {}) {
   return I18n.t(name, params);
 }
 

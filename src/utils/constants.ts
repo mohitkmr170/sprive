@@ -11,4 +11,6 @@ export const appConstants = {
   WINDOW_WIDTH: Dimensions.get('window').width,
   HIT_SLOP: {left: 10, right: 10, top: 10, bottom: 10},
   GRAPH_HEIGHT: 200,
+  LOGIN_FORM: 'logIn',
+  SIGNUP_FORM: 'signup',
 };

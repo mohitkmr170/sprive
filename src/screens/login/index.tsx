@@ -5,7 +5,9 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {LoginForm} from './loginForm';
 
 interface props {
-  navigation: Object;
+  navigation: {
+    navigate: (routeName: String) => void;
+  };
 }
 interface state {}
 

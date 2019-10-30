@@ -3,7 +3,7 @@ import {View, Text, TextInput, Platform, Linking, Alert} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
 import {Header, ReduxFormField} from '../../components';
-import {strings} from '../../utils/i18n';
+import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {addUserDetails} from '../../store/actions/actions';
@@ -14,13 +14,15 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
+import {appConstants} from '../../utils/constants';
 
+const LOGIN_BUTTON = 'login.loginButton';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
     goBack: () => void;
   };
-  handleSubmit: (values: any) => any;
+  handleSubmit: (values?: {email: string; password: string}) => void;
 }
 interface state {}
 
@@ -65,7 +67,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     Linking.removeEventListener('url', this.handleOpenURL);
   }
 
-  handleLoginPress = async (values: any) => {
+  handleLoginPress = async (values?: {email: string; password: string}) => {
     const {navigation, addUserDetails} = this.props;
     console.log('handleSubmit values', values.phoneNumber);
     let payload = {
@@ -87,13 +89,10 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     console.log('kajbsdasd111111', addUserDetailsResponse);
     return (
       <View style={styles.mainContainer}>
-        <Header
-          title={strings('login.loginButton')}
-          onBackPress={() => Linking.openURL('Maps://app')}
-        />
+        <Header title={localeString(LOGIN_BUTTON)} onBackPress={() => {}} />
         <View style={styles.topContainer}>
           <Field
-            name="phoneNumber"
+            name="email"
             component={ReduxFormField}
             props={{
               keyboardType: 'email-address',
@@ -138,7 +137,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           }}
         />
         <Button
-          title={strings('login.loginButton')}
+          title={localeString(LOGIN_BUTTON)}
           onPress={handleSubmit(this.handleLoginPress)}
         />
       </View>
@@ -147,7 +146,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
 }
 
 export const LoginScreen = reduxForm({
-  form: 'logIn',
+  form: appConstants.LOGIN_FORM,
 })(UnConnectedLoginScreen);
 
 const mapStateToProps = state => ({
