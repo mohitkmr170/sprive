@@ -12,7 +12,7 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
-import {appConstants} from '../../utils/constants';
+import {APP_CONSTANTS} from '../../utils/constants';
 
 const SIGNUP_BUTTON = 'signUp.singUpButton';
 interface props {
@@ -35,13 +35,13 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     };
   }
 
-  handleSignUpSubmit = async (values?: {
+  handleSignUpSubmit = async (values: {
     email: string;
     password: string;
     confirm_password: string;
   }) => {
     const {navigation} = this.props;
-    await Alert.alert('Check!');
+    Alert.alert('Check!');
   };
 
   handleBackPress = () => {
@@ -108,5 +108,5 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
 }
 
 export const SignUpForm = reduxForm({
-  form: appConstants.SIGNUP_FORM,
+  form: APP_CONSTANTS.SIGNUP_FORM,
 })(UnConnectedSignUpForm);

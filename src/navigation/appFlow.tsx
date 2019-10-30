@@ -1,11 +1,12 @@
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {Login, SideBar, SignUp} from '../screens';
+import {Login, SideBar, SignUp, Dashboard} from '../screens';
+import {AuthLoading} from '../navigation/authLoading';
 
 /**
- * Tab Navigator
+ * Tab Navigator, can be used as a screen to which we can navigate to
  */
 
 const TabNavigator = createBottomTabNavigator(
@@ -13,13 +14,13 @@ const TabNavigator = createBottomTabNavigator(
     Login: {
       screen: Login,
       navigationOptions: {
-        tabBarLabel: 'Chat',
+        tabBarLabel: 'Login',
       },
     },
     SignUp: {
       screen: SignUp,
       navigationOptions: {
-        tabBarLabel: 'Contact',
+        tabBarLabel: 'SignUp',
       },
     },
   },
@@ -39,7 +40,7 @@ const TabNavigator = createBottomTabNavigator(
  * Stack Navigator
  */
 
-const AppStackNavigator = createStackNavigator(
+const AuthStackNavigator = createStackNavigator(
   {
     LoginScreen: {
       screen: Login,
@@ -47,6 +48,12 @@ const AppStackNavigator = createStackNavigator(
     SignUpScreen: {
       screen: SignUp,
     },
+    /**
+     * TabNavigator to be Enabled when it's requirements arises
+     */
+    // TabNavigatorScreen: {
+    //   screen: TabNavigator,
+    // },
   },
   {
     initialRouteName: 'LoginScreen',
@@ -62,18 +69,40 @@ const AppStackNavigator = createStackNavigator(
   },
 );
 
+const AppStackNavigator = createStackNavigator(
+  {
+    DashboardScreen: {
+      screen: Dashboard,
+    },
+  },
+  {
+    initialRouteName: 'DashboardScreen',
+    headerMode: 'none',
+  },
+);
+
+/**
+ * Switch navigator to switch between AppStack and AuthStack based on Auth status
+ */
+
+const AppSwitchNavigator = createSwitchNavigator({
+  AuthLoading: AuthLoading,
+  App: AppStackNavigator,
+  Auth: AuthStackNavigator,
+});
+
 /**
  * Drawaer Navigator
  */
 
 const AppNavigator = createDrawerNavigator(
   {
-    AppStackNavigator: {
-      screen: AppStackNavigator,
+    AppSwitchNavigator: {
+      screen: AppSwitchNavigator,
     },
   },
   {
-    initialRouteName: 'AppStackNavigator',
+    initialRouteName: 'AppSwitchNavigator',
     contentComponent: SideBar,
   },
 );

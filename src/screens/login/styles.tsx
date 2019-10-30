@@ -22,4 +22,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 4,
     width: '70%',
   },
+  buttonStyle: {
+    width: '40%',
+    alignSelf: 'center',
+    margin: 24,
+  },
 });
