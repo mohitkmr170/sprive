@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {StackedBarChart} from 'react-native-svg-charts';
 import {styles} from './styles';
-import {appConstants, styleConstants} from '../../utils/constants';
+import {APP_CONSTANTS, STYLE_CONSTANTS} from '../../utils/constants';
 
 let TOTAL_PAYMENT_FOR_THE_MONTH = 300;
 let emi = 200;
@@ -133,7 +133,7 @@ export class StackBarGraph extends React.Component<props, state> {
           <TouchableOpacity
             onPress={() => this.handleGraphLeftSwipe()}
             style={{alignSelf: 'center'}}
-            hitSlop={appConstants.HIT_SLOP}>
+            hitSlop={APP_CONSTANTS.HIT_SLOP}>
             <Text style={{fontSize: 32, alignSelf: 'center'}}>{'<'}</Text>
           </TouchableOpacity>
           <View style={{flex: 1, marginHorizontal: 4}}>
@@ -146,11 +146,11 @@ export class StackBarGraph extends React.Component<props, state> {
                     {
                       //Calculating height of overlay line which depicts the MonthTarget
                       height:
-                        ((appConstants.GRAPH_HEIGHT -
-                          styleConstants.padding.LARGE) /
+                        ((APP_CONSTANTS.GRAPH_HEIGHT -
+                          STYLE_CONSTANTS.padding.LARGE) /
                           TOTAL_PAYMENT_FOR_THE_MONTH) *
-                        (appConstants.GRAPH_HEIGHT -
-                          styleConstants.padding.LARGE),
+                        (APP_CONSTANTS.GRAPH_HEIGHT -
+                          STYLE_CONSTANTS.padding.LARGE),
                     },
                   ]}
                 />
@@ -161,9 +161,9 @@ export class StackBarGraph extends React.Component<props, state> {
                   data={currData}
                   showGrid={false}
                   contentInset={{
-                    top: styleConstants.padding.LARGE,
-                    left: styleConstants.padding.LARGE,
-                    right: styleConstants.padding.LARGE,
+                    top: STYLE_CONSTANTS.padding.LARGE,
+                    left: STYLE_CONSTANTS.padding.LARGE,
+                    right: STYLE_CONSTANTS.padding.LARGE,
                   }}
                   animate={true}
                   spacingInner={0.3}
@@ -217,7 +217,7 @@ export class StackBarGraph extends React.Component<props, state> {
           <TouchableOpacity
             onPress={() => this.handleGraphRightSwipe()}
             style={{alignSelf: 'center'}}
-            hitSlop={appConstants.HIT_SLOP}>
+            hitSlop={APP_CONSTANTS.HIT_SLOP}>
             <Text style={{fontSize: 32}}>{'>'}</Text>
           </TouchableOpacity>
         </View>

@@ -1,16 +1,16 @@
 import React from 'react';
 import {ScrollView, Text} from 'react-native';
 import {styles} from '../sideBar/styles';
-import {navigationScreen} from '../../utils/constants';
+import {NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 
 const SIDEBAR_DATA = [
   {
     title: 'Login Screen',
-    screen: navigationScreen.LOGIN_SCREEN,
+    screen: NAVIGATION_SCREEN_NAME.LOGIN_SCREEN,
   },
   {
     title: 'SignUp Screen',
-    screen: navigationScreen.SIGNUP_SCREEN,
+    screen: NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN,
   },
 ];
 

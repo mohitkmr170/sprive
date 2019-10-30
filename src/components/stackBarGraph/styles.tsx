@@ -1,10 +1,10 @@
 import {StyleSheet} from 'react-native';
-import {appConstants} from '../../utils/constants';
+import {APP_CONSTANTS} from '../../utils/constants';
 
 export const styles = StyleSheet.create({
   mainContainer: {flexDirection: 'row'},
   barChart: {
-    height: appConstants.GRAPH_HEIGHT,
+    height: APP_CONSTANTS.GRAPH_HEIGHT,
     backgroundColor: '#DEDFDF',
     borderBottomColor: '#BEC0C0',
     borderBottomWidth: 1,

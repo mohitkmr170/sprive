@@ -15,14 +15,14 @@ import {
   alphaNumeric,
 } from '../../utils/validate';
 import {
-  appConstants,
-  navigationScreen,
-  styleConstants,
+  APP_CONSTANTS,
+  NAVIGATION_SCREEN_NAME,
+  STYLE_CONSTANTS,
 } from '../../utils/constants';
 
 const LOGIN_BUTTON = 'login.loginButton';
-const HOME = 'home';
-const CHECK_EMAIL = 'check_your_email';
+const HOME_ROUTE = 'home';
+const CHECK_EMAIL = 'check_your_email'; //seperate file with all keys to be made leter
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -55,12 +55,12 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     const route = url.replace(/.*?:\/\//g, '');
     const routeName = route.split('/')[0];
     console.log(
-      'UnConnectedLoginScreen : navigate : extracting routeName for next condition : route, routeName',
+      'UnConnectedLoginScreen : navigate : extracting routeName for next condition : route, routeName =>',
       route,
       routeName,
     );
-    if (routeName === HOME) {
-      navigate(navigationScreen.DASHBOARD_SCREEN);
+    if (routeName === HOME_ROUTE) {
+      navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     }
   };
 
@@ -69,14 +69,15 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   async UNSAFE_componentWillMount() {
-    if (Platform.OS === styleConstants.device.DEVICE_TYPE_ANDROID) {
+    if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_ANDROID) {
       Linking.getInitialURL()
         .then((url: any) => {
           this.navigate(url);
         })
-        .catch(err =>
-          console.log('UNSAFE_componentWillMount : error catch, err', err),
-        );
+        .catch(err => {
+          //error to be handled as per use case
+          console.log('UNSAFE_componentWillMount : error catch, err =>', err);
+        });
     } else {
       Linking.addEventListener('url', this.handleOpenURL);
     }
@@ -89,7 +90,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   handleLoginPress = async (values: {email: string; password: string}) => {
     const {navigation, addUserDetails} = this.props;
     console.log(
-      'handleLoginPress : check value entered in Fields, values.email',
+      'handleLoginPress : check value entered in Fields, values.email =>',
       values.email,
     );
     let payload = {
@@ -100,13 +101,14 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
       await addUserDetails(payload);
       const {addUserDetailsResponse} = this.props;
       console.log(
-        'handleLoginPress : check the userDetails fetched from store, addUserDetailsResponse',
+        'handleLoginPress : check the userDetails fetched from store, addUserDetailsResponse =>',
         addUserDetailsResponse,
       );
     } catch (err) {
+      //error to be handled as per use case
       console.log(err);
     }
-    navigation.navigate(navigationScreen.SIGNUP_SCREEN);
+    navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
   };
 
   handleEmailCheck = () => {
@@ -149,7 +151,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
         <Button
           title="Home"
           onPress={() =>
-            this.props.navigation.navigate(navigationScreen.APP_STACK)
+            this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.APP_STACK)
           }
           style={styles.buttonStyle}
         />
@@ -168,7 +170,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
 }
 
 export const LoginScreen = reduxForm({
-  form: appConstants.LOGIN_FORM,
+  form: APP_CONSTANTS.LOGIN_FORM,
 })(UnConnectedLoginScreen);
 
 const mapStateToProps = state => ({

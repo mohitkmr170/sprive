@@ -43,7 +43,7 @@ class UnconnectedDashBoard extends React.Component<props, state> {
     //These logs will be shown only in Dev mode
     if (__DEV__)
       console.log(
-        'render : api response check : getUserProfileResponse',
+        'render : api response check : getUserProfileResponse =>',
         getUserProfileResponse,
       );
     return (
