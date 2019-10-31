@@ -6,8 +6,10 @@ import {APP_CONSTANTS, STYLE_CONSTANTS} from '../../utils/constants';
 
 let TOTAL_PAYMENT_FOR_THE_MONTH = 300;
 let emi = 200;
-const GRAPH_OFFSET = 6; //Number of data to be shown along x-axis(bar count)
+//Number of data to be shown along x-axis(bar count)
+const GRAPH_OFFSET = 6;
 const GRAPH_DATA = [
+  //Mock data for graph
   {
     emi: emi,
     overPayment: 300,
@@ -66,9 +68,7 @@ interface state {
   currentScrollIndex: number;
 }
 
-/**
- * Sample test data used for graph plotting
- */
+// Sample test data used for graph plotting
 
 const MONTH_NAMES = [
   'Jan',
@@ -118,7 +118,6 @@ export class StackBarGraph extends React.Component<props, state> {
 
   render() {
     //Calculating current graph and month data to be rendered out of all available data
-
     let currData = GRAPH_DATA.slice(
       this.state.currentScrollIndex * GRAPH_OFFSET,
       GRAPH_OFFSET * (this.state.currentScrollIndex + 1),
