@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    marginHorizontal: 24,
   },
   emailInput: {
     fontSize: 24,

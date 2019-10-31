@@ -122,7 +122,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
 
   // Redirecting to external app
   handleEmailCheck = () => {
-    Linking.openURL('spriveapp://home');
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
   };
 
   render() {
