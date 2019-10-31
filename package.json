@@ -10,6 +10,7 @@
     "lint": "tslint 'src/**/*.{ts, tsx}'"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.6.2",
     "@types/lodash": "^4.14.144",
     "@types/react-native-i18n": "^2.0.0",
     "@types/react-native-svg-charts": "^5.0.2",
