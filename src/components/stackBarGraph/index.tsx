@@ -11,52 +11,172 @@ const GRAPH_OFFSET = 6;
 const GRAPH_DATA = [
   //Mock data for graph
   {
-    emi: emi,
-    overPayment: 300,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => Alert.alert('onPress => clicked bar1'),
+      },
+    },
+    overPayment: {
+      value: 400,
+      svg: {
+        onPress: () => Alert.alert('onPress => clicked bar2'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 370,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 250,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 270,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 200,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 350,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 100,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 200,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 210,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 250,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 350,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 200,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 270,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 370,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 200,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 0,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 250,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 200,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 200,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
   {
-    emi: emi,
-    overPayment: 310,
+    emi: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
+    overPayment: {
+      value: 300,
+      svg: {
+        onPress: () => console.log('onPress => clicked bar'),
+      },
+    },
   },
 ];
 
@@ -136,56 +256,39 @@ export class StackBarGraph extends React.Component<props, state> {
             <Text style={{fontSize: 32, alignSelf: 'center'}}>{'<'}</Text>
           </TouchableOpacity>
           <View style={{flex: 1, marginHorizontal: 4}}>
-            <TouchableOpacity
-              onPress={() => Alert.alert('Navigate to Monthly details')}>
-              <View>
-                <View
-                  style={[
-                    styles.overlayView,
-                    {
-                      //Calculating height of overlay line which depicts the MonthTarget
-                      height:
-                        ((APP_CONSTANTS.GRAPH_HEIGHT -
-                          STYLE_CONSTANTS.padding.LARGE) /
-                          TOTAL_PAYMENT_FOR_THE_MONTH) *
-                        (APP_CONSTANTS.GRAPH_HEIGHT -
-                          STYLE_CONSTANTS.padding.LARGE),
-                    },
-                  ]}
-                />
-                <StackedBarChart
-                  style={styles.barChart}
-                  keys={KEYS}
-                  colors={COLORS}
-                  data={currData}
-                  showGrid={false}
-                  contentInset={{
-                    top: STYLE_CONSTANTS.padding.LARGE,
-                    left: STYLE_CONSTANTS.padding.LARGE,
-                    right: STYLE_CONSTANTS.padding.LARGE,
-                  }}
-                  animate={true}
-                  spacingInner={0.3}
-                />
-              </View>
-              <View style={styles.monthView}>
-                {currMonthName.map((item, index) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: currentMonth === item ? '#7C7C7C' : '#989999',
-                        fontStyle: 'italic',
-                        textDecorationLine:
-                          currentMonth === item && 'underline',
-                      }}
-                      key={index}>
-                      {item}
-                    </Text>
-                  );
-                })}
-              </View>
-            </TouchableOpacity>
+            <View>
+              <StackedBarChart
+                style={styles.barChart}
+                keys={KEYS}
+                colors={COLORS}
+                data={currData}
+                showGrid={false}
+                contentInset={{
+                  top: STYLE_CONSTANTS.padding.LARGE,
+                  left: STYLE_CONSTANTS.padding.LARGE,
+                  right: STYLE_CONSTANTS.padding.LARGE,
+                }}
+                animate={true}
+                spacingInner={0.3}
+                valueAccessor={({item, key}) => item[key].value}
+              />
+            </View>
+            <View style={styles.monthView}>
+              {currMonthName.map((item, index) => {
+                return (
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: currentMonth === item ? '#7C7C7C' : '#989999',
+                      fontStyle: 'italic',
+                      textDecorationLine: currentMonth === item && 'underline',
+                    }}
+                    key={index}>
+                    {item}
+                  </Text>
+                );
+              })}
+            </View>
             <View>
               <View style={{flexDirection: 'row'}}>
                 <View
