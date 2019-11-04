@@ -26,7 +26,7 @@ export async function getPasswordStrength(password: string) {
         strengthMessage = '';
     }
     return new Promise((resolve, reject) => {
-      if (strengthMessage !== '') {
+      if (strengthMessage) {
         resolve(strengthMessage);
       } else reject(null);
     });
