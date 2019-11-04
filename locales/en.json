@@ -6,10 +6,18 @@
     "backButton": "Back",
     "email": "Email",
     "password": "Password",
-    "confirmPassword": "Confirm Password"
+    "confirmPassword": "Confirm Password",
+    "calculateNow": "Calculate Now"
   },
   "signUp": {
     "singUpButton": "Sign Up"
   },
-  'check_your_email': 'Check your email'
+  "mortgageForm": {
+    "morgageAmountLabel": "Amount left to pay on your Mortgage",
+    "timePeriodLabel": "How long intil it's fully paid",
+    "monthlyMortgagePaymentLabel": "Monthly Mortgage Payment",
+    "mortgageData": "Mortgage Data",
+    "letUsWorkOut": "Lets work out how much interest you’re paying",
+    "takeYourBest": "Take your best guess for now, you can always update this later"
+  }
 }

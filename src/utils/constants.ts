@@ -9,6 +9,7 @@ export const APP_CONSTANTS = {
   GRAPH_HEIGHT: 200,
   LOGIN_FORM: 'logIn',
   SIGNUP_FORM: 'signup',
+  MORTGAGE_INPUT_FORM: 'MortgageInput',
 };
 
 export const STYLE_CONSTANTS = {
@@ -33,4 +34,5 @@ export const NAVIGATION_SCREEN_NAME = {
   LOGIN_SCREEN: 'LoginScreen',
   SIGNUP_SCREEN: 'SignUpScreen',
   DASHBOARD_SCREEN: 'DashboardScreen',
+  MORTGAGE_INPUT_SCREEN: 'MortgageInputScreen',
 };
