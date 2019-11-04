@@ -1,3 +1,3 @@
 export * from './Header';
-export * from './reduxFormField';
-export * from './stackBarGraph';
+export * from './ReduxFormField';
+export * from './StackBarGraph';

@@ -46,6 +46,10 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     };
   }
 
+  /*
+  TODO : Deeplinking code to be moved into separate file later
+  */
+
   static navigationOption = {
     title: 'UnConnectedLoginScreen',
   };
@@ -64,9 +68,13 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     }
   };
 
-  handleOpenURL = (event: any) => {
+  /**
+   *
+   * @param event : any : For Deeplink - URL
+   */
+  handleOpenURL(event: any) {
     this.navigate(event.url);
-  };
+  }
 
   async UNSAFE_componentWillMount() {
     if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_ANDROID) {
@@ -84,6 +92,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   }
 
   componentWillUnmount() {
+    // Remove Deeplink event listener upon Unmount
     Linking.removeEventListener('url', this.handleOpenURL);
   }
 
@@ -111,8 +120,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
   };
 
+  // Redirecting to external app
   handleEmailCheck = () => {
-    Linking.openURL('spriveapp://home');
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
   };
 
   render() {
@@ -168,7 +178,6 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     );
   }
 }
-
 export const LoginScreen = reduxForm({
   form: APP_CONSTANTS.LOGIN_FORM,
 })(UnConnectedLoginScreen);
