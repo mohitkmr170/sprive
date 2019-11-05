@@ -1,10 +1,7 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {COLOR} from '../../utils/colors';
-import {localeString} from '../../utils/i18n';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
-
-const BACK_BUTTON = 'global.backButton';
+import {iBack} from '../../assets';
 interface props {
   title: String;
   rightIconPresent: boolean;
@@ -18,7 +15,8 @@ export class Header extends React.Component<props, state> {
     return (
       <View style={styles.mainContainer}>
         <TouchableOpacity onPress={this.props.onBackPress}>
-          <Text style={styles.sideText}>{localeString(BACK_BUTTON)}</Text>
+          {/* .svg not working for SvgUri, UI specs to be inspected */}
+          <Image source={iBack} height={24} width={24} />
         </TouchableOpacity>
         {rightIconPresent && (
           <Text style={styles.middleContainer}>{this.props.title}</Text>
