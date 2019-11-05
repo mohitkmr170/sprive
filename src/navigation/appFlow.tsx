@@ -104,6 +104,7 @@ const AppNavigator = createDrawerNavigator(
   {
     initialRouteName: 'AppSwitchNavigator',
     contentComponent: SideBar,
+    drawerPosition: 'right',
   },
 );
 

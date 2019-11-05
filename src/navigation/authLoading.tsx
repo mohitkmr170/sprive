@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {ImageBackground, ActivityIndicator} from 'react-native';
+import {splashScreen} from '../assets';
 
 interface props {
   navigation: {
@@ -24,15 +25,16 @@ export class AuthLoading extends React.Component<props, state> {
   }
   render() {
     return (
-      <View
+      <ImageBackground
+        source={splashScreen}
+        resizeMode="stretch"
         style={{
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        }}>
-        <ActivityIndicator size="large" color="red" />
-      </View>
+        }}
+      />
     );
   }
 }
