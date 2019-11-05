@@ -2,7 +2,14 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {Login, SideBar, SignUp, Dashboard, MortgageInput} from '../screens';
+import {
+  Login,
+  SideBar,
+  SignUp,
+  Dashboard,
+  MortgageInput,
+  SaveInterest,
+} from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
 /**
@@ -48,6 +55,12 @@ const AuthStackNavigator = createStackNavigator(
     SignUpScreen: {
       screen: SignUp,
     },
+    MortgageInputScreen: {
+      screen: MortgageInput,
+    },
+    SaveInterestScreen: {
+      screen: SaveInterest,
+    },
     /**
      * TabNavigator to be Enabled when it's requirements arises
      */
@@ -73,9 +86,6 @@ const AppStackNavigator = createStackNavigator(
   {
     DashboardScreen: {
       screen: Dashboard,
-    },
-    MortgageInputScreen: {
-      screen: MortgageInput,
     },
   },
   {

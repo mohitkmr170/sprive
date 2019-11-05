@@ -22,6 +22,7 @@ export const STYLE_CONSTANTS = {
     DEVICE_TYPE_IOS: 'IOS',
   },
   margin: {
+    HUMONGOUS: 40,
     HUGE: 36,
     HUGISH: 28,
     LARGER: 24,
@@ -49,6 +50,7 @@ export const STYLE_CONSTANTS = {
   },
   font: {
     SIZE: {
+      LARGEST_HUMONGOUS: 52,
       HUMONGOUS: 48,
       HUGER: 28,
       HUGE: 24,
@@ -63,6 +65,7 @@ export const STYLE_CONSTANTS = {
       TINY: 10,
     },
     LINEHEIGHT: {
+      LARGEST_HUMONGOUS: 76,
       HUMONGOUS: 48,
       HUGEST: 36,
       HUGER: 28,

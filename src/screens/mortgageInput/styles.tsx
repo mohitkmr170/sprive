@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   },
   buttonInteriorStyle: {
     borderRadius: STYLE_CONSTANTS.padding.HUGE,
-    backgroundColor: COLOR.PINKISH_RED,
+    backgroundColor: COLOR.PRIMARY,
     paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
   },
   buttonExteriorStyle: {

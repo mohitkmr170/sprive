@@ -19,5 +19,15 @@
     "mortgageData": "Mortgage Data",
     "letUsWorkOut": "Lets work out how much interest you’re paying",
     "takeYourBest": "Take your best guess for now, you can always update this later"
+  },
+  "saveInterest": {
+    "cardText": "The amount you will pay your bank in interest alone",
+    "saveMoney": "Let’s save you money",
+    "firstHeader": "Always on the best deal",
+    "firstListItem": "With Sprive, you will always be on the best deal saving you upto thousands of pounds in a year.",
+    "secondHeader": "Smarter payments to maximise your savings",
+    "secondListOne": "Pay off your mortgage as quickly as you can",
+    "secondListTwo": "Chip away without impacting your lifestyle",
+    "buttonText": "Start Saving with Sprive"
   }
 }
