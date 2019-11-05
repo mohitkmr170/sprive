@@ -1,10 +1,18 @@
 import {StyleSheet} from 'react-native';
+import {COLOR} from '../../utils/colors';
+import {STYLE_CONSTANTS} from '../../utils/constants';
 
 export const styles = StyleSheet.create({
   mainContainer: {flex: 1},
   mortgageInputInput: {
-    fontSize: 24,
-    paddingVertical: 8,
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   topContainer: {flex: 1},
+  infoText: {
+    flexWrap: 'wrap',
+    color: COLOR.DARK_BLUE,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+  },
 });

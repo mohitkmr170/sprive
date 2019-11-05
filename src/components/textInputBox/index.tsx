@@ -10,6 +10,7 @@ interface props {
   onIconPress: () => void;
   editIcon: boolean;
   currencyIcon: boolean;
+  parameterText: string;
 }
 interface state {}
 
@@ -21,6 +22,7 @@ export class TextInputBox extends React.Component<props, state> {
       editIcon,
       onIconPress,
       currencyIcon,
+      parameterText,
     } = this.props;
 
     return (
@@ -29,20 +31,24 @@ export class TextInputBox extends React.Component<props, state> {
         <View style={[textInputBoxStyle.inputContainer, customContainerStyle]}>
           <View style={textInputBoxStyle.topContainer}>
             {currencyIcon && (
-              <Text style={{marginRight: 8, marginTop: 12, fontSize: 18}}>
-                £
-              </Text>
+              <Text style={textInputBoxStyle.currencyIcon}>£</Text>
             )}
             <TextInput
-              style={[textInputBoxStyle.inputBox, {flex: 1}]}
+              style={[
+                textInputBoxStyle.inputBox,
+                {flex: 1, alignSelf: 'center'},
+              ]}
               {...this.props}
             />
           </View>
           {editIcon && (
-            <TouchableOpacity
-              // style={!active ? buttonStyle.passwordButton : buttonStyle.otpButtonContainer}
-              onPress={onIconPress || null}>
-              <Text style={{marginTop: 12}}>Icon</Text>
+            <TouchableOpacity onPress={onIconPress || null}>
+              {parameterText ? (
+                <Text style={textInputBoxStyle.parameterText}>
+                  {parameterText}
+                </Text>
+              ) : null //Icon to be added here as per use case
+              }
             </TouchableOpacity>
           )}
         </View>

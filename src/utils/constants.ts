@@ -1,4 +1,4 @@
-import {Dimensions} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 /**
  * App Constants
@@ -21,10 +21,74 @@ export const STYLE_CONSTANTS = {
     DEVICE_TYPE_ANDROID: 'Android',
     DEVICE_TYPE_IOS: 'IOS',
   },
-  padding: {
-    LARGE: 24,
+  margin: {
+    HUGE: 36,
+    HUGISH: 28,
+    LARGER: 24,
+    LARGE: 22,
+    LARGEST: 20,
+    LARGISH: 18,
     NORMAL: 16,
     SMALL: 12,
+    SMALLISH: 10,
+    SMALLER: 8,
+    SMALLEST: 4,
+  },
+  padding: {
+    HUGE: 32,
+    HUGISH: 28,
+    LARGER: 24,
+    LARGE: 22,
+    LARGEST: 20,
+    LARGISH: 18,
+    NORMAL: 16,
+    SMALL: 12,
+    SMALLISH: 10,
+    SMALLER: 8,
+    SMALLEST: 4,
+  },
+  font: {
+    SIZE: {
+      HUMONGOUS: 48,
+      HUGER: 28,
+      HUGE: 24,
+      HUGISH: 22,
+      LARGEST: 20,
+      LARGER: 18,
+      LARGE: 16,
+      LARGISH: 15,
+      NORMAL: 14,
+      SMALL: 12,
+      SMALLER: 11,
+      TINY: 10,
+    },
+    LINEHEIGHT: {
+      HUMONGOUS: 48,
+      HUGEST: 36,
+      HUGER: 28,
+      HUGE: 24,
+      HUGISH: 22,
+      LARGER: 20,
+      LARGE: 16,
+      NORMAL: 14,
+      SMALL: 12,
+      SMALLER: 11,
+    },
+    WEIGHT: {
+      NORMAL: 'normal',
+      SEMI_BOLD: '500',
+      BOLD: 'bold',
+    },
+  },
+  border: {
+    WIDTH: {
+      LIGHTER: StyleSheet.hairlineWidth, // lighter:0.125,
+      LIGHT: StyleSheet.hairlineWidth, // light:0.25,
+      NORMAL: StyleSheet.hairlineWidth * 2, // normal:0.5,
+      HEAVY: 1, // heavy:1.0,
+      HEAVIER: 2, // heavier:1.5,
+      HEAVIEST: 3, // heaviest:3,
+    },
   },
 };
 

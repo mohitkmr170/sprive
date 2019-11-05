@@ -1,14 +1,20 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Alert, Button} from 'react-native';
 import {styles} from './styles';
-import {Button} from 'react-native-elements';
 import {ReduxFormField} from '../ReduxFormField';
 import {Field, reduxForm} from 'redux-form';
 import {APP_CONSTANTS} from '../../utils/constants';
 import {connect} from 'react-redux';
-import {required} from '../../utils/validate';
+import {
+  required,
+  numeric,
+  maxLength8,
+  maxLength6,
+  yearRange,
+} from '../../utils/validate';
 import {get} from 'lodash';
 import {localeString} from '../../utils/i18n';
+import {COLOR} from '../../utils/colors';
 
 // Screen constants for all three fields
 const FIELD_DATA = [
@@ -18,7 +24,9 @@ const FIELD_DATA = [
     KEYBOARD_TYPE: 'number-pad',
     RETURN_KEY: 'done',
     ERROR_STATUS: 'MortgageInput.syncErrors.mortgageAmount',
-    PLACEHOLDER: 'Mortgage Amount',
+    PLACEHOLDER: 'Mortgage data',
+    PARAMETER_TEXT: 'in pounds',
+    INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
   },
   {
     NAME: 'timePeriod',
@@ -26,7 +34,9 @@ const FIELD_DATA = [
     KEYBOARD_TYPE: 'number-pad',
     RETURN_KEY: 'done',
     ERROR_STATUS: 'MortgageInput.syncErrors.timePeriod',
-    PLACEHOLDER: 'Time Period',
+    PLACEHOLDER: '10',
+    PARAMETER_TEXT: 'in years',
+    INFO_TEXT: 'Info for second input',
   },
   {
     NAME: 'monthlyMortgagePayment',
@@ -34,15 +44,15 @@ const FIELD_DATA = [
     KEYBOARD_TYPE: 'number-pad',
     RETURN_KEY: 'done',
     ERROR_STATUS: 'MortgageInput.syncErrors.monthlyMortgagePayment',
-    PLACEHOLDER: 'Monthly Mortgage Payment',
+    PLACEHOLDER: '120400',
+    PARAMETER_TEXT: 'in punds',
+    INFO_TEXT: 'Info for third input',
   },
 ];
 
-const BUTTON_LOCALE_STRING = 'global.calculateNow';
-
 interface props {
-  handleSubmit: (firstParam: (values: object) => void) => void;
   reducerResponse: object;
+  handleCalculateNowPressed: () => void;
 }
 interface state {}
 
@@ -52,20 +62,7 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     this.state = {};
   }
 
-  /**
-   *
-   * @param values : object : object with all form values
-   */
-  handleCalculateNowPress(values: object) {
-    console.log(
-      'UnconnectedMortgageInputContainer : handleCalculateNowPress : values =>',
-      values,
-    );
-  }
-
   render() {
-    const {handleSubmit} = this.props;
-
     // calculating error status for enable/disable
     let firstFieldErrorStatus = get(
       this.props.reducerResponse,
@@ -95,29 +92,43 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
               style: styles.mortgageInputInput,
               returnKeyType: FIELD_DATA[0].RETURN_KEY,
               placeholder: FIELD_DATA[0].PLACEHOLDER,
+              placeholderTextColor: COLOR.VOILET,
               editable: true,
             }}
+            parameterText={FIELD_DATA[0].PARAMETER_TEXT}
             editIcon={true}
-            validate={[required]}
+            /*
+            Validation rules: Positive Integers, required, and maximum value of 10 millions accepted
+            */
+            validate={[required, numeric, maxLength8]}
           />
           {/* Input field Info and Error messages to be decided and added */}
-          <Text>Info for first input</Text>
+          <Text style={styles.infoText}>{FIELD_DATA[0].INFO_TEXT}</Text>
           <Field
             name={FIELD_DATA[1].NAME}
             label={localeString(FIELD_DATA[1].LOCALE_STRING)}
             component={ReduxFormField}
             props={{
               keyboardType: FIELD_DATA[1].KEYBOARD_TYPE,
-              style: styles.mortgageInputInput,
+              style: [styles.mortgageInputInput],
               returnKeyType: FIELD_DATA[1].RETURN_KEY,
               placeholder: FIELD_DATA[1].PLACEHOLDER,
+              placeholderTextColor: !firstFieldErrorStatus
+                ? COLOR.VOILET
+                : COLOR.DISABLED_COLOR,
               editable: !firstFieldErrorStatus,
             }}
             editIcon={true}
-            validate={[required]}
+            parameterText={FIELD_DATA[0].PARAMETER_TEXT}
+            /*
+            Validation rules: Positive Integers, required, and year range should vary between [0-35]
+            */
+            validate={[required, numeric, yearRange]}
           />
           {/* Input field Info and Error messages to be decided and added */}
-          <Text>Info for second input</Text>
+          {!firstFieldErrorStatus && (
+            <Text style={styles.infoText}>{FIELD_DATA[1].INFO_TEXT}</Text>
+          )}
           <Field
             name={FIELD_DATA[2].NAME}
             label={localeString(FIELD_DATA[2].LOCALE_STRING)}
@@ -125,30 +136,29 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
             component={ReduxFormField}
             props={{
               keyboardType: FIELD_DATA[2].KEYBOARD_TYPE,
-              style: styles.mortgageInputInput,
+              style: [styles.mortgageInputInput],
               returnKeyType: FIELD_DATA[2].RETURN_KEY,
               placeholder: FIELD_DATA[2].PLACEHOLDER,
               editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
+              placeholderTextColor:
+                !firstFieldErrorStatus && !secondFieldErrorStatus
+                  ? COLOR.VOILET
+                  : COLOR.DISABLED_COLOR,
+              onChangeText:
+                !thirdFieldErrorStatus && this.props.handleCalculateNowPressed,
             }}
             editIcon={true}
-            validate={[required]}
+            parameterText={FIELD_DATA[0].PARAMETER_TEXT}
+            /*
+            Validation rules: Positive Integers, required, and maximum value of 100000 accepted
+            */
+            validate={[required, numeric, maxLength6]}
           />
           {/* Input field Info and Error messages to be decided and added */}
-          <Text>Info for third input</Text>
+          {!firstFieldErrorStatus && !secondFieldErrorStatus && (
+            <Text style={styles.infoText}>{FIELD_DATA[2].INFO_TEXT}</Text>
+          )}
         </View>
-        <Button
-          title={localeString(BUTTON_LOCALE_STRING)}
-          onPress={handleSubmit(this.handleCalculateNowPress)}
-          style={{marginBottom: 12, marginHorizontal: 24}}
-          buttonStyle={{borderRadius: 24, backgroundColor: '#DD2371'}}
-          disabled={
-            !(
-              !firstFieldErrorStatus &&
-              !secondFieldErrorStatus &&
-              !thirdFieldErrorStatus
-            )
-          }
-        />
       </View>
     );
   }
