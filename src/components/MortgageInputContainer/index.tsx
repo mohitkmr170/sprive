@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Alert, Button} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Button,
+  FlatList,
+} from 'react-native';
 import {styles} from './styles';
 import {ReduxFormField} from '../ReduxFormField';
 import {Field, reduxForm} from 'redux-form';
@@ -27,6 +34,8 @@ const FIELD_DATA = [
     PLACEHOLDER: 'Mortgage data',
     PARAMETER_TEXT: 'in pounds',
     INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
+    CURRENCY_ICON: true,
+    VALIDATION_RULE: [required, numeric, maxLength8],
   },
   {
     NAME: 'timePeriod',
@@ -37,6 +46,8 @@ const FIELD_DATA = [
     PLACEHOLDER: '10',
     PARAMETER_TEXT: 'in years',
     INFO_TEXT: 'Info for second input',
+    CURRENCY_ICON: false,
+    VALIDATION_RULE: [required, numeric, yearRange],
   },
   {
     NAME: 'monthlyMortgagePayment',
@@ -47,6 +58,8 @@ const FIELD_DATA = [
     PLACEHOLDER: '120400',
     PARAMETER_TEXT: 'in punds',
     INFO_TEXT: 'Info for third input',
+    CURRENCY_ICON: true,
+    VALIDATION_RULE: [required, numeric, maxLength6],
   },
 ];
 
@@ -62,7 +75,7 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     this.state = {};
   }
 
-  render() {
+  renderFieldItem = (item: object, index: number) => {
     // calculating error status for enable/disable
     let firstFieldErrorStatus = get(
       this.props.reducerResponse,
@@ -79,85 +92,69 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
       FIELD_DATA[2].ERROR_STATUS,
       false,
     );
+    let tempArray = [
+      {
+        editable: true,
+        placeholderTextColor: COLOR.VOILET,
+        infoVisibility: true,
+      },
+      {
+        editable: !firstFieldErrorStatus,
+        placeholderTextColor: !firstFieldErrorStatus
+          ? COLOR.VOILET
+          : COLOR.DISABLED_COLOR,
+        infoVisibility: !firstFieldErrorStatus,
+      },
+      {
+        editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
+        placeholderTextColor:
+          !firstFieldErrorStatus && !secondFieldErrorStatus
+            ? COLOR.VOILET
+            : COLOR.DISABLED_COLOR,
+        infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
+      },
+    ];
+    return (
+      <View>
+        <Field
+          name={FIELD_DATA[index].NAME}
+          label={localeString(FIELD_DATA[index].LOCALE_STRING)}
+          currencyIcon={FIELD_DATA[index].CURRENCY_ICON}
+          component={ReduxFormField}
+          props={{
+            keyboardType: FIELD_DATA[index].KEYBOARD_TYPE,
+            style: styles.mortgageInputInput,
+            returnKeyType: FIELD_DATA[index].RETURN_KEY,
+            placeholder: FIELD_DATA[index].PLACEHOLDER,
+            placeholderTextColor: tempArray[index].placeholderTextColor,
+            editable: tempArray[index].editable,
+            onChangeText:
+              !thirdFieldErrorStatus &&
+              index === 2 &&
+              this.props.handleCalculateNowPressed,
+          }}
+          parameterText={FIELD_DATA[index].PARAMETER_TEXT}
+          editIcon={true}
+          validate={FIELD_DATA[index].VALIDATION_RULE}
+        />
+        {/* Input field Info and Error messages to be decided and added */}
+        {tempArray[index].infoVisibility && (
+          <Text style={styles.infoText}>{FIELD_DATA[index].INFO_TEXT}</Text>
+        )}
+      </View>
+    );
+  };
+
+  render() {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.topContainer}>
-          <Field
-            name={FIELD_DATA[0].NAME}
-            label={localeString(FIELD_DATA[0].LOCALE_STRING)}
-            currencyIcon
-            component={ReduxFormField}
-            props={{
-              keyboardType: FIELD_DATA[0].KEYBOARD_TYPE,
-              style: styles.mortgageInputInput,
-              returnKeyType: FIELD_DATA[0].RETURN_KEY,
-              placeholder: FIELD_DATA[0].PLACEHOLDER,
-              placeholderTextColor: COLOR.VOILET,
-              editable: true,
-            }}
-            parameterText={FIELD_DATA[0].PARAMETER_TEXT}
-            editIcon={true}
-            /*
-            Validation rules: Positive Integers, required, and maximum value of 10 millions accepted
-            */
-            validate={[required, numeric, maxLength8]}
+          <FlatList
+            data={FIELD_DATA}
+            extraData={this.props}
+            keyExtractor={index => index.toString()}
+            renderItem={({item, index}) => this.renderFieldItem(item, index)}
           />
-          {/* Input field Info and Error messages to be decided and added */}
-          <Text style={styles.infoText}>{FIELD_DATA[0].INFO_TEXT}</Text>
-          <Field
-            name={FIELD_DATA[1].NAME}
-            label={localeString(FIELD_DATA[1].LOCALE_STRING)}
-            component={ReduxFormField}
-            props={{
-              keyboardType: FIELD_DATA[1].KEYBOARD_TYPE,
-              style: [styles.mortgageInputInput],
-              returnKeyType: FIELD_DATA[1].RETURN_KEY,
-              placeholder: FIELD_DATA[1].PLACEHOLDER,
-              placeholderTextColor: !firstFieldErrorStatus
-                ? COLOR.VOILET
-                : COLOR.DISABLED_COLOR,
-              editable: !firstFieldErrorStatus,
-            }}
-            editIcon={true}
-            parameterText={FIELD_DATA[0].PARAMETER_TEXT}
-            /*
-            Validation rules: Positive Integers, required, and year range should vary between [0-35]
-            */
-            validate={[required, numeric, yearRange]}
-          />
-          {/* Input field Info and Error messages to be decided and added */}
-          {!firstFieldErrorStatus && (
-            <Text style={styles.infoText}>{FIELD_DATA[1].INFO_TEXT}</Text>
-          )}
-          <Field
-            name={FIELD_DATA[2].NAME}
-            label={localeString(FIELD_DATA[2].LOCALE_STRING)}
-            currencyIcon
-            component={ReduxFormField}
-            props={{
-              keyboardType: FIELD_DATA[2].KEYBOARD_TYPE,
-              style: [styles.mortgageInputInput],
-              returnKeyType: FIELD_DATA[2].RETURN_KEY,
-              placeholder: FIELD_DATA[2].PLACEHOLDER,
-              editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
-              placeholderTextColor:
-                !firstFieldErrorStatus && !secondFieldErrorStatus
-                  ? COLOR.VOILET
-                  : COLOR.DISABLED_COLOR,
-              onChangeText:
-                !thirdFieldErrorStatus && this.props.handleCalculateNowPressed,
-            }}
-            editIcon={true}
-            parameterText={FIELD_DATA[0].PARAMETER_TEXT}
-            /*
-            Validation rules: Positive Integers, required, and maximum value of 100000 accepted
-            */
-            validate={[required, numeric, maxLength6]}
-          />
-          {/* Input field Info and Error messages to be decided and added */}
-          {!firstFieldErrorStatus && !secondFieldErrorStatus && (
-            <Text style={styles.infoText}>{FIELD_DATA[2].INFO_TEXT}</Text>
-          )}
         </View>
       </View>
     );

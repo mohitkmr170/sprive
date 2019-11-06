@@ -31,6 +31,9 @@ export class TextInputBox extends React.Component<props, state> {
         <View style={[textInputBoxStyle.inputContainer, customContainerStyle]}>
           <View style={textInputBoxStyle.topContainer}>
             {currencyIcon && (
+              /*
+              TODO : Intended to change Text to Icon, when it's provided
+              */
               <Text style={textInputBoxStyle.currencyIcon}>£</Text>
             )}
             <TextInput
