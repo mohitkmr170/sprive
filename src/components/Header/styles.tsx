@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
     padding: 16,
     justifyContent: 'space-between',
     flexDirection: 'row',
-    borderBottomColor: COLOR.black,
-    borderBottomWidth: 1,
+    borderBottomColor: COLOR.GRAY,
+    borderBottomWidth: 0.3,
   },
   sideText: {alignSelf: 'center'},
   middleContainer: {

@@ -22,7 +22,6 @@ import {
 
 const LOGIN_BUTTON = 'login.loginButton';
 const HOME_ROUTE = 'home';
-const CHECK_EMAIL = 'check_your_email'; //seperate file with all keys to be made leter
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -122,7 +121,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
 
   // Redirecting to external app
   handleEmailCheck = () => {
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+    this.props.navigation.navigate(
+      NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN,
+    );
   };
 
   render() {
@@ -166,7 +167,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           style={styles.buttonStyle}
         />
         <Button
-          title={localeString(CHECK_EMAIL)}
+          title="Mortgage"
           onPress={() => this.handleEmailCheck()}
           style={styles.buttonStyle}
         />
