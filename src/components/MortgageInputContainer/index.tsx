@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Alert, Button} from 'react-native';
+import {View, Text} from 'react-native';
 import {styles} from './styles';
 import {ReduxFormField} from '../ReduxFormField';
 import {Field, reduxForm} from 'redux-form';
@@ -16,39 +16,49 @@ import {get} from 'lodash';
 import {localeString} from '../../utils/i18n';
 import {COLOR} from '../../utils/colors';
 
+const FORM_FIELD_KEY: object = {
+  MORTGAGE_AMOUNT: 'mortgageAmount',
+  TIME_PERIOD: 'timePeriod',
+  MONTHLY_MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
+};
+const KEYBOARD_TYPE = 'number-pad';
+const RETURN_KEY = 'done';
+const COMMON_VALIDATION_RULE = [required, numeric];
 // Screen constants for all three fields
-const FIELD_DATA = [
-  {
-    NAME: 'mortgageAmount',
-    LOCALE_STRING: 'mortgageForm.morgageAmountLabel',
-    KEYBOARD_TYPE: 'number-pad',
-    RETURN_KEY: 'done',
-    ERROR_STATUS: 'MortgageInput.syncErrors.mortgageAmount',
-    PLACEHOLDER: 'Mortgage data',
-    PARAMETER_TEXT: 'in pounds',
-    INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
-  },
-  {
-    NAME: 'timePeriod',
-    LOCALE_STRING: 'mortgageForm.timePeriodLabel',
-    KEYBOARD_TYPE: 'number-pad',
-    RETURN_KEY: 'done',
-    ERROR_STATUS: 'MortgageInput.syncErrors.timePeriod',
-    PLACEHOLDER: '10',
-    PARAMETER_TEXT: 'in years',
-    INFO_TEXT: 'Info for second input',
-  },
-  {
-    NAME: 'monthlyMortgagePayment',
-    LOCALE_STRING: 'mortgageForm.monthlyMortgagePaymentLabel',
-    KEYBOARD_TYPE: 'number-pad',
-    RETURN_KEY: 'done',
-    ERROR_STATUS: 'MortgageInput.syncErrors.monthlyMortgagePayment',
-    PLACEHOLDER: '120400',
-    PARAMETER_TEXT: 'in punds',
-    INFO_TEXT: 'Info for third input',
-  },
-];
+const FIELD_DATA = new Array();
+FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT] = {
+  NAME: 'mortgageAmount',
+  LOCALE_STRING: 'mortgageForm.morgageAmountLabel',
+  ERROR_STATUS: 'MortgageInput.syncErrors.mortgageAmount',
+  PLACEHOLDER: 'Mortgage data',
+  PARAMETER_TEXT: 'in pounds',
+  INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
+  CURRENCY_ICON: true,
+  VALIDATION_RULE:
+    COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLength8),
+};
+FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD] = {
+  NAME: 'timePeriod',
+  LOCALE_STRING: 'mortgageForm.timePeriodLabel',
+  ERROR_STATUS: 'MortgageInput.syncErrors.timePeriod',
+  PLACEHOLDER: '10',
+  PARAMETER_TEXT: 'in years',
+  INFO_TEXT: 'Info for second input',
+  CURRENCY_ICON: false,
+  VALIDATION_RULE:
+    COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(yearRange),
+};
+FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT] = {
+  NAME: 'monthlyMortgagePayment',
+  LOCALE_STRING: 'mortgageForm.monthlyMortgagePaymentLabel',
+  ERROR_STATUS: 'MortgageInput.syncErrors.monthlyMortgagePayment',
+  PLACEHOLDER: '120400',
+  PARAMETER_TEXT: 'in pounds',
+  INFO_TEXT: 'Info for third input',
+  CURRENCY_ICON: true,
+  VALIDATION_RULE:
+    COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLength6),
+};
 
 interface props {
   reducerResponse: object;
@@ -62,101 +72,82 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     this.state = {};
   }
 
-  render() {
+  renderFieldItem = (item: object) => {
     // calculating error status for enable/disable
     let firstFieldErrorStatus = get(
       this.props.reducerResponse,
-      FIELD_DATA[0].ERROR_STATUS,
+      FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT].ERROR_STATUS,
       false,
     );
     let secondFieldErrorStatus = get(
       this.props.reducerResponse,
-      FIELD_DATA[1].ERROR_STATUS,
+      FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD].ERROR_STATUS,
       false,
     );
     let thirdFieldErrorStatus = get(
       this.props.reducerResponse,
-      FIELD_DATA[2].ERROR_STATUS,
+      FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT].ERROR_STATUS,
       false,
     );
+
+    // Added key dynamicValue having all values that change dynamically based on ERROR_STATUS
+    FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT].dynamicValue = {
+      editable: true,
+      placeholderTextColor: COLOR.VOILET,
+      infoVisibility: true,
+    };
+    FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD].dynamicValue = {
+      editable: !firstFieldErrorStatus,
+      placeholderTextColor: !firstFieldErrorStatus
+        ? COLOR.VOILET
+        : COLOR.DISABLED_COLOR,
+      infoVisibility: !firstFieldErrorStatus,
+    };
+    FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT].dynamicValue = {
+      editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
+      placeholderTextColor:
+        !firstFieldErrorStatus && !secondFieldErrorStatus
+          ? COLOR.VOILET
+          : COLOR.DISABLED_COLOR,
+      infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
+    };
+    return (
+      <View>
+        <Field
+          name={item.NAME}
+          label={localeString(item.LOCALE_STRING)}
+          currencyIcon={item.CURRENCY_ICON}
+          component={ReduxFormField}
+          props={{
+            keyboardType: KEYBOARD_TYPE,
+            style: styles.mortgageInputInput,
+            returnKeyType: RETURN_KEY,
+            placeholder: item.PLACEHOLDER,
+            placeholderTextColor: item.dynamicValue.placeholderTextColor,
+            editable: item.dynamicValue.editable,
+            onChangeText:
+              !thirdFieldErrorStatus &&
+              item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
+              this.props.handleCalculateNowPressed,
+          }}
+          parameterText={item.PARAMETER_TEXT}
+          editIcon={true}
+          validate={item.VALIDATION_RULE}
+        />
+        {/* Input field Info and Error messages to be decided and added */}
+        {item.dynamicValue.infoVisibility && (
+          <Text style={styles.infoText}>{item.INFO_TEXT}</Text>
+        )}
+      </View>
+    );
+  };
+
+  render() {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.topContainer}>
-          <Field
-            name={FIELD_DATA[0].NAME}
-            label={localeString(FIELD_DATA[0].LOCALE_STRING)}
-            currencyIcon
-            component={ReduxFormField}
-            props={{
-              keyboardType: FIELD_DATA[0].KEYBOARD_TYPE,
-              style: styles.mortgageInputInput,
-              returnKeyType: FIELD_DATA[0].RETURN_KEY,
-              placeholder: FIELD_DATA[0].PLACEHOLDER,
-              placeholderTextColor: COLOR.VOILET,
-              editable: true,
-            }}
-            parameterText={FIELD_DATA[0].PARAMETER_TEXT}
-            editIcon={true}
-            /*
-            Validation rules: Positive Integers, required, and maximum value of 10 millions accepted
-            */
-            validate={[required, numeric, maxLength8]}
-          />
-          {/* Input field Info and Error messages to be decided and added */}
-          <Text style={styles.infoText}>{FIELD_DATA[0].INFO_TEXT}</Text>
-          <Field
-            name={FIELD_DATA[1].NAME}
-            label={localeString(FIELD_DATA[1].LOCALE_STRING)}
-            component={ReduxFormField}
-            props={{
-              keyboardType: FIELD_DATA[1].KEYBOARD_TYPE,
-              style: [styles.mortgageInputInput],
-              returnKeyType: FIELD_DATA[1].RETURN_KEY,
-              placeholder: FIELD_DATA[1].PLACEHOLDER,
-              placeholderTextColor: !firstFieldErrorStatus
-                ? COLOR.VOILET
-                : COLOR.DISABLED_COLOR,
-              editable: !firstFieldErrorStatus,
-            }}
-            editIcon={true}
-            parameterText={FIELD_DATA[0].PARAMETER_TEXT}
-            /*
-            Validation rules: Positive Integers, required, and year range should vary between [0-35]
-            */
-            validate={[required, numeric, yearRange]}
-          />
-          {/* Input field Info and Error messages to be decided and added */}
-          {!firstFieldErrorStatus && (
-            <Text style={styles.infoText}>{FIELD_DATA[1].INFO_TEXT}</Text>
-          )}
-          <Field
-            name={FIELD_DATA[2].NAME}
-            label={localeString(FIELD_DATA[2].LOCALE_STRING)}
-            currencyIcon
-            component={ReduxFormField}
-            props={{
-              keyboardType: FIELD_DATA[2].KEYBOARD_TYPE,
-              style: [styles.mortgageInputInput],
-              returnKeyType: FIELD_DATA[2].RETURN_KEY,
-              placeholder: FIELD_DATA[2].PLACEHOLDER,
-              editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
-              placeholderTextColor:
-                !firstFieldErrorStatus && !secondFieldErrorStatus
-                  ? COLOR.VOILET
-                  : COLOR.DISABLED_COLOR,
-              onChangeText:
-                !thirdFieldErrorStatus && this.props.handleCalculateNowPressed,
-            }}
-            editIcon={true}
-            parameterText={FIELD_DATA[0].PARAMETER_TEXT}
-            /*
-            Validation rules: Positive Integers, required, and maximum value of 100000 accepted
-            */
-            validate={[required, numeric, maxLength6]}
-          />
-          {/* Input field Info and Error messages to be decided and added */}
-          {!firstFieldErrorStatus && !secondFieldErrorStatus && (
-            <Text style={styles.infoText}>{FIELD_DATA[2].INFO_TEXT}</Text>
+          {Object.keys(FIELD_DATA).map((key: string) =>
+            this.renderFieldItem(FIELD_DATA[key]),
           )}
         </View>
       </View>

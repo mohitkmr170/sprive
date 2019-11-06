@@ -29,5 +29,16 @@
     "secondListOne": "Pay off your mortgage as quickly as you can",
     "secondListTwo": "Chip away without impacting your lifestyle",
     "buttonText": "Start Saving with Sprive"
+    },
+  "validationMessages": {
+    "required": "Required",
+    "invalidCardDetails": "Invalid card details",
+    "minError": "Must be {{min}} characters or more",
+    "maxError": "Must be {{max}} characters or less",
+    "positiveNumber": "Only positive Integers",
+    "length10": "Must be 10 characters",
+    "invalidEmail": "Invalid email address",
+    "alphaNumberic": "Atleast one character and one number",
+    "yearRange": "should be within [0-35] range"
   }
 }
