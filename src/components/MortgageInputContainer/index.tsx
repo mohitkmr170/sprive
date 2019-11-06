@@ -23,45 +23,49 @@ import {get} from 'lodash';
 import {localeString} from '../../utils/i18n';
 import {COLOR} from '../../utils/colors';
 
+const FORM_FIELD_KEY: any = {
+  MORTGAGE_AMOUNT: 'mortgageAmount',
+  TIME_PERIOD: 'timePeriod',
+  MONTHLY_MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
+};
 // Screen constants for all three fields
-const FIELD_DATA = [
-  {
-    NAME: 'mortgageAmount',
-    LOCALE_STRING: 'mortgageForm.morgageAmountLabel',
-    KEYBOARD_TYPE: 'number-pad',
-    RETURN_KEY: 'done',
-    ERROR_STATUS: 'MortgageInput.syncErrors.mortgageAmount',
-    PLACEHOLDER: 'Mortgage data',
-    PARAMETER_TEXT: 'in pounds',
-    INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
-    CURRENCY_ICON: true,
-    VALIDATION_RULE: [required, numeric, maxLength8],
-  },
-  {
-    NAME: 'timePeriod',
-    LOCALE_STRING: 'mortgageForm.timePeriodLabel',
-    KEYBOARD_TYPE: 'number-pad',
-    RETURN_KEY: 'done',
-    ERROR_STATUS: 'MortgageInput.syncErrors.timePeriod',
-    PLACEHOLDER: '10',
-    PARAMETER_TEXT: 'in years',
-    INFO_TEXT: 'Info for second input',
-    CURRENCY_ICON: false,
-    VALIDATION_RULE: [required, numeric, yearRange],
-  },
-  {
-    NAME: 'monthlyMortgagePayment',
-    LOCALE_STRING: 'mortgageForm.monthlyMortgagePaymentLabel',
-    KEYBOARD_TYPE: 'number-pad',
-    RETURN_KEY: 'done',
-    ERROR_STATUS: 'MortgageInput.syncErrors.monthlyMortgagePayment',
-    PLACEHOLDER: '120400',
-    PARAMETER_TEXT: 'in punds',
-    INFO_TEXT: 'Info for third input',
-    CURRENCY_ICON: true,
-    VALIDATION_RULE: [required, numeric, maxLength6],
-  },
-];
+const FIELD_DATA = new Array();
+FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT] = {
+  NAME: 'mortgageAmount',
+  LOCALE_STRING: 'mortgageForm.morgageAmountLabel',
+  KEYBOARD_TYPE: 'number-pad',
+  RETURN_KEY: 'done',
+  ERROR_STATUS: 'MortgageInput.syncErrors.mortgageAmount',
+  PLACEHOLDER: 'Mortgage data',
+  PARAMETER_TEXT: 'in pounds',
+  INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
+  CURRENCY_ICON: true,
+  VALIDATION_RULE: [required, numeric, maxLength8],
+};
+FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD] = {
+  NAME: 'timePeriod',
+  LOCALE_STRING: 'mortgageForm.timePeriodLabel',
+  KEYBOARD_TYPE: 'number-pad',
+  RETURN_KEY: 'done',
+  ERROR_STATUS: 'MortgageInput.syncErrors.timePeriod',
+  PLACEHOLDER: '10',
+  PARAMETER_TEXT: 'in years',
+  INFO_TEXT: 'Info for second input',
+  CURRENCY_ICON: false,
+  VALIDATION_RULE: [required, numeric, yearRange],
+};
+FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT] = {
+  NAME: 'monthlyMortgagePayment',
+  LOCALE_STRING: 'mortgageForm.monthlyMortgagePaymentLabel',
+  KEYBOARD_TYPE: 'number-pad',
+  RETURN_KEY: 'done',
+  ERROR_STATUS: 'MortgageInput.syncErrors.monthlyMortgagePayment',
+  PLACEHOLDER: '120400',
+  PARAMETER_TEXT: 'in punds',
+  INFO_TEXT: 'Info for third input',
+  CURRENCY_ICON: true,
+  VALIDATION_RULE: [required, numeric, maxLength6],
+};
 
 interface props {
   reducerResponse: object;
@@ -75,71 +79,71 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     this.state = {};
   }
 
-  renderFieldItem = (item: object, index: number) => {
+  renderFieldItem = (item: any) => {
     // calculating error status for enable/disable
     let firstFieldErrorStatus = get(
       this.props.reducerResponse,
-      FIELD_DATA[0].ERROR_STATUS,
+      FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT].ERROR_STATUS,
       false,
     );
     let secondFieldErrorStatus = get(
       this.props.reducerResponse,
-      FIELD_DATA[1].ERROR_STATUS,
+      FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD].ERROR_STATUS,
       false,
     );
     let thirdFieldErrorStatus = get(
       this.props.reducerResponse,
-      FIELD_DATA[2].ERROR_STATUS,
+      FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT].ERROR_STATUS,
       false,
     );
-    let tempArray = [
-      {
-        editable: true,
-        placeholderTextColor: COLOR.VOILET,
-        infoVisibility: true,
-      },
-      {
-        editable: !firstFieldErrorStatus,
-        placeholderTextColor: !firstFieldErrorStatus
+
+    // Added key dynamicValue having all values that change dynamically based on ERROR_STATUS
+    FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT].dynamicValue = {
+      editable: true,
+      placeholderTextColor: COLOR.VOILET,
+      infoVisibility: true,
+    };
+    FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD].dynamicValue = {
+      editable: !firstFieldErrorStatus,
+      placeholderTextColor: !firstFieldErrorStatus
+        ? COLOR.VOILET
+        : COLOR.DISABLED_COLOR,
+      infoVisibility: !firstFieldErrorStatus,
+    };
+    FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT].dynamicValue = {
+      editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
+      placeholderTextColor:
+        !firstFieldErrorStatus && !secondFieldErrorStatus
           ? COLOR.VOILET
           : COLOR.DISABLED_COLOR,
-        infoVisibility: !firstFieldErrorStatus,
-      },
-      {
-        editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
-        placeholderTextColor:
-          !firstFieldErrorStatus && !secondFieldErrorStatus
-            ? COLOR.VOILET
-            : COLOR.DISABLED_COLOR,
-        infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
-      },
-    ];
+      infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
+    };
     return (
       <View>
         <Field
-          name={FIELD_DATA[index].NAME}
-          label={localeString(FIELD_DATA[index].LOCALE_STRING)}
-          currencyIcon={FIELD_DATA[index].CURRENCY_ICON}
+          name={item.NAME}
+          label={localeString(item.LOCALE_STRING)}
+          currencyIcon={item.CURRENCY_ICON}
           component={ReduxFormField}
           props={{
-            keyboardType: FIELD_DATA[index].KEYBOARD_TYPE,
+            keyboardType: item.KEYBOARD_TYPE,
             style: styles.mortgageInputInput,
-            returnKeyType: FIELD_DATA[index].RETURN_KEY,
-            placeholder: FIELD_DATA[index].PLACEHOLDER,
-            placeholderTextColor: tempArray[index].placeholderTextColor,
-            editable: tempArray[index].editable,
+            returnKeyType: item.RETURN_KEY,
+            placeholder: item.PLACEHOLDER,
+            placeholderTextColor: item.dynamicValue.placeholderTextColor,
+            editable: item.dynamicValue.editable,
             onChangeText:
               !thirdFieldErrorStatus &&
-              index === 2 &&
+              item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
               this.props.handleCalculateNowPressed,
           }}
-          parameterText={FIELD_DATA[index].PARAMETER_TEXT}
+          parameterText={item.PARAMETER_TEXT}
           editIcon={true}
-          validate={FIELD_DATA[index].VALIDATION_RULE}
+          validate={item.VALIDATION_RULE}
         />
         {/* Input field Info and Error messages to be decided and added */}
-        {tempArray[index].infoVisibility && (
-          <Text style={styles.infoText}>{FIELD_DATA[index].INFO_TEXT}</Text>
+        {item.dynamicValue.infoVisibility && (
+          <Text style={styles.infoText}>{item.INFO_TEXT}</Text>
         )}
       </View>
     );
@@ -149,12 +153,9 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.topContainer}>
-          <FlatList
-            data={FIELD_DATA}
-            extraData={this.props}
-            keyExtractor={index => index.toString()}
-            renderItem={({item, index}) => this.renderFieldItem(item, index)}
-          />
+          {Object.keys(FIELD_DATA).map((key: any) =>
+            this.renderFieldItem(FIELD_DATA[key]),
+          )}
         </View>
       </View>
     );
