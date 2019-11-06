@@ -1,1 +1,1 @@
-export * from './getUserProfile';
+export * from './getCumulativeInterest';
