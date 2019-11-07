@@ -104,4 +104,12 @@ export const styles = StyleSheet.create({
     marginTop: STYLE_CONSTANTS.margin.LARGEST,
     borderRadius: STYLE_CONSTANTS.padding.HUGE,
   },
+  bulletView: {
+    marginRight: STYLE_CONSTANTS.margin.SMALL,
+    marginTop: STYLE_CONSTANTS.margin.SMALLEST,
+  },
+  bulletListItemContainer: {
+    marginTop: STYLE_CONSTANTS.margin.NORMAL,
+    flexDirection: 'row',
+  },
 });

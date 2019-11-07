@@ -6,13 +6,13 @@ import {styles} from './styles';
 import {Bullets} from './bullets';
 import {connect} from 'react-redux';
 import {localeString} from '../../utils/i18n';
-import {getCumulativeInterest} from '../../store/reducers';
 import {get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {InterestMask} from '../../assets';
+import {interestBanner} from '../../assets';
 
-const LOCALE_STRING_MORTGAGE_DATA = 'mortgageForm.mortgageData';
-
+/*
+TODO : All locale string constants can be moved to contants(utils)
+*/
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -50,13 +50,13 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
         <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
           <View style={styles.mortgageStatusProgressContainer}>
             <Text style={styles.mortgageTextData}>
-              {localeString(LOCALE_STRING_MORTGAGE_DATA)}
+              {localeString('mortgageForm.mortgageData')}
             </Text>
-            {/* Need to be modified, for now it's contant */}
+            {/* Need to be modified, for now progress number is contant */}
             <Text style={styles.progressFractionText}>1/4</Text>
           </View>
           <ImageBackground
-            source={InterestMask}
+            source={interestBanner}
             style={styles.imageBackgoundStyle}
             imageStyle={styles.imageStyle}>
             <View style={styles.cardContainer}>
@@ -97,8 +97,8 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
                 {localeString('saveInterest.secondListOne')}
               </Text>
             </View>
-            <View style={{marginTop: 16, flexDirection: 'row'}}>
-              <View style={{marginRight: 12, marginTop: 4}}>
+            <View style={styles.bulletListItemContainer}>
+              <View style={styles.bulletView}>
                 <Bullets />
               </View>
               <Text style={styles.secondContainerListItemText}>

@@ -73,7 +73,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
         cumulativeInrerest,
       );
       if (cumulativeInrerest)
-        this.props.navigation.navigate('SaveInterestScreen');
+        this.props.navigation.navigate(
+          NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
+        );
       /*
       TODO : To be handled in case of API error
       */
