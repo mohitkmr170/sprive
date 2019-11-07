@@ -11,7 +11,16 @@ const getCompleteUrl = (endPoint: string) => {
   TODO : conditions to be added based on the current environment
   */
   const hostUrl = url.localApiUrl;
-  return `${hostUrl}/${apiConstants.API_END_POINT_PREFIX}/${apiConstants.API_VERSION}/${endPoint}`;
+  return `${hostUrl}${apiConstants.API_END_POINT_PREFIX}${apiConstants.API_VERSION}${endPoint}`;
+};
+
+/**
+ * Funtion to get queryParams
+ * @param qParam : object
+ */
+const getQueryParams = (qParam: object) => {
+  const queryString = require('query-string');
+  return queryString(qParam);
 };
 
 /**
@@ -88,6 +97,10 @@ export const patchRequest = (endPoint: string, params: Object) => {
   });
 };
 
+/**
+ * DELETE request
+ * @param endPoint : string
+ */
 export const deleteRequest = (endPoint: string) => {
   return new Promise((resolve, reject) => {
     const token = '';
@@ -99,6 +112,23 @@ export const deleteRequest = (endPoint: string) => {
         headers: getHeaders(token),
         timeout: apiConstants.TIMEOUT,
       })
+      .then(response => resolve(response.data))
+      .catch(err => reject(err));
+  });
+};
+
+/**
+ * GET_ALL request
+ * @param endPointList : array : List of endPoints
+ */
+export const getAllRequest = (endPointList: any) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .all(
+        endPointList.map((item: string) => {
+          return getCompleteUrl(item);
+        }),
+      )
       .then(response => resolve(response.data))
       .catch(err => reject(err));
   });
