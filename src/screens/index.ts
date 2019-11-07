@@ -3,3 +3,4 @@ export * from './signUp';
 export * from './sideBar';
 export * from './home';
 export * from './mortgageInput';
+export * from './saveInterest';
