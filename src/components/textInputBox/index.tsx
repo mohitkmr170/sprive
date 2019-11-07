@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, View, TextInput, TouchableOpacity} from 'react-native';
+import {Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
+import {iEmail, iLock} from '../../assets';
 import {textInputBoxStyle} from './styles';
 
 interface props {
@@ -50,8 +51,14 @@ export class TextInputBox extends React.Component<props, state> {
                 <Text style={textInputBoxStyle.parameterText}>
                   {parameterText}
                 </Text>
-              ) : null //Icon to be added here as per use case
-              }
+              ) : (
+                <Image
+                  source={label === 'Password' ? iLock : iEmail}
+                  height={14}
+                  width={14}
+                  style={textInputBoxStyle.inputTypeIcon}
+                />
+              )}
             </TouchableOpacity>
           )}
         </View>
