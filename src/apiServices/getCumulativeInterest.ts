@@ -1,8 +1,9 @@
 import apiConstants from '../../config/apiConstants';
-import {getRequest, postRequest} from './requestServices';
+import {postRequest} from './requestServices';
 
 /**
- * Dummy Test API to fetch userProfile
+ * Get cumulative interest based on input Mortgage
+ * @param body : object : payload for POST api call
  */
 
 export function getCumulativeInterest(body: object) {

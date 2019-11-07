@@ -4,7 +4,10 @@ import {Button} from 'react-native-elements';
 import {Header} from '../../components';
 import {styles} from './styles';
 import {Bullets} from './bullets';
+import {connect} from 'react-redux';
 import {localeString} from '../../utils/i18n';
+import {getCumulativeInterest} from '../../store/reducers';
+import {get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {InterestMask} from '../../assets';
 
@@ -15,11 +18,12 @@ interface props {
     navigate: (routeName: String) => void;
     goBack: () => void;
   };
+  getCumulativeInterestResponse: object;
 }
 
 interface state {}
 
-export class SaveInterest extends React.Component<props, state> {
+class UnconnectedSaveInterest extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {};
@@ -36,6 +40,10 @@ export class SaveInterest extends React.Component<props, state> {
   };
 
   render() {
+    const {getCumulativeInterestResponse} = this.props;
+    let cumulativeInterest = Math.ceil(
+      get(getCumulativeInterestResponse, 'data.totalInterest', 0),
+    );
     return (
       <View style={styles.mainContainer}>
         <Header onBackPress={() => this.handlebackPress()} />
@@ -56,7 +64,9 @@ export class SaveInterest extends React.Component<props, state> {
                 {localeString('saveInterest.cardText')}
               </Text>
               {/* Need to be modified, for now it's contant */}
-              <Text style={styles.cardInterestText}>£ 105,658</Text>
+              <Text style={styles.cardInterestText}>
+                £ {cumulativeInterest}
+              </Text>
             </View>
           </ImageBackground>
           <Text style={styles.saveMoneyText}>
@@ -107,3 +117,14 @@ export class SaveInterest extends React.Component<props, state> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  getCumulativeInterestResponse: state.getCumulativeInterest.response,
+});
+
+const bindActions = () => ({});
+
+export const SaveInterest = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedSaveInterest);

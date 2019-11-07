@@ -46,7 +46,7 @@
     "redux-actions": "^2.6.5",
     "redux-form": "^8.2.6",
     "redux-logger": "^3.0.6",
-    "redux-persist": "^6.0.0",
+    "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "rn-swipe-button": "^1.2.0",
     "tslint": "^5.20.0",

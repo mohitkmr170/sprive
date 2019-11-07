@@ -33,7 +33,7 @@ export const getRequest = (endPoint: string) => {
   return new Promise((resolve, reject) => {
     const token = '';
     /*
-    TODO : token to be accessed through redusStore
+    TODO : token to be accessed through reduxStore
     */
     axios
       .get(getCompleteUrl(endPoint), {
@@ -41,7 +41,7 @@ export const getRequest = (endPoint: string) => {
         timeout: apiConstants.TIMEOUT,
       })
       .then(response => resolve(response.data))
-      .catch(err => reject(console.error(err)));
+      .catch(err => reject(err));
   });
 };
 
@@ -52,10 +52,26 @@ export const postRequest = (endPoint: string, params: object) => {
   return new Promise((resolve, reject) => {
     const token = '';
     /*
-    TODO : token to be accessed through redusStore
+    TODO : token to be accessed through reduxStore
     */
     axios
       .post(getCompleteUrl(endPoint), params, {
+        headers: getHeaders(token),
+        timeout: apiConstants.TIMEOUT,
+      })
+      .then(response => resolve(response.data))
+      .catch(err => reject(err));
+  });
+};
+
+export const patchRequest = (endPoint: string, params: Object) => {
+  return new Promise((resolve, reject) => {
+    const token = '';
+    /*
+    TODO : token to be accessed through reduxStore
+    */
+    axios
+      .patch(getCompleteUrl(endPoint), params, {
         headers: getHeaders(token),
         timeout: apiConstants.TIMEOUT,
       })

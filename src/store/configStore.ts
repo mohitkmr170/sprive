@@ -1,4 +1,3 @@
-import {AsyncStorage} from 'react-native';
 import thunkMiddleware from 'redux-thunk';
 import {persistStore, persistReducer} from 'redux-persist';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
@@ -6,6 +5,7 @@ import {mapValues} from 'lodash';
 import logger from 'redux-logger';
 import {reducer as formReducer} from 'redux-form';
 import * as reducers from './reducers';
+import storage from 'redux-persist/lib/storage';
 import {applicationReducer} from './appReducers/addUserDetails';
 
 const appReducers = {
@@ -26,7 +26,7 @@ const rootReducer = (
 
 const persistConfig = {
   key: 'root',
-  storage: AsyncStorage,
+  storage,
   whitelist: [], // Names of reducers which will be persisted.
 };
 
