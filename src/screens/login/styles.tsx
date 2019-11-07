@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {COLOR} from '../../utils/colors';
+import {STYLE_CONSTANTS} from '../../utils/constants';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -7,24 +8,52 @@ export const styles = StyleSheet.create({
   },
   topContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 12,
+    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
+  },
+  signInText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
+    color: COLOR.VOILET,
+    marginTop: STYLE_CONSTANTS.margin.EXTRA_HUMUNGOUS,
+    marginBottom: STYLE_CONSTANTS.margin.HUGISH,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   emailInput: {
-    fontSize: 24,
-    width: '80%',
-    marginTop: 4,
-    padding: 4,
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    marginTop: STYLE_CONSTANTS.margin.SMALLEST,
+    padding: STYLE_CONSTANTS.padding.SMALLEST,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   phoneInputContainer: {
-    fontSize: 18,
-    paddingVertical: 4,
-    width: '70%',
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,
+    paddingVertical: STYLE_CONSTANTS.padding.SMALLEST,
+    width: '100%',
   },
-  buttonStyle: {
-    width: '40%',
+  forgotPassword: {
+    marginRight: STYLE_CONSTANTS.margin.LARGEST,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    color: COLOR.BLUE,
+  },
+  buttonTitleStyle: {
+    marginVertical: STYLE_CONSTANTS.margin.NORMAL,
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+  },
+  buttonExtStyle: {
+    backgroundColor: COLOR.PRIMARY,
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
+    borderRadius: 54,
+    marginBottom: STYLE_CONSTANTS.margin.NORMAL,
+  },
+  switchToSignUpText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    color: COLOR.VOILET,
+    opacity: 0.5,
     alignSelf: 'center',
-    margin: 24,
+    marginBottom: STYLE_CONSTANTS.margin.HUGER,
   },
+  forgotPasswordContainer: {alignSelf: 'flex-end'},
 });
