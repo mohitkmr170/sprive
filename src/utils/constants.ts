@@ -22,8 +22,10 @@ export const STYLE_CONSTANTS = {
     DEVICE_TYPE_IOS: 'IOS',
   },
   margin: {
+    EXTRA_HUMUNGOUS: 52,
     HUMONGOUS: 40,
     HUGE: 36,
+    HUGER: 32,
     HUGISH: 28,
     LARGER: 24,
     LARGE: 22,
