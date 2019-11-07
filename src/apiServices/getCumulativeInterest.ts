@@ -7,6 +7,6 @@ import {postRequest} from './requestServices';
  */
 
 export function getCumulativeInterest(body: object) {
-  const endPoint = apiConstants.ENDPOINTS.INTEREST_CALCULATOR;
+  const endPoint = apiConstants.API_END_POINTS.INTEREST_CALCULATOR;
   return postRequest(endPoint, body);
 }
