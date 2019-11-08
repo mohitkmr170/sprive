@@ -61,7 +61,7 @@ export const getRequest = (endPoint: string) => {
  * @param endPoint : string
  * @param params : object
  */
-export const postRequest = (endPoint: string, params: object) => {
+export const postRequest = (endPoint: string, params?: object) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
     /*

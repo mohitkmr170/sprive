@@ -7,5 +7,8 @@ export default {
   API_VERSION: '/v1',
   API_END_POINTS: {
     INTEREST_CALCULATOR: '/cumulative-interest-calculator',
+    GET_USER_INFO: '/get-user-info',
+    LOGIN: '/authentication',
+    SIGNUP: '/users',
   },
 };
