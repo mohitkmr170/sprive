@@ -14,7 +14,7 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {APP_CONSTANTS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 
 const LOGIN_BUTTON = 'login.loginButton';
 interface props {
@@ -34,8 +34,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
 
   handleBackPress = () => {
     /*
-    TODO : Handle Back button press
+    TODO : Handle Back button press, condition based
     */
+    this.props.navigation.goBack();
   };
 
   handleLoginPress = async (values: {email: string; password: string}) => {
@@ -49,6 +50,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     /*
     TODO : Navigate to signUpScreen
     */
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
   };
 
   render() {
@@ -106,7 +108,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
         <Text style={styles.switchToSignUpText}>
           {localeString('login.dontHaveAccount')}{' '}
           <Text onPress={() => this.handleSignUpPress()}>
-            {localeString('signUp.singUpButton')}
+            {localeString('signUp.signUpText')}
           </Text>
         </Text>
       </View>

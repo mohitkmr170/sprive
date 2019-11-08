@@ -11,6 +11,7 @@ export const textInputBoxStyle = StyleSheet.create({
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     marginBottom: STYLE_CONSTANTS.margin.NORMAL,
     opacity: 0.3,
+    marginLeft: STYLE_CONSTANTS.margin.SMALLEST,
   },
   inputBox: {
     height: 40,
@@ -27,7 +28,7 @@ export const textInputBoxStyle = StyleSheet.create({
   currencyIcon: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
-    marginTop: STYLE_CONSTANTS.margin.SMALL,
+    alignSelf: 'center',
     marginRight: STYLE_CONSTANTS.margin.SMALLEST,
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
