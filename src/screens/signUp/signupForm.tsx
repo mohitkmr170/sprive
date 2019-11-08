@@ -8,6 +8,7 @@ import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
+import {signUpUser} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   email,
@@ -21,6 +22,7 @@ import {APP_CONSTANTS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 import {
   getPasswordStrength,
   checkPassMessagePercentage,
+  setAuthToken,
 } from '../../utils/helperFuntions';
 import {COLOR} from '../../utils/colors';
 
@@ -49,8 +51,21 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
   componentDidMount = () => {};
 
   handleSignUpSubmit = async (values: {email: string; password: string}) => {
-    const {navigation} = this.props;
-    Alert.alert('Check!');
+    const {navigation, signUpUser} = this.props;
+    const payload = {email: values.email, password: values.password};
+    try {
+      await signUpUser(payload);
+      const {signUpUserResponse} = this.props;
+      if (_get(signUpUserResponse, 'accessToken', null)) {
+        setAuthToken(
+          _get(signUpUserResponse, 'accessToken', null),
+          values.email,
+        );
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   /**
@@ -97,7 +112,9 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           title={localeString(SIGNUP_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
-        <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.topContainer}>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.registrationText}>
               {localeString('signUp.regAndSec')}
@@ -206,9 +223,12 @@ export const SignUpScreen = reduxForm({
 
 const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
+  signUpUserResponse: state.signUpUser.response,
 });
 
-const bindActions = () => ({});
+const bindActions = dispatch => ({
+  signUpUser: payload => dispatch(signUpUser.fetchCall(payload)),
+});
 
 export const SignUpForm = connect(
   mapStateToProps,
