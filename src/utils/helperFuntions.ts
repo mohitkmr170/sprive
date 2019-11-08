@@ -1,5 +1,5 @@
 /**
- *
+ * Funtion to get password strength(out of 4)
  * @param password : string : password to check strength
  */
 
@@ -33,4 +33,30 @@ export async function getPasswordStrength(password: string) {
   } catch (err) {
     console.log(err);
   }
+}
+
+/**
+ * Funtion to get password stregnth percentage
+ * @param passwordMessage : string
+ */
+
+export function checkPassMessagePercentage(passwordMessage: string) {
+  let passPercent = 0;
+  switch (passwordMessage) {
+    case 'Too Short':
+      passPercent = 0.25;
+      break;
+    case 'Fair':
+      passPercent = 0.5;
+      break;
+    case 'Good':
+      passPercent = 0.75;
+      break;
+    case 'Strong':
+      passPercent = 1;
+      break;
+    default:
+      passPercent = 0;
+  }
+  return passPercent;
 }
