@@ -6,6 +6,9 @@ import {Header, ReduxFormField} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
+import {loginUser} from '../../store/reducers';
+import {get as _get} from 'lodash';
+import {setAuthToken} from '../../utils/helperFuntions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   email,
@@ -44,6 +47,18 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
       'handleLoginPress : check value entered in Fields, values.email =>',
       values.email,
     );
+    const {loginUser, navigation} = this.props;
+    const payload = {
+      strategy: 'local',
+      email: 'hello@feathersjs.com',
+      password: 'supersecret',
+    };
+    await loginUser(payload);
+    const {loginUserResponse} = this.props;
+    if (_get(loginUserResponse, 'accessToken', null)) {
+      setAuthToken(_get(loginUserResponse, 'accessToken', null), values.email);
+      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+    }
   };
 
   handleSignUpPress = () => {
@@ -61,7 +76,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           title={localeString(LOGIN_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
-        <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.topContainer}>
           <Text style={styles.signInText}>
             {localeString('login.signInToAccount')}
           </Text>
@@ -119,9 +136,13 @@ export const LoginScreen = reduxForm({
   form: APP_CONSTANTS.LOGIN_FORM,
 })(UnConnectedLoginScreen);
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  loginUserResponse: state.loginUser.response,
+});
 
-const bindActions = () => ({});
+const bindActions = dispatch => ({
+  loginUser: payload => dispatch(loginUser.fetchCall(payload)),
+});
 
 export const LoginForm = connect(
   mapStateToProps,
