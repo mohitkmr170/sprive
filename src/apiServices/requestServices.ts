@@ -11,7 +11,16 @@ const getCompleteUrl = (endPoint: string) => {
   TODO : conditions to be added based on the current environment
   */
   const hostUrl = url.localApiUrl;
-  return `${hostUrl}/${endPoint}`;
+  return `${hostUrl}${apiConstants.API_END_POINT_PREFIX}${apiConstants.API_VERSION}${endPoint}`;
+};
+
+/**
+ * Funtion to get queryParams
+ * @param qParam : object
+ */
+const getQueryParams = (qParam: object) => {
+  const queryString = require('query-string');
+  return queryString(qParam);
 };
 
 /**
@@ -26,9 +35,10 @@ const getHeaders = (token: string) => {
   } else return headers;
 };
 
-/*
-GET request wrapper
-*/
+/**
+ * GET request
+ * @param endPoint : string
+ */
 export const getRequest = (endPoint: string) => {
   return new Promise((resolve, reject) => {
     const token = '';
@@ -46,7 +56,9 @@ export const getRequest = (endPoint: string) => {
 };
 
 /**
- * POST request wrapper
+ * POST request
+ * @param endPoint : string
+ * @param params : object
  */
 export const postRequest = (endPoint: string, params: object) => {
   return new Promise((resolve, reject) => {
@@ -64,6 +76,11 @@ export const postRequest = (endPoint: string, params: object) => {
   });
 };
 
+/**
+ * PATCH request
+ * @param endPoint string
+ * @param params : object
+ */
 export const patchRequest = (endPoint: string, params: Object) => {
   return new Promise((resolve, reject) => {
     const token = '';
@@ -75,6 +92,43 @@ export const patchRequest = (endPoint: string, params: Object) => {
         headers: getHeaders(token),
         timeout: apiConstants.TIMEOUT,
       })
+      .then(response => resolve(response.data))
+      .catch(err => reject(err));
+  });
+};
+
+/**
+ * DELETE request
+ * @param endPoint : string
+ */
+export const deleteRequest = (endPoint: string) => {
+  return new Promise((resolve, reject) => {
+    const token = '';
+    /*
+    TODO : token to be accessed through reduxStore
+    */
+    axios
+      .delete(getCompleteUrl(endPoint), {
+        headers: getHeaders(token),
+        timeout: apiConstants.TIMEOUT,
+      })
+      .then(response => resolve(response.data))
+      .catch(err => reject(err));
+  });
+};
+
+/**
+ * GET_ALL request
+ * @param endPointList : array : List of endPoints
+ */
+export const getAllRequest = (endPointList: any) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .all(
+        endPointList.map((item: string) => {
+          return getCompleteUrl(item);
+        }),
+      )
       .then(response => resolve(response.data))
       .catch(err => reject(err));
   });

@@ -6,7 +6,7 @@ import {styles} from './styles';
 import {Bullets} from './bullets';
 import {connect} from 'react-redux';
 import {localeString} from '../../utils/i18n';
-import {get} from 'lodash';
+import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
 
@@ -42,7 +42,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   render() {
     const {getCumulativeInterestResponse} = this.props;
     let cumulativeInterest = Math.ceil(
-      get(getCumulativeInterestResponse, 'data.totalInterest', 0),
+      _get(getCumulativeInterestResponse, 'data.totalInterest', 0),
     );
     return (
       <View style={styles.mainContainer}>
