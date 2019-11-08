@@ -1,9 +1,9 @@
-import {getUserProfile as getApi} from '../../apiServices';
+import {getCumulativeInterest as getApi} from '../../apiServices';
 import {StoreFetchableData} from './base';
 
-class GetUserProfileData extends StoreFetchableData {
+class getCumulativeInterestData extends StoreFetchableData {
   constructor() {
-    super('getUserProfile', getApi);
+    super('getCumulativeInterest', getApi);
   }
   fetchCall(data: any) {
     const that = this;
@@ -16,4 +16,4 @@ class GetUserProfileData extends StoreFetchableData {
   }
 }
 
-export var getUserProfile = new GetUserProfileData();
+export var getCumulativeInterest = new getCumulativeInterestData();

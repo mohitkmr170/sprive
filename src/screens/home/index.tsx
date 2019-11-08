@@ -1,15 +1,15 @@
 import React from 'react';
 import {View, Text, Alert} from 'react-native';
 import {styles} from './styles';
-import {getUserProfile} from '../../store/reducers';
+import {getCumulativeInterest} from '../../store/reducers';
 import {connect} from 'react-redux';
-import {get} from 'lodash';
+import {get as _get} from 'lodash';
 import {StackBarGraph} from '../../components';
 import SwipeButton from 'rn-swipe-button';
 
 interface props {
-  getUserProfile: () => void;
-  getUserProfileResponse: () => void;
+  getCumulativeInterest: (payload: object) => void;
+  getCumulativeInterestResponse: () => void;
   navigation: {
     navigate: (routeName: String) => void;
     goBack: () => void;
@@ -30,10 +30,15 @@ class UnconnectedDashBoard extends React.Component<props, state> {
     };
   }
 
-  async UNSAFE_componentWillMount() {
-    const {getUserProfile} = this.props;
+  async componentDidMount() {
+    const {getCumulativeInterest} = this.props;
+    const payload = {
+      amount: 30000,
+      tenure: 25,
+      emi: 1257.01,
+    };
     try {
-      await getUserProfile();
+      await getCumulativeInterest(payload);
       this.setState({loaded: true});
     } catch (error) {
       console.log(err);
@@ -47,13 +52,13 @@ class UnconnectedDashBoard extends React.Component<props, state> {
   };
 
   render() {
-    const {getUserProfileResponse} = this.props;
+    const {getCumulativeInterestResponse} = this.props;
     const {loaded, paynowStatus} = this.state;
     //These logs will be shown only in Dev mode
     if (__DEV__)
       console.log(
-        'render : api response check : getUserProfileResponse =>',
-        getUserProfileResponse,
+        'render : api response check : getCumulativeInterestResponse =>',
+        getCumulativeInterestResponse,
       );
     return (
       <View style={styles.mainContainer}>
@@ -61,7 +66,9 @@ class UnconnectedDashBoard extends React.Component<props, state> {
           <Text>Dashboard data</Text>
           <View style={styles.topContainer}>
             <Text>API Response</Text>
-            {loaded && <Text>{get(getUserProfileResponse, 'title', '')}</Text>}
+            {loaded && (
+              <Text>{_get(getCumulativeInterestResponse, 'title', '')}</Text>
+            )}
             <View style={{flex: 1, justifyContent: 'center'}}>
               <StackBarGraph />
               <SwipeButton
@@ -94,11 +101,12 @@ class UnconnectedDashBoard extends React.Component<props, state> {
 }
 
 const mapStateToProps = state => ({
-  getUserProfileResponse: state.getUserProfile.response,
+  getCumulativeInterestResponse: state.getCumulativeInterest.response,
 });
 
 const bindActions = dispatch => ({
-  getUserProfile: () => dispatch(getUserProfile.fetchCall()),
+  getCumulativeInterest: payload =>
+    dispatch(getCumulativeInterest.fetchCall(payload)),
 });
 
 export const Dashboard = connect(

@@ -5,10 +5,12 @@ import {Header, MortgageInputContainer} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 import {Button} from 'react-native-elements';
+import {getCumulativeInterest} from '../../store/reducers';
 import {reduxForm} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {connect} from 'react-redux';
 import {APP_CONSTANTS} from '../../utils/constants';
+import {get as _get} from 'lodash';
 
 const LOCALE_STRING_MORTGAGE_DATA = 'mortgageForm.mortgageData';
 const LOCALE_STRING_WORKOUT = 'mortgageForm.letUsWorkOut';
@@ -18,6 +20,8 @@ interface props {
   navigation: {
     navigate: (routeName: string) => void;
   };
+  getCumulativeInterest: (payload: object) => void;
+  getCumulativeInterestResponse: () => void;
   handleSubmit: (firstParam: (values: object) => void) => void;
 }
 
@@ -45,11 +49,40 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
    *
    * @param values : object : object with all form values
    */
-  handlePayNowPress = (values: object) => {
+  handlePayNowPress = async (values: object) => {
     console.log(
       'UnconnectedMortgageInput : handlePayNowPress : values =>',
       values,
     );
+    const {getCumulativeInterest} = this.props;
+    const payload = {
+      mortgage_balance: values.mortgageAmount,
+      mortgage_term: values.timePeriod,
+      mortgage_payment: values.monthlyMortgagePayment,
+    };
+    try {
+      console.log('alsjkdbaskjd12231', getCumulativeInterest(payload));
+      await getCumulativeInterest(payload);
+      const {getCumulativeInterestResponse} = this.props;
+      const cumulativeInrerest = _get(
+        getCumulativeInterestResponse,
+        'data.totalInterest',
+        null,
+      );
+      console.log(
+        'UnconnectedMortgageInput : handlePayNowPress : cumulativeInrerest =>',
+        cumulativeInrerest,
+      );
+      if (cumulativeInrerest)
+        this.props.navigation.navigate(
+          NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
+        );
+      /*
+      TODO : To be handled in case of API error
+      */
+    } catch (error) {
+      console.log(err);
+    }
   };
   render() {
     const {handleSubmit} = this.props;
@@ -92,11 +125,15 @@ export const MortgageInputForm = reduxForm({
   form: APP_CONSTANTS.MORTGAGE_INPUT_FORM,
 })(UnconnectedMortgageInput);
 
-const mapStateToProps = (state: object) => ({
+const mapStateToProps = state => ({
+  getCumulativeInterestResponse: state.getCumulativeInterest.response,
   reducerResponse: state.form,
 });
 
-const bindActions = () => ({});
+const bindActions = dispatch => ({
+  getCumulativeInterest: payload =>
+    dispatch(getCumulativeInterest.fetchCall(payload)),
+});
 
 export const MortgageInput = connect(
   mapStateToProps,

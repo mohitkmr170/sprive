@@ -75,7 +75,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     this.navigate(event.url);
   }
 
-  async UNSAFE_componentWillMount() {
+  async componentDidMount() {
     if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_ANDROID) {
       Linking.getInitialURL()
         .then((url: any) => {
@@ -83,7 +83,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
         })
         .catch(err => {
           //error to be handled as per use case
-          console.log('UNSAFE_componentWillMount : error catch, err =>', err);
+          console.log('componentDidMount : error catch, err =>', err);
         });
     } else {
       Linking.addEventListener('url', this.handleOpenURL);

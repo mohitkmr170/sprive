@@ -41,7 +41,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     };
   }
 
-  UNSAFE_componentWillMount = () => {};
+  componentDidMount = () => {};
 
   handleSignUpSubmit = async (values: {email: string; password: string}) => {
     const {navigation} = this.props;
