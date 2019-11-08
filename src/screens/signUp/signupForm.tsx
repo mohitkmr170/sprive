@@ -7,7 +7,7 @@ import {Header, ReduxFormField} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
-import {get} from 'lodash';
+import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   email,
@@ -16,11 +16,13 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
+import {STYLE_CONSTANTS} from '../../utils/constants';
 import {APP_CONSTANTS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 import {
   getPasswordStrength,
   checkPassMessagePercentage,
 } from '../../utils/helperFuntions';
+import {COLOR} from '../../utils/colors';
 
 const SIGNUP_BUTTON = 'signUp.singUpButton';
 interface props {
@@ -138,7 +140,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                 }}
                 validate={[minLength8, maxLength16, alphaNumeric, required]}
               />
-              {get(
+              {_get(
                 this.props.reducerResponse,
                 'signup.values.password',
                 false,
@@ -147,10 +149,10 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                   <View style={styles.passStrengthInnerContainer}>
                     <Progress.Bar
                       progress={passMessagePercentage}
-                      color="#00D77E"
-                      height={8}
+                      color={COLOR.LIGHT_GREEN}
+                      height={STYLE_CONSTANTS.margin.SMALLER}
                       width={null}
-                      unfilledColor="#E6E9EF"
+                      unfilledColor={COLOR.LIGHT_GRAY}
                       borderWidth={0}
                     />
                   </View>

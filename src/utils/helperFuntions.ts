@@ -86,7 +86,7 @@ export async function getAuthToken() {
     const userAuthToken = await Keychain.getGenericPassword();
     console.log('asiudgasds', userAuthToken);
     const authToken = userAuthToken;
-    return authToken;
+    return authToken.password;
   } catch (error) {
     return;
   }

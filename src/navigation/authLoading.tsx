@@ -13,9 +13,9 @@ interface props {
 interface state {}
 
 export class AuthLoading extends React.Component<props, state> {
-  componentDidMount() {
+  async componentDidMount() {
     getAuthToken()
-      .then(res => this.authCheck(res.password))
+      .then(res => this.authCheck(res))
       .catch(err => {
         console.log(err);
       });
@@ -23,9 +23,9 @@ export class AuthLoading extends React.Component<props, state> {
 
   // Auth check, based on which navigation to auth/app stack is decided
 
-  authCheck(authtoken: any) {
+  authCheck(authToken: string) {
     // Token does not exist locally
-    if (authtoken === undefined) this.props.navigation.navigate('Auth');
+    if (authToken === undefined) this.props.navigation.navigate('Auth');
     //Complete auth flow, initial screen === "MortgageFormDataScreen"
     // Token exists
     else {

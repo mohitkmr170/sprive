@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {url} from '../../config/urlEndPoints';
 import apiConstants from '../../config/apiConstants';
+import {getAuthToken} from '../utils/helperFuntions';
 
 /**
  * Function to get complete URL
@@ -30,8 +31,8 @@ const getHeaders = (token: string) => {
 GET request wrapper
 */
 export const getRequest = (endPoint: string) => {
-  return new Promise((resolve, reject) => {
-    const token = '';
+  return new Promise(async (resolve, reject) => {
+    const token = await getAuthToken();
     /*
     TODO : token to be accessed through reduxStore
     */
@@ -49,8 +50,8 @@ export const getRequest = (endPoint: string) => {
  * POST request wrapper
  */
 export const postRequest = (endPoint: string, params: object) => {
-  return new Promise((resolve, reject) => {
-    const token = '';
+  return new Promise(async (resolve, reject) => {
+    const token = await getAuthToken();
     /*
     TODO : token to be accessed through reduxStore
     */
@@ -65,8 +66,8 @@ export const postRequest = (endPoint: string, params: object) => {
 };
 
 export const patchRequest = (endPoint: string, params: Object) => {
-  return new Promise((resolve, reject) => {
-    const token = '';
+  return new Promise(async (resolve, reject) => {
+    const token = await getAuthToken();
     /*
     TODO : token to be accessed through reduxStore
     */
