@@ -27,10 +27,14 @@ export const textInputBoxStyle = StyleSheet.create({
   currencyIcon: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
-    alignSelf: 'center',
+    marginTop: STYLE_CONSTANTS.margin.SMALL,
     marginRight: STYLE_CONSTANTS.margin.SMALLEST,
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+  },
+  inputTypeIcon: {
+    marginTop: STYLE_CONSTANTS.margin.SMALL,
+    marginRight: STYLE_CONSTANTS.margin.SMALLISH,
   },
   parameterText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,

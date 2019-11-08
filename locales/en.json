@@ -1,6 +1,9 @@
 {
   "login": {
-    "loginButton": "Login"
+    "loginButton": "Login",
+    "signInToAccount" : "Sign in to your account",
+    "forgotPassword": "Forgot Password?",
+    "dontHaveAccount": "Don’t have an account?"
   },
   "global": {
     "backButton": "Back",

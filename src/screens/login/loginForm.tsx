@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, TextInput, Platform, Linking, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
 import {Header, ReduxFormField} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
-import {addUserDetails} from '../../store/actions/actions';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   email,
   minLength8,
@@ -14,126 +14,58 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
-import {
-  APP_CONSTANTS,
-  NAVIGATION_SCREEN_NAME,
-  STYLE_CONSTANTS,
-} from '../../utils/constants';
+import {APP_CONSTANTS} from '../../utils/constants';
 
 const LOGIN_BUTTON = 'login.loginButton';
-const HOME_ROUTE = 'home';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
     goBack: () => void;
   };
-  addUserDetails: object;
-  addUserDetailsResponse: object;
   handleSubmit: (values?: {email: string; password: string}) => void;
 }
-interface state {
-  email: string;
-  password: string;
-}
+interface state {}
 
 class UnConnectedLoginScreen extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {
-      email: '',
-      password: '',
-    };
+    this.state = {};
   }
 
-  /*
-  TODO : Deeplinking code to be moved into separate file later
-  */
-
-  static navigationOption = {
-    title: 'UnConnectedLoginScreen',
+  handleBackPress = () => {
+    /*
+    TODO : Handle Back button press
+    */
   };
-
-  navigate = (url: any) => {
-    const {navigate} = this.props.navigation;
-    const route = url.replace(/.*?:\/\//g, '');
-    const routeName = route.split('/')[0];
-    console.log(
-      'UnConnectedLoginScreen : navigate : extracting routeName for next condition : route, routeName =>',
-      route,
-      routeName,
-    );
-    if (routeName === HOME_ROUTE) {
-      navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
-    }
-  };
-
-  /**
-   *
-   * @param event : any : For Deeplink - URL
-   */
-  handleOpenURL(event: any) {
-    this.navigate(event.url);
-  }
-
-  async componentDidMount() {
-    if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_ANDROID) {
-      Linking.getInitialURL()
-        .then((url: any) => {
-          this.navigate(url);
-        })
-        .catch(err => {
-          //error to be handled as per use case
-          console.log('componentDidMount : error catch, err =>', err);
-        });
-    } else {
-      Linking.addEventListener('url', this.handleOpenURL);
-    }
-  }
-
-  componentWillUnmount() {
-    // Remove Deeplink event listener upon Unmount
-    Linking.removeEventListener('url', this.handleOpenURL);
-  }
 
   handleLoginPress = async (values: {email: string; password: string}) => {
-    const {navigation, addUserDetails} = this.props;
     console.log(
       'handleLoginPress : check value entered in Fields, values.email =>',
       values.email,
     );
-    let payload = {
-      userName: this.state.email,
-      userPassword: this.state.password,
-    };
-    try {
-      await addUserDetails(payload);
-      const {addUserDetailsResponse} = this.props;
-      console.log(
-        'handleLoginPress : check the userDetails fetched from store, addUserDetailsResponse =>',
-        addUserDetailsResponse,
-      );
-    } catch (err) {
-      //error to be handled as per use case
-      console.log(err);
-    }
-    navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
   };
 
-  // Redirecting to external app
-  handleEmailCheck = () => {
-    this.props.navigation.navigate(
-      NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN,
-    );
+  handleSignUpPress = () => {
+    /*
+    TODO : Navigate to signUpScreen
+    */
   };
 
   render() {
     const {handleSubmit} = this.props;
     return (
       <View style={styles.mainContainer}>
-        <Header title={localeString(LOGIN_BUTTON)} onBackPress={() => {}} />
-        <View style={styles.topContainer}>
+        <Header
+          title={localeString(LOGIN_BUTTON)}
+          onBackPress={() => this.handleBackPress()}
+        />
+        <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
+          <Text style={styles.signInText}>
+            {localeString('login.signInToAccount')}
+          </Text>
           <Field
             name="email"
+            label="Email Address"
             component={ReduxFormField}
             props={{
               keyboardType: 'email-address',
@@ -141,12 +73,13 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
               returnKeyType: 'done',
               autoCapitalize: false,
               placeholder: 'Email',
-              onChangeText: (email: string) => this.setState({email}),
             }}
+            editIcon={true}
             validate={[email, required]}
           />
           <Field
             name="password"
+            label="Password"
             component={ReduxFormField}
             props={{
               maxLength: 16,
@@ -154,27 +87,28 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
               secureTextEntry: true,
               autoCapitalize: false,
               placeholder: 'Password',
-              onChangeText: (password: string) => this.setState({password}),
             }}
+            editIcon={true}
             validate={[minLength8, maxLength16, alphaNumeric, required]}
           />
-        </View>
-        <Button
-          title="Home"
-          onPress={() =>
-            this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.APP_STACK)
-          }
-          style={styles.buttonStyle}
-        />
-        <Button
-          title="Mortgage"
-          onPress={() => this.handleEmailCheck()}
-          style={styles.buttonStyle}
-        />
+          <TouchableOpacity style={styles.forgotPasswordContainer}>
+            <Text style={styles.forgotPassword}>
+              {localeString('login.forgotPassword')}
+            </Text>
+          </TouchableOpacity>
+        </KeyboardAwareScrollView>
         <Button
           title={localeString(LOGIN_BUTTON)}
+          titleStyle={styles.buttonTitleStyle}
           onPress={handleSubmit(this.handleLoginPress)}
+          buttonStyle={styles.buttonExtStyle}
         />
+        <Text style={styles.switchToSignUpText}>
+          {localeString('login.dontHaveAccount')}{' '}
+          <Text onPress={() => this.handleSignUpPress()}>
+            {localeString('signUp.singUpButton')}
+          </Text>
+        </Text>
       </View>
     );
   }
@@ -183,13 +117,9 @@ export const LoginScreen = reduxForm({
   form: APP_CONSTANTS.LOGIN_FORM,
 })(UnConnectedLoginScreen);
 
-const mapStateToProps = state => ({
-  addUserDetailsResponse: state.applicationReducer,
-});
+const mapStateToProps = state => ({});
 
-const bindActions = dispatch => ({
-  addUserDetails: payload => dispatch(addUserDetails(payload)),
-});
+const bindActions = () => ({});
 
 export const LoginForm = connect(
   mapStateToProps,
