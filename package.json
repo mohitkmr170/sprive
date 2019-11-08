@@ -23,6 +23,7 @@
     "babel-plugin-transform-remove-console": "^6.9.4",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
+    "query-string": "^6.8.3",
     "react": "16.9.0",
     "react-native": "0.61.2",
     "react-native-elements": "^1.2.6",

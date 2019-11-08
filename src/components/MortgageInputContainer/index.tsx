@@ -12,7 +12,7 @@ import {
   maxLength6,
   yearRange,
 } from '../../utils/validate';
-import {get} from 'lodash';
+import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
 import {COLOR} from '../../utils/colors';
 
@@ -74,17 +74,17 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
 
   renderFieldItem = (item: object) => {
     // calculating error status for enable/disable
-    let firstFieldErrorStatus = get(
+    let firstFieldErrorStatus = _get(
       this.props.reducerResponse,
       FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT].ERROR_STATUS,
       false,
     );
-    let secondFieldErrorStatus = get(
+    let secondFieldErrorStatus = _get(
       this.props.reducerResponse,
       FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD].ERROR_STATUS,
       false,
     );
-    let thirdFieldErrorStatus = get(
+    let thirdFieldErrorStatus = _get(
       this.props.reducerResponse,
       FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT].ERROR_STATUS,
       false,
