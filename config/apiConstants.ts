@@ -3,7 +3,9 @@ export default {
     'Content-Type': 'application/json',
   },
   TIMEOUT: 20000,
-  ENDPOINTS: {
-    INTEREST_CALCULATOR: 'api/v1/cumulative-interest-calculator',
+  API_END_POINT_PREFIX: '/api',
+  API_VERSION: '/v1',
+  API_END_POINTS: {
+    INTEREST_CALCULATOR: '/cumulative-interest-calculator',
   },
 };

@@ -10,7 +10,7 @@ import {reduxForm} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {connect} from 'react-redux';
 import {APP_CONSTANTS} from '../../utils/constants';
-import {get} from 'lodash';
+import {get as _get} from 'lodash';
 
 const LOCALE_STRING_MORTGAGE_DATA = 'mortgageForm.mortgageData';
 const LOCALE_STRING_WORKOUT = 'mortgageForm.letUsWorkOut';
@@ -56,14 +56,15 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     );
     const {getCumulativeInterest} = this.props;
     const payload = {
-      amount: values.mortgageAmount,
-      tenure: values.timePeriod,
-      emi: values.monthlyMortgagePayment,
+      mortgage_balance: values.mortgageAmount,
+      mortgage_term: values.timePeriod,
+      mortgage_payment: values.monthlyMortgagePayment,
     };
     try {
+      console.log('alsjkdbaskjd12231', getCumulativeInterest(payload));
       await getCumulativeInterest(payload);
       const {getCumulativeInterestResponse} = this.props;
-      const cumulativeInrerest = get(
+      const cumulativeInrerest = _get(
         getCumulativeInterestResponse,
         'data.totalInterest',
         null,

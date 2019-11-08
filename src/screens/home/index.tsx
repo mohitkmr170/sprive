@@ -3,7 +3,7 @@ import {View, Text, Alert} from 'react-native';
 import {styles} from './styles';
 import {getCumulativeInterest} from '../../store/reducers';
 import {connect} from 'react-redux';
-import {get} from 'lodash';
+import {get as _get} from 'lodash';
 import {StackBarGraph} from '../../components';
 import SwipeButton from 'rn-swipe-button';
 
@@ -30,7 +30,7 @@ class UnconnectedDashBoard extends React.Component<props, state> {
     };
   }
 
-  async UNSAFE_componentWillMount() {
+  async componentDidMount() {
     const {getCumulativeInterest} = this.props;
     const payload = {
       amount: 30000,
@@ -67,7 +67,7 @@ class UnconnectedDashBoard extends React.Component<props, state> {
           <View style={styles.topContainer}>
             <Text>API Response</Text>
             {loaded && (
-              <Text>{get(getCumulativeInterestResponse, 'title', '')}</Text>
+              <Text>{_get(getCumulativeInterestResponse, 'title', '')}</Text>
             )}
             <View style={{flex: 1, justifyContent: 'center'}}>
               <StackBarGraph />
