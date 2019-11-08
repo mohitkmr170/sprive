@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import {styles} from './styles';
 import {Header, MortgageInputContainer} from '../../components';
 import {localeString} from '../../utils/i18n';
@@ -81,7 +81,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       TODO : To be handled in case of API error
       */
     } catch (error) {
-      console.log(err);
+      console.log(error);
     }
   };
   render() {
@@ -90,7 +90,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       <View style={styles.screenContainer}>
         <Header onBackPress={() => this.handleBackPress()} />
         <View style={styles.mainContainer}>
-          <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
+          <KeyboardAwareScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1}}>
             <View style={styles.mortgageStatusProgressContainer}>
               <Text style={styles.mortgageTextData}>
                 {localeString(LOCALE_STRING_MORTGAGE_DATA)}
