@@ -79,3 +79,7 @@ export const patchRequest = (endPoint: string, params: Object) => {
       .catch(err => reject(err));
   });
 };
+
+/*
+TODO : getAll request, use query params, id
+*/

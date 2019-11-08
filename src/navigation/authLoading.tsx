@@ -1,6 +1,8 @@
 import React from 'react';
 import {ImageBackground, ActivityIndicator} from 'react-native';
 import {splashScreen} from '../assets';
+import {getAuthToken} from '../utils/helperFuntions';
+import {get as _get} from 'lodash';
 
 interface props {
   navigation: {
@@ -12,16 +14,30 @@ interface state {}
 
 export class AuthLoading extends React.Component<props, state> {
   componentDidMount() {
-    this.authCheck();
+    getAuthToken()
+      .then(res => this.authCheck(res.password))
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   // Auth check, based on which navigation to auth/app stack is decided
 
-  authCheck() {
-    //This is an API Mock, Auth check will be added here
-    setTimeout(() => {
-      this.props.navigation.navigate('Auth');
-    }, 2000);
+  authCheck(authtoken: any) {
+    // Token does not exist locally
+    if (authtoken === undefined) this.props.navigation.navigate('Auth');
+    //Complete auth flow, initial screen === "MortgageFormDataScreen"
+    // Token exists
+    else {
+      /*
+      TODO : GetUserInfo(authToken)
+      if(success) navigate('Home')
+      else navigagte('SignIn') ==> depends on user to signIn/signUp
+      */
+      setTimeout(() => {
+        this.props.navigation.navigate('App');
+      }, 2000);
+    }
   }
   render() {
     return (

@@ -1,3 +1,5 @@
+import * as Keychain from 'react-native-keychain';
+
 /**
  * Funtion to get password strength(out of 4)
  * @param password : string : password to check strength
@@ -59,4 +61,50 @@ export function checkPassMessagePercentage(passwordMessage: string) {
       passPercent = 0;
   }
   return passPercent;
+}
+
+/**
+ * Funtion to SET user authToken
+ * @param token : string : user auth token
+ * @param email : string : corresponding email of user
+ */
+export async function setAuthToken(token: string, email: string) {
+  try {
+    const authToken = token;
+    const userEmail = email;
+    await Keychain.setGenericPassword(userEmail, authToken);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/**
+ * Funtion to GET user authToken
+ */
+export async function getAuthToken() {
+  try {
+    const userAuthToken = await Keychain.getGenericPassword();
+    console.log('asiudgasds', userAuthToken);
+    const authToken = userAuthToken;
+    return authToken;
+  } catch (error) {
+    return;
+  }
+}
+
+/**
+ * Funtion to clear and reset user authToken
+ */
+export async function resetAuthToken() {
+  try {
+    await Keychain.resetGenericPassword()
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return err;
+      });
+  } catch (error) {
+    console.error(error);
+  }
 }
