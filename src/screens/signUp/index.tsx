@@ -1,6 +1,6 @@
 import React from 'react';
+import {View} from 'react-native';
 import {styles} from './styles';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {SignUpForm} from './signupForm';
 
 interface props {
@@ -19,9 +19,9 @@ export class SignUp extends React.Component<props, state> {
   render() {
     const {navigation} = this.props;
     return (
-      <KeyboardAwareScrollView contentContainerStyle={styles.mainContainer}>
+      <View style={styles.mainContainer}>
         <SignUpForm navigation={navigation} />
-      </KeyboardAwareScrollView>
+      </View>
     );
   }
 }

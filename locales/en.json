@@ -1,6 +1,7 @@
 {
   "login": {
     "loginButton": "Login",
+    "signIn": "Sign in",
     "signInToAccount" : "Sign in to your account",
     "forgotPassword": "Forgot Password?",
     "dontHaveAccount": "Don’t have an account?"
@@ -13,7 +14,15 @@
     "calculateNow": "Calculate Now"
   },
   "signUp": {
-    "singUpButton": "Sign Up"
+    "signUpText": "Sign up",
+    "singUpButton": "Create Account",
+    "regAndSec": "Registration & Security",
+    "setupAccc": "Set up your secure account",
+    "byClickingText": "By clicking on Create Account, you are accepting our",
+    "T&C": "Terms&Conditions",
+    "andOur": "and our",
+    "privacyPolicy": "Privacy Policy",
+    "accountAlreadyExist": "Already have an account?"
   },
   "mortgageForm": {
     "morgageAmountLabel": "Amount left to pay on your Mortgage",

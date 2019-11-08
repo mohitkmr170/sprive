@@ -19,10 +19,11 @@ export const styles = StyleSheet.create({
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   emailInput: {
-    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
-    marginTop: STYLE_CONSTANTS.margin.SMALLEST,
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,
+    marginBottom: STYLE_CONSTANTS.margin.SMALLEST,
     padding: STYLE_CONSTANTS.padding.SMALLEST,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    width: '95%',
   },
   phoneInputContainer: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,
