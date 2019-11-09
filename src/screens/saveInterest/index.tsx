@@ -9,11 +9,7 @@ import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
-import {NAVIGATION_SCREEN_NAME} from '../../utils/constants';
-
-/*
-TODO : All locale string constants can be moved to contants(utils)
-*/
+import {NAVIGATION_SCREEN_NAME, LOCALE_STRING} from '../../utils/constants';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -51,7 +47,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
           contentContainerStyle={styles.topContainer}>
           <View style={styles.mortgageStatusProgressContainer}>
             <Text style={styles.mortgageTextData}>
-              {localeString('mortgageForm.mortgageData')}
+              {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SAVE_INTEREST)}
             </Text>
             {/* Need to be modified, for now progress number is contant */}
             <Text style={styles.progressFractionText}>1/4</Text>
@@ -62,7 +58,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
             imageStyle={styles.imageStyle}>
             <View style={styles.cardContainer}>
               <Text style={styles.cardText}>
-                {localeString('saveInterest.cardText')}
+                {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.CARD_TEXT)}
               </Text>
               {/* Need to be modified, for now it's contant */}
               <Text style={styles.cardInterestText}>
@@ -71,31 +67,33 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
             </View>
           </ImageBackground>
           <Text style={styles.saveMoneyText}>
-            {localeString('saveInterest.saveMoney')}
+            {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SAVE_MONEY)}
           </Text>
           <View style={{marginTop: 16}}>
             <Text style={styles.firstContainerHeaderText}>
-              {localeString('saveInterest.firstHeader')}
+              {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.FIRST_HEADER)}
             </Text>
             <View style={styles.listItemsContainer}>
               <View style={styles.bulletContainer}>
                 <Bullets />
               </View>
               <Text style={styles.firstContainerListItemText}>
-                {localeString('saveInterest.firstListItem')}
+                {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.FIRST_ITEM)}
               </Text>
             </View>
           </View>
           <View style={styles.secondContainer}>
             <Text style={styles.secondContainerHeaderText}>
-              {localeString('saveInterest.secondHeader')}
+              {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_HEADER)}
             </Text>
             <View style={styles.listItemsContainer}>
               <View style={styles.bulletContainer}>
                 <Bullets />
               </View>
               <Text style={styles.secondContainerListItemText}>
-                {localeString('saveInterest.secondListOne')}
+                {localeString(
+                  LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_LIST_ONE,
+                )}
               </Text>
             </View>
             <View style={styles.bulletListItemContainer}>
@@ -103,13 +101,17 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
                 <Bullets />
               </View>
               <Text style={styles.secondContainerListItemText}>
-                {localeString('saveInterest.secondListTwo')}
+                {localeString(
+                  LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_LIST_TWO,
+                )}
               </Text>
             </View>
           </View>
         </KeyboardAwareScrollView>
         <Button
-          title={localeString('saveInterest.buttonText')}
+          title={localeString(
+            LOCALE_STRING.SHOW_INTEREST_SCREEN.SAVE_BUTTON_TEXT,
+          )}
           titleStyle={styles.buttonTitleStyle}
           buttonStyle={styles.buttonStyle}
           onPress={() => this.handleSaveWithSprive()}

@@ -9,13 +9,9 @@ import {getCumulativeInterest} from '../../store/reducers';
 import {reduxForm} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {connect} from 'react-redux';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
 import {get as _get} from 'lodash';
 
-const LOCALE_STRING_MORTGAGE_DATA = 'mortgageForm.mortgageData';
-const LOCALE_STRING_WORKOUT = 'mortgageForm.letUsWorkOut';
-const LOCALE_STRING_TAKE_YOUR_BEST = 'mortgageForm.takeYourBest';
-const BUTTON_LOCALE_STRING = 'global.calculateNow';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -72,9 +68,6 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
         this.props.navigation.navigate(
           NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
         );
-      /*
-      TODO : To be handled in case of API error
-      */
     } catch (error) {
       console.log(error);
     }
@@ -90,15 +83,21 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
             contentContainerStyle={{flexGrow: 1}}>
             <View style={styles.mortgageStatusProgressContainer}>
               <Text style={styles.mortgageTextData}>
-                {localeString(LOCALE_STRING_MORTGAGE_DATA)}
+                {localeString(
+                  LOCALE_STRING.MORTGAGE_INPUT_DATA.LOCALE_STRING_MORTGAGE_DATA,
+                )}
               </Text>
               <Text style={styles.progressFractionText}>1/4</Text>
             </View>
             <Text style={styles.mainHeaderText}>
-              {localeString(LOCALE_STRING_WORKOUT)}
+              {localeString(
+                LOCALE_STRING.MORTGAGE_INPUT_DATA.LOCALE_STRING_WORKOUT,
+              )}
             </Text>
             <Text style={styles.mainSubHeaderText}>
-              {localeString(LOCALE_STRING_TAKE_YOUR_BEST)}
+              {localeString(
+                LOCALE_STRING.MORTGAGE_INPUT_DATA.LOCALE_STRING_TAKE_YOUR_BEST,
+              )}
             </Text>
             <View style={styles.mortgageFormComponent}>
               <MortgageInputContainer
@@ -107,7 +106,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
             </View>
           </KeyboardAwareScrollView>
           <Button
-            title={localeString(BUTTON_LOCALE_STRING)}
+            title={localeString(
+              LOCALE_STRING.MORTGAGE_INPUT_DATA.BUTTON_LOCALE_STRING,
+            )}
             onPress={handleSubmit(this.handlePayNowPress)}
             style={styles.buttonExteriorStyle}
             buttonStyle={styles.buttonInteriorStyle}

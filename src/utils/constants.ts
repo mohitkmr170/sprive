@@ -106,3 +106,42 @@ export const NAVIGATION_SCREEN_NAME = {
   MORTGAGE_INPUT_SCREEN: 'MortgageInputScreen',
   SAVE_INTEREST_SCREEN: 'SaveInterestScreen',
 };
+
+export const LOCALE_STRING = {
+  LOGIN_SCREEN: {
+    LOGIN_BUTTON: 'login.loginButton',
+    SIGNIN_TO_ACCOUNT: 'login.signInToAccount',
+    FORGOT_PASSWORD: 'login.forgotPassword',
+    DONT_HAVE_ACCOUNT: 'login.dontHaveAccount',
+    SIGNUP: 'signUp.signUpText',
+    LOGIN_SIGNIN: 'login.signIn',
+  },
+  SIGNUP_FORM: {
+    SIGNUP_BUTTON: 'signUp.singUpButton',
+    REG_AND_SEC: 'signUp.regAndSec',
+    SETUP_ACCOUNT: 'signUp.setupAccc',
+    BY_CLICKING: 'signUp.byClickingText',
+    TERMS_AND_CONDITION: 'signUp.T&C',
+    AND_OUR: 'signUp.andOur',
+    PRIVACY_POLICY: 'signUp.privacyPolicy',
+    ACCOUNT_EXIST: 'signUp.accountAlreadyExist',
+  },
+  SHOW_INTEREST_SCREEN: {
+    SAVE_INTEREST: 'mortgageForm.mortgageData',
+    CARD_TEXT: 'saveInterest.cardText',
+    SAVE_MONEY: 'saveInterest.saveMoney',
+    FIRST_HEADER: 'saveInterest.firstHeader',
+    FIRST_ITEM: 'saveInterest.firstListItem',
+    SECOND_HEADER: 'saveInterest.secondHeader',
+    SECOND_LIST_ONE: 'saveInterest.secondListOne',
+    SECOND_LIST_TWO: 'saveInterest.secondListTwo',
+    SAVE_BUTTON_TEXT: 'saveInterest.buttonText',
+  },
+  LOADING: 'Loading',
+  MORTGAGE_INPUT_DATA: {
+    LOCALE_STRING_MORTGAGE_DATA: 'mortgageForm.mortgageData',
+    LOCALE_STRING_WORKOUT: 'mortgageForm.letUsWorkOut',
+    LOCALE_STRING_TAKE_YOUR_BEST: 'mortgageForm.takeYourBest',
+    BUTTON_LOCALE_STRING: 'global.calculateNow',
+  },
+};

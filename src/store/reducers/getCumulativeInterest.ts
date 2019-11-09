@@ -1,6 +1,6 @@
 import {getCumulativeInterest as getApi} from '../../apiServices';
 import {StoreFetchableData} from './base';
-import {showSnackBar} from '../../utils/helperFuntions';
+import {showSnackBar} from '../../utils/helperFunctions';
 
 class getCumulativeInterestData extends StoreFetchableData {
   constructor() {

@@ -8,7 +8,7 @@ import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {loginUser} from '../../store/reducers';
 import {get as _get} from 'lodash';
-import {setAuthToken} from '../../utils/helperFuntions';
+import {setAuthToken} from '../../utils/helperFunctions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   email,
@@ -17,9 +17,12 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
-import {APP_CONSTANTS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+import {
+  APP_CONSTANTS,
+  NAVIGATION_SCREEN_NAME,
+  LOCALE_STRING,
+} from '../../utils/constants';
 
-const LOGIN_BUTTON = 'login.loginButton';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -69,9 +72,6 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   handleSignUpPress = () => {
-    /*
-    TODO : Navigate to signUpScreen
-    */
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
   };
 
@@ -80,14 +80,14 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     return (
       <View style={styles.mainContainer}>
         <Header
-          title={localeString(LOGIN_BUTTON)}
+          title={localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.topContainer}>
           <Text style={styles.signInText}>
-            {localeString('login.signInToAccount')}
+            {localeString(LOCALE_STRING.LOGIN_SCREEN.SIGNIN_TO_ACCOUNT)}
           </Text>
           <Field
             name="email"
@@ -119,12 +119,12 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           />
           <TouchableOpacity style={styles.forgotPasswordContainer}>
             <Text style={styles.forgotPassword}>
-              {localeString('login.forgotPassword')}
+              {localeString(LOCALE_STRING.LOGIN_SCREEN.FORGOT_PASSWORD)}
             </Text>
           </TouchableOpacity>
         </KeyboardAwareScrollView>
         <Button
-          title={localeString(LOGIN_BUTTON)}
+          title={localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_BUTTON)}
           titleStyle={styles.buttonTitleStyle}
           onPress={handleSubmit(this.handleLoginPress)}
           buttonStyle={styles.buttonExtStyle}
@@ -133,9 +133,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           loadingProps={{size: 28}}
         />
         <Text style={styles.switchToSignUpText}>
-          {localeString('login.dontHaveAccount')}{' '}
+          {localeString(LOCALE_STRING.LOGIN_SCREEN.DONT_HAVE_ACCOUNT)}{' '}
           <Text onPress={() => this.handleSignUpPress()}>
-            {localeString('signUp.signUpText')}
+            {localeString(LOCALE_STRING.LOGIN_SCREEN.SIGNUP)}
           </Text>
         </Text>
       </View>
