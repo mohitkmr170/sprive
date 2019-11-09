@@ -198,7 +198,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           </View>
         </KeyboardAwareScrollView>
         <Button
-          title={localeString(SIGNUP_BUTTON)}
+          title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
           titleStyle={styles.buttonTextStyle}
           onPress={handleSubmit(this.handleSignUpSubmit)}
           buttonStyle={styles.buttonStyle}
