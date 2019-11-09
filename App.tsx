@@ -2,19 +2,15 @@ import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
-  Text,
   StatusBar,
   AsyncStorage,
-  Platform,
-  Alert,
 } from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
 import AppNavigator from './src/navigation/appFlow';
-import {resetAuthToken} from './src/utils/helperFuntions';
+import {resetAuthToken} from './src/utils/helperFunctions';
 
 interface props {}
 class App extends React.Component {

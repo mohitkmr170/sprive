@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {url} from '../../config/urlEndPoints';
 import apiConstants from '../../config/apiConstants';
-import {getAuthToken} from '../utils/helperFuntions';
+import {getAuthToken} from '../utils/helperFunctions';
 
 /**
  * Function to get complete URL
@@ -43,9 +43,6 @@ const getHeaders = (token: string) => {
 export const getRequest = (endPoint: string) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    /*
-    TODO : token to be accessed through reduxStore
-    */
     axios
       .get(getCompleteUrl(endPoint), {
         headers: getHeaders(token),
@@ -64,9 +61,6 @@ export const getRequest = (endPoint: string) => {
 export const postRequest = (endPoint: string, params?: object) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    /*
-    TODO : token to be accessed through reduxStore
-    */
     axios
       .post(getCompleteUrl(endPoint), params, {
         headers: getHeaders(token),
@@ -85,9 +79,6 @@ export const postRequest = (endPoint: string, params?: object) => {
 export const patchRequest = (endPoint: string, params: Object) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    /*
-    TODO : token to be accessed through reduxStore
-    */
     axios
       .patch(getCompleteUrl(endPoint), params, {
         headers: getHeaders(token),
@@ -105,9 +96,6 @@ export const patchRequest = (endPoint: string, params: Object) => {
 export const deleteRequest = (endPoint: string) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    /*
-    TODO : token to be accessed through reduxStore
-    */
     axios
       .delete(getCompleteUrl(endPoint), {
         headers: getHeaders(token),
