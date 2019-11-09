@@ -1,4 +1,6 @@
 import * as Keychain from 'react-native-keychain';
+import Snackbar from 'react-native-snackbar';
+import {get as _get} from 'lodash';
 
 /**
  * Funtion to get password strength(out of 4)
@@ -84,7 +86,6 @@ export async function setAuthToken(token: string, email: string) {
 export async function getAuthToken() {
   try {
     const userAuthToken = await Keychain.getGenericPassword();
-    console.log('asiudgasds', userAuthToken);
     const authToken = userAuthToken;
     return authToken.password;
   } catch (error) {
@@ -107,4 +108,22 @@ export async function resetAuthToken() {
   } catch (error) {
     console.error(error);
   }
+}
+
+/**
+ * Common wrapper function to show Snackbar
+ * @param err : object : Error object of API error
+ */
+export function showSnackBar(err: object) {
+  return Snackbar.show({
+    title: _get(err, 'response.data.message', 'Something went wrong!'),
+    duration: Snackbar.LENGTH_SHORT,
+    action: {
+      title: '', //For any button title
+      color: 'green',
+      onPress: () => {
+        /* Do something. */
+      },
+    },
+  });
 }
