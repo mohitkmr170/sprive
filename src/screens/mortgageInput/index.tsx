@@ -61,19 +61,14 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       mortgage_payment: values.monthlyMortgagePayment,
     };
     try {
-      console.log('alsjkdbaskjd12231', getCumulativeInterest(payload));
       await getCumulativeInterest(payload);
       const {getCumulativeInterestResponse} = this.props;
-      const cumulativeInrerest = _get(
+      const cumulativeInterest = await _get(
         getCumulativeInterestResponse,
-        'data.totalInterest',
-        null,
+        'response.data.totalInterest',
+        false,
       );
-      console.log(
-        'UnconnectedMortgageInput : handlePayNowPress : cumulativeInrerest =>',
-        cumulativeInrerest,
-      );
-      if (cumulativeInrerest)
+      if (cumulativeInterest)
         this.props.navigation.navigate(
           NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
         );
@@ -85,7 +80,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     }
   };
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, getCumulativeInterestResponse} = this.props;
     return (
       <View style={styles.screenContainer}>
         <Header onBackPress={() => this.handleBackPress()} />
@@ -117,6 +112,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
             style={styles.buttonExteriorStyle}
             buttonStyle={styles.buttonInteriorStyle}
             disabled={this.state.enableButton}
+            loading={_get(getCumulativeInterestResponse, 'isFetching', false)}
           />
         </View>
       </View>
@@ -128,7 +124,7 @@ export const MortgageInputForm = reduxForm({
 })(UnconnectedMortgageInput);
 
 const mapStateToProps = state => ({
-  getCumulativeInterestResponse: state.getCumulativeInterest.response,
+  getCumulativeInterestResponse: state.getCumulativeInterest,
   reducerResponse: state.form,
 });
 

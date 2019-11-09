@@ -56,9 +56,9 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     try {
       await signUpUser(payload);
       const {signUpUserResponse} = this.props;
-      if (_get(signUpUserResponse, 'accessToken', null)) {
+      if (_get(signUpUserResponse, 'response.accessToken', null)) {
         setAuthToken(
-          _get(signUpUserResponse, 'accessToken', null),
+          _get(signUpUserResponse, 'response.accessToken', null),
           values.email,
         );
         navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
@@ -102,7 +102,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
   };
 
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, signUpUserResponse} = this.props;
     let passMessagePercentage = checkPassMessagePercentage(
       this.state.passStrengthMessage,
     );
@@ -203,6 +203,9 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           titleStyle={styles.buttonTextStyle}
           onPress={handleSubmit(this.handleSignUpSubmit)}
           buttonStyle={styles.buttonStyle}
+          loading={_get(signUpUserResponse, 'isFetching', false)}
+          loadingStyle={styles.loader}
+          loadingProps={{size: 28}}
         />
         <Text style={styles.switchToSignUpText}>
           {localeString('signUp.accountAlreadyExist')}
@@ -223,7 +226,7 @@ export const SignUpScreen = reduxForm({
 
 const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
-  signUpUserResponse: state.signUpUser.response,
+  signUpUserResponse: state.signUpUser,
 });
 
 const bindActions = dispatch => ({

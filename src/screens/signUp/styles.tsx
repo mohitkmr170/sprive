@@ -82,4 +82,5 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     marginVertical: STYLE_CONSTANTS.margin.NORMAL,
   },
+  loader: {marginVertical: 24},
 });

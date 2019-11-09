@@ -41,7 +41,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   render() {
     const {getCumulativeInterestResponse} = this.props;
     let cumulativeInterest = Math.ceil(
-      _get(getCumulativeInterestResponse, 'data.totalInterest', 0),
+      _get(getCumulativeInterestResponse, 'response.data.totalInterest', 0),
     );
     return (
       <View style={styles.mainContainer}>
@@ -120,7 +120,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
 }
 
 const mapStateToProps = state => ({
-  getCumulativeInterestResponse: state.getCumulativeInterest.response,
+  getCumulativeInterestResponse: state.getCumulativeInterest,
 });
 
 const bindActions = () => ({});

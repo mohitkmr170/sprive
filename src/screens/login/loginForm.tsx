@@ -53,11 +53,18 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
       email: 'hello@feathersjs.com',
       password: 'supersecret',
     };
-    await loginUser(payload);
-    const {loginUserResponse} = this.props;
-    if (_get(loginUserResponse, 'accessToken', null)) {
-      setAuthToken(_get(loginUserResponse, 'accessToken', null), values.email);
-      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+    try {
+      await loginUser(payload);
+      const {loginUserResponse} = this.props;
+      if (_get(loginUserResponse, 'response.accessToken', null)) {
+        setAuthToken(
+          _get(loginUserResponse, 'response.accessToken', null),
+          values.email,
+        );
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -69,7 +76,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, loginUserResponse} = this.props;
     return (
       <View style={styles.mainContainer}>
         <Header
@@ -121,6 +128,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           titleStyle={styles.buttonTitleStyle}
           onPress={handleSubmit(this.handleLoginPress)}
           buttonStyle={styles.buttonExtStyle}
+          loading={_get(loginUserResponse, 'isFetching', false)}
+          loadingStyle={styles.loader}
+          loadingProps={{size: 28}}
         />
         <Text style={styles.switchToSignUpText}>
           {localeString('login.dontHaveAccount')}{' '}
@@ -137,7 +147,7 @@ export const LoginScreen = reduxForm({
 })(UnConnectedLoginScreen);
 
 const mapStateToProps = state => ({
-  loginUserResponse: state.loginUser.response,
+  loginUserResponse: state.loginUser,
 });
 
 const bindActions = dispatch => ({
