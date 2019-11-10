@@ -5,6 +5,7 @@ import {getAuthToken} from '../utils/helperFuntions';
 import {get as _get} from 'lodash';
 import {getUserInfo} from '../store/reducers';
 import {connect} from 'react-redux';
+import {DB_KEYS} from '../utils/constants';
 interface props {
   navigation: {
     navigate: (firstParam: any) => void;
@@ -16,7 +17,7 @@ interface props {
 interface state {}
 
 class UnconnectedAuthLoading extends React.Component<props, state> {
-  async componentDidMount() {
+  componentDidMount() {
     getAuthToken()
       .then(res => this.authCheck(res))
       .catch(err => {
@@ -35,7 +36,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       try {
         await getUserInfo();
         const {getUserInfoResponse} = this.props;
-        if (_get(getUserInfoResponse, 'status', false)) {
+        if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
           this.props.navigation.navigate('App');
         } else this.props.navigation.navigate('Auth');
       } catch (error) {

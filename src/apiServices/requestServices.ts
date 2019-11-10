@@ -42,10 +42,14 @@ const getHeaders = (token: string) => {
  */
 export const getRequest = (endPoint: string) => {
   return new Promise(async (resolve, reject) => {
+<<<<<<< Updated upstream
     const token = await getAuthToken();
     /*
     TODO : token to be accessed through reduxStore
     */
+=======
+    const token = getAuthToken();
+>>>>>>> Stashed changes
     axios
       .get(getCompleteUrl(endPoint), {
         headers: getHeaders(token),
@@ -63,10 +67,14 @@ export const getRequest = (endPoint: string) => {
  */
 export const postRequest = (endPoint: string, params?: object) => {
   return new Promise(async (resolve, reject) => {
+<<<<<<< Updated upstream
     const token = await getAuthToken();
     /*
     TODO : token to be accessed through reduxStore
     */
+=======
+    const token = getAuthToken();
+>>>>>>> Stashed changes
     axios
       .post(getCompleteUrl(endPoint), params, {
         headers: getHeaders(token),
@@ -84,10 +92,14 @@ export const postRequest = (endPoint: string, params?: object) => {
  */
 export const patchRequest = (endPoint: string, params: Object) => {
   return new Promise(async (resolve, reject) => {
+<<<<<<< Updated upstream
     const token = await getAuthToken();
     /*
     TODO : token to be accessed through reduxStore
     */
+=======
+    const token = getAuthToken();
+>>>>>>> Stashed changes
     axios
       .patch(getCompleteUrl(endPoint), params, {
         headers: getHeaders(token),
@@ -104,10 +116,14 @@ export const patchRequest = (endPoint: string, params: Object) => {
  */
 export const deleteRequest = (endPoint: string) => {
   return new Promise(async (resolve, reject) => {
+<<<<<<< Updated upstream
     const token = await getAuthToken();
     /*
     TODO : token to be accessed through reduxStore
     */
+=======
+    const token = getAuthToken();
+>>>>>>> Stashed changes
     axios
       .delete(getCompleteUrl(endPoint), {
         headers: getHeaders(token),

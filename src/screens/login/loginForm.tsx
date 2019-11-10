@@ -17,7 +17,16 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
+<<<<<<< Updated upstream
 import {APP_CONSTANTS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+=======
+import {
+  APP_CONSTANTS,
+  NAVIGATION_SCREEN_NAME,
+  LOCALE_STRING,
+  DB_KEYS,
+} from '../../utils/constants';
+>>>>>>> Stashed changes
 
 const LOGIN_BUTTON = 'login.loginButton';
 interface props {
@@ -50,15 +59,15 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     const {loginUser, navigation} = this.props;
     const payload = {
       strategy: 'local',
-      email: 'hello@feathersjs.com',
-      password: 'supersecret',
+      email: values.email,
+      password: values.password,
     };
     try {
       await loginUser(payload);
       const {loginUserResponse} = this.props;
-      if (_get(loginUserResponse, 'response.accessToken', null)) {
+      if (_get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null)) {
         setAuthToken(
-          _get(loginUserResponse, 'response.accessToken', null),
+          _get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null),
           values.email,
         );
         navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
@@ -128,9 +137,13 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           titleStyle={styles.buttonTitleStyle}
           onPress={handleSubmit(this.handleLoginPress)}
           buttonStyle={styles.buttonExtStyle}
+<<<<<<< Updated upstream
           loading={_get(loginUserResponse, 'isFetching', false)}
           loadingStyle={styles.loader}
           loadingProps={{size: 28}}
+=======
+          loading={_get(loginUserResponse, DB_KEYS.IS_FETCHING, false)}
+>>>>>>> Stashed changes
         />
         <Text style={styles.switchToSignUpText}>
           {localeString('login.dontHaveAccount')}{' '}

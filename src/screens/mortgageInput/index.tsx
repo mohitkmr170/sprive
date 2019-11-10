@@ -3,7 +3,7 @@ import {View, Text, ScrollView} from 'react-native';
 import {styles} from './styles';
 import {Header, MortgageInputContainer} from '../../components';
 import {localeString} from '../../utils/i18n';
-import {NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+import {NAVIGATION_SCREEN_NAME, DB_KEYS} from '../../utils/constants';
 import {Button} from 'react-native-elements';
 import {getCumulativeInterest} from '../../store/reducers';
 import {reduxForm} from 'redux-form';
@@ -63,9 +63,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     try {
       await getCumulativeInterest(payload);
       const {getCumulativeInterestResponse} = this.props;
-      const cumulativeInterest = await _get(
+      const cumulativeInterest = _get(
         getCumulativeInterestResponse,
-        'response.data.totalInterest',
+        DB_KEYS.TOTAL_INTEREST,
         false,
       );
       if (cumulativeInterest)
@@ -112,7 +112,11 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
             style={styles.buttonExteriorStyle}
             buttonStyle={styles.buttonInteriorStyle}
             disabled={this.state.enableButton}
-            loading={_get(getCumulativeInterestResponse, 'isFetching', false)}
+            loading={_get(
+              getCumulativeInterestResponse,
+              DB_KEYS.IS_FETCHING,
+              false,
+            )}
           />
         </View>
       </View>

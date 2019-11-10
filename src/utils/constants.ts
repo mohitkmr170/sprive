@@ -96,7 +96,12 @@ export const STYLE_CONSTANTS = {
     },
   },
 };
-
+export const DB_KEYS = {
+  ACCESS_TOKEN: 'response.accessToken',
+  IS_FETCHING: 'isFetching',
+  TOTAL_INTEREST: 'response.data.totalInterest',
+  AUTH_STATUS: 'status',
+};
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
   APP_STACK: 'App',

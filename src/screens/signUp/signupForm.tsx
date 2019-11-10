@@ -17,8 +17,18 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
+<<<<<<< Updated upstream
 import {STYLE_CONSTANTS} from '../../utils/constants';
 import {APP_CONSTANTS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+=======
+import {
+  APP_CONSTANTS,
+  NAVIGATION_SCREEN_NAME,
+  DB_KEYS,
+  STYLE_CONSTANTS,
+  LOCALE_STRING,
+} from '../../utils/constants';
+>>>>>>> Stashed changes
 import {
   getPasswordStrength,
   checkPassMessagePercentage,
@@ -56,9 +66,9 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     try {
       await signUpUser(payload);
       const {signUpUserResponse} = this.props;
-      if (_get(signUpUserResponse, 'response.accessToken', null)) {
+      if (_get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null)) {
         setAuthToken(
-          _get(signUpUserResponse, 'response.accessToken', null),
+          _get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null),
           values.email,
         );
         navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
@@ -203,9 +213,13 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           titleStyle={styles.buttonTextStyle}
           onPress={handleSubmit(this.handleSignUpSubmit)}
           buttonStyle={styles.buttonStyle}
+<<<<<<< Updated upstream
           loading={_get(signUpUserResponse, 'isFetching', false)}
           loadingStyle={styles.loader}
           loadingProps={{size: 28}}
+=======
+          loading={_get(signUpUserResponse, DB_KEYS.IS_FETCHING, false)}
+>>>>>>> Stashed changes
         />
         <Text style={styles.switchToSignUpText}>
           {localeString('signUp.accountAlreadyExist')}

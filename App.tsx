@@ -16,6 +16,7 @@ import {store, persistor} from './src/store/configStore';
 import AppNavigator from './src/navigation/appFlow';
 import {resetAuthToken} from './src/utils/helperFuntions';
 
+const ALREADY_LAUNCHED = 'alreadyLaunched';
 interface props {}
 class App extends React.Component {
   constructor(props: props) {
@@ -23,10 +24,10 @@ class App extends React.Component {
     /*
     TODO : Function call inside constructor to delete token on first launch ?
     */
-    AsyncStorage.getItem('alreadyLaunched').then(async value => {
+    AsyncStorage.getItem(ALREADY_LAUNCHED).then(async value => {
       if (value == null) {
-        AsyncStorage.setItem('alreadyLaunched', 'firstLaunch');
-        await resetAuthToken();
+        AsyncStorage.setItem(ALREADY_LAUNCHED, 'firstLaunch');
+        resetAuthToken();
       }
     });
   }

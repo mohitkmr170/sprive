@@ -1,6 +1,7 @@
 import * as Keychain from 'react-native-keychain';
 import Snackbar from 'react-native-snackbar';
 import {get as _get} from 'lodash';
+import {COLOR} from '../utils/colors';
 
 /**
  * Funtion to get password strength(out of 4)
@@ -80,6 +81,10 @@ export async function setAuthToken(token: string, email: string) {
   }
 }
 
+/*
+TODO : Error to be handled for catch-block
+*/
+
 /**
  * Funtion to GET user authToken
  */
@@ -89,7 +94,7 @@ export async function getAuthToken() {
     const authToken = userAuthToken;
     return authToken.password;
   } catch (error) {
-    return;
+    console.error(error);
   }
 }
 
@@ -120,7 +125,7 @@ export function showSnackBar(err: object) {
     duration: Snackbar.LENGTH_SHORT,
     action: {
       title: '', //For any button title
-      color: 'green',
+      color: COLOR.GREEN,
       onPress: () => {
         /* Do something. */
       },
