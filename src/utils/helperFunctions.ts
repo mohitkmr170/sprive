@@ -127,3 +127,11 @@ export function showSnackBar(err: object) {
     },
   });
 }
+
+/**
+ * Function to get number with UK comma separation conventions
+ * @param data : number : Number to be converted as per UK Conventions
+ */
+export function getNumberWithCommas(data: string) {
+  return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
