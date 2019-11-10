@@ -2,8 +2,7 @@ import axios from 'axios';
 import {url} from '../../config/urlEndPoints';
 import apiConstants from '../../config/apiConstants';
 import {getAuthToken, showSnackBar} from '../utils/helperFuntions';
-
-const GENERAL_ERROR = 'Something went wrong!';
+import {APP_CONSTANTS} from '../utils/constants';
 
 /**
  * Function to get complete URL
@@ -46,7 +45,7 @@ export const getRequest = (endPoint: string) => {
   return new Promise(async (resolve, reject) => {
     // await to block next execution, waiting for authToken
     const token = await getAuthToken();
-    if (!token) showSnackBar(GENERAL_ERROR);
+    if (!token) showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
     else
       axios
         .get(getCompleteUrl(endPoint), {
@@ -66,7 +65,7 @@ export const getRequest = (endPoint: string) => {
 export const postRequest = (endPoint: string, params?: object) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    if (!token) showSnackBar(GENERAL_ERROR);
+    if (!token) showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
     else
       axios
         .post(getCompleteUrl(endPoint), params, {
@@ -86,7 +85,7 @@ export const postRequest = (endPoint: string, params?: object) => {
 export const patchRequest = (endPoint: string, params: Object) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    if (!token) showSnackBar(GENERAL_ERROR);
+    if (!token) showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
     else
       axios
         .patch(getCompleteUrl(endPoint), params, {
@@ -105,7 +104,7 @@ export const patchRequest = (endPoint: string, params: Object) => {
 export const deleteRequest = (endPoint: string) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    if (!token) showSnackBar(GENERAL_ERROR);
+    if (!token) showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
     else
       axios
         .delete(getCompleteUrl(endPoint), {

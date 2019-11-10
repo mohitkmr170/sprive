@@ -10,6 +10,7 @@ export const APP_CONSTANTS = {
   LOGIN_FORM: 'logIn',
   SIGNUP_FORM: 'signup',
   MORTGAGE_INPUT_FORM: 'MortgageInput',
+  GENERAL_ERROR: 'Something went wrong!',
 };
 
 export const STYLE_CONSTANTS = {

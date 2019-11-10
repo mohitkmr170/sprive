@@ -14,7 +14,8 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
 import AppNavigator from './src/navigation/appFlow';
-import {resetAuthToken} from './src/utils/helperFuntions';
+import {resetAuthToken, showSnackBar} from './src/utils/helperFuntions';
+import {APP_CONSTANTS} from './src/utils/constants';
 
 const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
@@ -26,9 +27,13 @@ class App extends React.Component {
     TODO : Function call inside constructor to delete token on first launch ?
     */
     AsyncStorage.getItem(LAUNCH_STATUS).then(async value => {
-      if (value == null) {
+      if (!value) {
         AsyncStorage.setItem(LAUNCH_STATUS, FIRST_LAUNCH);
-        resetAuthToken();
+        try {
+          await resetAuthToken();
+        } catch (error) {
+          showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
+        }
       }
     });
   }
