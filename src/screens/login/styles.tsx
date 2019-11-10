@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   topContainer: {
-    flex: 1,
+    flexGrow: 1,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
   },
   signInText: {
@@ -57,4 +57,5 @@ export const styles = StyleSheet.create({
     marginBottom: STYLE_CONSTANTS.margin.HUGER,
   },
   forgotPasswordContainer: {alignSelf: 'flex-end'},
+  loader: {marginVertical: 16},
 });

@@ -1,10 +1,10 @@
-import {getCumulativeInterest as getApi} from '../../apiServices';
+import {getUserInfo as getApi} from '../../apiServices';
 import {StoreFetchableData} from './base';
 import {showSnackBar} from '../../utils/helperFuntions';
 
-class getCumulativeInterestData extends StoreFetchableData {
+class getUserInfoData extends StoreFetchableData {
   constructor() {
-    super('getCumulativeInterest', getApi);
+    super('getUserInfo', getApi);
   }
   fetchCall(data: any) {
     return dispatch =>
@@ -20,4 +20,4 @@ class getCumulativeInterestData extends StoreFetchableData {
   }
 }
 
-export var getCumulativeInterest = new getCumulativeInterestData();
+export var getUserInfo = new getUserInfoData();

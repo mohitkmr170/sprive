@@ -1,3 +1,8 @@
+import * as Keychain from 'react-native-keychain';
+import Snackbar from 'react-native-snackbar';
+import {get as _get} from 'lodash';
+import {COLOR} from '../utils/colors';
+
 /**
  * Funtion to get password strength(out of 4)
  * @param password : string : password to check strength
@@ -59,4 +64,63 @@ export function checkPassMessagePercentage(passwordMessage: string) {
       passPercent = 0;
   }
   return passPercent;
+}
+
+/**
+ * Funtion to SET user authToken
+ * @param token : string : user auth token
+ * @param email : string : corresponding email of user
+ */
+export async function setAuthToken(token: string, email: string) {
+  return new Promise((resolve, reject) => {
+    const authToken = token;
+    const userEmail = email;
+    Keychain.setGenericPassword(userEmail, authToken)
+      .then(response => resolve(response))
+      .catch(error => reject(error));
+  });
+}
+
+/*
+TODO : Provide return type of functions
+*/
+
+/**
+ * Funtion to GET user authToken
+ */
+export async function getAuthToken() {
+  return new Promise((resolve, reject) => {
+    const userAuthToken = Keychain.getGenericPassword()
+      .then(response => resolve(response.password))
+      .catch(error => reject(Error));
+  });
+}
+
+/**
+ * Funtion to clear and reset user authToken
+ */
+export async function resetAuthToken() {
+  return new Promise((resolve, reject) => {
+    Keychain.resetGenericPassword()
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+}
+
+/**
+ * Common wrapper function to show Snackbar
+ * @param err : object : Error object of API error
+ */
+export function showSnackBar(err: object) {
+  return Snackbar.show({
+    title: _get(err, 'response.data.message', 'Something went wrong!'),
+    duration: Snackbar.LENGTH_SHORT,
+    action: {
+      title: '', //For any button title
+      color: COLOR.GREEN,
+      onPress: () => {
+        /* Do something. */
+      },
+    },
+  });
 }

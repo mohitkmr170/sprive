@@ -6,6 +6,9 @@ import {Header, ReduxFormField} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
+import {loginUser} from '../../store/reducers';
+import {get as _get} from 'lodash';
+import {setAuthToken} from '../../utils/helperFuntions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   email,
@@ -14,7 +17,11 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
-import {APP_CONSTANTS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+import {
+  APP_CONSTANTS,
+  NAVIGATION_SCREEN_NAME,
+  DB_KEYS,
+} from '../../utils/constants';
 
 const LOGIN_BUTTON = 'login.loginButton';
 interface props {
@@ -44,6 +51,21 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
       'handleLoginPress : check value entered in Fields, values.email =>',
       values.email,
     );
+    const {loginUser, navigation} = this.props;
+    const payload = {
+      strategy: 'local',
+      email: values.email,
+      password: values.password,
+    };
+    await loginUser(payload);
+    const {loginUserResponse} = this.props;
+    if (_get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null)) {
+      setAuthToken(
+        _get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null),
+        values.email,
+      );
+      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+    }
   };
 
   handleSignUpPress = () => {
@@ -54,14 +76,16 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, loginUserResponse} = this.props;
     return (
       <View style={styles.mainContainer}>
         <Header
           title={localeString(LOGIN_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
-        <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.topContainer}>
           <Text style={styles.signInText}>
             {localeString('login.signInToAccount')}
           </Text>
@@ -104,6 +128,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           titleStyle={styles.buttonTitleStyle}
           onPress={handleSubmit(this.handleLoginPress)}
           buttonStyle={styles.buttonExtStyle}
+          loading={_get(loginUserResponse, DB_KEYS.IS_FETCHING, false)}
         />
         <Text style={styles.switchToSignUpText}>
           {localeString('login.dontHaveAccount')}{' '}
@@ -119,9 +144,13 @@ export const LoginScreen = reduxForm({
   form: APP_CONSTANTS.LOGIN_FORM,
 })(UnConnectedLoginScreen);
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  loginUserResponse: state.loginUser,
+});
 
-const bindActions = () => ({});
+const bindActions = dispatch => ({
+  loginUser: payload => dispatch(loginUser.fetchCall(payload)),
+});
 
 export const LoginForm = connect(
   mapStateToProps,

@@ -9,10 +9,7 @@ import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
-
-/*
-TODO : All locale string constants can be moved to contants(utils)
-*/
+import {NAVIGATION_SCREEN_NAME, DB_KEYS} from '../../utils/constants';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -34,20 +31,20 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   };
 
   handleSaveWithSprive = () => {
-    /*
-    TODO : Need to navigate to signUp Screen
-    */
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
   };
 
   render() {
     const {getCumulativeInterestResponse} = this.props;
     let cumulativeInterest = Math.ceil(
-      _get(getCumulativeInterestResponse, 'data.totalInterest', 0),
+      _get(getCumulativeInterestResponse, DB_KEYS.TOTAL_INTEREST, 0),
     );
     return (
       <View style={styles.mainContainer}>
         <Header onBackPress={() => this.handlebackPress()} />
-        <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.topContainer}>
           <View style={styles.mortgageStatusProgressContainer}>
             <Text style={styles.mortgageTextData}>
               {localeString('mortgageForm.mortgageData')}
@@ -119,7 +116,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
 }
 
 const mapStateToProps = state => ({
-  getCumulativeInterestResponse: state.getCumulativeInterest.response,
+  getCumulativeInterestResponse: state.getCumulativeInterest,
 });
 
 const bindActions = () => ({});

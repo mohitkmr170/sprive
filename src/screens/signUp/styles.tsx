@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   topContainer: {
-    flex: 1,
+    flexGrow: 1,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
     marginTop: STYLE_CONSTANTS.margin.NORMAL,
   },
@@ -82,4 +82,5 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     marginVertical: STYLE_CONSTANTS.margin.NORMAL,
   },
+  loader: {marginVertical: 24},
 });
