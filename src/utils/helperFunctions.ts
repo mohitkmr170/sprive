@@ -1,6 +1,7 @@
 import * as Keychain from 'react-native-keychain';
 import Snackbar from 'react-native-snackbar';
 import {get as _get} from 'lodash';
+import {COLOR} from '../utils/colors';
 
 /**
  * Funtion to get password strength(out of 4)
@@ -71,43 +72,39 @@ export function checkPassMessagePercentage(passwordMessage: string) {
  * @param email : string : corresponding email of user
  */
 export async function setAuthToken(token: string, email: string) {
-  try {
+  return new Promise((resolve, reject) => {
     const authToken = token;
     const userEmail = email;
-    await Keychain.setGenericPassword(userEmail, authToken);
-  } catch (error) {
-    console.error(error);
-  }
+    Keychain.setGenericPassword(userEmail, authToken)
+      .then(response => resolve(response))
+      .catch(error => reject(error));
+  });
 }
+
+/*
+TODO : Provide return type of functions
+*/
 
 /**
  * Funtion to GET user authToken
  */
 export async function getAuthToken() {
-  try {
-    const userAuthToken = await Keychain.getGenericPassword();
-    const authToken = userAuthToken;
-    return authToken.password;
-  } catch (error) {
-    return;
-  }
+  return new Promise((resolve, reject) => {
+    const userAuthToken = Keychain.getGenericPassword()
+      .then(response => resolve(response.password))
+      .catch(error => reject(Error));
+  });
 }
 
 /**
  * Funtion to clear and reset user authToken
  */
 export async function resetAuthToken() {
-  try {
-    await Keychain.resetGenericPassword()
-      .then(res => {
-        return res;
-      })
-      .catch(err => {
-        return err;
-      });
-  } catch (error) {
-    console.error(error);
-  }
+  return new Promise((resolve, reject) => {
+    Keychain.resetGenericPassword()
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
 }
 
 /**
@@ -120,7 +117,7 @@ export function showSnackBar(err: object) {
     duration: Snackbar.LENGTH_SHORT,
     action: {
       title: '', //For any button title
-      color: 'green',
+      color: COLOR.GREEN,
       onPress: () => {
         /* Do something. */
       },

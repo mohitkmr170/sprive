@@ -17,8 +17,13 @@ import {
   required,
   alphaNumeric,
 } from '../../utils/validate';
-import {STYLE_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
-import {APP_CONSTANTS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+import {
+  APP_CONSTANTS,
+  NAVIGATION_SCREEN_NAME,
+  DB_KEYS,
+  LOCALE_STRING,
+  STYLE_CONSTANTS,
+} from '../../utils/constants';
 import {
   getPasswordStrength,
   checkPassMessagePercentage,
@@ -52,18 +57,14 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
   handleSignUpSubmit = async (values: {email: string; password: string}) => {
     const {navigation, signUpUser} = this.props;
     const payload = {email: values.email, password: values.password};
-    try {
-      await signUpUser(payload);
-      const {signUpUserResponse} = this.props;
-      if (_get(signUpUserResponse, 'response.accessToken', null)) {
-        setAuthToken(
-          _get(signUpUserResponse, 'response.accessToken', null),
-          values.email,
-        );
-        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
-      }
-    } catch (error) {
-      console.log(error);
+    await signUpUser(payload);
+    const {signUpUserResponse} = this.props;
+    if (_get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null)) {
+      setAuthToken(
+        _get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null),
+        values.email,
+      );
+      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     }
   };
 
@@ -202,7 +203,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           titleStyle={styles.buttonTextStyle}
           onPress={handleSubmit(this.handleSignUpSubmit)}
           buttonStyle={styles.buttonStyle}
-          loading={_get(signUpUserResponse, 'isFetching', false)}
+          loading={_get(signUpUserResponse, DB_KEYS.IS_FETCHING, false)}
         />
         <Text style={styles.switchToSignUpText}>
           {localeString(LOCALE_STRING.SIGNUP_FORM.ACCOUNT_EXIST)}

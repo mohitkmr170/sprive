@@ -17,4 +17,5 @@ export const COLOR = {
   LIGHT_GREEN: '#00D77E',
   LIGHT_GRAY: '#E6E9EF',
   DOLLAR_COLOR: '#09245E4D',
+  GREEN: '#00ff00',
 };

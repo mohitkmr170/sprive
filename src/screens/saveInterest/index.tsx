@@ -9,7 +9,11 @@ import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
-import {NAVIGATION_SCREEN_NAME, LOCALE_STRING} from '../../utils/constants';
+import {
+  NAVIGATION_SCREEN_NAME,
+  LOCALE_STRING,
+  DB_KEYS,
+} from '../../utils/constants';
 import {getNumberWithCommas} from '../../utils/helperFunctions';
 interface props {
   navigation: {
@@ -38,7 +42,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   render() {
     const {getCumulativeInterestResponse} = this.props;
     let cumulativeInterest = Math.ceil(
-      _get(getCumulativeInterestResponse, 'response.data.totalInterest', 0),
+      _get(getCumulativeInterestResponse, DB_KEYS.TOTAL_INTEREST, 0),
     );
     return (
       <View style={styles.mainContainer}>

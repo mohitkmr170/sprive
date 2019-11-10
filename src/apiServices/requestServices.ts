@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {url} from '../../config/urlEndPoints';
 import apiConstants from '../../config/apiConstants';
-import {getAuthToken} from '../utils/helperFunctions';
+import {getAuthToken, showSnackBar} from '../utils/helperFunctions';
+import {APP_CONSTANTS} from '../utils/constants';
 
 /**
  * Function to get complete URL
@@ -42,6 +43,7 @@ const getHeaders = (token: string) => {
  */
 export const getRequest = (endPoint: string) => {
   return new Promise(async (resolve, reject) => {
+    // await to block next execution, waiting for authToken
     const token = await getAuthToken();
     axios
       .get(getCompleteUrl(endPoint), {

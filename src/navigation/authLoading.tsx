@@ -5,6 +5,10 @@ import {getAuthToken} from '../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import {getUserInfo} from '../store/reducers';
 import {connect} from 'react-redux';
+import {DB_KEYS} from '../utils/constants';
+
+const AUTH_STACK = 'Auth';
+const APP_STACK = 'App';
 interface props {
   navigation: {
     navigate: (firstParam: any) => void;
@@ -16,7 +20,7 @@ interface props {
 interface state {}
 
 class UnconnectedAuthLoading extends React.Component<props, state> {
-  async componentDidMount() {
+  componentDidMount() {
     getAuthToken()
       .then(res => this.authCheck(res))
       .catch(err => {
@@ -28,19 +32,15 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
 
   async authCheck(authToken: string) {
     // Token does not exist locally
-    if (authToken === undefined) this.props.navigation.navigate('Auth');
+    if (!authToken) this.props.navigation.navigate(AUTH_STACK);
     // Token exists
     else {
       const {getUserInfo} = this.props;
-      try {
-        await getUserInfo();
-        const {getUserInfoResponse} = this.props;
-        if (_get(getUserInfoResponse, 'status', false)) {
-          this.props.navigation.navigate('App');
-        } else this.props.navigation.navigate('Auth');
-      } catch (error) {
-        console.log(error);
-      }
+      await getUserInfo();
+      const {getUserInfoResponse} = this.props;
+      if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
+        this.props.navigation.navigate(APP_STACK);
+      } else this.props.navigation.navigate(AUTH_STACK);
     }
   }
   render() {

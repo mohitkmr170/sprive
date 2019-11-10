@@ -7,15 +7,14 @@ class loginUserData extends StoreFetchableData {
     super('loginUser', getApi);
   }
   fetchCall(data: any) {
-    const that = this;
     return dispatch =>
-      dispatch(that.actions.fetch()) &&
+      dispatch(this.actions.fetch()) &&
       this.fetchData(data)
         .then((res: any) => {
-          dispatch(that.actions.response(res));
+          dispatch(this.actions.response(res));
         })
         .catch((err: any) => {
-          dispatch(that.actions.error(err));
+          dispatch(this.actions.error(err));
           showSnackBar(err);
         });
   }
