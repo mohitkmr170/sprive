@@ -21,16 +21,16 @@ import {
   APP_CONSTANTS,
   NAVIGATION_SCREEN_NAME,
   DB_KEYS,
+  LOCALE_STRING,
   STYLE_CONSTANTS,
 } from '../../utils/constants';
 import {
   getPasswordStrength,
   checkPassMessagePercentage,
   setAuthToken,
-} from '../../utils/helperFuntions';
+} from '../../utils/helperFunctions';
 import {COLOR} from '../../utils/colors';
 
-const SIGNUP_BUTTON = 'signUp.singUpButton';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -109,7 +109,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     return (
       <View style={styles.mainContainer}>
         <Header
-          title={localeString(SIGNUP_BUTTON)}
+          title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
         <KeyboardAwareScrollView
@@ -117,13 +117,13 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           contentContainerStyle={styles.topContainer}>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.registrationText}>
-              {localeString('signUp.regAndSec')}
+              {localeString(LOCALE_STRING.SIGNUP_FORM.REG_AND_SEC)}
             </Text>
             {/* To be changed to actual progress state */}
             <Text style={styles.progressStatusText}>2/4</Text>
           </View>
           <Text style={styles.accountSetupText}>
-            {localeString('signUp.setupAccc')}
+            {localeString(LOCALE_STRING.SIGNUP_FORM.SETUP_ACCOUNT)}
           </Text>
           <View style={styles.middleContainer}>
             <View>
@@ -179,38 +179,38 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                 </View>
               )}
             </View>
-            <View style={{marginBottom: 20}}>
-              <Text style={styles.bottomText}>
-                {localeString('signUp.byClickingText')}{' '}
-                <Text
-                  onPress={() => this.handleTermAndConditionClick()}
-                  style={styles.decoratedText}>
-                  {localeString('signUp.T&C')}{' '}
-                </Text>
-                {localeString('signUp.andOur')}
-                <Text
-                  onPress={() => this.handlePrivacyPolicyClick()}
-                  style={styles.decoratedText}>
-                  {' '}
-                  {localeString('signUp.privacyPolicy')}
-                </Text>
-              </Text>
-            </View>
           </View>
         </KeyboardAwareScrollView>
+        <View style={{marginBottom: 20}}>
+          <Text style={styles.bottomText}>
+            {localeString(LOCALE_STRING.SIGNUP_FORM.BY_CLICKING)}{' '}
+            <Text
+              onPress={() => this.handleTermAndConditionClick()}
+              style={styles.decoratedText}>
+              {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}{' '}
+            </Text>
+            {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}
+            <Text
+              onPress={() => this.handlePrivacyPolicyClick()}
+              style={styles.decoratedText}>
+              {' '}
+              {localeString(LOCALE_STRING.SIGNUP_FORM.PRIVACY_POLICY)}
+            </Text>
+          </Text>
+        </View>
         <Button
-          title={localeString(SIGNUP_BUTTON)}
+          title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
           titleStyle={styles.buttonTextStyle}
           onPress={handleSubmit(this.handleSignUpSubmit)}
           buttonStyle={styles.buttonStyle}
           loading={_get(signUpUserResponse, DB_KEYS.IS_FETCHING, false)}
         />
         <Text style={styles.switchToSignUpText}>
-          {localeString('signUp.accountAlreadyExist')}
+          {localeString(LOCALE_STRING.SIGNUP_FORM.ACCOUNT_EXIST)}
           {''}
           <Text onPress={() => this.handleSignInPress()}>
             {' '}
-            {localeString('login.signIn')}
+            {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
           </Text>
         </Text>
       </View>

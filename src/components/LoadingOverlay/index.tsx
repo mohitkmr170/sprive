@@ -2,6 +2,8 @@ import React from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
 import {styles} from './styles';
 import {COLOR} from '../../utils/colors';
+import {localeString} from '../../utils/i18n';
+import {LOCALE_STRING} from '../../utils/constants';
 
 interface props {
   size: number;
@@ -18,7 +20,9 @@ export class LoadingModal extends React.Component<props> {
           color={color || COLOR.PRIMARY}
           size={size || 'small'}
         />
-        <Text style={styles.textStyle}>{loadingText || 'Loading'}</Text>
+        <Text style={styles.textStyle}>
+          {loadingText || localeString(LOCALE_STRING.LOADING)}
+        </Text>
       </View>
     );
   }

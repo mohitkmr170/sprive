@@ -5,9 +5,10 @@ import {STYLE_CONSTANTS} from '../../utils/constants';
 export const styles = StyleSheet.create({
   mainContainer: {flex: 1},
   mortgageInputInput: {
-    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     width: '75%',
+    color: COLOR.VOILET,
   },
   topContainer: {flex: 1},
   infoText: {

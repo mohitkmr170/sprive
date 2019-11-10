@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {url} from '../../config/urlEndPoints';
 import apiConstants from '../../config/apiConstants';
-import {getAuthToken, showSnackBar} from '../utils/helperFuntions';
+import {getAuthToken, showSnackBar} from '../utils/helperFunctions';
 import {APP_CONSTANTS} from '../utils/constants';
 
 /**
@@ -45,15 +45,13 @@ export const getRequest = (endPoint: string) => {
   return new Promise(async (resolve, reject) => {
     // await to block next execution, waiting for authToken
     const token = await getAuthToken();
-    if (!token) showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
-    else
-      axios
-        .get(getCompleteUrl(endPoint), {
-          headers: getHeaders(token),
-          timeout: apiConstants.TIMEOUT,
-        })
-        .then(response => resolve(response.data))
-        .catch(err => reject(err));
+    axios
+      .get(getCompleteUrl(endPoint), {
+        headers: getHeaders(token),
+        timeout: apiConstants.TIMEOUT,
+      })
+      .then(response => resolve(response.data))
+      .catch(err => reject(err));
   });
 };
 
@@ -65,15 +63,13 @@ export const getRequest = (endPoint: string) => {
 export const postRequest = (endPoint: string, params?: object) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    if (!token) showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
-    else
-      axios
-        .post(getCompleteUrl(endPoint), params, {
-          headers: getHeaders(token),
-          timeout: apiConstants.TIMEOUT,
-        })
-        .then(response => resolve(response.data))
-        .catch(err => reject(err));
+    axios
+      .post(getCompleteUrl(endPoint), params, {
+        headers: getHeaders(token),
+        timeout: apiConstants.TIMEOUT,
+      })
+      .then(response => resolve(response.data))
+      .catch(err => reject(err));
   });
 };
 
@@ -85,15 +81,13 @@ export const postRequest = (endPoint: string, params?: object) => {
 export const patchRequest = (endPoint: string, params: Object) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    if (!token) showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
-    else
-      axios
-        .patch(getCompleteUrl(endPoint), params, {
-          headers: getHeaders(token),
-          timeout: apiConstants.TIMEOUT,
-        })
-        .then(response => resolve(response.data))
-        .catch(err => reject(err));
+    axios
+      .patch(getCompleteUrl(endPoint), params, {
+        headers: getHeaders(token),
+        timeout: apiConstants.TIMEOUT,
+      })
+      .then(response => resolve(response.data))
+      .catch(err => reject(err));
   });
 };
 
@@ -104,15 +98,13 @@ export const patchRequest = (endPoint: string, params: Object) => {
 export const deleteRequest = (endPoint: string) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
-    if (!token) showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
-    else
-      axios
-        .delete(getCompleteUrl(endPoint), {
-          headers: getHeaders(token),
-          timeout: apiConstants.TIMEOUT,
-        })
-        .then(response => resolve(response.data))
-        .catch(err => reject(err));
+    axios
+      .delete(getCompleteUrl(endPoint), {
+        headers: getHeaders(token),
+        timeout: apiConstants.TIMEOUT,
+      })
+      .then(response => resolve(response.data))
+      .catch(err => reject(err));
   });
 };
 

@@ -80,7 +80,7 @@ export const styles = StyleSheet.create({
   buttonTextStyle: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
-    marginVertical: STYLE_CONSTANTS.margin.NORMAL,
+    paddingVertical: STYLE_CONSTANTS.margin.NORMAL,
   },
   loader: {marginVertical: 24},
 });

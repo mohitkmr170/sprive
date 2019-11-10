@@ -1,7 +1,7 @@
 import React from 'react';
 import {ImageBackground, ActivityIndicator, StyleSheet} from 'react-native';
 import {splashScreen} from '../assets';
-import {getAuthToken} from '../utils/helperFuntions';
+import {getAuthToken} from '../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import {getUserInfo} from '../store/reducers';
 import {connect} from 'react-redux';

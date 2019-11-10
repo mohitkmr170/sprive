@@ -23,7 +23,6 @@ export class ReduxFormField extends React.Component<props, state> {
       meta: {touched, error},
     } = this.props;
     const CUSTOM_CONTAINER_STYLE = touched && error ? {borderColor: 'red'} : {};
-
     return (
       <View>
         <TextInputBox

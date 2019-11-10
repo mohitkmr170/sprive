@@ -33,13 +33,15 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
   },
   buttonInteriorStyle: {
-    borderRadius: STYLE_CONSTANTS.padding.HUGE,
     backgroundColor: COLOR.PRIMARY,
-    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
+    borderRadius: 48,
+    marginBottom: STYLE_CONSTANTS.margin.HUGISH,
   },
   buttonExteriorStyle: {
-    marginVertical: STYLE_CONSTANTS.margin.HUGISH,
-    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    paddingVertical: STYLE_CONSTANTS.margin.NORMAL,
   },
   mortgageFormComponent: {flex: 1, marginTop: STYLE_CONSTANTS.margin.HUGE},
   mortgageStatusProgressContainer: {

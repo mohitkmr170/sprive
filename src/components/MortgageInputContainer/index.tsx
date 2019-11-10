@@ -14,7 +14,7 @@ import {
 } from '../../utils/validate';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
-import {COLOR} from '../../utils/colors';
+import {getNumberWithCommas} from '../../utils/helperFunctions';
 
 const FORM_FIELD_KEY: object = {
   MORTGAGE_AMOUNT: 'mortgageAmount',
@@ -43,7 +43,8 @@ FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD] = {
   ERROR_STATUS: 'MortgageInput.syncErrors.timePeriod',
   PLACEHOLDER: '10',
   PARAMETER_TEXT: 'in years',
-  INFO_TEXT: 'Info for second input',
+  INFO_TEXT:
+    'The approximate length of time you have left to pay on your mortgage.',
   CURRENCY_ICON: false,
   VALIDATION_RULE:
     COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(yearRange),
@@ -54,7 +55,7 @@ FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT] = {
   ERROR_STATUS: 'MortgageInput.syncErrors.monthlyMortgagePayment',
   PLACEHOLDER: '120400',
   PARAMETER_TEXT: 'in pounds',
-  INFO_TEXT: 'Info for third input',
+  INFO_TEXT: 'The amount you are required to pay your lender each month.',
   CURRENCY_ICON: true,
   VALIDATION_RULE:
     COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLength6),
@@ -71,6 +72,15 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     super(props);
     this.state = {};
   }
+
+  formatCurrency = (input: string) => {
+    if (!input) return;
+    else {
+      let inputWithNoCommas = input.replace(/,/g, '');
+      let inputWithCommas = getNumberWithCommas(inputWithNoCommas);
+      return inputWithCommas;
+    }
+  };
 
   renderFieldItem = (item: object) => {
     // calculating error status for enable/disable
@@ -93,22 +103,14 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     // Added key dynamicValue having all values that change dynamically based on ERROR_STATUS
     FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT].dynamicValue = {
       editable: true,
-      placeholderTextColor: COLOR.VOILET,
       infoVisibility: true,
     };
     FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD].dynamicValue = {
       editable: !firstFieldErrorStatus,
-      placeholderTextColor: !firstFieldErrorStatus
-        ? COLOR.VOILET
-        : COLOR.DISABLED_COLOR,
       infoVisibility: !firstFieldErrorStatus,
     };
     FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT].dynamicValue = {
       editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
-      placeholderTextColor:
-        !firstFieldErrorStatus && !secondFieldErrorStatus
-          ? COLOR.VOILET
-          : COLOR.DISABLED_COLOR,
       infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
     };
     return (
@@ -123,13 +125,13 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
             style: styles.mortgageInputInput,
             returnKeyType: RETURN_KEY,
             placeholder: item.PLACEHOLDER,
-            placeholderTextColor: item.dynamicValue.placeholderTextColor,
             editable: item.dynamicValue.editable,
             onChangeText:
               !thirdFieldErrorStatus &&
               item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
               this.props.handleCalculateNowPressed,
           }}
+          format={this.formatCurrency}
           parameterText={item.PARAMETER_TEXT}
           editIcon={true}
           validate={item.VALIDATION_RULE}

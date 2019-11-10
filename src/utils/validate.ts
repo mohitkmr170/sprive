@@ -38,20 +38,24 @@ export const maxLength8 = maxLength(8);
  *
  * @param value : number : positive number validation
  */
-export const numeric = (value: number) =>
+export const numeric = (value: number) => {
+  value.replace(/,/g, '');
   value && REGEX.NUMERIC.test(value)
     ? localeString('validationMessages.positiveNumber')
     : undefined;
+};
 
 /**
  *
  * @param value : number : number with length===10
  */
-export const length10 = (value: number) =>
+export const length10 = (value: number) => {
+  value.replace(/,/g, '');
   value &&
-  (value.length !== 10
-    ? localeString('validationMessages.length10')
-    : undefined);
+    (value.length !== 10
+      ? localeString('validationMessages.length10')
+      : undefined);
+};
 
 /**
  *

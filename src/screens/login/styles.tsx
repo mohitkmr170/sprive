@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     color: COLOR.BLUE,
   },
   buttonTitleStyle: {
-    marginVertical: STYLE_CONSTANTS.margin.NORMAL,
+    paddingVertical: STYLE_CONSTANTS.margin.NORMAL,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
