@@ -102,12 +102,8 @@ export async function getAuthToken() {
 export async function resetAuthToken() {
   return new Promise((resolve, reject) => {
     Keychain.resetGenericPassword()
-      .then(res => {
-        resolve(res);
-      })
-      .catch(err => {
-        reject(err);
-      });
+      .then(res => resolve(res))
+      .catch(err => reject(err));
   });
 }
 
