@@ -72,13 +72,13 @@ export function checkPassMessagePercentage(passwordMessage: string) {
  * @param email : string : corresponding email of user
  */
 export async function setAuthToken(token: string, email: string) {
-  try {
+  return new Promise((resolve, reject) => {
     const authToken = token;
     const userEmail = email;
-    await Keychain.setGenericPassword(userEmail, authToken);
-  } catch (error) {
-    return error;
-  }
+    Keychain.setGenericPassword(userEmail, authToken)
+      .then(response => resolve(response))
+      .catch(error => reject(error));
+  });
 }
 
 /*
@@ -89,26 +89,26 @@ TODO : Provide return type of functions
  * Funtion to GET user authToken
  */
 export async function getAuthToken() {
-  try {
-    const userAuthToken = await Keychain.getGenericPassword();
-    const authToken = userAuthToken;
-    return authToken.password;
-  } catch (error) {
-    return error;
-  }
+  return new Promise((resolve, reject) => {
+    const userAuthToken = Keychain.getGenericPassword()
+      .then(response => resolve(response.password))
+      .catch(error => reject(Error));
+  });
 }
 
 /**
  * Funtion to clear and reset user authToken
  */
 export async function resetAuthToken() {
-  Keychain.resetGenericPassword()
-    .then(res => {
-      return res;
-    })
-    .catch(err => {
-      return err;
-    });
+  return new Promise((resolve, reject) => {
+    Keychain.resetGenericPassword()
+      .then(res => {
+        resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
 }
 
 /**
