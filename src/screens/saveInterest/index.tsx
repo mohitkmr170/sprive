@@ -10,6 +10,7 @@ import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
 import {NAVIGATION_SCREEN_NAME, LOCALE_STRING} from '../../utils/constants';
+import {getNumberWithCommas} from '../../utils/helperFunctions';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -62,7 +63,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
               </Text>
               {/* Need to be modified, for now it's contant */}
               <Text style={styles.cardInterestText}>
-                £ {cumulativeInterest}
+                £ {getNumberWithCommas(String(cumulativeInterest))}
               </Text>
             </View>
           </ImageBackground>

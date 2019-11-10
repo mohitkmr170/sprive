@@ -178,25 +178,25 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                 </View>
               )}
             </View>
-            <View style={{marginBottom: 20}}>
-              <Text style={styles.bottomText}>
-                {localeString(LOCALE_STRING.SIGNUP_FORM.BY_CLICKING)}{' '}
-                <Text
-                  onPress={() => this.handleTermAndConditionClick()}
-                  style={styles.decoratedText}>
-                  {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}{' '}
-                </Text>
-                {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}
-                <Text
-                  onPress={() => this.handlePrivacyPolicyClick()}
-                  style={styles.decoratedText}>
-                  {' '}
-                  {localeString(LOCALE_STRING.SIGNUP_FORM.PRIVACY_POLICY)}
-                </Text>
-              </Text>
-            </View>
           </View>
         </KeyboardAwareScrollView>
+        <View style={{marginBottom: 20}}>
+          <Text style={styles.bottomText}>
+            {localeString(LOCALE_STRING.SIGNUP_FORM.BY_CLICKING)}{' '}
+            <Text
+              onPress={() => this.handleTermAndConditionClick()}
+              style={styles.decoratedText}>
+              {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}{' '}
+            </Text>
+            {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}
+            <Text
+              onPress={() => this.handlePrivacyPolicyClick()}
+              style={styles.decoratedText}>
+              {' '}
+              {localeString(LOCALE_STRING.SIGNUP_FORM.PRIVACY_POLICY)}
+            </Text>
+          </Text>
+        </View>
         <Button
           title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
           titleStyle={styles.buttonTextStyle}
