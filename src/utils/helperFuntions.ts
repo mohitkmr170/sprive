@@ -102,17 +102,13 @@ export async function getAuthToken() {
  * Funtion to clear and reset user authToken
  */
 export async function resetAuthToken() {
-  try {
-    await Keychain.resetGenericPassword()
-      .then(res => {
-        return res;
-      })
-      .catch(err => {
-        return err;
-      });
-  } catch (error) {
-    return error;
-  }
+  Keychain.resetGenericPassword()
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      return err;
+    });
 }
 
 /**
