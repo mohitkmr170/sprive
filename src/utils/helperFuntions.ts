@@ -77,12 +77,12 @@ export async function setAuthToken(token: string, email: string) {
     const userEmail = email;
     await Keychain.setGenericPassword(userEmail, authToken);
   } catch (error) {
-    console.error(error);
+    return error;
   }
 }
 
 /*
-TODO : Error to be handled for catch-block
+TODO : Provide return type of functions
 */
 
 /**
@@ -94,7 +94,7 @@ export async function getAuthToken() {
     const authToken = userAuthToken;
     return authToken.password;
   } catch (error) {
-    console.error(error);
+    return error;
   }
 }
 
@@ -111,7 +111,7 @@ export async function resetAuthToken() {
         return err;
       });
   } catch (error) {
-    console.error(error);
+    return error;
   }
 }
 

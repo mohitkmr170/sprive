@@ -9,20 +9,7 @@ import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
-<<<<<<< Updated upstream
-import {NAVIGATION_SCREEN_NAME} from '../../utils/constants';
-
-/*
-TODO : All locale string constants can be moved to contants(utils)
-*/
-=======
-import {
-  NAVIGATION_SCREEN_NAME,
-  LOCALE_STRING,
-  DB_KEYS,
-} from '../../utils/constants';
-import {getNumberWithCommas} from '../../utils/helperFunctions';
->>>>>>> Stashed changes
+import {NAVIGATION_SCREEN_NAME, DB_KEYS} from '../../utils/constants';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;

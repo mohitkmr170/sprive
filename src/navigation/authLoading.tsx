@@ -33,15 +33,11 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     // Token exists
     else {
       const {getUserInfo} = this.props;
-      try {
-        await getUserInfo();
-        const {getUserInfoResponse} = this.props;
-        if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
-          this.props.navigation.navigate('App');
-        } else this.props.navigation.navigate('Auth');
-      } catch (error) {
-        console.log(error);
-      }
+      await getUserInfo();
+      const {getUserInfoResponse} = this.props;
+      if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
+        this.props.navigation.navigate('App');
+      } else this.props.navigation.navigate('Auth');
     }
   }
   render() {

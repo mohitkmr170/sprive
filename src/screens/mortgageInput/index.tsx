@@ -60,24 +60,17 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       mortgage_term: values.timePeriod,
       mortgage_payment: values.monthlyMortgagePayment,
     };
-    try {
-      await getCumulativeInterest(payload);
-      const {getCumulativeInterestResponse} = this.props;
-      const cumulativeInterest = _get(
-        getCumulativeInterestResponse,
-        DB_KEYS.TOTAL_INTEREST,
-        false,
+    await getCumulativeInterest(payload);
+    const {getCumulativeInterestResponse} = this.props;
+    const cumulativeInterest = _get(
+      getCumulativeInterestResponse,
+      DB_KEYS.TOTAL_INTEREST,
+      false,
+    );
+    if (cumulativeInterest)
+      this.props.navigation.navigate(
+        NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
       );
-      if (cumulativeInterest)
-        this.props.navigation.navigate(
-          NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
-        );
-      /*
-      TODO : To be handled in case of API error
-      */
-    } catch (error) {
-      console.log(error);
-    }
   };
   render() {
     const {handleSubmit, getCumulativeInterestResponse} = this.props;
