@@ -203,8 +203,6 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           onPress={handleSubmit(this.handleSignUpSubmit)}
           buttonStyle={styles.buttonStyle}
           loading={_get(signUpUserResponse, 'isFetching', false)}
-          loadingStyle={styles.loader}
-          loadingProps={{size: 28}}
         />
         <Text style={styles.switchToSignUpText}>
           {localeString(LOCALE_STRING.SIGNUP_FORM.ACCOUNT_EXIST)}

@@ -129,8 +129,6 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           onPress={handleSubmit(this.handleLoginPress)}
           buttonStyle={styles.buttonExtStyle}
           loading={_get(loginUserResponse, 'isFetching', false)}
-          loadingStyle={styles.loader}
-          loadingProps={{size: 28}}
         />
         <Text style={styles.switchToSignUpText}>
           {localeString(LOCALE_STRING.LOGIN_SCREEN.DONT_HAVE_ACCOUNT)}{' '}
