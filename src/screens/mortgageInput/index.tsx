@@ -34,9 +34,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
   }
   // Back Icon Pressed
-  handleBackPress = () => {
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
-  };
+  handleBackPress = () => {};
   // Funtion to toggle the visibility of the submit buttons
   handlePayNowVisibility() {
     this.setState({enableButton: false});
@@ -52,9 +50,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     );
     const {getCumulativeInterest} = this.props;
     const payload = {
-      mortgage_balance: values.mortgageAmount,
-      mortgage_term: values.timePeriod,
-      mortgage_payment: values.monthlyMortgagePayment,
+      mortgage_balance: values.mortgageAmount.replace(/,/g, ''),
+      mortgage_term: values.timePeriod.replace(/,/g, ''),
+      mortgage_payment: values.monthlyMortgagePayment.replace(/,/g, ''),
     };
     try {
       await getCumulativeInterest(payload);
@@ -110,7 +108,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
               LOCALE_STRING.MORTGAGE_INPUT_DATA.BUTTON_LOCALE_STRING,
             )}
             onPress={handleSubmit(this.handlePayNowPress)}
-            style={styles.buttonExteriorStyle}
+            titleStyle={styles.buttonExteriorStyle}
             buttonStyle={styles.buttonInteriorStyle}
             disabled={this.state.enableButton}
             loading={_get(getCumulativeInterestResponse, 'isFetching', false)}
