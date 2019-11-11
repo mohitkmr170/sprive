@@ -22,7 +22,11 @@ interface state {}
 class UnconnectedAuthLoading extends React.Component<props, state> {
   componentDidMount() {
     getAuthToken()
-      .then(res => this.authCheck(res))
+      .then(res => {
+        setTimeout(() => {
+          this.authCheck(res);
+        }, 1000);
+      })
       .catch(err => {
         console.log(err);
       });
