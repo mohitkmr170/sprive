@@ -70,7 +70,7 @@ const AuthStackNavigator = createStackNavigator(
     // },
   },
   {
-    initialRouteName: 'SignUpScreen',
+    initialRouteName: 'MortgageInputScreen',
     headerMode: 'none',
     /**
      * For custom transition navigation
