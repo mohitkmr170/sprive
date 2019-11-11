@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
 import {iBack} from '../../assets';
+import {APP_CONSTANTS} from '../../utils/constants';
 interface props {
   title: String;
   rightIconPresent: boolean;
@@ -14,7 +15,9 @@ export class Header extends React.Component<props, state> {
     const {rightIconPresent} = this.props;
     return (
       <View style={styles.mainContainer}>
-        <TouchableOpacity onPress={this.props.onBackPress}>
+        <TouchableOpacity
+          onPress={this.props.onBackPress}
+          hitSlop={APP_CONSTANTS.HIT_SLOP}>
           {/* .svg not working for SvgUri, UI specs to be inspected */}
           <Image source={iBack} height={24} width={24} />
         </TouchableOpacity>
