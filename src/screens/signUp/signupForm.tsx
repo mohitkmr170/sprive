@@ -64,7 +64,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
         _get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null),
         values.email,
       );
-      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
     }
   };
 
@@ -126,10 +126,10 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
             {localeString(LOCALE_STRING.SIGNUP_FORM.SETUP_ACCOUNT)}
           </Text>
           <View style={styles.middleContainer}>
-            <View>
+            <View style={{flex: 1}}>
               <Field
                 name="email"
-                label="Email"
+                label="Email Address"
                 editIcon={true}
                 component={ReduxFormField}
                 props={{
