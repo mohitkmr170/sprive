@@ -109,6 +109,7 @@ export const NAVIGATION_SCREEN_NAME = {
   LOGIN_SCREEN: 'LoginScreen',
   SIGNUP_SCREEN: 'SignUpScreen',
   DASHBOARD_SCREEN: 'DashboardScreen',
+  SET_GOAL_SCREEN: 'SetGoalScreen',
   MORTGAGE_INPUT_SCREEN: 'MortgageInputScreen',
   SAVE_INTEREST_SCREEN: 'SaveInterestScreen',
 };
