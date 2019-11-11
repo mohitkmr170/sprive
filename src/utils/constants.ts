@@ -5,7 +5,7 @@ import {Dimensions, StyleSheet} from 'react-native';
  */
 
 export const APP_CONSTANTS = {
-  HIT_SLOP: {left: 10, right: 10, top: 10, bottom: 10},
+  HIT_SLOP: {left: 20, right: 20, top: 20, bottom: 20},
   GRAPH_HEIGHT: 200,
   LOGIN_FORM: 'logIn',
   SIGNUP_FORM: 'signup',
@@ -109,6 +109,7 @@ export const NAVIGATION_SCREEN_NAME = {
   LOGIN_SCREEN: 'LoginScreen',
   SIGNUP_SCREEN: 'SignUpScreen',
   DASHBOARD_SCREEN: 'DashboardScreen',
+  SET_GOAL_SCREEN: 'SetGoalScreen',
   MORTGAGE_INPUT_SCREEN: 'MortgageInputScreen',
   SAVE_INTEREST_SCREEN: 'SaveInterestScreen',
 };

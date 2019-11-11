@@ -6,9 +6,10 @@ import {
   Login,
   SideBar,
   SignUp,
-  Dashboard,
   MortgageInput,
   SaveInterest,
+  DashBoard,
+  SetGoal,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -85,7 +86,10 @@ const AuthStackNavigator = createStackNavigator(
 const AppStackNavigator = createStackNavigator(
   {
     DashboardScreen: {
-      screen: Dashboard,
+      screen: DashBoard,
+    },
+    SetGoalScreen: {
+      screen: SetGoal,
     },
   },
   {
