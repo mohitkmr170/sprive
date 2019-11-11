@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
   mortgageInputInput: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
-    width: '75%',
     color: COLOR.VOILET,
   },
   topContainer: {flex: 1},

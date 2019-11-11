@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ImageBackground} from 'react-native';
+import {View, Text, ImageBackground, FlatList} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Header} from '../../components';
 import {styles} from './styles';
@@ -15,6 +15,23 @@ import {
   DB_KEYS,
 } from '../../utils/constants';
 import {getNumberWithCommas} from '../../utils/helperFunctions';
+
+const LIST_ITEM = [
+  {
+    HEADER: localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.FIRST_HEADER),
+    SUB_LIST_ITEMS: [
+      localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.FIRST_ITEM),
+    ],
+  },
+  {
+    HEADER: localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_HEADER),
+    SUB_LIST_ITEMS: [
+      localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_LIST_ONE),
+      localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_LIST_TWO),
+    ],
+  },
+];
+
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -37,6 +54,25 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
 
   handleSaveWithSprive = () => {
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+  };
+
+  returnItem = (item: object) => {
+    return (
+      <View style={{marginTop: 16}}>
+        <Text style={styles.firstContainerHeaderText}>{item.HEADER}</Text>
+        {item.SUB_LIST_ITEMS.length &&
+          item.SUB_LIST_ITEMS.map((subItem: string) => {
+            return (
+              <View style={styles.listItemsContainer}>
+                <View style={styles.bulletContainer}>
+                  <Bullets />
+                </View>
+                <Text style={styles.firstContainerListItemText}>{subItem}</Text>
+              </View>
+            );
+          })}
+      </View>
+    );
   };
 
   render() {
@@ -74,44 +110,12 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
           <Text style={styles.saveMoneyText}>
             {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SAVE_MONEY)}
           </Text>
-          <View style={{marginTop: 16}}>
-            <Text style={styles.firstContainerHeaderText}>
-              {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.FIRST_HEADER)}
-            </Text>
-            <View style={styles.listItemsContainer}>
-              <View style={styles.bulletContainer}>
-                <Bullets />
-              </View>
-              <Text style={styles.firstContainerListItemText}>
-                {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.FIRST_ITEM)}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.secondContainer}>
-            <Text style={styles.secondContainerHeaderText}>
-              {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_HEADER)}
-            </Text>
-            <View style={styles.listItemsContainer}>
-              <View style={styles.bulletContainer}>
-                <Bullets />
-              </View>
-              <Text style={styles.secondContainerListItemText}>
-                {localeString(
-                  LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_LIST_ONE,
-                )}
-              </Text>
-            </View>
-            <View style={styles.bulletListItemContainer}>
-              <View style={styles.bulletView}>
-                <Bullets />
-              </View>
-              <Text style={styles.secondContainerListItemText}>
-                {localeString(
-                  LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_LIST_TWO,
-                )}
-              </Text>
-            </View>
-          </View>
+          <FlatList
+            data={LIST_ITEM}
+            extraData={this.props}
+            keyExtractor={index => index.toString()}
+            renderItem={({item, index}) => this.returnItem(item)}
+          />
         </KeyboardAwareScrollView>
         <Button
           title={localeString(

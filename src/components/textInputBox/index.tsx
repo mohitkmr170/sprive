@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 import {iEmail, iLock} from '../../assets';
 import {textInputBoxStyle} from './styles';
+import {STYLE_CONSTANTS} from '../../utils/constants';
 
 interface props {
   label: string;
@@ -30,20 +31,16 @@ export class TextInputBox extends React.Component<props, state> {
       <View>
         {label && <Text style={[textInputBoxStyle.labelText]}>{label}</Text>}
         <View style={[textInputBoxStyle.inputContainer, customContainerStyle]}>
-          <View style={textInputBoxStyle.topContainer}>
+          <View style={[textInputBoxStyle.topContainer]}>
             {currencyIcon && (
               /*
               TODO : Intended to change Text to Icon, when it's provided
               */
               <Text style={textInputBoxStyle.currencyIcon}>£</Text>
             )}
-            <TextInput
-              style={[
-                textInputBoxStyle.inputBox,
-                {flex: 1, alignSelf: 'center'},
-              ]}
-              {...this.props}
-            />
+          </View>
+          <View style={{flex: 1}}>
+            <TextInput style={textInputBoxStyle.inputBox} {...this.props} />
           </View>
           {editIcon && (
             <TouchableOpacity onPress={onIconPress || null}>
