@@ -41,7 +41,7 @@ FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD] = {
   NAME: 'timePeriod',
   LOCALE_STRING: 'mortgageForm.timePeriodLabel',
   ERROR_STATUS: 'MortgageInput.syncErrors.timePeriod',
-  PLACEHOLDER: '10',
+  PLACEHOLDER: '25',
   PARAMETER_TEXT: 'in years',
   INFO_TEXT:
     'The approximate length of time you have left to pay on your mortgage.',
