@@ -44,7 +44,6 @@
     },
   "validationMessages": {
     "required": "Required",
-    "nonZero": "Invalid entry. Please re-enter a value more than 0",
     "invalidCardDetails": "Invalid card details",
     "minError": "Must be {{min}} characters or more",
     "maxError": "Must be {{max}} characters or less",

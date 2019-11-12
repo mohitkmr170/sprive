@@ -1,4 +1,8 @@
 import {localeString} from './i18n';
+import {LOCALE_STRING} from './constants';
+
+const MORTGAGE_LIMIT = 10000000,
+  MONTHLY_MORTGAGE_LIMIT = 10000;
 
 const REGEX = {
   NUMERIC: /[^0-9]/i,
@@ -12,18 +16,18 @@ const REGEX = {
  */
 
 export const required = value =>
-  value ? undefined : localeString('validationMessages.required');
+  value ? undefined : localeString(LOCALE_STRING.VALIDATIONS.IS_REQUIRED);
 
 export const minLength = min => value =>
   value && value.length < min
     ? min === 16
-      ? localeString('validationMessages.invalidCardDetails')
-      : localeString('validationMessages.minError', {min: min})
+      ? localeString(LOCALE_STRING.VALIDATIONS.INVALID_CARD_DETAILS)
+      : localeString(LOCALE_STRING.VALIDATIONS.MIN_ERROR, {min: min})
     : undefined;
 
 export const maxLength = max => value =>
   value && value.length > max
-    ? localeString('validationMessages.maxError', {max: max})
+    ? localeString(LOCALE_STRING.VALIDATIONS.MAX_ERROR, {max: max})
     : undefined;
 
 export const minLength2 = minLength(2);
@@ -41,10 +45,10 @@ export const maxLength8 = maxLength(8);
 export const numeric = (value: any) => {
   const withoutCommas = value.replace(/,/g, '');
   if (Number(withoutCommas) === 0)
-    return localeString('validationMessages.nonZero');
+    return localeString(LOCALE_STRING.VALIDATIONS.POSITIVE_NUMBER);
   else
     return withoutCommas && REGEX.NUMERIC.test(withoutCommas)
-      ? localeString('validationMessages.positiveNumber')
+      ? localeString(LOCALE_STRING.VALIDATIONS.POSITIVE_NUMBER)
       : undefined;
 };
 /**
@@ -54,22 +58,22 @@ export const numeric = (value: any) => {
 
 export const maxLimitMortgage = (value: any) => {
   const withoutCommas = value.replace(/,/g, '');
-  if (withoutCommas > 10000000)
-    return localeString('validationMessages.maxLimitMortgage');
+  if (withoutCommas > MORTGAGE_LIMIT)
+    return localeString(LOCALE_STRING.VALIDATIONS.MORTGAGE_LIMIT);
   else return undefined;
 };
 
 export const maxLimitMonthlyMortgage = (value: any) => {
   const withoutCommas = value.replace(/,/g, '');
-  if (withoutCommas > 10000)
-    return localeString('validationMessages.maxLimitMonthlyMortgage');
+  if (withoutCommas > MONTHLY_MORTGAGE_LIMIT)
+    return localeString(LOCALE_STRING.VALIDATIONS.MONTHLY_MORTGAGE_LIMIT);
   else return undefined;
 };
 
 export const length10 = (value: number) => {
   value &&
     (value.length !== 10
-      ? localeString('validationMessages.length10')
+      ? localeString(LOCALE_STRING.VALIDATIONS.LENGTH_TEN)
       : undefined);
 };
 
@@ -79,7 +83,7 @@ export const length10 = (value: number) => {
  */
 export const email = (value: string) =>
   value && !REGEX.EMAIL.test(value)
-    ? localeString('validationMessages.invalidEmail')
+    ? localeString(LOCALE_STRING.VALIDATIONS.INVALID_EMAIL)
     : undefined;
 
 /**
@@ -88,10 +92,10 @@ export const email = (value: string) =>
  */
 export const alphaNumeric = (value: any) =>
   value && !REGEX.ALPHA_NUMERIC.test(value)
-    ? localeString('validationMessages.alphaNumberic')
+    ? localeString(LOCALE_STRING.VALIDATIONS.ALPHA_NUMERIC)
     : undefined;
 
 export const yearRange = (value: any) =>
   value && value > 0 && value < 35
     ? undefined
-    : localeString('validationMessages.yearRange');
+    : localeString(LOCALE_STRING.VALIDATIONS.YEAR_RANGE);

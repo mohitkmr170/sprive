@@ -25,6 +25,7 @@ export const textInputBoxStyle = StyleSheet.create({
   },
   topContainer: {flexDirection: 'row', justifyContent: 'center'},
   currencyIcon: {
+    paddingTop: 1,
     textAlign: 'center',
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
