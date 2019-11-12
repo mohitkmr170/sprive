@@ -38,11 +38,13 @@ export const maxLength8 = maxLength(8);
  *
  * @param value : number : positive number validation
  */
-export const numeric = (value: number) =>
-  value && REGEX.NUMERIC.test(value)
-    ? localeString('validationMessages.positiveNumber')
-    : undefined;
-
+export const numeric = (value: any) => {
+  return Number(value) > 0
+    ? value && REGEX.NUMERIC.test(value)
+      ? localeString('validationMessages.positiveNumber')
+      : undefined
+    : localeString('validationMessages.positiveNumber');
+};
 /**
  *
  * @param value : number : number with length===10
