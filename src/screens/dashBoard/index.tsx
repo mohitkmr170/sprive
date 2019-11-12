@@ -36,7 +36,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       _get(getUserInfoResponse, DB_KEYS.CURRENT_USER_EMAIL, ''),
     )
       .then(response => {
-        showSnackBar(APP_CONSTANTS.LOG_OUT);
+        // showSnackBar(APP_CONSTANTS.LOG_OUT);
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
       })
       .catch(error => {
