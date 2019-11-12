@@ -11,6 +11,8 @@ export const APP_CONSTANTS = {
   SIGNUP_FORM: 'signup',
   MORTGAGE_INPUT_FORM: 'MortgageInput',
   GENERAL_ERROR: 'Something went wrong!',
+  LOG_OUT: 'Logged Out!',
+  FALSE_TOKEN: 'FALSE TOKEN',
 };
 
 export const STYLE_CONSTANTS = {
@@ -102,6 +104,7 @@ export const DB_KEYS = {
   IS_FETCHING: 'isFetching',
   TOTAL_INTEREST: 'response.data.totalInterest',
   AUTH_STATUS: 'status',
+  CURRENT_USER_EMAIL: 'response.data.email',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
