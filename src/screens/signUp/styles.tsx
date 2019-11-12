@@ -81,7 +81,7 @@ export const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: COLOR.PRIMARY,
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
-    borderRadius: 48,
+    borderRadius: 40,
     marginBottom: STYLE_CONSTANTS.margin.NORMAL,
   },
   buttonTextStyle: {
