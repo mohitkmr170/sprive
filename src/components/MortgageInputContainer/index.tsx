@@ -8,8 +8,8 @@ import {connect} from 'react-redux';
 import {
   required,
   numeric,
-  maxLength8,
-  maxLength6,
+  maxLimitMortgage,
+  maxLimitMonthlyMortgage,
   yearRange,
 } from '../../utils/validate';
 import {get as _get} from 'lodash';
@@ -35,7 +35,7 @@ FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT] = {
   INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
   CURRENCY_ICON: true,
   VALIDATION_RULE:
-    COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLength8),
+    COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLimitMortgage),
 };
 FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD] = {
   NAME: 'timePeriod',
@@ -58,7 +58,8 @@ FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT] = {
   INFO_TEXT: 'The amount you are required to pay your lender each month.',
   CURRENCY_ICON: true,
   VALIDATION_RULE:
-    COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLength6),
+    COMMON_VALIDATION_RULE &&
+    COMMON_VALIDATION_RULE.concat(maxLimitMonthlyMortgage),
 };
 
 interface props {

@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
   buttonExtStyle: {
     backgroundColor: COLOR.PRIMARY,
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
-    borderRadius: 54,
+    borderRadius: 40,
     marginBottom: STYLE_CONSTANTS.margin.NORMAL,
   },
   firstContainer: {flex: 1},

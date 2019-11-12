@@ -39,16 +39,33 @@ export const maxLength8 = maxLength(8);
  * @param value : number : positive number validation
  */
 export const numeric = (value: any) => {
-  return Number(value) > 0
-    ? value && REGEX.NUMERIC.test(value)
+  const withoutCommas = value.replace(/,/g, '');
+  if (Number(withoutCommas) === 0)
+    return localeString('validationMessages.nonZero');
+  else
+    return withoutCommas && REGEX.NUMERIC.test(withoutCommas)
       ? localeString('validationMessages.positiveNumber')
-      : undefined
-    : localeString('validationMessages.positiveNumber');
+      : undefined;
 };
 /**
  *
  * @param value : number : number with length===10
  */
+
+export const maxLimitMortgage = (value: any) => {
+  const withoutCommas = value.replace(/,/g, '');
+  if (withoutCommas > 10000000)
+    return localeString('validationMessages.maxLimitMortgage');
+  else return undefined;
+};
+
+export const maxLimitMonthlyMortgage = (value: any) => {
+  const withoutCommas = value.replace(/,/g, '');
+  if (withoutCommas > 10000)
+    return localeString('validationMessages.maxLimitMonthlyMortgage');
+  else return undefined;
+};
+
 export const length10 = (value: number) => {
   value &&
     (value.length !== 10
