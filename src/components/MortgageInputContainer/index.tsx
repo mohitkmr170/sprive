@@ -8,8 +8,8 @@ import {connect} from 'react-redux';
 import {
   required,
   numeric,
-  maxLength8,
-  maxLength6,
+  maxLimitMortgage,
+  maxLimitMonthlyMortgage,
   yearRange,
 } from '../../utils/validate';
 import {get as _get} from 'lodash';
@@ -30,18 +30,18 @@ FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT] = {
   NAME: 'mortgageAmount',
   LOCALE_STRING: 'mortgageForm.morgageAmountLabel',
   ERROR_STATUS: 'MortgageInput.syncErrors.mortgageAmount',
-  PLACEHOLDER: 'Mortgage data',
+  PLACEHOLDER: '250,000',
   PARAMETER_TEXT: 'in pounds',
   INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
   CURRENCY_ICON: true,
   VALIDATION_RULE:
-    COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLength8),
+    COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLimitMortgage),
 };
 FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD] = {
   NAME: 'timePeriod',
   LOCALE_STRING: 'mortgageForm.timePeriodLabel',
   ERROR_STATUS: 'MortgageInput.syncErrors.timePeriod',
-  PLACEHOLDER: '10',
+  PLACEHOLDER: '25',
   PARAMETER_TEXT: 'in years',
   INFO_TEXT:
     'The approximate length of time you have left to pay on your mortgage.',
@@ -53,12 +53,13 @@ FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT] = {
   NAME: 'monthlyMortgagePayment',
   LOCALE_STRING: 'mortgageForm.monthlyMortgagePaymentLabel',
   ERROR_STATUS: 'MortgageInput.syncErrors.monthlyMortgagePayment',
-  PLACEHOLDER: '120400',
+  PLACEHOLDER: '1,204',
   PARAMETER_TEXT: 'in pounds',
   INFO_TEXT: 'The amount you are required to pay your lender each month.',
   CURRENCY_ICON: true,
   VALIDATION_RULE:
-    COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLength6),
+    COMMON_VALIDATION_RULE &&
+    COMMON_VALIDATION_RULE.concat(maxLimitMonthlyMortgage),
 };
 
 interface props {

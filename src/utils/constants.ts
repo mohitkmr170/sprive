@@ -151,4 +151,17 @@ export const LOCALE_STRING = {
     LOCALE_STRING_TAKE_YOUR_BEST: 'mortgageForm.takeYourBest',
     BUTTON_LOCALE_STRING: 'global.calculateNow',
   },
+  VALIDATIONS: {
+    IS_REQUIRED: 'validationMessages.required',
+    INVALID_CARD_DETAILS: 'validationMessages.invalidCardDetails',
+    MIN_ERROR: 'validationMessages.minError',
+    MAX_ERROR: 'validationMessages.maxError',
+    POSITIVE_NUMBER: 'validationMessages.positiveNumber',
+    MORTGAGE_LIMIT: 'validationMessages.maxLimitMortgage',
+    MONTHLY_MORTGAGE_LIMIT: 'validationMessages.maxLimitMonthlyMortgage',
+    LENGTH_TEN: 'validationMessages.length10',
+    INVALID_EMAIL: 'validationMessages.invalidEmail',
+    ALPHA_NUMERIC: 'validationMessages.alphaNumberic',
+    YEAR_RANGE: 'validationMessages.yearRange',
+  },
 };

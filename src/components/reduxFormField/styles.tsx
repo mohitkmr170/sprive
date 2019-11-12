@@ -9,7 +9,8 @@ export const Styles = StyleSheet.create({
   },
   fieldError: {
     alignItems: 'flex-end',
-    height: 14,
+    maxHeight: 28,
+    minHeight: 14,
   },
   errorText: {
     fontSize: 14,

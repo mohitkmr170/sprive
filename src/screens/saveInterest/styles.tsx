@@ -103,7 +103,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
     marginBottom: STYLE_CONSTANTS.margin.HUGISH,
     marginTop: STYLE_CONSTANTS.margin.LARGEST,
-    borderRadius: STYLE_CONSTANTS.padding.HUGE,
+    borderRadius: 40,
   },
   bulletView: {
     marginRight: STYLE_CONSTANTS.margin.SMALL,
