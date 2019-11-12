@@ -98,21 +98,21 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
                 handleCalculateNowPressed={this.handlePayNowVisibility}
               />
             </View>
+            <Button
+              title={localeString(
+                LOCALE_STRING.MORTGAGE_INPUT_DATA.BUTTON_LOCALE_STRING,
+              )}
+              onPress={handleSubmit(this.handlePayNowPress)}
+              titleStyle={styles.buttonExteriorStyle}
+              buttonStyle={styles.buttonInteriorStyle}
+              disabled={this.state.enableButton}
+              loading={_get(
+                getCumulativeInterestResponse,
+                DB_KEYS.IS_FETCHING,
+                false,
+              )}
+            />
           </KeyboardAwareScrollView>
-          <Button
-            title={localeString(
-              LOCALE_STRING.MORTGAGE_INPUT_DATA.BUTTON_LOCALE_STRING,
-            )}
-            onPress={handleSubmit(this.handlePayNowPress)}
-            titleStyle={styles.buttonExteriorStyle}
-            buttonStyle={styles.buttonInteriorStyle}
-            disabled={this.state.enableButton}
-            loading={_get(
-              getCumulativeInterestResponse,
-              DB_KEYS.IS_FETCHING,
-              false,
-            )}
-          />
         </View>
       </View>
     );

@@ -38,19 +38,16 @@ export const maxLength8 = maxLength(8);
  *
  * @param value : number : positive number validation
  */
-export const numeric = (value: number) => {
-  value.replace(/,/g, '');
+export const numeric = (value: number) =>
   value && REGEX.NUMERIC.test(value)
     ? localeString('validationMessages.positiveNumber')
     : undefined;
-};
 
 /**
  *
  * @param value : number : number with length===10
  */
 export const length10 = (value: number) => {
-  value.replace(/,/g, '');
   value &&
     (value.length !== 10
       ? localeString('validationMessages.length10')
@@ -76,6 +73,6 @@ export const alphaNumeric = (value: any) =>
     : undefined;
 
 export const yearRange = (value: any) =>
-  value && value < 35
+  value && value > 0 && value < 35
     ? undefined
     : localeString('validationMessages.yearRange');

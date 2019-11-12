@@ -10,7 +10,7 @@ export const textInputBoxStyle = StyleSheet.create({
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     marginBottom: STYLE_CONSTANTS.margin.NORMAL,
-    opacity: 0.3,
+    opacity: 0.5,
     marginLeft: STYLE_CONSTANTS.margin.SMALLEST,
   },
   inputBox: {
@@ -23,7 +23,7 @@ export const textInputBoxStyle = StyleSheet.create({
     borderBottomWidth: 1,
     flexDirection: 'row',
   },
-  topContainer: {flexDirection: 'row'},
+  topContainer: {flexDirection: 'row', justifyContent: 'center'},
   currencyIcon: {
     textAlign: 'center',
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,

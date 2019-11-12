@@ -83,56 +83,58 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.topContainer}>
-          <Text style={styles.signInText}>
-            {localeString(LOCALE_STRING.LOGIN_SCREEN.SIGNIN_TO_ACCOUNT)}
-          </Text>
-          <Field
-            name="email"
-            label="Email Address"
-            component={ReduxFormField}
-            props={{
-              keyboardType: 'email-address',
-              style: styles.emailInput,
-              returnKeyType: 'done',
-              autoCapitalize: false,
-              placeholder: 'Email',
-            }}
-            editIcon={true}
-            validate={[email, required]}
-          />
-          <Field
-            name="password"
-            label="Password"
-            component={ReduxFormField}
-            props={{
-              maxLength: 16,
-              style: styles.emailInput,
-              secureTextEntry: true,
-              autoCapitalize: false,
-              placeholder: 'Password',
-            }}
-            editIcon={true}
-            validate={[minLength8, maxLength16, alphaNumeric, required]}
-          />
-          <TouchableOpacity style={styles.forgotPasswordContainer}>
-            <Text style={styles.forgotPassword}>
-              {localeString(LOCALE_STRING.LOGIN_SCREEN.FORGOT_PASSWORD)}
+          <View style={styles.firstContainer}>
+            <Text style={styles.signInText}>
+              {localeString(LOCALE_STRING.LOGIN_SCREEN.SIGNIN_TO_ACCOUNT)}
             </Text>
-          </TouchableOpacity>
-        </KeyboardAwareScrollView>
-        <Button
-          title={localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_BUTTON)}
-          titleStyle={styles.buttonTitleStyle}
-          onPress={handleSubmit(this.handleLoginPress)}
-          buttonStyle={styles.buttonExtStyle}
-          loading={_get(loginUserResponse, DB_KEYS.IS_FETCHING, false)}
-        />
-        <Text style={styles.switchToSignUpText}>
-          {localeString(LOCALE_STRING.LOGIN_SCREEN.DONT_HAVE_ACCOUNT)}{' '}
-          <Text onPress={() => this.handleSignUpPress()}>
-            {localeString(LOCALE_STRING.LOGIN_SCREEN.SIGNUP)}
+            <Field
+              name="email"
+              label="Email Address"
+              component={ReduxFormField}
+              props={{
+                keyboardType: 'email-address',
+                style: styles.emailInput,
+                returnKeyType: 'done',
+                autoCapitalize: false,
+                placeholder: 'Email',
+              }}
+              editIcon={true}
+              validate={[email, required]}
+            />
+            <Field
+              name="password"
+              label="Password"
+              component={ReduxFormField}
+              props={{
+                maxLength: 16,
+                style: styles.emailInput,
+                secureTextEntry: true,
+                autoCapitalize: false,
+                placeholder: 'Password',
+              }}
+              editIcon={true}
+              validate={[minLength8, maxLength16, alphaNumeric, required]}
+            />
+            <TouchableOpacity style={styles.forgotPasswordContainer}>
+              <Text style={styles.forgotPassword}>
+                {localeString(LOCALE_STRING.LOGIN_SCREEN.FORGOT_PASSWORD)}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <Button
+            title={localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_BUTTON)}
+            titleStyle={styles.buttonTitleStyle}
+            onPress={handleSubmit(this.handleLoginPress)}
+            buttonStyle={styles.buttonExtStyle}
+            loading={_get(loginUserResponse, DB_KEYS.IS_FETCHING, false)}
+          />
+          <Text style={styles.switchToSignUpText}>
+            {localeString(LOCALE_STRING.LOGIN_SCREEN.DONT_HAVE_ACCOUNT)}{' '}
+            <Text onPress={() => this.handleSignUpPress()}>
+              {localeString(LOCALE_STRING.LOGIN_SCREEN.SIGNUP)}
+            </Text>
           </Text>
-        </Text>
+        </KeyboardAwareScrollView>
       </View>
     );
   }

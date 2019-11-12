@@ -42,6 +42,7 @@ interface props {
 
 interface state {
   passStrengthMessage: string;
+  passwordVisibility: boolean;
 }
 
 class UnConnectedSignUpForm extends React.Component<props, state> {
@@ -49,6 +50,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     super(props);
     this.state = {
       passStrengthMessage: '',
+      passwordVisibility: true,
     };
   }
 
@@ -103,6 +105,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
 
   render() {
     const {handleSubmit, signUpUserResponse} = this.props;
+    const {passwordVisibility} = this.state;
     let passMessagePercentage = checkPassMessagePercentage(
       this.state.passStrengthMessage,
     );
@@ -151,11 +154,14 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                   name="password"
                   label="Password"
                   editIcon={true}
+                  onIconPress={() =>
+                    this.setState({passwordVisibility: !passwordVisibility})
+                  }
                   component={ReduxFormField}
                   props={{
                     maxLength: 16,
                     style: styles.emailInput,
-                    secureTextEntry: true,
+                    secureTextEntry: passwordVisibility,
                     autoCapitalize: false,
                     placeholder: 'Password',
                     onChangeText: (password: string) =>
@@ -186,41 +192,40 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                 )}
               </View>
             </View>
+            <View style={{marginBottom: 20}}>
+              <Text style={styles.bottomText}>
+                {localeString(LOCALE_STRING.SIGNUP_FORM.BY_CLICKING)}{' '}
+                <Text
+                  onPress={() => this.handleTermAndConditionClick()}
+                  style={styles.decoratedText}>
+                  {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}{' '}
+                </Text>
+                {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}
+                <Text
+                  onPress={() => this.handlePrivacyPolicyClick()}
+                  style={styles.decoratedText}>
+                  {' '}
+                  {localeString(LOCALE_STRING.SIGNUP_FORM.PRIVACY_POLICY)}
+                </Text>
+              </Text>
+            </View>
+            <Button
+              title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
+              titleStyle={styles.buttonTextStyle}
+              onPress={handleSubmit(this.handleSignUpSubmit)}
+              buttonStyle={styles.buttonStyle}
+              loading={_get(signUpUserResponse, DB_KEYS.IS_FETCHING, false)}
+            />
+            <Text style={styles.switchToSignUpText}>
+              {localeString(LOCALE_STRING.SIGNUP_FORM.ACCOUNT_EXIST)}
+              {''}
+              <Text onPress={() => this.handleSignInPress()}>
+                {' '}
+                {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
+              </Text>
+            </Text>
           </KeyboardAwareScrollView>
         </View>
-
-        <View style={{marginBottom: 20}}>
-          <Text style={styles.bottomText}>
-            {localeString(LOCALE_STRING.SIGNUP_FORM.BY_CLICKING)}{' '}
-            <Text
-              onPress={() => this.handleTermAndConditionClick()}
-              style={styles.decoratedText}>
-              {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}{' '}
-            </Text>
-            {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}
-            <Text
-              onPress={() => this.handlePrivacyPolicyClick()}
-              style={styles.decoratedText}>
-              {' '}
-              {localeString(LOCALE_STRING.SIGNUP_FORM.PRIVACY_POLICY)}
-            </Text>
-          </Text>
-        </View>
-        <Button
-          title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
-          titleStyle={styles.buttonTextStyle}
-          onPress={handleSubmit(this.handleSignUpSubmit)}
-          buttonStyle={styles.buttonStyle}
-          loading={_get(signUpUserResponse, DB_KEYS.IS_FETCHING, false)}
-        />
-        <Text style={styles.switchToSignUpText}>
-          {localeString(LOCALE_STRING.SIGNUP_FORM.ACCOUNT_EXIST)}
-          {''}
-          <Text onPress={() => this.handleSignInPress()}>
-            {' '}
-            {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
-          </Text>
-        </Text>
       </View>
     );
   }

@@ -31,7 +31,7 @@ export class TextInputBox extends React.Component<props, state> {
       <View>
         {label && <Text style={[textInputBoxStyle.labelText]}>{label}</Text>}
         <View style={[textInputBoxStyle.inputContainer, customContainerStyle]}>
-          <View style={[textInputBoxStyle.topContainer]}>
+          <View style={textInputBoxStyle.topContainer}>
             {currencyIcon && (
               /*
               TODO : Intended to change Text to Icon, when it's provided
@@ -39,7 +39,7 @@ export class TextInputBox extends React.Component<props, state> {
               <Text style={textInputBoxStyle.currencyIcon}>£</Text>
             )}
           </View>
-          <View style={{flex: 1}}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
             <TextInput style={textInputBoxStyle.inputBox} {...this.props} />
           </View>
           {editIcon && (
