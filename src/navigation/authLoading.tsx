@@ -5,7 +5,7 @@ import {getAuthToken} from '../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import {getUserInfo} from '../store/reducers';
 import {connect} from 'react-redux';
-import {DB_KEYS} from '../utils/constants';
+import {DB_KEYS, NAVIGATION_SCREEN_NAME} from '../utils/constants';
 
 const AUTH_STACK = 'Auth';
 const APP_STACK = 'App';
@@ -44,7 +44,8 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       const {getUserInfoResponse} = this.props;
       if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
         this.props.navigation.navigate(APP_STACK);
-      } else this.props.navigation.navigate(AUTH_STACK);
+      } else
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
     }
   }
   render() {
