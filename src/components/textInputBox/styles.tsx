@@ -10,7 +10,7 @@ export const textInputBoxStyle = StyleSheet.create({
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     marginBottom: STYLE_CONSTANTS.margin.NORMAL,
-    opacity: 0.3,
+    opacity: 0.5,
     marginLeft: STYLE_CONSTANTS.margin.SMALLEST,
   },
   inputBox: {
@@ -22,10 +22,8 @@ export const textInputBoxStyle = StyleSheet.create({
     borderColor: COLOR.REDUX_FORM_INPUT_CONTAINER,
     borderBottomWidth: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: STYLE_CONSTANTS.padding.SMALL,
   },
-  topContainer: {flexDirection: 'row'},
+  topContainer: {flexDirection: 'row', justifyContent: 'center'},
   currencyIcon: {
     textAlign: 'center',
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
@@ -44,8 +42,9 @@ export const textInputBoxStyle = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGER,
     color: COLOR.DARK_BLUE,
     opacity: 0.3,
-    alignSelf: 'center',
     fontStyle: 'italic',
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    textAlignVertical: 'center',
+    flex: 1,
   },
 });

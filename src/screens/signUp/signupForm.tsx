@@ -42,6 +42,7 @@ interface props {
 
 interface state {
   passStrengthMessage: string;
+  passwordVisibility: boolean;
 }
 
 class UnConnectedSignUpForm extends React.Component<props, state> {
@@ -49,6 +50,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     super(props);
     this.state = {
       passStrengthMessage: '',
+      passwordVisibility: true,
     };
   }
 
@@ -64,7 +66,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
         _get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null),
         values.email,
       );
-      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
     }
   };
 
@@ -103,6 +105,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
 
   render() {
     const {handleSubmit, signUpUserResponse} = this.props;
+    const {passwordVisibility} = this.state;
     let passMessagePercentage = checkPassMessagePercentage(
       this.state.passStrengthMessage,
     );
@@ -112,107 +115,117 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
-        <KeyboardAwareScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.topContainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.registrationText}>
-              {localeString(LOCALE_STRING.SIGNUP_FORM.REG_AND_SEC)}
-            </Text>
-            {/* To be changed to actual progress state */}
-            <Text style={styles.progressStatusText}>2/4</Text>
-          </View>
-          <Text style={styles.accountSetupText}>
-            {localeString(LOCALE_STRING.SIGNUP_FORM.SETUP_ACCOUNT)}
-          </Text>
-          <View style={styles.middleContainer}>
-            <View>
-              <Field
-                name="email"
-                label="Email"
-                editIcon={true}
-                component={ReduxFormField}
-                props={{
-                  keyboardType: 'email-address',
-                  style: styles.emailInput,
-                  returnKeyType: 'done',
-                  autoCapitalize: false,
-                  placeholder: 'Email',
-                }}
-                validate={[email, required]}
-              />
-              <Field
-                name="password"
-                label="Password"
-                editIcon={true}
-                component={ReduxFormField}
-                props={{
-                  maxLength: 16,
-                  style: styles.emailInput,
-                  secureTextEntry: true,
-                  autoCapitalize: false,
-                  placeholder: 'Password',
-                  onChangeText: (password: string) =>
-                    this.handlePassword(password),
-                }}
-                validate={[minLength8, maxLength16, alphaNumeric, required]}
-              />
-              {_get(
-                this.props.reducerResponse,
-                'signup.values.password',
-                false,
-              ) && (
-                <View style={styles.passStrengthContainer}>
-                  <View style={styles.passStrengthInnerContainer}>
-                    <Progress.Bar
-                      progress={passMessagePercentage}
-                      color={COLOR.LIGHT_GREEN}
-                      height={STYLE_CONSTANTS.margin.SMALLER}
-                      width={null}
-                      unfilledColor={COLOR.LIGHT_GRAY}
-                      borderWidth={0}
-                    />
-                  </View>
-                  <Text style={styles.passStrengthText}>
-                    {this.state.passStrengthMessage}
-                  </Text>
-                </View>
-              )}
+        <View
+          style={{
+            flex: 1,
+            marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
+            marginTop: STYLE_CONSTANTS.margin.NORMAL,
+          }}>
+          <KeyboardAwareScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.topContainer}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.registrationText}>
+                {localeString(LOCALE_STRING.SIGNUP_FORM.REG_AND_SEC)}
+              </Text>
+              {/* To be changed to actual progress state */}
+              <Text style={styles.progressStatusText}>2/4</Text>
             </View>
-          </View>
-        </KeyboardAwareScrollView>
-        <View style={{marginBottom: 20}}>
-          <Text style={styles.bottomText}>
-            {localeString(LOCALE_STRING.SIGNUP_FORM.BY_CLICKING)}{' '}
-            <Text
-              onPress={() => this.handleTermAndConditionClick()}
-              style={styles.decoratedText}>
-              {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}{' '}
+            <Text style={styles.accountSetupText}>
+              {localeString(LOCALE_STRING.SIGNUP_FORM.SETUP_ACCOUNT)}
             </Text>
-            {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}
-            <Text
-              onPress={() => this.handlePrivacyPolicyClick()}
-              style={styles.decoratedText}>
-              {' '}
-              {localeString(LOCALE_STRING.SIGNUP_FORM.PRIVACY_POLICY)}
+            <View style={styles.middleContainer}>
+              <View style={{flex: 1}}>
+                <Field
+                  name="email"
+                  label="Email Address"
+                  editIcon={true}
+                  component={ReduxFormField}
+                  props={{
+                    keyboardType: 'email-address',
+                    style: styles.emailInput,
+                    returnKeyType: 'done',
+                    autoCapitalize: false,
+                    placeholder: 'Email',
+                  }}
+                  validate={[email, required]}
+                />
+                <Field
+                  name="password"
+                  label="Password"
+                  editIcon={true}
+                  onIconPress={() =>
+                    this.setState({passwordVisibility: !passwordVisibility})
+                  }
+                  component={ReduxFormField}
+                  props={{
+                    maxLength: 16,
+                    style: styles.emailInput,
+                    secureTextEntry: passwordVisibility,
+                    autoCapitalize: false,
+                    placeholder: 'Password',
+                    onChangeText: (password: string) =>
+                      this.handlePassword(password),
+                  }}
+                  validate={[minLength8, maxLength16, alphaNumeric, required]}
+                />
+                {_get(
+                  this.props.reducerResponse,
+                  'signup.values.password',
+                  false,
+                ) && (
+                  <View style={styles.passStrengthContainer}>
+                    <View style={styles.passStrengthInnerContainer}>
+                      <Progress.Bar
+                        progress={passMessagePercentage}
+                        color={COLOR.LIGHT_GREEN}
+                        height={STYLE_CONSTANTS.margin.SMALLER}
+                        width={null}
+                        unfilledColor={COLOR.LIGHT_GRAY}
+                        borderWidth={0}
+                      />
+                    </View>
+                    <Text style={styles.passStrengthText}>
+                      {this.state.passStrengthMessage}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            </View>
+            <View style={{marginBottom: 20}}>
+              <Text style={styles.bottomText}>
+                {localeString(LOCALE_STRING.SIGNUP_FORM.BY_CLICKING)}{' '}
+                <Text
+                  onPress={() => this.handleTermAndConditionClick()}
+                  style={styles.decoratedText}>
+                  {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}{' '}
+                </Text>
+                {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}
+                <Text
+                  onPress={() => this.handlePrivacyPolicyClick()}
+                  style={styles.decoratedText}>
+                  {' '}
+                  {localeString(LOCALE_STRING.SIGNUP_FORM.PRIVACY_POLICY)}
+                </Text>
+              </Text>
+            </View>
+            <Button
+              title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
+              titleStyle={styles.buttonTextStyle}
+              onPress={handleSubmit(this.handleSignUpSubmit)}
+              buttonStyle={styles.buttonStyle}
+              loading={_get(signUpUserResponse, DB_KEYS.IS_FETCHING, false)}
+            />
+            <Text style={styles.switchToSignUpText}>
+              {localeString(LOCALE_STRING.SIGNUP_FORM.ACCOUNT_EXIST)}
+              {''}
+              <Text onPress={() => this.handleSignInPress()}>
+                {' '}
+                {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
+              </Text>
             </Text>
-          </Text>
+          </KeyboardAwareScrollView>
         </View>
-        <Button
-          title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
-          titleStyle={styles.buttonTextStyle}
-          onPress={handleSubmit(this.handleSignUpSubmit)}
-          buttonStyle={styles.buttonStyle}
-          loading={_get(signUpUserResponse, DB_KEYS.IS_FETCHING, false)}
-        />
-        <Text style={styles.switchToSignUpText}>
-          {localeString(LOCALE_STRING.SIGNUP_FORM.ACCOUNT_EXIST)}
-          {''}
-          <Text onPress={() => this.handleSignInPress()}>
-            {' '}
-            {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
-          </Text>
-        </Text>
       </View>
     );
   }

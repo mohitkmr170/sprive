@@ -26,7 +26,7 @@
   },
   "mortgageForm": {
     "morgageAmountLabel": "Amount left to pay on your Mortgage",
-    "timePeriodLabel": "How long intil it's fully paid",
+    "timePeriodLabel": "How long until it's fully paid?",
     "monthlyMortgagePaymentLabel": "Monthly Mortgage Payment",
     "mortgageData": "Mortgage Data",
     "letUsWorkOut": "Let's work out how much interest you’re paying",
@@ -36,11 +36,11 @@
     "cardText": "The amount you will pay your bank in interest alone",
     "saveMoney": "Let’s save you money",
     "firstHeader": "Always on the best deal",
-    "firstListItem": "With Sprive, you will always be on the best deal saving you upto thousands of pounds in a year.",
+    "firstListItem": "With Sprive, you will always be on the best deal saving you upto thousands of pounds in a year",
     "secondHeader": "Smarter payments to maximise your savings",
     "secondListOne": "Pay off your mortgage as quickly as you can",
     "secondListTwo": "Chip away without impacting your lifestyle",
-    "buttonText": "Start Saving with Sprive"
+    "buttonText": "Start saving with Sprive"
     },
   "validationMessages": {
     "required": "Required",
@@ -51,6 +51,6 @@
     "length10": "Must be 10 characters",
     "invalidEmail": "Invalid email address",
     "alphaNumberic": "Atleast one character and one number",
-    "yearRange": "should be within [0-35] range"
+    "yearRange": "should be between [0-35] range"
   }
 }

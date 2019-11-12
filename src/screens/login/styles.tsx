@@ -48,6 +48,7 @@ export const styles = StyleSheet.create({
     borderRadius: 54,
     marginBottom: STYLE_CONSTANTS.margin.NORMAL,
   },
+  firstContainer: {flex: 1},
   switchToSignUpText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,

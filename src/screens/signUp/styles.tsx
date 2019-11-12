@@ -8,14 +8,20 @@ export const styles = StyleSheet.create({
   },
   topContainer: {
     flexGrow: 1,
-    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
-    marginTop: STYLE_CONSTANTS.margin.NORMAL,
   },
   emailInput: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,
     width: '95%',
     marginTop: STYLE_CONSTANTS.margin.SMALLEST,
     padding: STYLE_CONSTANTS.padding.SMALLEST,
+  },
+  topTextContainer: {
+    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
+    marginTop: STYLE_CONSTANTS.margin.NORMAL,
+  },
+  formContainer: {
+    flex: 1,
+    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
   },
   middleContainer: {
     flex: 1,
@@ -51,6 +57,7 @@ export const styles = StyleSheet.create({
   passStrengthContainer: {
     flexDirection: 'row',
     marginRight: STYLE_CONSTANTS.margin.LARGEST,
+    paddingBottom: STYLE_CONSTANTS.margin.NORMAL,
   },
   passStrengthInnerContainer: {
     flex: 1,

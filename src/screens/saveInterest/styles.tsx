@@ -69,6 +69,7 @@ export const styles = StyleSheet.create({
   },
   bulletContainer: {marginRight: STYLE_CONSTANTS.margin.SMALL, marginTop: 4},
   firstContainerListItemText: {
+    flex: 1,
     flexWrap: 'wrap',
     color: COLOR.VOILET,
     opacity: 0.7,
