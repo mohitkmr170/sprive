@@ -26,6 +26,7 @@ export const STYLE_CONSTANTS = {
   },
   margin: {
     EXTRA_HUMUNGOUS: 52,
+    SLIGHT_HUMUNGOUS: 48,
     HUMONGOUS: 40,
     HUGE: 36,
     HUGER: 32,
@@ -166,5 +167,17 @@ export const LOCALE_STRING = {
     INVALID_EMAIL: 'validationMessages.invalidEmail',
     ALPHA_NUMERIC: 'validationMessages.alphaNumberic',
     YEAR_RANGE: 'validationMessages.yearRange',
+  },
+  SET_GOAL_SCREEN: {
+    HOW_QUICKLY: 'setGoalScreen.howQuickly',
+    SET_TARGET: 'setGoalScreen.setTarget',
+    YOU_CAN_ADJUST: 'setGoalScreen.youCanAdjust',
+    BASED_ON_TARGET: 'setGoalScreen.basedOnTarget',
+    ESTIMATE: 'setGoalScreen.estimate',
+    OVER_PAYMENT: 'setGoalScreen.overPayment',
+    MONTHS: 'setGoalScreen.months',
+    ESTIMATE_INTEREST: 'setGoalScreen.estimateInterest',
+    SAVINGS: 'setGoalScreen.savings',
+    SET_GOAL: 'setGoalScreen.setGoal',
   },
 };
