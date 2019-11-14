@@ -64,7 +64,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
         _get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null),
         values.email,
       );
-      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
     }
   };
 

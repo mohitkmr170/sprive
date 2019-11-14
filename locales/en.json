@@ -66,5 +66,23 @@
     "estimateInterest": "Estimated Interest",
     "savings": "Savings",
     "setGoal": "Set Goal"
+  },
+  "stackBarGraphComponent": {
+    "projectedTime": "Projected Time",
+    "saving": "Saving",
+    "months": "Months",
+    "projectInterested": "Projected Interest",
+  },
+  "dashBoard": {
+    "thisMonth": "This Month",
+    "overPaymentTarget": "Your overpayment target",
+    "paymentReminder": "Next payment reminder due on Sept 25th",
+    "amountLeft": "Amount Left:",
+    "income": "Income",
+    "spent": "Spent",
+    "avaialbleBalance": "Available Balance",
+    "makeOverPayment": "Make an Overpayment",
+    "myProgress": "My Progress",
+    "projectedMortgage": "Projected: Mortgage free in"
   }
 }

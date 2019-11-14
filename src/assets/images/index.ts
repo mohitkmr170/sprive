@@ -1,2 +1,9 @@
 export const splashScreen = require('../images/splashScreen.png');
 export const interestBanner = require('../images/Mask_Group_2.png');
+export const dashBoardCard = require('../images/Card_dashboard.png');
+export const report = require('../images/Report.png');
+export const plusIncome = require('../images/Income.png');
+export const minusIncome = require('../images/Income2.png');
+export const menu = require('../images/menu.png');
+export const award = require('../images/award.png');
+export const activity = require('../images/activity.png');

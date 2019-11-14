@@ -1,7 +1,10 @@
+import React from 'react';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
+import Icon from 'react-native-vector-icons/Entypo';
+import Icons from 'react-native-vector-icons/Feather';
 import {
   Login,
   SideBar,
@@ -19,26 +22,45 @@ import {AuthLoading} from '../navigation/authLoading';
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Login: {
-      screen: Login,
+    DashBoard: {
+      screen: DashBoard,
       navigationOptions: {
-        tabBarLabel: 'Login',
+        tabBarLabel: 'DashBoard',
+        tabBarIcon: ({tintColor}) => (
+          <Icons name="activity" size={24} color={tintColor} />
+        ),
       },
     },
-    SignUp: {
-      screen: SignUp,
+    SetGoal: {
+      screen: SetGoal,
       navigationOptions: {
-        tabBarLabel: 'SignUp',
+        tabBarLabel: 'SetGoal',
+        tabBarIcon: ({tintColor}) => (
+          <Icons name="award" size={24} color={tintColor} />
+        ),
+      },
+    },
+    SideBar: {
+      screen: SideBar,
+      navigationOptions: {
+        tabBarLabel: 'SideBar',
+        tabBarIcon: ({tintColor}) => (
+          <Icon name="menu" size={24} color={tintColor} />
+        ),
+        tabBarOnPress: () => {} /*
+        TODO : Onpress of this, Side bar should be opened
+        */,
       },
     },
   },
   {
     tabBarOptions: {
-      activeTintColor: 'red',
-      inactiveTintColor: 'blue',
+      tabStyle: {height: 60},
+      activeTintColor: '#DD2371',
+      inactiveTintColor: '#D8D8D8',
       showIcon: true,
       labelStyle: {
-        fontSize: 14,
+        fontSize: 12,
       },
     },
   },
@@ -62,12 +84,6 @@ const AuthStackNavigator = createStackNavigator(
     SaveInterestScreen: {
       screen: SaveInterest,
     },
-    /**
-     * TabNavigator to be Enabled when it's requirements arises
-     */
-    // TabNavigatorScreen: {
-    //   screen: TabNavigator,
-    // },
   },
   {
     initialRouteName: 'MortgageInputScreen',
@@ -91,9 +107,15 @@ const AppStackNavigator = createStackNavigator(
     SetGoalScreen: {
       screen: SetGoal,
     },
+    /**
+     * TabNavigator to be Enabled when it's requirements arises
+     */
+    TabNavigatorScreen: {
+      screen: TabNavigator,
+    },
   },
   {
-    initialRouteName: 'DashboardScreen',
+    initialRouteName: 'TabNavigatorScreen',
     headerMode: 'none',
   },
 );

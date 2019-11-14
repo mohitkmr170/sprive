@@ -46,6 +46,7 @@ export const STYLE_CONSTANTS = {
     SMALLEST: 4,
   },
   padding: {
+    HUMONGOUS: 44,
     HUGE: 32,
     HUGISH: 28,
     LARGER: 24,
@@ -62,6 +63,7 @@ export const STYLE_CONSTANTS = {
     SIZE: {
       LARGEST_HUMONGOUS: 52,
       HUMONGOUS: 48,
+      HUGEST: 36,
       HUGER: 28,
       HUGE: 24,
       HUGISH: 22,
@@ -82,6 +84,7 @@ export const STYLE_CONSTANTS = {
       HUGE: 24,
       HUGISH: 22,
       LARGER: 20,
+      LARGISH: 18,
       LARGE: 16,
       NORMAL: 14,
       SMALL: 12,
@@ -104,6 +107,10 @@ export const STYLE_CONSTANTS = {
     },
   },
 };
+export const ICON_NAME = {
+  LEFT_ICON: 'chevrons-left',
+  RIGHT_ICON: 'chevrons-right',
+};
 export const DB_KEYS = {
   ACCESS_TOKEN: 'response.accessToken',
   IS_FETCHING: 'isFetching',
@@ -120,6 +127,7 @@ export const NAVIGATION_SCREEN_NAME = {
   SET_GOAL_SCREEN: 'SetGoalScreen',
   MORTGAGE_INPUT_SCREEN: 'MortgageInputScreen',
   SAVE_INTEREST_SCREEN: 'SaveInterestScreen',
+  TAB_NAVIGATOR: 'TabNavigatorScreen',
 };
 
 export const LOCALE_STRING = {
@@ -183,5 +191,23 @@ export const LOCALE_STRING = {
     ESTIMATE_INTEREST: 'setGoalScreen.estimateInterest',
     SAVINGS: 'setGoalScreen.savings',
     SET_GOAL: 'setGoalScreen.setGoal',
+  },
+  GRAPH_COMPONENT: {
+    PROJECTED_TIME: 'stackBarGraphComponent.projectedTime',
+    SAVING: 'stackBarGraphComponent.saving',
+    MONTHS: 'stackBarGraphComponent.months',
+    PROJECTED_INT: 'stackBarGraphComponent.projectIntereste',
+  },
+  DASHBOARD_SCREEN: {
+    THIS_MONTH: 'dashBoard.thisMonth',
+    OVER_PAYMENT: 'dashBoard.overPaymentTarget',
+    PAYMENT_REMINDER: 'dashBoard.paymentReminder',
+    AMOUNT_LEFT: 'dashBoard.amountLeft',
+    INCOME: 'dashBoard.income',
+    SPENT: 'dashBoard.spent',
+    AVAILABLE_BALANCE: 'dashBoard.avaialbleBalance',
+    MAKE_OVERPAYMENT: 'dashBoard.makeOverPayment',
+    MY_PROGRESS: 'dashBoard.myProgress',
+    PROJECTED_MORTGAGE: 'dashBoard.projectedMortgage',
   },
 };
