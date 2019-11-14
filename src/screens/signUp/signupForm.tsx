@@ -73,7 +73,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     const payload = {email: values.email, password: values.password};
     await signUpUser(payload);
     const {signUpUserResponse} = this.props;
-    if (!_get(signUpUserResponse, 'error', null)) {
+    if (!_get(signUpUserResponse, DB_KEYS.ERROR, null)) {
       await setAuthToken(
         _get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null),
         values.email,
@@ -81,30 +81,30 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
       // getUserInfo API call
       await getUserInfo();
       const {getUserInfoResponse} = this.props;
-      if (_get(getUserInfoResponse, 'error', null)) {
+      if (_get(getUserInfoResponse, DB_KEYS.ERROR, null)) {
         navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
       } else {
         const mortgageData = {
           mortgage_balance: _get(
             reducerResponse,
-            'MortgageInput.values.mortgageAmount',
+            DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT,
             null,
           ).replace(/,/g, ''),
           mortgage_term: _get(
             reducerResponse,
-            'MortgageInput.values.timePeriod',
+            DB_KEYS.FORM_MORTGAGE_TIMEPERIOD,
             null,
           ).replace(/,/g, ''),
           mortgage_payment: _get(
             reducerResponse,
-            'MortgageInput.values.monthlyMortgagePayment',
+            DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
             null,
           ).replace(/,/g, ''),
-          user_id: _get(getUserInfoResponse, 'response.data.id', null),
+          user_id: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
         };
         await setUserMortgage(mortgageData);
         const {setUserMortgageResponse} = this.props;
-        if (_get(setUserMortgageResponse, 'error', null)) {
+        if (_get(setUserMortgageResponse, DB_KEYS.ERROR, null)) {
           navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
         } else {
           navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
