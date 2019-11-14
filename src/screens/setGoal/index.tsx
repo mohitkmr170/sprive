@@ -8,7 +8,7 @@ import {localeString} from '../../utils/i18n';
 import {LOCALE_STRING} from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
 
-const MIN_LIMIT = 8;
+const YEAR_MIN_LIMIT = 8;
 const SLIDER_START_VALUE = 0;
 const SLIDER_END_VALUE = 20;
 const SLIDER_STEP = 1;
@@ -26,7 +26,7 @@ export class SetGoal extends React.Component<props, state> {
   }
 
   componentWillMount() {
-    this.setState({yearTarget: MIN_LIMIT});
+    this.setState({yearTarget: YEAR_MIN_LIMIT});
   }
 
   /**
