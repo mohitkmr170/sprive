@@ -4,6 +4,10 @@ import {Dimensions, StyleSheet} from 'react-native';
  * App Constants
  */
 
+/*
+TODO : Number conventions to be added in future(best practice) to be researched on
+*/
+
 export const APP_CONSTANTS = {
   HIT_SLOP: {left: 20, right: 20, top: 20, bottom: 20},
   GRAPH_HEIGHT: 200,
