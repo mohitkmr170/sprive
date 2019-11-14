@@ -192,7 +192,7 @@ export const LOCALE_STRING = {
     PROJECTED_TIME: 'stackBarGraphComponent.projectedTime',
     SAVING: 'stackBarGraphComponent.saving',
     MONTHS: 'stackBarGraphComponent.months',
-    PROJECTED_INT: 'stackBarGraphComponent.projectIntereste',
+    PROJECTED_INT: 'stackBarGraphComponent.projectInterested',
   },
   DASHBOARD_SCREEN: {
     THIS_MONTH: 'dashBoard.thisMonth',

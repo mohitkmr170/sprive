@@ -8,7 +8,7 @@ import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
-import {signUpUser} from '../../store/reducers';
+import {signUpUser, setUserMortgage, getUserInfo} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   email,
@@ -36,6 +36,12 @@ interface props {
     navigate: (routeName: String) => void;
     goBack: () => void;
   };
+  signUpUser: (payload: object) => void;
+  setUserMortgage: (payload: object) => void;
+  getUserInfo: () => void;
+  signUpUserResponse: object;
+  getUserInfoResponse: object;
+  setUserMortgageResponse: object;
   reducerResponse: object;
   handleSubmit: (values?: {email: string; password: string}) => void;
 }
@@ -57,16 +63,53 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
   componentDidMount = () => {};
 
   handleSignUpSubmit = async (values: {email: string; password: string}) => {
-    const {navigation, signUpUser} = this.props;
+    const {
+      navigation,
+      signUpUser,
+      setUserMortgage,
+      reducerResponse,
+      getUserInfo,
+    } = this.props;
     const payload = {email: values.email, password: values.password};
     await signUpUser(payload);
     const {signUpUserResponse} = this.props;
-    if (_get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null)) {
-      setAuthToken(
+    if (!_get(signUpUserResponse, 'error', null)) {
+      await setAuthToken(
         _get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null),
         values.email,
       );
-      navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
+      // getUserInfo API call
+      await getUserInfo();
+      const {getUserInfoResponse} = this.props;
+      if (_get(getUserInfoResponse, 'error', null)) {
+        navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+      } else {
+        const mortgageData = {
+          mortgage_balance: _get(
+            reducerResponse,
+            'MortgageInput.values.mortgageAmount',
+            null,
+          ).replace(/,/g, ''),
+          mortgage_term: _get(
+            reducerResponse,
+            'MortgageInput.values.timePeriod',
+            null,
+          ).replace(/,/g, ''),
+          mortgage_payment: _get(
+            reducerResponse,
+            'MortgageInput.values.monthlyMortgagePayment',
+            null,
+          ).replace(/,/g, ''),
+          user_id: _get(getUserInfoResponse, 'response.data.id', null),
+        };
+        await setUserMortgage(mortgageData);
+        const {setUserMortgageResponse} = this.props;
+        if (_get(setUserMortgageResponse, 'error', null)) {
+          navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+        } else {
+          navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
+        }
+      }
     }
   };
 
@@ -238,10 +281,14 @@ export const SignUpScreen = reduxForm({
 const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
   signUpUserResponse: state.signUpUser,
+  setUserMortgageResponse: state.setUserMortgage,
+  getUserInfoResponse: state.getUserInfo,
 });
 
 const bindActions = dispatch => ({
   signUpUser: payload => dispatch(signUpUser.fetchCall(payload)),
+  getUserInfo: () => dispatch(getUserInfo.fetchCall()),
+  setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
 });
 
 export const SignUpForm = connect(
