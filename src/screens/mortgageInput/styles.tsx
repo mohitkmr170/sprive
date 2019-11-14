@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
     marginTop: STYLE_CONSTANTS.margin.LARGEST,
     flexWrap: 'wrap',
     color: COLOR.VOILET,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
   mainSubHeaderText: {

@@ -54,5 +54,17 @@
     "maxLimitMortgage": "Invalid amount. Please re-enter a value less than £10,000,000",
     "maxLimitMonthlyMortgage": "Invalid amount. Please re-enter a value less than £10,000",
     "yearRange": "should be between [0-35] range"
+  },
+  "setGoalScreen": {
+    "howQuickly": "How quickly would you like to be Mortgage free?",
+    "setTarget": "Set target in years",
+    "youCanAdjust": "You can adjust your goals anytime and no payment will ever leave your account without your approval",
+    "basedOnTarget": "Based on your target",
+    "estimate": "Estimated Monthly",
+    "overPayment": "Overpayment",
+    "months": "Months",
+    "estimateInterest": "Estimated Interest",
+    "savings": "Savings",
+    "setGoal": "Set Goal"
   }
 }

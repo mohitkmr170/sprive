@@ -4,6 +4,10 @@ import {Dimensions, StyleSheet} from 'react-native';
  * App Constants
  */
 
+/*
+TODO : Number conventions to be added in future(best practice) to be researched on
+*/
+
 export const APP_CONSTANTS = {
   HIT_SLOP: {left: 20, right: 20, top: 20, bottom: 20},
   GRAPH_HEIGHT: 200,
@@ -26,6 +30,7 @@ export const STYLE_CONSTANTS = {
   },
   margin: {
     EXTRA_HUMUNGOUS: 52,
+    SLIGHT_HUMUNGOUS: 48,
     HUMONGOUS: 40,
     HUGE: 36,
     HUGER: 32,
@@ -166,5 +171,17 @@ export const LOCALE_STRING = {
     INVALID_EMAIL: 'validationMessages.invalidEmail',
     ALPHA_NUMERIC: 'validationMessages.alphaNumberic',
     YEAR_RANGE: 'validationMessages.yearRange',
+  },
+  SET_GOAL_SCREEN: {
+    HOW_QUICKLY: 'setGoalScreen.howQuickly',
+    SET_TARGET: 'setGoalScreen.setTarget',
+    YOU_CAN_ADJUST: 'setGoalScreen.youCanAdjust',
+    BASED_ON_TARGET: 'setGoalScreen.basedOnTarget',
+    ESTIMATE: 'setGoalScreen.estimate',
+    OVER_PAYMENT: 'setGoalScreen.overPayment',
+    MONTHS: 'setGoalScreen.months',
+    ESTIMATE_INTEREST: 'setGoalScreen.estimateInterest',
+    SAVINGS: 'setGoalScreen.savings',
+    SET_GOAL: 'setGoalScreen.setGoal',
   },
 };

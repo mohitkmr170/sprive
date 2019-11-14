@@ -18,4 +18,10 @@ export const COLOR = {
   LIGHT_GRAY: '#E6E9EF',
   DOLLAR_COLOR: '#09245E4D',
   GREEN: '#00ff00',
+  DARK_GRAY: '#707070',
+  SHADOW_BORDER: '#ddd',
+  SHADOW_COLOR: '#000',
+  LIGHT_BORDER: 'rgba(9, 36, 94, 0.1)',
+  LIGHT_TEXT_GREEN: 'rgba(0, 193, 164, 1)',
+  SLIDER_COLOR: '#00C1A4',
 };
