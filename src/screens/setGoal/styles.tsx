@@ -6,9 +6,7 @@ export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
-  middleContainer: {
-    flex: 1,
-  },
+  middleContainer: {},
   mortgageStatusProgressContainer: {
     marginTop: STYLE_CONSTANTS.margin.NORMAL,
     flexDirection: 'row',
@@ -31,7 +29,7 @@ export const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: COLOR.PRIMARY,
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
-    marginBottom: STYLE_CONSTANTS.margin.HUGISH,
+    marginVertical: STYLE_CONSTANTS.margin.HUGISH,
     borderRadius: 40,
   },
   mortgageTextData: {
@@ -119,7 +117,8 @@ export const styles = StyleSheet.create({
   leftText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.NORMAL,
-    color: COLOR.LIGHT_BORDER,
+    color: COLOR.VOILET,
+    opacity: 0.4,
   },
   leftDetails: {
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,

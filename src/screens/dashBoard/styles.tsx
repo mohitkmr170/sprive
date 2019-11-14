@@ -23,6 +23,8 @@ export const styles = StyleSheet.create({
     padding: STYLE_CONSTANTS.padding.SMALLER,
     backgroundColor: COLOR.DARK_VOILET,
     alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   thisMonthText: {
     marginTop: STYLE_CONSTANTS.margin.SMALL,

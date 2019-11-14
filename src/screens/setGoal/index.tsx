@@ -113,13 +113,13 @@ export class SetGoal extends React.Component<props, state> {
               </View>
             </View>
           </View>
+          <Button
+            title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
+            titleStyle={styles.buttonTitleStyle}
+            buttonStyle={styles.buttonStyle}
+            onPress={() => this.handleSetGoal()}
+          />
         </ScrollView>
-        <Button
-          title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
-          titleStyle={styles.buttonTitleStyle}
-          buttonStyle={styles.buttonStyle}
-          onPress={() => this.handleSetGoal()}
-        />
       </View>
     );
   }

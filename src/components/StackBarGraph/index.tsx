@@ -326,8 +326,8 @@ export class StackBarGraph extends React.Component<props, state> {
                         color: currData[index].status
                           ? COLOR.SLIDER_COLOR
                           : COLOR.STEEL_GRAY,
-                        textDecorationLine:
-                          currentMonth === item && 'underline',
+                        // textDecorationLine:
+                        //   currentMonth === item && 'underline',
                       },
                     ]}
                     key={index}>
