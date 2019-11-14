@@ -117,6 +117,12 @@ export const DB_KEYS = {
   TOTAL_INTEREST: 'response.data.totalInterest',
   AUTH_STATUS: 'status',
   CURRENT_USER_EMAIL: 'response.data.email',
+  ERROR: 'error',
+  FORM_MORTGAGE_MORTGAGE_AMOUNT: 'MortgageInput.values.mortgageAmount',
+  FORM_MORTGAGE_TIMEPERIOD: 'MortgageInput.values.timePeriod',
+  FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT:
+    'MortgageInput.values.monthlyMortgagePayment',
+  USER_ID: 'response.data.id',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -196,7 +202,7 @@ export const LOCALE_STRING = {
     PROJECTED_TIME: 'stackBarGraphComponent.projectedTime',
     SAVING: 'stackBarGraphComponent.saving',
     MONTHS: 'stackBarGraphComponent.months',
-    PROJECTED_INT: 'stackBarGraphComponent.projectIntereste',
+    PROJECTED_INT: 'stackBarGraphComponent.projectInterested',
   },
   DASHBOARD_SCREEN: {
     THIS_MONTH: 'dashBoard.thisMonth',
