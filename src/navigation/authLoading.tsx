@@ -1,12 +1,15 @@
 import React from 'react';
-import {ImageBackground, ActivityIndicator, StyleSheet} from 'react-native';
+import {ImageBackground, StyleSheet, AsyncStorage} from 'react-native';
 import {splashScreen} from '../assets';
 import {getAuthToken} from '../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import {getUserInfo} from '../store/reducers';
 import {connect} from 'react-redux';
 import {DB_KEYS, NAVIGATION_SCREEN_NAME} from '../utils/constants';
+import {resetAuthToken} from '../utils/helperFunctions';
 
+const LAUNCH_STATUS = 'alreadyLaunched';
+const FIRST_LAUNCH = 'firstLaunch';
 const AUTH_STACK = 'Auth';
 const APP_STACK = 'App';
 interface props {
@@ -20,16 +23,29 @@ interface props {
 interface state {}
 
 class UnconnectedAuthLoading extends React.Component<props, state> {
+  constructor(props: props) {
+    super(props);
+    this.state = {};
+  }
   componentDidMount() {
-    getAuthToken()
-      .then(res => {
-        setTimeout(() => {
-          this.authCheck(res);
-        }, 2000);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    AsyncStorage.getItem(LAUNCH_STATUS).then(async value => {
+      if (!value) {
+        AsyncStorage.setItem(LAUNCH_STATUS, FIRST_LAUNCH);
+        resetAuthToken()
+          .then(res => this.props.navigation.navigate(AUTH_STACK))
+          .catch(err => console.log(err));
+      } else {
+        getAuthToken()
+          .then(res => {
+            setTimeout(() => {
+              this.authCheck(res);
+            }, 2000);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
   }
 
   // Auth check, based on which navigation to auth/app stack is decided
