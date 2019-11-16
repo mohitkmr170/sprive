@@ -10,6 +10,7 @@ export default {
     GET_USER_INFO: '/get-user-info',
     LOGIN: '/authentication',
     SIGNUP: '/users',
-    SET_USER_MORTGAGE: '/mortgage',
+    USER_MORTGAGE: '/mortgage',
+    GOAL: '/goal',
   },
 };

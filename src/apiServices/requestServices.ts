@@ -3,6 +3,8 @@ import {url} from '../../config/urlEndPoints';
 import apiConstants from '../../config/apiConstants';
 import {getAuthToken, showSnackBar} from '../utils/helperFunctions';
 import {APP_CONSTANTS} from '../utils/constants';
+import {get as _get} from 'lodash';
+import {stringify} from 'querystring';
 
 /**
  * Function to get complete URL
@@ -22,7 +24,7 @@ const getCompleteUrl = (endPoint: string) => {
  */
 const getQueryParams = (qParam: object) => {
   const queryString = require('query-string');
-  return queryString(qParam);
+  return queryString.stringify(qParam);
 };
 
 /**
@@ -41,12 +43,17 @@ const getHeaders = (token: string) => {
  * GET request
  * @param endPoint : string
  */
-export const getRequest = (endPoint: string) => {
+export const getRequest = (endPoint: string, params?: object) => {
+  const qParams = _get(params, 'qParams', null);
+  let completeURL = getCompleteUrl(endPoint);
+  if (qParams) {
+    completeURL = getCompleteUrl(endPoint) + '?' + getQueryParams(qParams);
+  }
   return new Promise(async (resolve, reject) => {
     // await to block next execution, waiting for authToken
     const token = await getAuthToken();
     axios
-      .get(getCompleteUrl(endPoint), {
+      .get(completeURL, {
         headers: getHeaders(token),
         timeout: apiConstants.TIMEOUT,
       })
@@ -78,12 +85,17 @@ export const postRequest = (endPoint: string, params?: object) => {
  * @param endPoint string
  * @param params : object
  */
-export const patchRequest = (endPoint: string, params: Object) => {
+export const patchRequest = (
+  endPoint: string,
+  params: Object,
+  qParams: object,
+) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
     axios
       .patch(getCompleteUrl(endPoint), params, {
         headers: getHeaders(token),
+        params: qParams,
         timeout: apiConstants.TIMEOUT,
       })
       .then(response => resolve(response.data))

@@ -3,3 +3,7 @@ export * from './getUserInfo';
 export * from './loginUser';
 export * from './signUpUser';
 export * from './setUserMortgage';
+export * from './getUserMortgageData';
+export * from './setUserGoal';
+export * from './getUserGoal';
+export * from './updateUserGoal';
