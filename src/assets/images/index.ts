@@ -7,3 +7,4 @@ export const minusIncome = require('../images/Income2.png');
 export const menu = require('../images/menu.png');
 export const award = require('../images/award.png');
 export const activity = require('../images/activity.png');
+export const warning = require('../images/warning.png');
