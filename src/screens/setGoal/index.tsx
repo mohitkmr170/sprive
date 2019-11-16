@@ -1,126 +1,338 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import {Header} from '../../components';
+import {Header, LoadingModal} from '../../components';
 import Slider from '@react-native-community/slider';
 import {localeString} from '../../utils/i18n';
-import {LOCALE_STRING} from '../../utils/constants';
+import {connect} from 'react-redux';
+import {get as _get} from 'lodash';
+import {
+  getUserMortgageData,
+  setUserGoal,
+  getUserGoal,
+  updateUserGoal,
+} from '../../store/reducers';
+import {LOCALE_STRING, DB_KEYS} from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
+import {calculateGoal} from '../../../calculatorJS/index';
+import {ErcWarning} from './ercWarning';
+import {TargetDetails} from './targetDetails';
 
-const YEAR_MIN_LIMIT = 8;
-const SLIDER_START_VALUE = 0;
-const SLIDER_END_VALUE = 20;
+const SLIDER_START_VALUE = 1;
 const SLIDER_STEP = 1;
 
-interface props {}
-interface state {
-  yearTarget: number;
+interface props {
+  getUserMortgageData: (payload: object) => void;
+  setUserGoal: (payload: object) => void;
+  getUserGoal: (payload: object) => void;
+  updateUserGoal: (payload: object, extraPayload: object) => void;
+  getUserMortgageDataResponse: object;
+  getUserInfoResponse: object;
+  getUserGoalResponse: object;
+  updateUserGoalResponse: object;
 }
-export class SetGoal extends React.Component<props, state> {
+interface state {
+  mortgageTerm: number;
+  monthlyOverPayment: number;
+  interestSaving: number;
+  loading: boolean;
+  ercLimit: number;
+  ercLimitCrossed: boolean;
+}
+export class UnconnectedSetGoal extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
-      yearTarget: 0,
+      mortgageTerm: 0,
+      monthlyOverPayment: 0,
+      interestSaving: 0,
+      loading: true,
+      ercLimit: 0,
+      ercLimitCrossed: false,
     };
   }
 
-  componentWillMount() {
-    this.setState({yearTarget: YEAR_MIN_LIMIT});
-  }
+  componentDidMount = async () => {
+    const {getUserMortgageData, getUserInfoResponse, getUserGoal} = this.props;
+    const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
+    const userInfoBody = {
+      qParams: {
+        user_id: userId,
+      },
+    };
+    await getUserMortgageData(userInfoBody);
+    const userGoalBody = {
+      qParams: {
+        user_id: userId,
+      },
+    };
+    await getUserGoal(userGoalBody);
+    const {getUserGoalResponse} = this.props;
+    //To update previously set goal
+    if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
+      const {getUserGoalResponse} = this.props;
+      const mortgageTerm = _get(
+        getUserGoalResponse,
+        DB_KEYS.NEW_MORTGAGE_TERM,
+        null,
+      );
+      const monthlyOverPayment = _get(
+        getUserGoalResponse,
+        DB_KEYS.GOAL_OVERPAYMENT,
+        null,
+      );
+      const totalInterest = _get(
+        getUserGoalResponse,
+        DB_KEYS.GOAL_INTEREST_SAVED,
+        null,
+      );
+      this.setState({
+        mortgageTerm: mortgageTerm,
+        monthlyOverPayment: monthlyOverPayment,
+        interestSaving: totalInterest,
+        loading: false,
+      });
+    } else {
+      //To add new goal with Mortgage data
+      this.goalUpdate();
+    }
+  };
+
+  /**
+   * Function to update user Goal values
+   * @param newTerm : number : New Mortgage term
+   */
+  goalUpdate = async (newTerm?: number) => {
+    const {getUserMortgageDataResponse} = this.props;
+    const {loading} = this.state;
+    let currentMortgageAmount = _get(
+      getUserMortgageDataResponse,
+      DB_KEYS.MORTGAGE_BALANCE,
+      null,
+    );
+    let currentMonthlyMortgageAmount = _get(
+      getUserMortgageDataResponse,
+      DB_KEYS.MORTGAGE_PAYMENT,
+      null,
+    );
+    let currentMortgageTerm = _get(
+      getUserMortgageDataResponse,
+      DB_KEYS.MORTGAGE_TERM,
+      null,
+    );
+    let desiredTerm = currentMortgageTerm;
+    if (loading) {
+      /*
+      TODO : Need to add ERC value based desiredTerm & mortgageTerm/2(Max of either)
+      */
+      desiredTerm = Math.ceil(currentMortgageTerm / 2);
+    } else {
+      desiredTerm = newTerm;
+    }
+    //calculating using calculatorJS
+    let newGoal = calculateGoal(
+      currentMortgageAmount,
+      currentMonthlyMortgageAmount,
+      currentMortgageTerm,
+      desiredTerm,
+    );
+    //Calculating ERC Limit
+    let mortgageErc = (currentMortgageAmount / currentMortgageTerm) * 0.1;
+    this.setState({
+      mortgageTerm: desiredTerm,
+      monthlyOverPayment: newGoal.monthlyOverPayment,
+      interestSaving: newGoal.totalSavings,
+      loading: false,
+      ercLimitCrossed: newGoal.monthlyOverPayment > mortgageErc,
+    });
+  };
 
   /**
    * Function called upon slider being changed
    * @param newValue : number : updated value of slider
    */
-  onSlide = (newValue: number) => {
-    this.setState({yearTarget: newValue});
+  onSlide = (newTerm: number) => {
+    this.goalUpdate(newTerm);
   };
 
   /**
    * Function to be called on setGoal button press
    */
-  handleSetGoal = () => {};
+  handleSetGoal = async () => {
+    const {
+      setUserGoal,
+      getUserInfoResponse,
+      getUserMortgageDataResponse,
+      getUserGoalResponse,
+      updateUserGoal,
+    } = this.props;
+    //Adding new Goal
+    if (
+      !(
+        getUserGoalResponse.response.data[0] &&
+        getUserGoalResponse.response.data[0].new_mortgage_term
+      )
+    ) {
+      this.setState({
+        loading: true,
+      });
+      const payload = {
+        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
+        mortgage_id: String(
+          _get(getUserMortgageDataResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
+        ),
+        monthly_overpayment_amount: this.state.monthlyOverPayment,
+        old_mortgage_term: _get(
+          getUserMortgageDataResponse,
+          DB_KEYS.MORTGAGE_TERM,
+          null,
+        ),
+        new_mortgage_term: this.state.mortgageTerm,
+        total_interest_saved: this.state.interestSaving,
+      };
+      await setUserGoal(payload);
+      this.setState({
+        loading: false,
+      });
+    } else {
+      /*
+      Patch request call, updating previosly set Goal
+      */
+      this.setState({
+        loading: true,
+        ercLimitCrossed: false,
+      });
+      const body = {
+        monthly_overpayment_amount: this.state.monthlyOverPayment,
+        new_mortgage_term: this.state.mortgageTerm,
+        total_interest_saved: this.state.interestSaving,
+      };
+      const qParam = {
+        id: _get(getUserGoalResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
+      };
+      await updateUserGoal(body, qParam);
+      const {updateUserGoalResponse} = this.props;
+      this.setState({
+        mortgageTerm: _get(
+          updateUserGoalResponse,
+          DB_KEYS.NEW_MORTGAGE_TERM,
+          null,
+        ),
+        monthlyOverPayment: _get(
+          updateUserGoalResponse,
+          DB_KEYS.GOAL_OVERPAYMENT,
+          null,
+        ),
+        interestSaving: _get(
+          updateUserGoalResponse,
+          DB_KEYS.GOAL_INTEREST_SAVED,
+          null,
+        ),
+        loading: false,
+      });
+    }
+  };
 
   render() {
-    const {yearTarget} = this.state;
+    const {getUserMortgageDataResponse} = this.props;
+    const {
+      mortgageTerm,
+      monthlyOverPayment,
+      interestSaving,
+      loading,
+      ercLimitCrossed,
+    } = this.state;
     return (
       <View style={styles.mainContainer}>
-        <Header />
-        <ScrollView contentContainerStyle={styles.middleContainer}>
-          <View style={styles.mortgageStatusProgressContainer}>
-            <Text style={styles.mortgageTextData}>
-              {localeString(
-                LOCALE_STRING.MORTGAGE_INPUT_DATA.LOCALE_STRING_MORTGAGE_DATA,
-              )}
-            </Text>
-            <Text style={styles.progressFractionText}>4/4</Text>
-          </View>
-          <Text style={styles.mainHeaderText}>
-            {localeString(LOCALE_STRING.SET_GOAL_SCREEN.HOW_QUICKLY)}
-          </Text>
-          <View style={styles.targetTextContainer}>
-            <Text style={styles.setTargetText}>
-              {localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_TARGET)}
-            </Text>
-            <Text style={styles.currentYearText}>{yearTarget}</Text>
-          </View>
-          <View style={styles.sliderContainer}>
-            <Text style={styles.sliderLeftText}>{SLIDER_START_VALUE}</Text>
-            <Slider
-              style={styles.sliderInternalStyles}
-              minimumValue={SLIDER_START_VALUE}
-              maximumValue={SLIDER_END_VALUE}
-              step={SLIDER_STEP}
-              value={yearTarget}
-              onValueChange={newValue => this.onSlide(newValue)}
-              thumbTintColor={COLOR.SLIDER_COLOR}
-              minimumTrackTintColor={COLOR.BLACK}
-              maximumTrackTintColor={COLOR.BLACK}
-            />
-            <Text style={styles.sliderLeftText}>{SLIDER_END_VALUE}</Text>
-          </View>
-          <Text style={styles.detailText}>
-            {localeString(LOCALE_STRING.SET_GOAL_SCREEN.YOU_CAN_ADJUST)}
-          </Text>
-          <Text style={styles.basedOnText}>
-            {localeString(LOCALE_STRING.SET_GOAL_SCREEN.BASED_ON_TARGET)}
-          </Text>
-          <View style={styles.bottomContainer}>
-            <View style={styles.bottonContainerInner}>
-              <View style={styles.leftContainer}>
-                <Text style={styles.leftText}>
-                  {localeString(LOCALE_STRING.SET_GOAL_SCREEN.ESTIMATE)}
-                </Text>
-                <Text style={styles.leftText}>
-                  {localeString(LOCALE_STRING.SET_GOAL_SCREEN.OVER_PAYMENT)}
-                </Text>
-                <Text style={styles.leftDetails}>
-                  3 {localeString(LOCALE_STRING.SET_GOAL_SCREEN.MONTHS)}
-                </Text>
+        {loading ? (
+          <LoadingModal loadingText="Loading..." />
+        ) : (
+          <View style={{flex: 1}}>
+            <Header />
+            {ercLimitCrossed && (
+              <View style={styles.ercLimitContainer}>
+                <ErcWarning />
               </View>
-              <View style={styles.rightContainer}>
-                <Text style={styles.leftText}>
-                  {' '}
+            )}
+            <ScrollView contentContainerStyle={styles.middleContainer}>
+              <View style={styles.mortgageStatusProgressContainer}>
+                <Text style={styles.mortgageTextData}>
                   {localeString(
-                    LOCALE_STRING.SET_GOAL_SCREEN.ESTIMATE_INTEREST,
+                    LOCALE_STRING.MORTGAGE_INPUT_DATA
+                      .LOCALE_STRING_MORTGAGE_DATA,
                   )}
                 </Text>
-                <Text style={styles.leftText}>
-                  {localeString(LOCALE_STRING.SET_GOAL_SCREEN.SAVINGS)}
-                </Text>
-                <Text style={styles.leftDetails}>£ 175</Text>
+                <Text style={styles.progressFractionText}>4/4</Text>
               </View>
-            </View>
+              <Text style={styles.mainHeaderText}>
+                {localeString(LOCALE_STRING.SET_GOAL_SCREEN.HOW_QUICKLY)}
+              </Text>
+              <View style={styles.targetTextContainer}>
+                <Text style={styles.setTargetText}>
+                  {localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_TARGET)}
+                </Text>
+                <Text style={styles.currentYearText}>{mortgageTerm}</Text>
+              </View>
+              <View style={styles.sliderContainer}>
+                <Text style={styles.sliderLeftText}>{SLIDER_START_VALUE}</Text>
+                <Slider
+                  style={styles.sliderInternalStyles}
+                  minimumValue={SLIDER_START_VALUE}
+                  maximumValue={_get(
+                    getUserMortgageDataResponse,
+                    'response.data[0].mortgage_term',
+                    null,
+                  )}
+                  step={SLIDER_STEP}
+                  value={mortgageTerm}
+                  onValueChange={newValue => this.onSlide(newValue)}
+                  thumbTintColor={COLOR.SLIDER_COLOR}
+                  minimumTrackTintColor={COLOR.BLACK}
+                  maximumTrackTintColor={COLOR.BLACK}
+                />
+                <Text style={styles.sliderLeftText}>
+                  {_get(
+                    getUserMortgageDataResponse,
+                    'response.data[0].mortgage_term',
+                    null,
+                  )}
+                </Text>
+              </View>
+              <TargetDetails
+                monthlyOverPayment={monthlyOverPayment}
+                interestSaving={interestSaving}
+              />
+              <Button
+                title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
+                titleStyle={styles.buttonTitleStyle}
+                buttonStyle={styles.buttonStyle}
+                onPress={() => this.handleSetGoal()}
+              />
+            </ScrollView>
           </View>
-          <Button
-            title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
-            titleStyle={styles.buttonTitleStyle}
-            buttonStyle={styles.buttonStyle}
-            onPress={() => this.handleSetGoal()}
-          />
-        </ScrollView>
+        )}
       </View>
     );
   }
 }
+const mapStateToProps = state => ({
+  getUserMortgageDataResponse: state.getUserMortgageData,
+  getUserInfoResponse: state.getUserInfo,
+  getUserGoalResponse: state.getUserGoal,
+  updateUserGoalResponse: state.updateUserGoal,
+});
+
+const bindActions = dispatch => ({
+  getUserMortgageData: payload =>
+    dispatch(getUserMortgageData.fetchCall(payload)),
+  setUserGoal: payload => dispatch(setUserGoal.fetchCall(payload)),
+  getUserGoal: payload => dispatch(getUserGoal.fetchCall(payload)),
+  updateUserGoal: (payload, extraPayload) =>
+    dispatch(updateUserGoal.fetchCall(payload, extraPayload)),
+});
+
+export const SetGoal = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedSetGoal);
