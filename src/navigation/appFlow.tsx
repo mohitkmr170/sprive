@@ -5,6 +5,8 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/Entypo';
 import Icons from 'react-native-vector-icons/Feather';
+import {COLOR} from '../utils/colors';
+import {STYLE_CONSTANTS} from '../utils/constants';
 import {
   Login,
   SideBar,
@@ -55,12 +57,12 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      tabStyle: {height: 60},
-      activeTintColor: '#DD2371',
-      inactiveTintColor: '#D8D8D8',
+      activeTintColor: COLOR.PRIMARY,
+      inactiveTintColor: COLOR.INACTIVE_TAB,
       showIcon: true,
       labelStyle: {
-        fontSize: 12,
+        fontSize: STYLE_CONSTANTS.font.SIZE.TINY,
+        lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.SMALL,
       },
     },
   },
