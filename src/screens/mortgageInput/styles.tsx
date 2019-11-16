@@ -35,14 +35,15 @@ export const styles = StyleSheet.create({
   },
   buttonInteriorStyle: {
     backgroundColor: COLOR.PRIMARY,
-    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
+    marginHorizontal:
+      STYLE_CONSTANTS.margin.HUGISH - STYLE_CONSTANTS.margin.SMALL,
     borderRadius: 40,
     marginBottom: STYLE_CONSTANTS.margin.HUGISH,
     marginTop: STYLE_CONSTANTS.margin.SMALL,
   },
   buttonExteriorStyle: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
-    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
     paddingVertical: STYLE_CONSTANTS.margin.NORMAL,
   },
   mortgageFormComponent: {flex: 1, marginTop: STYLE_CONSTANTS.margin.HUGE},

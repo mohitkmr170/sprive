@@ -74,6 +74,30 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     this.state = {};
   }
 
+  /**
+   * @param value : string : Validation WRT mortgageAmount & mortgageTer
+   */
+  negativeValidation = (value: string) => {
+    const {reducerResponse} = this.props;
+    const monthlyMortgage = Number(
+      _get(reducerResponse, 'MortgageInput.values.mortgageAmount', '').replace(
+        /,/g,
+        '',
+      ),
+    );
+    const timePeriod = Number(
+      _get(reducerResponse, 'MortgageInput.values.timePeriod', '').replace(
+        /,/g,
+        '',
+      ),
+    );
+    const withoutCommas = value.replace(/,/g, '');
+    const thresholdMonthlyLimit = monthlyMortgage / (timePeriod * 12);
+    return value && thresholdMonthlyLimit > Number(withoutCommas)
+      ? 'Invalid amount. Please provide a larger monthly payment amount'
+      : undefined;
+  };
+
   formatCurrency = (input: string) => {
     if (!input) return;
     else {
@@ -114,8 +138,10 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
       editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
       infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
     };
+    item.NAME === 'monthlyMortgagePayment' &&
+      item.VALIDATION_RULE.push(this.negativeValidation);
     return (
-      <View>
+      <View style={{opacity: item.dynamicValue.editable ? 1 : 0.4}}>
         <Field
           name={item.NAME}
           label={localeString(item.LOCALE_STRING)}
@@ -128,7 +154,6 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
             placeholder: item.PLACEHOLDER,
             editable: item.dynamicValue.editable,
             onChangeText:
-              !thirdFieldErrorStatus &&
               item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
               this.props.handleCalculateNowPressed,
           }}
