@@ -13,7 +13,11 @@ import {
   getUserGoal,
   updateUserGoal,
 } from '../../store/reducers';
-import {LOCALE_STRING, DB_KEYS} from '../../utils/constants';
+import {
+  LOCALE_STRING,
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
+} from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
 import {calculateGoal} from '../../../calculatorJS/index';
 import {ErcWarning} from './ercWarning';
@@ -23,6 +27,9 @@ const SLIDER_START_VALUE = 1;
 const SLIDER_STEP = 1;
 
 interface props {
+  navigation: {
+    navigate: (routeName: string) => void;
+  };
   getUserMortgageData: (payload: object) => void;
   setUserGoal: (payload: object) => void;
   getUserGoal: (payload: object) => void;
@@ -31,6 +38,7 @@ interface props {
   getUserInfoResponse: object;
   getUserGoalResponse: object;
   updateUserGoalResponse: object;
+  setUserGoalResponse: object;
 }
 interface state {
   mortgageTerm: number;
@@ -166,6 +174,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       getUserMortgageDataResponse,
       getUserGoalResponse,
       updateUserGoal,
+      navigation,
     } = this.props;
     //Adding new Goal
     if (
@@ -174,9 +183,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         getUserGoalResponse.response.data[0].new_mortgage_term
       )
     ) {
-      this.setState({
-        loading: true,
-      });
       const payload = {
         user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
         mortgage_id: String(
@@ -192,17 +198,8 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         total_interest_saved: this.state.interestSaving,
       };
       await setUserGoal(payload);
-      this.setState({
-        loading: false,
-      });
+      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     } else {
-      /*
-      Patch request call, updating previosly set Goal
-      */
-      this.setState({
-        loading: true,
-        ercLimitCrossed: false,
-      });
       const body = {
         monthly_overpayment_amount: this.state.monthlyOverPayment,
         new_mortgage_term: this.state.mortgageTerm,
@@ -212,30 +209,16 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         id: _get(getUserGoalResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
       };
       await updateUserGoal(body, qParam);
-      const {updateUserGoalResponse} = this.props;
-      this.setState({
-        mortgageTerm: _get(
-          updateUserGoalResponse,
-          DB_KEYS.NEW_MORTGAGE_TERM,
-          null,
-        ),
-        monthlyOverPayment: _get(
-          updateUserGoalResponse,
-          DB_KEYS.GOAL_OVERPAYMENT,
-          null,
-        ),
-        interestSaving: _get(
-          updateUserGoalResponse,
-          DB_KEYS.GOAL_INTEREST_SAVED,
-          null,
-        ),
-        loading: false,
-      });
+      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     }
   };
 
   render() {
-    const {getUserMortgageDataResponse} = this.props;
+    const {
+      getUserMortgageDataResponse,
+      setUserGoalResponse,
+      updateUserGoalResponse,
+    } = this.props;
     const {
       mortgageTerm,
       monthlyOverPayment,
@@ -303,13 +286,17 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 monthlyOverPayment={monthlyOverPayment}
                 interestSaving={interestSaving}
               />
-              <Button
-                title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
-                titleStyle={styles.buttonTitleStyle}
-                buttonStyle={styles.buttonStyle}
-                onPress={() => this.handleSetGoal()}
-              />
             </ScrollView>
+            <Button
+              title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
+              titleStyle={styles.buttonTitleStyle}
+              buttonStyle={styles.buttonStyle}
+              onPress={() => this.handleSetGoal()}
+              loading={
+                _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
+                _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
+              }
+            />
           </View>
         )}
       </View>
@@ -321,6 +308,7 @@ const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getUserGoalResponse: state.getUserGoal,
   updateUserGoalResponse: state.updateUserGoal,
+  setUserGoalResponse: state.setUserGoal,
 });
 
 const bindActions = dispatch => ({
