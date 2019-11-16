@@ -65,7 +65,9 @@
     "months": "Months",
     "estimateInterest": "Estimated Interest",
     "savings": "Savings",
-    "setGoal": "Set Goal"
+    "setGoal": "Set Goal",
+    "ercTitle": "In potential breach of ERC limit",
+    "ercMessage": "While most lenders allow you to overpay up to 10% of your mortgage balance in a year without incurring Early Repayment Charges (ERC), please check with your lender if you are unsure"
   },
   "stackBarGraphComponent": {
     "projectedTime": "Projected Time",
