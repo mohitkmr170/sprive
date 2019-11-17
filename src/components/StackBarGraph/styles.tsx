@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     paddingBottom: STYLE_CONSTANTS.padding.SMALLEST,
   },
   graphInnerSpacing: {
-    top: STYLE_CONSTANTS.padding.LARGE,
+    top: 80,
     left: STYLE_CONSTANTS.padding.LARGE,
     right: STYLE_CONSTANTS.padding.LARGE,
   },

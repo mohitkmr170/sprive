@@ -11,7 +11,7 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {dashBoardCard, report, plusIncome, minusIncome} from '../../assets';
 import {connect} from 'react-redux';
-import {StackBarGraph} from '../../components';
+import {StackBarGraph, StatusOverlay} from '../../components';
 import * as Progress from 'react-native-progress';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
@@ -31,12 +31,16 @@ interface props {
   getUserInfoResponse: () => void;
 }
 
-interface state {}
+interface state {
+  isLoggedOut: boolean;
+  isGoalSet: boolean;
+}
 export class UnconnectedDashBoard extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
       isLoggedOut: false,
+      isGoalSet: true,
     };
   }
 
@@ -58,6 +62,15 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   render() {
     return (
       <View style={styles.mainContainer}>
+        {!this.state.isGoalSet && (
+          <StatusOverlay
+            handleContinue={() =>
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN,
+              )
+            }
+          />
+        )}
         <ScrollView
           contentContainerStyle={styles.middleContainer}
           showsVerticalScrollIndicator={false}>
@@ -78,7 +91,23 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             <Text style={styles.thisMonthText}>
               {localeString(LOCALE_STRING.DASHBOARD_SCREEN.THIS_MONTH)}
             </Text>
-            <Text style={styles.overPaymentTargetAmount}>£175</Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.overPaymentTargetAmount}>£175</Text>
+              <View
+                style={{
+                  height: 24,
+                  width: 40,
+                  backgroundColor: '#4D56B1',
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                  alignItems: 'center',
+                  marginTop: 16,
+                  marginLeft: 16,
+                  borderRadius: 14,
+                }}>
+                <Text style={{color: 'white'}}>Paid</Text>
+              </View>
+            </View>
             <Text style={styles.overPaymentTargetText}>
               {localeString(LOCALE_STRING.DASHBOARD_SCREEN.OVER_PAYMENT)}
             </Text>
