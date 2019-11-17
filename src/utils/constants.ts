@@ -226,4 +226,9 @@ export const LOCALE_STRING = {
     MY_PROGRESS: 'dashBoard.myProgress',
     PROJECTED_MORTGAGE: 'dashBoard.projectedMortgage',
   },
+  STATUS_OVERLAY: {
+    MESSAGE: 'statusOverlay.message',
+    CONTINUE: 'statusOverlay.continue',
+    OH_NO: 'statusOverlay.ohNo',
+  },
 };

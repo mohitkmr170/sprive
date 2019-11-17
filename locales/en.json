@@ -86,5 +86,10 @@
     "makeOverPayment": "Make an Overpayment",
     "myProgress": "My Progress",
     "projectedMortgage": "Projected: Mortgage free in"
+  },
+  "statusOverlay": {
+    "message": "Goal not set, please go ahead and set your goal to continue",
+    "continue": "Continue",
+    "ohNo": "Oh no!"
   }
 }
