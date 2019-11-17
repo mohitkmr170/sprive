@@ -33,4 +33,5 @@ export const COLOR = {
   SLIDER_COLOR: '#00C1A4',
   STEEL_GRAY: '#D3D6EB',
   BRICK_RED: '#FF7474',
+  INACTIVE_TAB: '#D8D8D8',
 };

@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {styles} from './styles';
 import {ReduxFormField} from '../ReduxFormField';
 import {Field, reduxForm} from 'redux-form';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {APP_CONSTANTS, DB_KEYS, LOCALE_STRING} from '../../utils/constants';
 import {connect} from 'react-redux';
 import {
   required,
@@ -74,6 +74,30 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     this.state = {};
   }
 
+  /**
+   * @param value : string : Validation WRT mortgageAmount & mortgageTer
+   */
+  negativeValidation = (value: string) => {
+    const {reducerResponse} = this.props;
+    const monthlyMortgage = Number(
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT, '').replace(
+        /,/g,
+        '',
+      ),
+    );
+    const timePeriod = Number(
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, '').replace(
+        /,/g,
+        '',
+      ),
+    );
+    const withoutCommas = value.replace(/,/g, '');
+    const thresholdMonthlyLimit = monthlyMortgage / (timePeriod * 12);
+    return value && thresholdMonthlyLimit > Number(withoutCommas)
+      ? localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.INVALID_AMOUNT)
+      : undefined;
+  };
+
   formatCurrency = (input: string) => {
     if (!input) return;
     else {
@@ -114,8 +138,10 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
       editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
       infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
     };
+    item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
+      item.VALIDATION_RULE.push(this.negativeValidation);
     return (
-      <View>
+      <View style={{opacity: item.dynamicValue.editable ? 1 : 0.4}}>
         <Field
           name={item.NAME}
           label={localeString(item.LOCALE_STRING)}
@@ -128,7 +154,6 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
             placeholder: item.PLACEHOLDER,
             editable: item.dynamicValue.editable,
             onChangeText:
-              !thirdFieldErrorStatus &&
               item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
               this.props.handleCalculateNowPressed,
           }}

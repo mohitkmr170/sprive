@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text} from 'react-native';
 import {styles} from './styles';
 import {Header, MortgageInputContainer} from '../../components';
 import {localeString} from '../../utils/i18n';

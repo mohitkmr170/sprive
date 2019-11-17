@@ -6,9 +6,7 @@ export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
-  middleContainer: {
-    flex: 1,
-  },
+  middleContainer: {},
   mortgageStatusProgressContainer: {
     marginTop: STYLE_CONSTANTS.margin.NORMAL,
     flexDirection: 'row',
@@ -31,8 +29,35 @@ export const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: COLOR.PRIMARY,
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
-    marginBottom: STYLE_CONSTANTS.margin.HUGISH,
+    marginVertical: STYLE_CONSTANTS.margin.HUGISH,
     borderRadius: 40,
+  },
+  ercInnerContainer: {
+    color: COLOR.VOILET,
+    fontSize: 12,
+    lineHeight: 18,
+    opacity: 0.5,
+    paddingTop: 4,
+    flexWrap: 'wrap',
+    paddingRight: 20,
+  },
+  ercLimitContainer: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    right: 20,
+    zIndex: 1,
+  },
+  ercContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    backgroundColor: COLOR.WHITE,
+    borderRadius: 12,
+    shadowColor: 'black',
+    shadowOffset: {height: 2, width: 2},
+    shadowOpacity: 10,
+    shadowRadius: 10,
   },
   mortgageTextData: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
@@ -119,7 +144,8 @@ export const styles = StyleSheet.create({
   leftText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.NORMAL,
-    color: COLOR.LIGHT_BORDER,
+    color: COLOR.VOILET,
+    opacity: 0.4,
   },
   leftDetails: {
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
