@@ -7,3 +7,5 @@ export * from './getUserMortgageData';
 export * from './setUserGoal';
 export * from './getUserGoal';
 export * from './updateUserGoal';
+export * from './getMonthlyPaymentRecord';
+export * from './getGraphData';

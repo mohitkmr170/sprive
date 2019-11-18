@@ -64,6 +64,7 @@ export const styles = StyleSheet.create({
   bottomContainer: {
     marginTop: STYLE_CONSTANTS.margin.HUGISH,
     flexDirection: 'row',
+    marginBottom: 12,
   },
   bottomLeftContainer: {
     flex: 1,

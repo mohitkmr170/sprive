@@ -43,18 +43,18 @@ const getHeaders = (token: string) => {
  * GET request
  * @param endPoint : string
  */
-export const getRequest = (endPoint: string, params?: object) => {
-  const qParams = _get(params, 'qParams', null);
-  let completeURL = getCompleteUrl(endPoint);
-  if (qParams) {
-    completeURL = getCompleteUrl(endPoint) + '?' + getQueryParams(qParams);
-  }
+export const getRequest = (
+  endPoint: string,
+  params?: object,
+  qParams?: object,
+) => {
   return new Promise(async (resolve, reject) => {
     // await to block next execution, waiting for authToken
     const token = await getAuthToken();
     axios
-      .get(completeURL, {
+      .get(getCompleteUrl(endPoint), {
         headers: getHeaders(token),
+        params: qParams,
         timeout: apiConstants.TIMEOUT,
       })
       .then(response => resolve(response.data))

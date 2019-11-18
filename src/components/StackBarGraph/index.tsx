@@ -5,21 +5,25 @@ import {
   TouchableOpacity,
   Alert,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native';
-import {Tooltip} from 'react-native-elements';
 import {StackedBarChart} from 'react-native-svg-charts';
 import {styles} from './styles';
 import {GraphDetails} from './graphDetails';
-import * as Animatable from 'react-native-animatable';
+import {connect} from 'react-redux';
 import {
   APP_CONSTANTS,
   STYLE_CONSTANTS,
   ICON_NAME,
   LOCALE_STRING,
+  DB_KEYS,
 } from '../../utils/constants';
+import {get as _get} from 'lodash';
+import {getGraphData, getUserMortgageData} from '../../store/reducers';
 import Icons from 'react-native-vector-icons/Feather';
 import {localeString} from '../../utils/i18n';
 import {COLOR} from '../../utils/colors';
+import {graphData} from './helpers';
 import {ToolTip} from './toolTip';
 
 const FIXED_PAYMENT = 'Fixed Payment';
@@ -30,13 +34,23 @@ const GRAPH_OFFSET = 6;
 
 const COLORS = [COLOR.DARK_BLUE, COLOR.DARK_YELLOW];
 const KEYS = ['emi', 'overPayment'];
-interface props {}
+interface props {
+  getGraphData: (payload: object, extraPayload: object) => void;
+  getUserMortgageData: (payload: object, extraPayload: object) => void;
+  getGraphDataResponse: object;
+  getUserInfoResponse: object;
+  getUserMortgageDataResponse: object;
+}
 
 interface state {
   currentScrollIndex: number;
   isLeftButtonActive: boolean;
   isRightButtonActive: boolean;
   showInfoToolTip: boolean;
+  monthOfset: number;
+  graphData: object;
+  currentTarget: object;
+  loading: boolean;
 }
 
 // Sample test data used for graph plotting
@@ -57,199 +71,7 @@ const MONTH_NAMES = [
 ];
 let currentMonth = MONTH_NAMES[new Date().getMonth()];
 
-export class StackBarGraph extends React.Component<props, state> {
-  GRAPH_DATA = [
-    //Mock data for graph
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar1@@@'),
-        },
-      },
-      overPayment: {
-        value: 400,
-        svg: {
-          onPress: () => Alert.alert('onPress => clicked bar2'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 250,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 200,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 200,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 250,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 200,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 200,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 250,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => console.log('onPress => clicked bar'),
-        },
-      },
-      overPayment: {
-        value: 200,
-        svg: {
-          onPress: () => {
-            console.log('onPress => clicked bar');
-            this.setState({showInfoToolTip: true});
-          },
-        },
-      },
-      status: true,
-    },
-    {
-      emi: {
-        value: 300,
-        svg: {
-          onPress: () => {
-            console.log('onPress => clicked bar');
-            show = true;
-          },
-          fill: '#D3D6EB',
-        },
-      },
-      overPayment: {
-        value: 0,
-        svg: {
-          onPress: (e: any) => {
-            console.log('onPress => clicked bar, nativeEvent', e.nativeEvent);
-          },
-        },
-      },
-      status: false,
-    },
-  ];
+export class UnconnectedStackBarGraph extends React.Component<props, state> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -257,25 +79,98 @@ export class StackBarGraph extends React.Component<props, state> {
       isLeftButtonActive: false,
       isRightButtonActive: true,
       showInfoToolTip: false,
+      monthOfset: 4,
+      graphData: [],
+      currentTarget: {},
+      loading: true,
     };
   }
 
-  componentWillMount = () => {
-    if (currentMonth > String(GRAPH_OFFSET))
-      this.setState({currentScrollIndex: 1});
+  componentDidMount = async () => {
+    const {getUserInfoResponse, getUserMortgageData} = this.props;
+    //New logic
+    const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
+    const qParamsInfo = {
+      user_id: userId,
+    };
+    await getUserMortgageData({}, qParamsInfo);
+    const {getUserMortgageDataResponse} = this.props;
+    console.log(
+      'componentDidMount : getUserMortgageDataResponse =>',
+      getUserMortgageDataResponse,
+    );
+    const {getGraphData} = this.props;
+    let dateRange = this.getDataRange(0);
+    const qParam = {
+      user_id: userId,
+      graph_data: true,
+      from_date: dateRange[0],
+      to_date: dateRange[1],
+    };
+    console.log('componentDidMount =>', dateRange);
+    await getGraphData({}, qParam);
+    const {getGraphDataResponse} = this.props;
+    console.log(
+      'componentDidMount : getGraphDataResponse =>',
+      getGraphDataResponse,
+    );
+    if (!_get(getGraphDataResponse, 'isFetching', true))
+      this.setState({loading: false});
+    this.getNewGraphData(dateRange[0], dateRange[1]);
   };
+  /**
+   * Function that will return date range (4 months before current and 1 month after current Month)
+   */
+  getDataRange = (monthFactor: number) => {
+    let currentDate = new Date();
+    return [
+      currentDate.getFullYear() +
+        '-' +
+        (currentDate.getMonth() - this.state.monthOfset + monthFactor + 1) +
+        '-' +
+        '01',
+      currentDate.getFullYear() +
+        '-' +
+        (currentDate.getMonth() -
+          this.state.monthOfset +
+          monthFactor +
+          GRAPH_OFFSET) +
+        '-' +
+        '30',
+    ];
+  };
+
+  onStackBarPress = () => {
+    this.setState({showInfoToolTip: true});
+  };
+  async getNewGraphData(fromDate: string, toDate: string) {
+    console.log(
+      'getNewGraphData : dateRange : fromDate, toDate =>',
+      fromDate,
+      toDate,
+    );
+  }
+
+  //Mock data for graph
 
   /**
    * This function is to decrement currentScrollIndex by 1 upon left click
    */
 
   handleGraphLeftSwipe = () => {
-    if (this.state.currentScrollIndex)
-      this.setState({
-        currentScrollIndex: this.state.currentScrollIndex - 1,
-        isRightButtonActive: !this.state.isRightButtonActive,
-        isLeftButtonActive: !this.state.isLeftButtonActive,
-      });
+    const {getGraphData} = this.props;
+    //monthOfset to be decreased by 6
+    // if (this.state.currentScrollIndex)
+    //new Logic
+    // if (_get(getGraphData, 'response.data', '').length) {
+    let dateRange = this.getDataRange(-6);
+    this.getNewGraphData(dateRange[0], dateRange[1]);
+    this.setState({
+      currentScrollIndex: this.state.currentScrollIndex - 1,
+      isRightButtonActive: !this.state.isRightButtonActive,
+      isLeftButtonActive: !this.state.isLeftButtonActive,
+    });
+    // }
   };
 
   /**
@@ -283,25 +178,26 @@ export class StackBarGraph extends React.Component<props, state> {
    */
 
   handleGraphRightSwipe = () => {
-    if (this.state.currentScrollIndex < MONTH_NAMES.length / GRAPH_OFFSET - 1)
-      this.setState({
-        currentScrollIndex: this.state.currentScrollIndex + 1,
-        isRightButtonActive: !this.state.isRightButtonActive,
-        isLeftButtonActive: !this.state.isLeftButtonActive,
-      });
+    //monthOfset to be increased by 6
+    // if (this.state.currentScrollIndex < MONTH_NAMES.length / GRAPH_OFFSET - 1)
+    //new Logic
+    let dateRange = this.getDataRange(0);
+    this.getNewGraphData(dateRange[0], dateRange[1]);
+    this.setState({
+      currentScrollIndex: this.state.currentScrollIndex + 1,
+      isRightButtonActive: !this.state.isRightButtonActive,
+      isLeftButtonActive: !this.state.isLeftButtonActive,
+    });
   };
 
   hideBarInfo = () => {
-    console.log('asdhgaudkas');
     this.setState({showInfoToolTip: false});
   };
 
   render() {
     //Calculating current graph and month data to be rendered out of all available data
-    let currData = this.GRAPH_DATA.slice(
-      this.state.currentScrollIndex * GRAPH_OFFSET,
-      GRAPH_OFFSET * (this.state.currentScrollIndex + 1),
-    );
+    //This will be replaced with actual 6 data we get upon API call
+    //This will be decide as per same API call with response `month` to string using monthArray
     let currMonthName = MONTH_NAMES.slice(
       this.state.currentScrollIndex * GRAPH_OFFSET,
       GRAPH_OFFSET * (this.state.currentScrollIndex + 1),
@@ -325,24 +221,29 @@ export class StackBarGraph extends React.Component<props, state> {
             />
           </TouchableOpacity>
           <View style={styles.mainStackbarContainer}>
-            <View>
-              {this.state.showInfoToolTip && <ToolTip />}
-              <StackedBarChart
-                style={styles.barChart}
-                /*
+            {this.state.loading ? (
+              <ActivityIndicator size="small" />
+            ) : (
+              <View>
+                {this.state.showInfoToolTip && <ToolTip />}
+                <StackedBarChart
+                  style={styles.barChart}
+                  /*
                 TODO : Keys and Colors will change as per the payment status, it will then become a single bar graph
                 */
-                keys={KEYS}
-                colors={COLORS}
-                data={currData}
-                showGrid={false}
-                contentInset={styles.graphInnerSpacing}
-                animate={true}
-                spacingInner={0.85}
-                valueAccessor={({item, key}) =>
-                  item[key].value
-                }></StackedBarChart>
-            </View>
+                  keys={KEYS}
+                  colors={COLORS}
+                  data={this.state.graphData}
+                  showGrid={false}
+                  contentInset={styles.graphInnerSpacing}
+                  animate={true}
+                  animationDuration="200"
+                  spacingInner={0.7}
+                  valueAccessor={({item, key}) => item[key].value}
+                />
+              </View>
+            )}
+            {/* )} */}
             <View style={styles.monthView}>
               {currMonthName.map((item, index) => {
                 return (
@@ -350,11 +251,13 @@ export class StackBarGraph extends React.Component<props, state> {
                     style={[
                       styles.monthText,
                       {
-                        color: currData[index].status
-                          ? COLOR.SLIDER_COLOR
-                          : COLOR.STEEL_GRAY,
-                        textDecorationLine:
-                          currentMonth === item && 'underline',
+                        color:
+                          this.state.graphData.length &&
+                          this.state.graphData[index].status
+                            ? COLOR.SLIDER_COLOR
+                            : COLOR.STEEL_GRAY,
+                        // textDecorationLine:
+                        //   currentMonth === item && 'underline',
                       },
                     ]}
                     key={index}>
@@ -416,3 +319,21 @@ export class StackBarGraph extends React.Component<props, state> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  getUserInfoResponse: state.getUserInfo,
+  getGraphDataResponse: state.getGraphData,
+  getUserMortgageDataResponse: state.getUserMortgageData,
+});
+
+const bindActions = dispatch => ({
+  getGraphData: (payload, extraPayload) =>
+    dispatch(getGraphData.fetchCall(payload, extraPayload)),
+  getUserMortgageData: (payload, extraPayload) =>
+    dispatch(getUserMortgageData.fetchCall(payload, extraPayload)),
+});
+
+export const StackBarGraph = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedStackBarGraph);

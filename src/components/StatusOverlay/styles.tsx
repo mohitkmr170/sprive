@@ -4,6 +4,7 @@ import {COLOR} from '../../utils/colors';
 export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    paddingHorizontal: 28,
     position: 'absolute',
     top: 0,
     left: 0,

@@ -1,7 +1,13 @@
 import React from 'react';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {
+  createAppContainer,
+  createSwitchNavigator,
+  NavigationActions,
+  NavigationEvents,
+} from 'react-navigation';
+import {checkPropTypes} from 'prop-types';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator} from 'react-navigation-drawer';
+import {createDrawerNavigator, DrawerActions} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/Entypo';
 import Icons from 'react-native-vector-icons/Feather';
@@ -17,6 +23,7 @@ import {
   SetGoal,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
+import {Alert, ViewPropTypes} from 'react-native';
 
 /**
  * Tab Navigator, can be used as a screen to which we can navigate to
@@ -36,7 +43,7 @@ const TabNavigator = createBottomTabNavigator(
     SetGoal: {
       screen: SetGoal,
       navigationOptions: {
-        tabBarLabel: 'SetGoal',
+        tabBarLabel: 'Goal',
         tabBarIcon: ({tintColor}) => (
           <Icons name="award" size={24} color={tintColor} />
         ),
@@ -45,17 +52,20 @@ const TabNavigator = createBottomTabNavigator(
     SideBar: {
       screen: SideBar,
       navigationOptions: {
-        tabBarLabel: 'SideBar',
+        tabBarLabel: 'Menu',
         tabBarIcon: ({tintColor}) => (
           <Icon name="menu" size={24} color={tintColor} />
         ),
-        tabBarOnPress: () => {} /*
+        tabBarOnPress: () => {
+          // handleInfo();
+        } /*
         TODO : Onpress of this, Side bar should be opened
         */,
       },
     },
   },
   {
+    initialRouteName: 'DashBoard',
     tabBarOptions: {
       activeTintColor: COLOR.PRIMARY,
       inactiveTintColor: COLOR.INACTIVE_TAB,
@@ -146,6 +156,7 @@ const AppNavigator = createDrawerNavigator(
     initialRouteName: 'AppSwitchNavigator',
     contentComponent: SideBar,
     drawerPosition: 'right',
+    statusBarAnimation: 'slide',
   },
 );
 

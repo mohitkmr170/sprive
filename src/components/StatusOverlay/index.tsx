@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
 import {correct} from '../../assets';
+import * as Animatable from 'react-native-animatable';
 import {localeString} from '../../utils/i18n';
 import {LOCALE_STRING} from '../../utils/constants';
 
@@ -13,7 +14,10 @@ interface state {}
 export class StatusOverlay extends React.Component<props, state> {
   render() {
     return (
-      <View style={styles.mainContainer}>
+      <Animatable.View
+        animation="fadeIn"
+        duration={100}
+        style={styles.mainContainer}>
         <View style={styles.innerContainer}>
           <Image source={correct} height={72} width={72} />
           <Text style={styles.innerTitle}>
@@ -28,7 +32,7 @@ export class StatusOverlay extends React.Component<props, state> {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </Animatable.View>
     );
   }
 }
