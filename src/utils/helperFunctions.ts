@@ -114,10 +114,10 @@ export async function resetAuthToken() {
 export function showSnackBar(err: object) {
   return Snackbar.show({
     title: _get(err, 'response.data.message', 'Something went wrong!'),
-    duration: Snackbar.LENGTH_SHORT,
+    duration: Snackbar.LENGTH_LONG,
     action: {
-      title: '', //For any button title
-      color: COLOR.GREEN,
+      title: 'OK', //For any button title
+      color: COLOR.SLIDER_COLOR,
       onPress: () => {
         /* Do something. */
       },

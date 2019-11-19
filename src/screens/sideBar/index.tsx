@@ -53,9 +53,14 @@ export class UnconnectedSideBar extends React.Component<props, state> {
           return (
             <TouchableOpacity
               onPress={() => this.handleLogOut()}
-              style={{flexDirection: 'row'}}>
+              style={{flexDirection: 'row', alignItems: 'center'}}>
               <Icon name={item.icon} size={20} />
-              <Text key={index} style={{paddingLeft: 12, fontSize: 18}}>
+              <Text
+                key={index}
+                style={{
+                  paddingLeft: 12,
+                  fontSize: 18,
+                }}>
                 {item.title}
               </Text>
             </TouchableOpacity>

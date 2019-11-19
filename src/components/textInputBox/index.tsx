@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 import {iEmail, iLock} from '../../assets';
 import {textInputBoxStyle} from './styles';
-import {STYLE_CONSTANTS} from '../../utils/constants';
+import {STYLE_CONSTANTS, APP_CONSTANTS} from '../../utils/constants';
 
 interface props {
   label: string;
@@ -43,7 +43,9 @@ export class TextInputBox extends React.Component<props, state> {
             <TextInput style={textInputBoxStyle.inputBox} {...this.props} />
           </View>
           {editIcon && (
-            <TouchableOpacity onPress={onIconPress || null}>
+            <TouchableOpacity
+              onPress={onIconPress || null}
+              hitSlop={APP_CONSTANTS.HIT_SLOP}>
               {parameterText ? (
                 <Text style={textInputBoxStyle.parameterText}>
                   {parameterText}

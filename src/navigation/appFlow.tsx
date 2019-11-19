@@ -134,13 +134,28 @@ const AppStackNavigator = createStackNavigator(
   },
 );
 
+const AppStackWithDrawer = createDrawerNavigator(
+  {
+    AppStackNavigator: {
+      screen: AppStackNavigator,
+    },
+  },
+  {
+    initialRouteName: 'AppStackNavigator',
+    contentComponent: SideBar,
+    drawerPosition: 'right',
+    statusBarAnimation: 'slide',
+    drawerWidth: '70%',
+  },
+);
+
 /**
  * Switch navigator to switch between AppStack and AuthStack based on Auth status
  */
 
-const AppSwitchNavigator = createSwitchNavigator({
+const AppNavigator = createSwitchNavigator({
   AuthLoading: AuthLoading,
-  App: AppStackNavigator,
+  App: AppStackWithDrawer,
   Auth: AuthStackNavigator,
 });
 
@@ -148,18 +163,18 @@ const AppSwitchNavigator = createSwitchNavigator({
  * Drawaer Navigator
  */
 
-const AppNavigator = createDrawerNavigator(
-  {
-    AppSwitchNavigator: {
-      screen: AppSwitchNavigator,
-    },
-  },
-  {
-    initialRouteName: 'AppSwitchNavigator',
-    contentComponent: SideBar,
-    drawerPosition: 'right',
-    statusBarAnimation: 'slide',
-  },
-);
+// const AppNavigator = createDrawerNavigator(
+//   {
+//     AppSwitchNavigator: {
+//       screen: AppSwitchNavigator,
+//     },
+//   },
+//   {
+//     initialRouteName: 'AppSwitchNavigator',
+//     contentComponent: SideBar,
+//     drawerPosition: 'right',
+//     statusBarAnimation: 'slide',
+//   },
+// );
 
 export default createAppContainer(AppNavigator);

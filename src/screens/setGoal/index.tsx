@@ -73,13 +73,13 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         getUserMortgageData,
         getUserInfoResponse,
         getUserGoal,
-        // navigation,
       } = this.props;
       const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
       const qParamsInfo = {
         user_id: userId,
       };
       await getUserMortgageData({}, qParamsInfo);
+      const {getUserMortgageDataResponse} = this.props;
       const qParams = {
         user_id: userId,
       };
@@ -140,6 +140,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     );
     let desiredTerm = currentMortgageTerm;
     if (loading) {
+      console.log('akuewaskas1', this.state.mortgageTerm);
       /*
       TODO : Need to add ERC value based desiredTerm & mortgageTerm/2(Max of either)
       */
@@ -155,6 +156,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       desiredTerm,
     );
     //Calculating ERC Limit
+    console.log('akuewaskas2', newGoal);
     let mortgageErc = (currentMortgageAmount / currentMortgageTerm) * 0.1;
     this.setState({
       mortgageTerm: desiredTerm,
@@ -296,17 +298,17 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 monthlyOverPayment={monthlyOverPayment}
                 interestSaving={interestSaving}
               />
+              <Button
+                title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
+                titleStyle={styles.buttonTitleStyle}
+                buttonStyle={styles.buttonStyle}
+                onPress={() => this.handleSetGoal()}
+                loading={
+                  _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
+                  _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
+                }
+              />
             </ScrollView>
-            <Button
-              title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
-              titleStyle={styles.buttonTitleStyle}
-              buttonStyle={styles.buttonStyle}
-              onPress={() => this.handleSetGoal()}
-              loading={
-                _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
-                _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
-              }
-            />
           </View>
         )}
         {ercLimitCrossed && (

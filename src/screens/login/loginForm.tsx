@@ -33,12 +33,16 @@ interface props {
   getUserInfo: () => void;
   getUserInfoResponse: object;
 }
-interface state {}
+interface state {
+  passwordVisibility: boolean;
+}
 
 class UnConnectedLoginScreen extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {};
+    this.state = {
+      passwordVisibility: true,
+    };
   }
 
   handleBackPress = () => {
@@ -75,10 +79,13 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   handleSignUpPress = () => {
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+    this.props.navigation.navigate(
+      NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN,
+    );
   };
 
   render() {
+    const {passwordVisibility} = this.state;
     const {handleSubmit, loginUserResponse} = this.props;
     return (
       <View style={styles.mainContainer}>
@@ -110,11 +117,15 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
             <Field
               name="password"
               label="Password"
+              editIcon={true}
+              onIconPress={() =>
+                this.setState({passwordVisibility: !passwordVisibility})
+              }
               component={ReduxFormField}
               props={{
                 maxLength: 16,
                 style: styles.emailInput,
-                secureTextEntry: true,
+                secureTextEntry: passwordVisibility,
                 autoCapitalize: false,
                 placeholder: 'Password',
               }}
