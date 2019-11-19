@@ -16,13 +16,8 @@ import {StackBarGraph, StatusOverlay, LoadingModal} from '../../components';
 import * as Progress from 'react-native-progress';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
-import {getMonthlyPaymentRecord, getGraphData} from '../../store/reducers';
-import {
-  NAVIGATION_SCREEN_NAME,
-  DB_KEYS,
-  APP_CONSTANTS,
-  LOCALE_STRING,
-} from '../../utils/constants';
+import {getMonthlyPaymentRecord, getUserInfo} from '../../store/reducers';
+import {NAVIGATION_SCREEN_NAME, LOCALE_STRING} from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
 
 interface props {
@@ -32,9 +27,8 @@ interface props {
   };
   getUserInfoResponse: (payload: object, extraPayload: object) => void;
   getMonthlyPaymentRecord: (payload: object, extraPayload: object) => void;
-  getGraphData: () => void;
   getMonthlyPaymentRecordResponse: object;
-  getGraphDataResponse: object;
+  getUserInfo: () => void;
 }
 
 interface state {
@@ -54,6 +48,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   }
 
   UNSAFE_componentWillMount = async () => {
+    console.log('In Dashboard');
+    await this.props.getUserInfo();
     const {
       getMonthlyPaymentRecord,
       getUserInfoResponse,
@@ -73,20 +69,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   handleDrawer() {}
 
   handleLogOut = () => {
-    //to be removed
     this.props.navigation.openDrawer();
-    // const {getUserInfoResponse} = this.props;
-    // setAuthToken(
-    //   APP_CONSTANTS.FALSE_TOKEN,
-    //   _get(getUserInfoResponse, DB_KEYS.CURRENT_USER_EMAIL, ''),
-    // )
-    //   .then(response => {
-    //     // showSnackBar(APP_CONSTANTS.LOG_OUT);
-    //     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
-    //   })
-    //   .catch(error => {
-    //     showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
-    //   });
   };
 
   render() {
@@ -258,7 +241,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   <Text style={styles.monthsLeftText}>3yr 11m</Text>
                 </Text>
               </View>
-              <StackBarGraph />
+              <StackBarGraph currentMonthTarget={monthlyTarget} />
             </View>
           </ScrollView>
           {_get(getMonthlyPaymentRecordResponse, 'error', true) && (
@@ -278,14 +261,12 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getMonthlyPaymentRecordResponse: state.getMonthlyPaymentRecord,
-  getGraphDataResponse: state.getGraphData,
 });
 
 const bindActions = dispatch => ({
   getMonthlyPaymentRecord: (payload, extraPayload) =>
     dispatch(getMonthlyPaymentRecord.fetchCall(payload, extraPayload)),
-  getGraphData: (payload, extraPayload) =>
-    dispatch(getGraphData.fetchCall(payload, extraPayload)),
+  getUserInfo: () => dispatch(getUserInfo.fetchCall()),
 });
 
 export const DashBoard = connect(

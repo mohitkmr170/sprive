@@ -28,6 +28,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount() {
+    console.log('Inside Authloading');
     AsyncStorage.getItem(LAUNCH_STATUS).then(async value => {
       if (!value) {
         AsyncStorage.setItem(LAUNCH_STATUS, FIRST_LAUNCH);

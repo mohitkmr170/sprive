@@ -43,9 +43,9 @@ export const styles = StyleSheet.create({
   },
   ercLimitContainer: {
     position: 'absolute',
-    top: 20,
-    left: 20,
-    right: 20,
+    top: 14,
+    left: 14,
+    right: 14,
     zIndex: 1,
   },
   ercContainer: {

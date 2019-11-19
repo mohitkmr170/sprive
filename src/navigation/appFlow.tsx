@@ -58,6 +58,7 @@ const TabNavigator = createBottomTabNavigator(
         ),
         tabBarOnPress: () => {
           // handleInfo();
+          // props.screenProps.drawerNavigation.navigate('DrawerOpen');
         } /*
         TODO : Onpress of this, Side bar should be opened
         */,

@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   supportIcon: {
     height: STYLE_CONSTANTS.padding.HUMONGOUS,
     width: STYLE_CONSTANTS.padding.HUMONGOUS,
-    borderRadius: STYLE_CONSTANTS.padding.LARGEST,
+    borderRadius: STYLE_CONSTANTS.padding.HUMONGOUS / 2,
     padding: STYLE_CONSTANTS.padding.SMALLER,
     backgroundColor: COLOR.DARK_VOILET,
     alignSelf: 'flex-end',

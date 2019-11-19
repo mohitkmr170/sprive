@@ -62,6 +62,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
   }
 
   componentDidMount = async () => {
+    console.log('Inside setGoal');
     const {getUserMortgageData, getUserInfoResponse, getUserGoal} = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     const qParamsInfo = {
@@ -194,22 +195,26 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         total_interest_saved: this.state.interestSaving,
       };
       await setUserGoal(payload);
-      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      if (!_get(this.props.setUserGoal, 'error', true))
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     } else {
       const body = {
         user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
-        mortgage_id: String(
-          _get(getUserMortgageDataResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
-        ),
         monthly_overpayment_amount: this.state.monthlyOverPayment,
         new_mortgage_term: this.state.mortgageTerm,
         total_interest_saved: this.state.interestSaving,
       };
       const qParam = {
         id: _get(getUserGoalResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
+        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
       };
       await updateUserGoal(body, qParam);
-      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      console.log(
+        'UPDATE_GOAL',
+        _get(this.props.updateUserGoalResponse, DB_KEYS.IS_FETCHING, ''),
+      );
+      if (!_get(this.props.updateUserGoalResponse, 'error', true))
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     }
   };
 
@@ -235,12 +240,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
             <Header />
             <ScrollView contentContainerStyle={styles.middleContainer}>
               <View style={styles.mortgageStatusProgressContainer}>
-                <Text style={styles.mortgageTextData}>
-                  {localeString(
-                    LOCALE_STRING.MORTGAGE_INPUT_DATA
-                      .LOCALE_STRING_MORTGAGE_DATA,
-                  )}
-                </Text>
+                <Text style={styles.mortgageTextData}>Set Goal</Text>
                 <Text style={styles.progressFractionText}>4/4</Text>
               </View>
               <Text style={styles.mainHeaderText}>
