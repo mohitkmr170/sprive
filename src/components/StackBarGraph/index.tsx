@@ -104,11 +104,11 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
     const {getUserMortgageDataResponse} = this.props;
     let currentGraphData = graphData;
     for (let i = 0; i < graphData.length; i++) {
-      currentGraphData[i].emi.value = _get(
-        getUserMortgageDataResponse,
-        'response.data[0].mortgage_payment',
-        null,
-      );
+      // currentGraphData[i].emi.value = _get(
+      //   getUserMortgageDataResponse,
+      //   'response.data[0].mortgage_payment',
+      //   null,
+      // );
       currentGraphData[i].monthly_target = _get(
         getUserMortgageDataResponse,
         'response.data[0].mortgage_payment',
@@ -116,6 +116,11 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       );
       currentGraphData[i].emi.svg.onPress = () => this.onStackBarPress(i);
     }
+    graphData[new Date().getMonth() + 1 - GRAPH_OFFSET].emi.value = _get(
+      getUserMortgageDataResponse,
+      'response.data[0].mortgage_payment',
+      null,
+    );
     if (currentMonth > String(GRAPH_OFFSET))
       this.setState({currentScrollIndex: 1, graphData: currentGraphData});
     const {getGraphData} = this.props;

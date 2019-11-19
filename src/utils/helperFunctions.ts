@@ -16,7 +16,7 @@ export async function getPasswordStrength(password: string) {
     let strengthMessage = '';
     switch (passStrength.score) {
       case 1:
-        strengthMessage = 'Too Short';
+        strengthMessage = 'Weak';
         break;
       case 2:
         strengthMessage = 'Fair';

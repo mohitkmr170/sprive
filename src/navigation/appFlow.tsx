@@ -31,7 +31,7 @@ import {Alert, ViewPropTypes} from 'react-native';
 
 const TabNavigator = createBottomTabNavigator(
   {
-    DashBoard: {
+    DashboardScreen: {
       screen: DashBoard,
       navigationOptions: {
         tabBarLabel: 'DashBoard',
@@ -40,7 +40,7 @@ const TabNavigator = createBottomTabNavigator(
         ),
       },
     },
-    SetGoal: {
+    SetGoalScreen: {
       screen: SetGoal,
       navigationOptions: {
         tabBarLabel: 'Goal',
@@ -66,7 +66,8 @@ const TabNavigator = createBottomTabNavigator(
     },
   },
   {
-    initialRouteName: 'DashBoard',
+    initialRouteName: 'DashboardScreen',
+    lazy: false,
     tabBarOptions: {
       activeTintColor: COLOR.PRIMARY,
       inactiveTintColor: COLOR.INACTIVE_TAB,
@@ -114,12 +115,12 @@ const AuthStackNavigator = createStackNavigator(
 
 const AppStackNavigator = createStackNavigator(
   {
-    DashboardScreen: {
-      screen: DashBoard,
-    },
-    SetGoalScreen: {
-      screen: SetGoal,
-    },
+    // DashboardScreen: {
+    //   screen: DashBoard,
+    // },
+    // SetGoalScreen: {
+    //   screen: SetGoal,
+    // },
     /**
      * TabNavigator to be Enabled when it's requirements arises
      */

@@ -45,25 +45,31 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       loading: true,
       isPaymentComplete: false,
     };
+    this.didFocusListener = '';
   }
 
-  UNSAFE_componentWillMount = async () => {
-    console.log('In Dashboard');
-    await this.props.getUserInfo();
-    const {
-      getMonthlyPaymentRecord,
-      getUserInfoResponse,
-      getMonthlyPaymentRecordResponse,
-    } = this.props;
-    const qParam = {
-      user_id: _get(getUserInfoResponse, 'response.data.id', null),
-    };
-    await getMonthlyPaymentRecord({}, qParam);
-    console.log(
-      'UNSAFE_componentWillMount : getMonthlyPaymentRecordResponse =>',
-      getMonthlyPaymentRecordResponse,
+  componentDidMount = async () => {
+    this.didFocusListener = this.props.navigation.addListener(
+      'didFocus',
+      async () => {
+        await this.props.getUserInfo();
+        const {
+          getMonthlyPaymentRecord,
+          getUserInfoResponse,
+          getMonthlyPaymentRecordResponse,
+        } = this.props;
+        const qParam = {
+          user_id: _get(getUserInfoResponse, 'response.data.id', null),
+        };
+        await getMonthlyPaymentRecord({}, qParam);
+        console.log(
+          'UNSAFE_componentWillMount : getMonthlyPaymentRecordResponse =>',
+          getMonthlyPaymentRecordResponse,
+        );
+        this.setState({loading: false});
+      },
     );
-    this.setState({loading: false});
+    console.log('In Dashboard');
   };
 
   handleDrawer() {}
@@ -71,6 +77,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   handleLogOut = () => {
     this.props.navigation.openDrawer();
   };
+  componentWillUnmount() {
+    this.didFocusListener.remove();
+  }
 
   render() {
     const {getMonthlyPaymentRecordResponse} = this.props;

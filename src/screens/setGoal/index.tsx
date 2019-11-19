@@ -62,46 +62,58 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
   }
 
   componentDidMount = async () => {
-    console.log('Inside setGoal');
-    const {getUserMortgageData, getUserInfoResponse, getUserGoal} = this.props;
-    const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
-    const qParamsInfo = {
-      user_id: userId,
-    };
-    await getUserMortgageData({}, qParamsInfo);
-    const qParams = {
-      user_id: userId,
-    };
-    await getUserGoal({}, qParams);
-    const {getUserGoalResponse} = this.props;
-    //To update previously set goal
-    if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
+    const {
+      // getUserMortgageData,
+      // getUserInfoResponse,
+      // getUserGoal,
+      navigation,
+    } = this.props;
+    this.navFocusListener = navigation.addListener('didFocus', async () => {
+      const {
+        getUserMortgageData,
+        getUserInfoResponse,
+        getUserGoal,
+        // navigation,
+      } = this.props;
+      const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
+      const qParamsInfo = {
+        user_id: userId,
+      };
+      await getUserMortgageData({}, qParamsInfo);
+      const qParams = {
+        user_id: userId,
+      };
+      await getUserGoal({}, qParams);
       const {getUserGoalResponse} = this.props;
-      const mortgageTerm = _get(
-        getUserGoalResponse,
-        DB_KEYS.NEW_MORTGAGE_TERM,
-        null,
-      );
-      const monthlyOverPayment = _get(
-        getUserGoalResponse,
-        DB_KEYS.GOAL_OVERPAYMENT,
-        null,
-      );
-      const totalInterest = _get(
-        getUserGoalResponse,
-        DB_KEYS.GOAL_INTEREST_SAVED,
-        null,
-      );
-      this.setState({
-        mortgageTerm: mortgageTerm,
-        monthlyOverPayment: monthlyOverPayment,
-        interestSaving: totalInterest,
-        loading: false,
-      });
-    } else {
-      //To add new goal with Mortgage data
-      this.goalUpdate();
-    }
+      //To update previously set goal
+      if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
+        const {getUserGoalResponse} = this.props;
+        const mortgageTerm = _get(
+          getUserGoalResponse,
+          DB_KEYS.NEW_MORTGAGE_TERM,
+          null,
+        );
+        const monthlyOverPayment = _get(
+          getUserGoalResponse,
+          DB_KEYS.GOAL_OVERPAYMENT,
+          null,
+        );
+        const totalInterest = _get(
+          getUserGoalResponse,
+          DB_KEYS.GOAL_INTEREST_SAVED,
+          null,
+        );
+        this.setState({
+          mortgageTerm: mortgageTerm,
+          monthlyOverPayment: monthlyOverPayment,
+          interestSaving: totalInterest,
+          loading: false,
+        });
+      } else {
+        //To add new goal with Mortgage data
+        this.goalUpdate();
+      }
+    });
   };
 
   /**
@@ -153,6 +165,9 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     });
   };
 
+  componentWillUnmount() {
+    this.navFocusListener.remove();
+  }
   /**
    * Function called upon slider being changed
    * @param newValue : number : updated value of slider
@@ -195,7 +210,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         total_interest_saved: this.state.interestSaving,
       };
       await setUserGoal(payload);
-      if (!_get(this.props.setUserGoal, 'error', true))
+      if (!_get(this.props.setUserGoalResponse, 'error', true))
         navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     } else {
       const body = {
