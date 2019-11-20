@@ -26,6 +26,7 @@ import {TargetDetails} from './targetDetails';
 
 const SLIDER_START_VALUE = 1;
 const SLIDER_STEP = 1;
+const ERC_FACTOR = 0.1;
 
 interface props {
   navigation: {
@@ -165,7 +166,8 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       desiredTerm,
     );
     //Calculating ERC Limit
-    let mortgageErc = (currentMortgageAmount / currentMortgageTerm) * 0.1;
+    let mortgageErc =
+      (currentMortgageAmount / currentMortgageTerm) * ERC_FACTOR;
     this.setState({
       mortgageTerm: desiredTerm,
       monthlyOverPayment: newGoal.monthlyOverPayment,

@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {styles} from './styles';
 import {ReduxFormField} from '../ReduxFormField';
 import {Field, reduxForm} from 'redux-form';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {APP_CONSTANTS, DB_KEYS, LOCALE_STRING} from '../../utils/constants';
 import {connect} from 'react-redux';
 import {
   required,
@@ -80,13 +80,13 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
   negativeValidation = (value: string) => {
     const {reducerResponse} = this.props;
     const monthlyMortgage = Number(
-      _get(reducerResponse, 'MortgageInput.values.mortgageAmount', '').replace(
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT, '').replace(
         /,/g,
         '',
       ),
     );
     const timePeriod = Number(
-      _get(reducerResponse, 'MortgageInput.values.timePeriod', '').replace(
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, '').replace(
         /,/g,
         '',
       ),
@@ -94,7 +94,7 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     const withoutCommas = value.replace(/,/g, '');
     const thresholdMonthlyLimit = monthlyMortgage / (timePeriod * 12);
     return value && thresholdMonthlyLimit > Number(withoutCommas)
-      ? 'Invalid amount. Please provide a larger monthly payment amount'
+      ? localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.INVALID_AMOUNT)
       : undefined;
   };
 
@@ -138,7 +138,7 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
       editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
       infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
     };
-    item.NAME === 'monthlyMortgagePayment' &&
+    item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
       item.VALIDATION_RULE.push(this.negativeValidation);
     return (
       <View style={{opacity: item.dynamicValue.editable ? 1 : 0.4}}>
