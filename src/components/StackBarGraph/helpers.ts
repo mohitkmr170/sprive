@@ -1,5 +1,7 @@
 import {COLOR} from '../../utils/colors';
 
+//Intial Sample graph data
+
 export const graphData = [
   {
     emi: {

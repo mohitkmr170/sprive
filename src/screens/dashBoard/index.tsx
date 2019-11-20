@@ -48,28 +48,43 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     this.didFocusListener = '';
   }
 
+  setToInitialState = () => {
+    this.setState({
+      isLoggedOut: false,
+      loading: true,
+      isPaymentComplete: false,
+    });
+  };
+
   componentDidMount = async () => {
+    console.log('Inside componentDidMount');
+    this.handleInitialMount();
     this.didFocusListener = this.props.navigation.addListener(
       'didFocus',
       async () => {
-        await this.props.getUserInfo();
-        const {
-          getMonthlyPaymentRecord,
-          getUserInfoResponse,
-          getMonthlyPaymentRecordResponse,
-        } = this.props;
-        const qParam = {
-          user_id: _get(getUserInfoResponse, 'response.data.id', null),
-        };
-        await getMonthlyPaymentRecord({}, qParam);
-        console.log(
-          'UNSAFE_componentWillMount : getMonthlyPaymentRecordResponse =>',
-          getMonthlyPaymentRecordResponse,
-        );
-        this.setState({loading: false});
+        console.log('Inside didFocusListener');
+        this.setToInitialState();
+        this.handleInitialMount();
       },
     );
-    console.log('In Dashboard');
+  };
+
+  handleInitialMount = async () => {
+    await this.props.getUserInfo();
+    const {
+      getMonthlyPaymentRecord,
+      getUserInfoResponse,
+      getMonthlyPaymentRecordResponse,
+    } = this.props;
+    const qParam = {
+      user_id: _get(getUserInfoResponse, 'response.data.id', null),
+    };
+    await getMonthlyPaymentRecord({}, qParam);
+    console.log(
+      'UNSAFE_componentWillMount : getMonthlyPaymentRecordResponse =>',
+      getMonthlyPaymentRecordResponse,
+    );
+    this.setState({loading: false});
   };
 
   handleDrawer() {}
@@ -78,6 +93,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     this.props.navigation.openDrawer();
   };
   componentWillUnmount() {
+    console.log('Inside componentWillUnmount');
     this.didFocusListener.remove();
   }
 

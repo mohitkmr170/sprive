@@ -61,59 +61,70 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     };
   }
 
-  componentDidMount = async () => {
-    const {
-      // getUserMortgageData,
-      // getUserInfoResponse,
-      // getUserGoal,
-      navigation,
-    } = this.props;
-    this.navFocusListener = navigation.addListener('didFocus', async () => {
-      const {
-        getUserMortgageData,
-        getUserInfoResponse,
-        getUserGoal,
-      } = this.props;
-      const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
-      const qParamsInfo = {
-        user_id: userId,
-      };
-      await getUserMortgageData({}, qParamsInfo);
-      const {getUserMortgageDataResponse} = this.props;
-      const qParams = {
-        user_id: userId,
-      };
-      await getUserGoal({}, qParams);
-      const {getUserGoalResponse} = this.props;
-      //To update previously set goal
-      if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
-        const {getUserGoalResponse} = this.props;
-        const mortgageTerm = _get(
-          getUserGoalResponse,
-          DB_KEYS.NEW_MORTGAGE_TERM,
-          null,
-        );
-        const monthlyOverPayment = _get(
-          getUserGoalResponse,
-          DB_KEYS.GOAL_OVERPAYMENT,
-          null,
-        );
-        const totalInterest = _get(
-          getUserGoalResponse,
-          DB_KEYS.GOAL_INTEREST_SAVED,
-          null,
-        );
-        this.setState({
-          mortgageTerm: mortgageTerm,
-          monthlyOverPayment: monthlyOverPayment,
-          interestSaving: totalInterest,
-          loading: false,
-        });
-      } else {
-        //To add new goal with Mortgage data
-        this.goalUpdate();
-      }
+  setToInitialState = () => {
+    this.setState({
+      mortgageTerm: 0,
+      monthlyOverPayment: 0,
+      interestSaving: 0,
+      loading: true,
+      ercLimit: 0,
+      ercLimitCrossed: false,
     });
+  };
+
+  componentDidMount = async () => {
+    this.handleInitialMount();
+    this.navFocusListener = this.props.navigation.addListener(
+      'didFocus',
+      async () => {
+        console.log('Inside didFocusListener');
+        this.setToInitialState();
+        this.handleInitialMount();
+      },
+    );
+  };
+
+  handleInitialMount = async () => {
+    const {getUserMortgageData, getUserInfoResponse, getUserGoal} = this.props;
+    const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
+    const qParamsInfo = {
+      user_id: userId,
+    };
+    await getUserMortgageData({}, qParamsInfo);
+    const {getUserMortgageDataResponse} = this.props;
+    const qParams = {
+      user_id: userId,
+    };
+    await getUserGoal({}, qParams);
+    const {getUserGoalResponse} = this.props;
+    //To update previously set goal
+    if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
+      const {getUserGoalResponse} = this.props;
+      const mortgageTerm = _get(
+        getUserGoalResponse,
+        DB_KEYS.NEW_MORTGAGE_TERM,
+        null,
+      );
+      const monthlyOverPayment = _get(
+        getUserGoalResponse,
+        DB_KEYS.GOAL_OVERPAYMENT,
+        null,
+      );
+      const totalInterest = _get(
+        getUserGoalResponse,
+        DB_KEYS.GOAL_INTEREST_SAVED,
+        null,
+      );
+      this.setState({
+        mortgageTerm: mortgageTerm,
+        monthlyOverPayment: monthlyOverPayment,
+        interestSaving: totalInterest,
+        loading: false,
+      });
+    } else {
+      //To add new goal with Mortgage data
+      this.goalUpdate();
+    }
   };
 
   /**

@@ -56,10 +56,7 @@ const TabNavigator = createBottomTabNavigator(
         tabBarIcon: ({tintColor}) => (
           <Icon name="menu" size={24} color={tintColor} />
         ),
-        tabBarOnPress: () => {
-          // handleInfo();
-          // props.screenProps.drawerNavigation.navigate('DrawerOpen');
-        } /*
+        tabBarOnPress: () => {} /*
         TODO : Onpress of this, Side bar should be opened
         */,
       },
@@ -73,8 +70,8 @@ const TabNavigator = createBottomTabNavigator(
       inactiveTintColor: COLOR.INACTIVE_TAB,
       showIcon: true,
       labelStyle: {
-        fontSize: STYLE_CONSTANTS.font.SIZE.TINY,
-        lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.SMALL,
+        // fontSize: STYLE_CONSTANTS.font.SIZE.TINY,
+        // lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.SMALL,
       },
     },
   },
