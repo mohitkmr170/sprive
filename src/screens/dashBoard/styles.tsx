@@ -26,6 +26,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  paidButton: {
+    height: 24,
+    width: 40,
+    backgroundColor: '#4D56B1',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginTop: 16,
+    marginLeft: 16,
+    borderRadius: 14,
+  },
   thisMonthText: {
     marginTop: STYLE_CONSTANTS.margin.SMALL,
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,

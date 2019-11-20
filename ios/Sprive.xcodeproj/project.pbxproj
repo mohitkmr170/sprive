@@ -296,6 +296,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 3F25347H8E;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -638,6 +639,7 @@
 			baseConfigurationReference = 7BCF0C17F579BC10D61ED994 /* Pods-SpriveTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				DEVELOPMENT_TEAM = 3F25347H8E;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -662,6 +664,7 @@
 			baseConfigurationReference = 514FE90E35B5801D60895C32 /* Pods-SpriveTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 3F25347H8E;
 				INFOPLIST_FILE = SpriveTests/Info.plist;
@@ -683,6 +686,8 @@
 			baseConfigurationReference = 08A1DBECA228AF365DD68EA5 /* Pods-Sprive.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3F25347H8E;
@@ -695,6 +700,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.geekyants.services.Sprive;
 				PRODUCT_NAME = Sprive;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -704,6 +710,8 @@
 			baseConfigurationReference = 32EF17DADFA76CE33328201D /* Pods-Sprive.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3F25347H8E;
 				INFOPLIST_FILE = Sprive/Info.plist;
@@ -715,6 +723,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.geekyants.services.Sprive;
 				PRODUCT_NAME = Sprive;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

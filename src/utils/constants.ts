@@ -17,6 +17,27 @@ export const APP_CONSTANTS = {
   GENERAL_ERROR: 'Something went wrong!',
   LOG_OUT: 'Logged Out!',
   FALSE_TOKEN: 'FALSE TOKEN',
+  MONTH_NAMES: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ],
+  LISTENER: {
+    DID_FOCUS: 'didFocus',
+  },
+  LOADER_SIZE: {
+    SMALL: 'small',
+    LARGE: 'large',
+  },
 };
 
 export const STYLE_CONSTANTS = {
@@ -93,7 +114,7 @@ export const STYLE_CONSTANTS = {
     WEIGHT: {
       NORMAL: 'normal',
       SEMI_BOLD: '500',
-      BOLD: 'bold',
+      BOLD: '900',
     },
   },
   border: {
@@ -130,7 +151,10 @@ export const DB_KEYS = {
   FORM_MORTGAGE_TIMEPERIOD: 'MortgageInput.values.timePeriod',
   FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT:
     'MortgageInput.values.monthlyMortgagePayment',
-  USER_ID: 'response.data.id',
+  USER_ID: 'response.data.id', //Same
+  BALANCE_AMOUNT: 'response.data.balance_amount',
+  MONTHLY_TARGET: 'response.data.monthly_target',
+  RESPONSE_DATA: 'response.data',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -225,6 +249,7 @@ export const LOCALE_STRING = {
     MAKE_OVERPAYMENT: 'dashBoard.makeOverPayment',
     MY_PROGRESS: 'dashBoard.myProgress',
     PROJECTED_MORTGAGE: 'dashBoard.projectedMortgage',
+    KEEP_IT_UP: 'dashBoard.keepItUp',
   },
   STATUS_OVERLAY: {
     MESSAGE: 'statusOverlay.message',

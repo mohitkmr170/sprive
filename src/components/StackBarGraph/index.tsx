@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Alert,
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
@@ -54,24 +53,9 @@ interface state {
   loading: boolean;
   activeGraphIndex: number;
 }
-
-// Sample test data used for graph plotting
-
-const MONTH_NAMES = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
-let currentMonth = MONTH_NAMES[new Date().getMonth()];
+const currentMonthIndex = new Date().getMonth();
+const currentMonth = APP_CONSTANTS.MONTH_NAMES[currentMonthIndex];
+const actualCurrentMonthIndex = currentMonthIndex + 1;
 
 export class UnconnectedStackBarGraph extends React.Component<props, state> {
   constructor(props: any) {
@@ -90,40 +74,29 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
   }
 
   componentDidMount = async () => {
-    const {
-      getUserInfoResponse,
-      getUserMortgageData,
-      getGraphDataResponse,
-    } = this.props;
+    const {getUserInfoResponse, getUserMortgageData} = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     const qParamsInfo = {
       user_id: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
-    //New logic
     const {getUserMortgageDataResponse} = this.props;
     let currentGraphData = graphData;
     for (let i = 0; i < graphData.length; i++) {
-      // currentGraphData[i].emi.value = _get(
-      //   getUserMortgageDataResponse,
-      //   'response.data[0].mortgage_payment',
-      //   null,
-      // );
       currentGraphData[i].monthly_target = _get(
         getUserMortgageDataResponse,
-        'response.data[0].mortgage_payment',
+        DB_KEYS.MORTGAGE_PAYMENT,
         null,
       );
       currentGraphData[i].emi.svg.onPress = () => this.onStackBarPress(i);
     }
-    graphData[new Date().getMonth() + 1 - GRAPH_OFFSET].emi.value = _get(
+    graphData[actualCurrentMonthIndex - GRAPH_OFFSET].emi.value = _get(
       getUserMortgageDataResponse,
-      'response.data[0].mortgage_payment',
+      DB_KEYS.MORTGAGE_PAYMENT,
       null,
     );
     if (currentMonth > String(GRAPH_OFFSET))
       this.setState({currentScrollIndex: 1, graphData: currentGraphData});
-    const {getGraphData} = this.props;
     let dateRange = this.getDataRange(0);
     this.getNewGraphData(dateRange[0], dateRange[1]);
   };
@@ -150,13 +123,12 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
   };
 
   onStackBarPress = (graphIndex: number) => {
-    console.log('jhasbdasda', this.state.graphData);
-    const {getGraphDataResponse} = this.props;
+    const {graphData} = this.state;
     let toolTipObj = {
-      monthly_mortgage: this.state.graphData[graphIndex].emi.value,
-      overPayment: this.state.graphData[graphIndex].overPayment.value,
-      monthlyTarget: this.state.graphData[graphIndex].monthly_target,
-      svgColor: this.state.graphData[graphIndex].emi.svg.fill,
+      monthly_mortgage: graphData[graphIndex].emi.value,
+      overPayment: graphData[graphIndex].overPayment.value,
+      monthlyTarget: graphData[graphIndex].monthly_target,
+      svgColor: graphData[graphIndex].emi.svg.fill,
     };
     this.setState({
       showInfoToolTip: true,
@@ -181,14 +153,11 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
     };
     await getGraphData({}, qParam);
     const {getGraphDataResponse} = this.props;
-    console.log(
-      'getNewGraphData : getGraphDataResponse =>',
+    const graphDataArray = _get(
       getGraphDataResponse,
-      currentGraphData,
-      this.state.graphData,
+      DB_KEYS.RESPONSE_DATA,
+      '',
     );
-    const graphDataArray = _get(getGraphDataResponse, 'response.data', '');
-    console.log('graphDataArray', graphDataArray);
     for (let i = 0; i < graphDataArray.length; i++) {
       currentGraphData[graphDataArray[i].month - GRAPH_OFFSET - 1].emi.value =
         graphDataArray[i].mortgage_amount;
@@ -206,46 +175,27 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       currentGraphData[
         graphDataArray[i].month - GRAPH_OFFSET - 1
       ].monthly_target = graphDataArray[i].monthly_target;
-      //
       if (graphDataArray[i].overpayment >= graphDataArray[i].monthly_target)
         currentGraphData[
           graphDataArray[i].month - GRAPH_OFFSET - 1
         ].overPayment.svg.fill = COLOR.SLIDER_COLOR;
-      //
-      console.log(
-        'Graph month',
-        graphDataArray[i].month,
-        new Date().getMonth() + 1,
-      );
-      if (graphDataArray[i].month === new Date().getMonth() + 1) {
+      if (graphDataArray[i].month === actualCurrentMonthIndex) {
         currentGraphData[
           graphDataArray[i].month - GRAPH_OFFSET - 1 + 1
         ].monthly_target = this.props.currentMonthTarget;
       }
-      console.log(
-        'getNewGraphData : Loop =>',
-        i,
-        graphDataArray.length,
-        this.state.loading,
-        this.state.graphData,
-      );
       if (i === graphDataArray.length - 1)
         this.setState({loading: false, graphData: currentGraphData});
     }
   }
-
-  //Mock data for graph
 
   /**
    * This function is to decrement currentScrollIndex by 1 upon left click
    */
 
   handleGraphLeftSwipe = () => {
-    const {getGraphData} = this.props;
-    //monthOfset to be decreased by 6
-    // if (this.state.currentScrollIndex)
-    //new Logic
-    if (_get(getGraphData, 'response.data', '').length) {
+    const {getGraphDataResponse} = this.props;
+    if (_get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, '').length) {
       let dateRange = this.getDataRange(-6);
       this.getNewGraphData(dateRange[0], dateRange[1]);
       this.setState({
@@ -261,10 +211,8 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
    */
 
   handleGraphRightSwipe = () => {
-    //monthOfset to be increased by 6
-    // if (this.state.currentScrollIndex < MONTH_NAMES.length / GRAPH_OFFSET - 1)
-    //new Logic
-    if (_get(getGraphData, 'response.data', '').length) {
+    const {getGraphDataResponse} = this.props;
+    if (_get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, '').length) {
       let dateRange = this.getDataRange(0);
       this.getNewGraphData(dateRange[0], dateRange[1]);
       this.setState({
@@ -280,11 +228,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
   };
 
   render() {
-    console.log('render ==>', this.state.currentTarget);
-    //Calculating current graph and month data to be rendered out of all available data
-    //This will be replaced with actual 6 data we get upon API call
-    //This will be decide as per same API call with response `month` to string using monthArray
-    let currMonthName = MONTH_NAMES.slice(
+    let currMonthName = APP_CONSTANTS.MONTH_NAMES.slice(
       this.state.currentScrollIndex * GRAPH_OFFSET,
       GRAPH_OFFSET * (this.state.currentScrollIndex + 1),
     );
@@ -308,7 +252,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
           </TouchableOpacity>
           <View style={styles.mainStackbarContainer}>
             {this.state.loading ? (
-              <ActivityIndicator size="small" />
+              <ActivityIndicator size={APP_CONSTANTS.LOADER_SIZE.SMALL} />
             ) : (
               <View>
                 {this.state.showInfoToolTip && (
@@ -316,22 +260,18 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                 )}
                 <StackedBarChart
                   style={styles.barChart}
-                  /*
-                TODO : Keys and Colors will change as per the payment status, it will then become a single bar graph
-                */
                   keys={KEYS}
                   colors={COLORS}
                   data={this.state.graphData}
                   showGrid={false}
                   contentInset={styles.graphInnerSpacing}
                   animate={true}
-                  animationDuration="200"
+                  animationDuration={200}
                   spacingInner={0.7}
                   valueAccessor={({item, key}) => item[key].value}
                 />
               </View>
             )}
-            {/* )} */}
             <View style={styles.monthView}>
               {currMonthName.map((item, index) => {
                 return (
@@ -350,8 +290,8 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                               : COLOR.STEEL_GRAY,
                           fontWeight:
                             this.state.activeGraphIndex === index
-                              ? '900'
-                              : 'normal',
+                              ? STYLE_CONSTANTS.font.WEIGHT.BOLD
+                              : STYLE_CONSTANTS.font.WEIGHT.NORMAL,
                         },
                       ]}
                       key={index}>

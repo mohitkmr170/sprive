@@ -6,7 +6,6 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
@@ -17,7 +16,12 @@ import * as Progress from 'react-native-progress';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
 import {getMonthlyPaymentRecord, getUserInfo} from '../../store/reducers';
-import {NAVIGATION_SCREEN_NAME, LOCALE_STRING} from '../../utils/constants';
+import {
+  NAVIGATION_SCREEN_NAME,
+  LOCALE_STRING,
+  APP_CONSTANTS,
+  DB_KEYS,
+} from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
 
 interface props {
@@ -45,7 +49,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       loading: true,
       isPaymentComplete: false,
     };
-    this.didFocusListener = '';
   }
 
   setToInitialState = () => {
@@ -57,12 +60,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   };
 
   componentDidMount = async () => {
-    console.log('Inside componentDidMount');
     this.handleInitialMount();
     this.didFocusListener = this.props.navigation.addListener(
-      'didFocus',
+      APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
-        console.log('Inside didFocusListener');
         this.setToInitialState();
         this.handleInitialMount();
       },
@@ -71,29 +72,21 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
 
   handleInitialMount = async () => {
     await this.props.getUserInfo();
-    const {
-      getMonthlyPaymentRecord,
-      getUserInfoResponse,
-      getMonthlyPaymentRecordResponse,
-    } = this.props;
+    const {getMonthlyPaymentRecord, getUserInfoResponse} = this.props;
     const qParam = {
-      user_id: _get(getUserInfoResponse, 'response.data.id', null),
+      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
     };
     await getMonthlyPaymentRecord({}, qParam);
-    console.log(
-      'UNSAFE_componentWillMount : getMonthlyPaymentRecordResponse =>',
-      getMonthlyPaymentRecordResponse,
-    );
     this.setState({loading: false});
   };
 
   handleDrawer() {}
 
   handleLogOut = () => {
+    //temporarily here, need to moved upon tab press
     this.props.navigation.openDrawer();
   };
   componentWillUnmount() {
-    console.log('Inside componentWillUnmount');
     this.didFocusListener.remove();
   }
 
@@ -101,28 +94,18 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     const {getMonthlyPaymentRecordResponse} = this.props;
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
-      'response.data.balance_amount',
+      DB_KEYS.BALANCE_AMOUNT,
       0,
     );
     const monthlyTarget = _get(
       getMonthlyPaymentRecordResponse,
-      'response.data.monthly_target',
+      DB_KEYS.MONTHLY_TARGET,
       0,
     );
-    const {isPaymentComplete} = this.state;
-    if (this.state.loading)
-      return (
-        <View style={{flex: 1}}>
-          <LoadingModal loadingText="Loading..." />
-        </View>
-      );
+    if (this.state.loading) return <LoadingModal loadingText="Loading..." />;
     else
       return (
         <View style={styles.mainContainer}>
-          {/* /*
-        TODO : Uncomment it
-        */}
-
           <ScrollView
             contentContainerStyle={styles.middleContainer}
             showsVerticalScrollIndicator={false}>
@@ -131,9 +114,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               style={styles.blueImageBackground}>
               <TouchableOpacity
                 onPress={() => {
-                  /*
-                TODO : Temporarily Logout on this button, have to be moved
-                */
                   this.setState({isLoggedOut: true});
                   this.handleLogOut();
                 }}
@@ -148,37 +128,23 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   style={[
                     styles.overPaymentTargetAmount,
                     {
-                      color:
-                        balanceAmount === 0
-                          ? 'rgba(160, 255, 216, 1)'
-                          : COLOR.WHITE,
+                      color: !balanceAmount ? COLOR.SLIDER_COLOR : COLOR.WHITE,
                     },
                   ]}>
                   £ {Math.round(monthlyTarget)}
                 </Text>
-                {balanceAmount === 0 && (
-                  <View
-                    style={{
-                      height: 24,
-                      width: 40,
-                      backgroundColor: '#4D56B1',
-                      justifyContent: 'center',
-                      alignSelf: 'center',
-                      alignItems: 'center',
-                      marginTop: 16,
-                      marginLeft: 16,
-                      borderRadius: 14,
-                    }}>
-                    <Text style={{color: 'white'}}>Paid</Text>
+                {!balanceAmount && (
+                  <View style={styles.paidButton}>
+                    <Text style={{color: COLOR.WHITE}}>Paid</Text>
                   </View>
                 )}
               </View>
               <Text style={styles.overPaymentTargetText}>
                 {localeString(LOCALE_STRING.DASHBOARD_SCREEN.OVER_PAYMENT)}
               </Text>
-              {balanceAmount === 0 ? (
+              {!balanceAmount ? (
                 <Text style={styles.dueReminderText}>
-                  You’re on track. Keep it up
+                  {localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_IT_UP)}
                 </Text>
               ) : (
                 <Text style={styles.dueReminderText}>
@@ -197,25 +163,21 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   <Text style={styles.innerFirstText}>£ 2880</Text>
                 </Text>
                 <Text style={styles.statusRightText}>
-                  {/* /*
-              TODO : Will be moved to locales after data model
-              */}
                   Spent £ 560 out of £ 3440
                 </Text>
               </View>
               <View style={styles.passStrengthInnerContainer}>
                 <Progress.Bar
                   progress={0.6}
-                  color="#FF9D00"
+                  color={COLOR.DARKEST_YELLOW}
                   height={10}
                   width={null}
                   borderRadius={5}
-                  unfilledColor="#FFE9B3"
+                  unfilledColor={COLOR.LIGHTEST_YELLOW}
                   borderWidth={0}
                 />
               </View>
             </View>
-            {/* Shadow effect is to be enhanced further */}
             <View style={styles.incomeStatusContainer}>
               <View style={styles.incomeInnerContainer}>
                 <View style={styles.rowParentContainer}>
@@ -253,7 +215,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                 />
               </View>
             </View>
-            {/* View for graph */}
             <View>
               <View style={styles.myProgressContainer}>
                 <Text style={styles.myProgressText}>
@@ -269,7 +230,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <StackBarGraph currentMonthTarget={monthlyTarget} />
             </View>
           </ScrollView>
-          {_get(getMonthlyPaymentRecordResponse, 'error', true) && (
+          {_get(getMonthlyPaymentRecordResponse, DB_KEYS.ERROR, true) && (
             <StatusOverlay
               handleContinue={() =>
                 this.props.navigation.navigate(

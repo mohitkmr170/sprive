@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ScrollView, Alert} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {Header, LoadingModal} from '../../components';
@@ -17,6 +17,7 @@ import {
   LOCALE_STRING,
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
+  APP_CONSTANTS,
 } from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
 import {calculateGoal} from '../../../calculatorJS/index';
@@ -75,9 +76,8 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
   componentDidMount = async () => {
     this.handleInitialMount();
     this.navFocusListener = this.props.navigation.addListener(
-      'didFocus',
+      APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
-        console.log('Inside didFocusListener');
         this.setToInitialState();
         this.handleInitialMount();
       },
@@ -91,7 +91,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       user_id: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
-    const {getUserMortgageDataResponse} = this.props;
     const qParams = {
       user_id: userId,
     };
@@ -151,7 +150,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     );
     let desiredTerm = currentMortgageTerm;
     if (loading) {
-      console.log('akuewaskas1', this.state.mortgageTerm);
       /*
       TODO : Need to add ERC value based desiredTerm & mortgageTerm/2(Max of either)
       */
@@ -167,7 +165,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       desiredTerm,
     );
     //Calculating ERC Limit
-    console.log('akuewaskas2', newGoal);
     let mortgageErc = (currentMortgageAmount / currentMortgageTerm) * 0.1;
     this.setState({
       mortgageTerm: desiredTerm,
@@ -201,7 +198,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       updateUserGoal,
       navigation,
     } = this.props;
-    //Adding new Goal
     if (
       !(
         getUserGoalResponse.response.data[0] &&
@@ -223,7 +219,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         total_interest_saved: this.state.interestSaving,
       };
       await setUserGoal(payload);
-      if (!_get(this.props.setUserGoalResponse, 'error', true))
+      if (!_get(this.props.setUserGoalResponse, DB_KEYS.ERROR, true))
         navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     } else {
       const body = {
@@ -237,11 +233,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
       };
       await updateUserGoal(body, qParam);
-      console.log(
-        'UPDATE_GOAL',
-        _get(this.props.updateUserGoalResponse, DB_KEYS.IS_FETCHING, ''),
-      );
-      if (!_get(this.props.updateUserGoalResponse, 'error', true))
+      if (!_get(this.props.updateUserGoalResponse, DB_KEYS.ERROR, true))
         navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     }
   };
@@ -287,7 +279,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                   minimumValue={SLIDER_START_VALUE}
                   maximumValue={_get(
                     getUserMortgageDataResponse,
-                    'response.data[0].mortgage_term',
+                    DB_KEYS.MORTGAGE_TERM,
                     null,
                   )}
                   step={SLIDER_STEP}
@@ -300,7 +292,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 <Text style={styles.sliderLeftText}>
                   {_get(
                     getUserMortgageDataResponse,
-                    'response.data[0].mortgage_term',
+                    DB_KEYS.MORTGAGE_TERM,
                     null,
                   )}
                 </Text>
