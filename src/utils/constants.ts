@@ -75,9 +75,11 @@ export const STYLE_CONSTANTS = {
     LARGEST: 20,
     LARGISH: 18,
     NORMAL: 16,
+    BELOW_NORMAL: 14,
     SMALL: 12,
     SMALLISH: 10,
     SMALLER: 8,
+    ABOVE_SMALLEST: 6,
     SMALLEST: 4,
   },
   font: {
@@ -113,7 +115,7 @@ export const STYLE_CONSTANTS = {
     },
     WEIGHT: {
       NORMAL: 'normal',
-      SEMI_BOLD: '500',
+      SEMI_BOLD: '600',
       BOLD: '900',
     },
   },
@@ -166,6 +168,8 @@ export const NAVIGATION_SCREEN_NAME = {
   MORTGAGE_INPUT_SCREEN: 'MortgageInputScreen',
   SAVE_INTEREST_SCREEN: 'SaveInterestScreen',
   TAB_NAVIGATOR: 'TabNavigatorScreen',
+  OVERPAYMENT: 'OverpaymentScreen',
+  OVERPAYMENT_HISTORY: 'OverpaymentHistoryScreen',
 };
 
 export const LOCALE_STRING = {
@@ -256,5 +260,18 @@ export const LOCALE_STRING = {
     MESSAGE: 'statusOverlay.message',
     CONTINUE: 'statusOverlay.continue',
     OH_NO: 'statusOverlay.ohNo',
+  },
+  OVER_PAYMENT_HISTORY: {
+    OVER_PAYMENT: 'overPaymentHistory.overPayment',
+    OVER_PAYMENT_HISTORY: 'overPaymentHistory.overPaymentHistory',
+    SEARCH_MONTH: 'overPaymentHistory.searchMonth',
+    OVER_PAYMENT_OF: 'overPaymentHistory.overPaymentOf',
+    AVAILABLE_BALANCE: 'overPaymentHistory.availableBalance',
+    MONTHLY_TARGET: 'overPaymentHistory.monthlyTarget',
+    BASIC_INFO: 'overPaymentHistory.basicInfo',
+    PAY_NOW: 'overPaymentHistory.payNow',
+    ACCOUNT_NUMBER: 'overPaymentHistory.accNumber',
+    SORT_CODE: 'overPaymentHistory.sortCode',
+    REFERENCE_CODE: 'overPaymentHistory.refCode',
   },
 };
