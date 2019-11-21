@@ -3,14 +3,17 @@ import {COLOR} from '../../utils/colors';
 
 export const styles = StyleSheet.create({
   mainContainer: {
-    padding: 16,
+    padding: 12,
     justifyContent: 'space-between',
     flexDirection: 'row',
+    alignItems: 'center',
     borderBottomColor: COLOR.GRAY,
-    borderBottomWidth: 0.3,
+    borderBottomWidth: 0.5,
   },
   sideText: {alignSelf: 'center'},
   middleContainer: {
-    fontSize: 24,
+    fontSize: 18,
+    color: '#22319B',
+    fontWeight: '500',
   },
 });
