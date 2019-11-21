@@ -9,3 +9,7 @@ export const award = require('../images/award.png');
 export const activity = require('../images/activity.png');
 export const warning = require('../images/warning.png');
 export const correct = require('../images/correct.png');
+export const chatIcon = require('../images/chatIcon.png');
+export const hsbc = require('../images/hsbc.png');
+export const tick = require('../images/tick.png');
+export const hsbcBank = require('../images/hsbcBank.png');
