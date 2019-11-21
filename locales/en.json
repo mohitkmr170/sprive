@@ -12,7 +12,8 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "calculateNow": "Calculate Now",
-    "currencyPound": "£"
+    "currencyPound": "£",
+    "invalidAmount": "Invalid Amount"
   },
   "signUp": {
     "signUpText": "Sign up",
@@ -93,7 +94,13 @@
   "statusOverlay": {
     "message": "Goal not set, please go ahead and set your goal to continue",
     "continue": "Continue",
-    "ohNo": "Oh no!"
+    "ohNo": "Oh no!",
+    "paid": "Paid towards your mortgage today",
+    "next": "Next",
+    "tryAgain": "Try Again",
+    "brilliant": "Brilliant! At this rate, you could save £1,690 in interest, and pay off your mortgage 3 years earlier",
+    "wentWrong": "Something went wrong Please try again",
+    "cancel": "Cancel"
   },
   "overPaymentHistory": {
     "overPayment": "Overpayment",
@@ -106,6 +113,7 @@
     "payNow": "Pay Now",
     "accNumber": "Account Number",
     "sortCode": "Sort Code",
-    "refCode": "Reference Code"
+    "refCode": "Reference Code",
+    "onTrack": "You are on track"
   }
 }

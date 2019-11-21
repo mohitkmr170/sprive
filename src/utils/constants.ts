@@ -203,6 +203,7 @@ export const LOCALE_STRING = {
     SAVE_BUTTON_TEXT: 'saveInterest.buttonText',
   },
   LOADING: 'Loading',
+  INVALID_AMOUNT: 'global.invalidAmount',
   MORTGAGE_INPUT_DATA: {
     LOCALE_STRING_MORTGAGE_DATA: 'mortgageForm.mortgageData',
     LOCALE_STRING_WORKOUT: 'mortgageForm.letUsWorkOut',
@@ -260,6 +261,12 @@ export const LOCALE_STRING = {
     MESSAGE: 'statusOverlay.message',
     CONTINUE: 'statusOverlay.continue',
     OH_NO: 'statusOverlay.ohNo',
+    PAID: 'statusOverlay.paid',
+    NEXT: 'statusOverlay.next',
+    TRY_AGAIN: 'statusOverlay.tryAgain',
+    BRILLIANT: 'statusOverlay.brilliant',
+    WENT_WRONG: 'statusOverlay.wentWrong',
+    CANCEL: 'statusOverlay.cancel',
   },
   OVER_PAYMENT_HISTORY: {
     OVER_PAYMENT: 'overPaymentHistory.overPayment',
@@ -273,5 +280,6 @@ export const LOCALE_STRING = {
     ACCOUNT_NUMBER: 'overPaymentHistory.accNumber',
     SORT_CODE: 'overPaymentHistory.sortCode',
     REFERENCE_CODE: 'overPaymentHistory.refCode',
+    ON_TARCK: 'overPaymentHistory.onTrack',
   },
 };

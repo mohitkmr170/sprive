@@ -111,9 +111,11 @@ export async function resetAuthToken() {
  * Common wrapper function to show Snackbar
  * @param err : object : Error object of API error
  */
-export function showSnackBar(err: object) {
+export function showSnackBar(err: object, nonApiError?: string) {
   return Snackbar.show({
-    title: _get(err, 'response.data.message', 'Something went wrong!'),
+    title: nonApiError
+      ? nonApiError
+      : _get(err, 'response.data.message', 'Something went wrong!'),
     duration: Snackbar.LENGTH_LONG,
     action: {
       title: 'OK', //For any button title
