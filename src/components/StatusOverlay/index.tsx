@@ -32,7 +32,7 @@ export class StatusOverlay extends React.Component<props, state> {
                 color: '#00C1A4',
                 fontSize: 36,
                 lineHeight: 36,
-                fontWeight: '500',
+                fontWeight: '600',
                 paddingTop: 32,
                 textAlign: 'center',
               }}>
@@ -45,7 +45,7 @@ export class StatusOverlay extends React.Component<props, state> {
                 color: '#09245E',
                 fontSize: 18,
                 lineHeight: 28,
-                fontWeight: '500',
+                fontWeight: '600',
                 paddingTop: 20,
                 textAlign: 'center',
               }}>
@@ -74,7 +74,7 @@ export class StatusOverlay extends React.Component<props, state> {
                   lineHeight: 24,
                   marginTop: 32,
                   textAlign: 'center',
-                  fontWeight: '500',
+                  fontWeight: '600',
                 }}>
                 {this.props.firstButtonText}
               </Text>
@@ -90,7 +90,7 @@ export class StatusOverlay extends React.Component<props, state> {
                   lineHeight: 24,
                   marginTop: 16,
                   textAlign: 'center',
-                  fontWeight: '500',
+                  fontWeight: '600',
                 }}>
                 {this.props.secondButtonText}
               </Text>

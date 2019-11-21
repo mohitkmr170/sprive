@@ -8,18 +8,24 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
+import {connect} from 'react-redux';
+import {setOverpayment} from '../../store/reducers';
 import {Header, IncDecCounter, StatusOverlay} from '../../components';
 import {chatIcon, correct, tick} from '../../assets';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {
   APP_CONSTANTS,
   LOCALE_STRING,
   STYLE_CONSTANTS,
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
 } from '../../utils/constants';
+import {get as _get} from 'lodash';
 import {AmountContainer} from './amountContainer';
 import {CardDetails} from './cardDetails';
 import {COLOR} from '../../utils/colors';
-import {getNumberWithCommas} from '../../utils/helperFunctions';
+import {getNumberWithCommas, showSnackBar} from '../../utils/helperFunctions';
 import {localeString} from '../../utils/i18n';
 
 const INC_DEC_OFFSET = 10;
@@ -32,32 +38,55 @@ interface props {
     navigate: (routeName: String) => void;
     goBack: () => void;
   };
+  setOverpayment: (payload: object) => void;
+  getUserInfoResponse: object;
+  getMonthlyPaymentRecordResponse: object;
+  setOverpaymentResponse: object;
 }
 interface state {
   amount: string;
   error: boolean;
+  isPaymentDone: boolean;
 }
 
-export class OverPayment extends React.Component<props, state> {
+export class UnconnectedOverPayment extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
       amount: '',
-      error: false,
+      error: true,
+      isPaymentDone: false,
     };
   }
+
+  componentDidMount = async () => {
+    const {getMonthlyPaymentRecordResponse, getUserInfoResponse} = this.props;
+    const currentBalance = _get(
+      getMonthlyPaymentRecordResponse,
+      DB_KEYS.BALANCE_AMOUNT,
+      null,
+    );
+    if (currentBalance)
+      //If user has some balance_amount pending, then it will show => x more to go!
+      this.setState({
+        amount: String(currentBalance),
+      });
+  };
 
   handleEdit = () => {
     this.textInputBox.focus();
   };
 
   handleFirstButton = () => {
-    //Try again functionality
+    const {error} = this.state;
+    if (error) this.setState({isPaymentDone: false});
+    else
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
   };
 
   handleSecondButton = () => {
     this.setState({
-      error: false,
+      isPaymentDone: false,
     });
   };
 
@@ -70,23 +99,71 @@ export class OverPayment extends React.Component<props, state> {
       });
   };
 
-  handlePayNow = () => {
-    this.setState({
-      error: true,
+  handleAmountValidation = () => {
+    return new Promise((resolve, reject) => {
+      const {amount} = this.state;
+      let withOutCommas = amount.replace(/,/g, '');
+      let overPaymentAmount = Number(withOutCommas);
+      if (
+        overPaymentAmount > OVERPAYMENT_MIN_CAP &&
+        overPaymentAmount <= OVERPAYMENT_MAX_CAP
+      ) {
+        return resolve(true);
+      } else return reject(false);
     });
+  };
+
+  handlePayNow = async () => {
+    this.handleAmountValidation()
+      .then(async res => {
+        if (res) {
+          const {getUserInfoResponse} = this.props;
+          let userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
+          if (userId) {
+            const {setOverpayment} = this.props;
+            const amountWithOutCommas = this.state.amount.replace(/,/g, '');
+            const payload = {
+              [PAYLOAD_KEYS.USER_ID]: userId,
+              [PAYLOAD_KEYS.OVERPAYMENT.OVERPAYMENT_AMOUNT]: Number(
+                amountWithOutCommas,
+              ),
+            };
+            await setOverpayment(payload);
+            const {setOverpaymentResponse} = this.props;
+            if (!_get(setOverpaymentResponse, DB_KEYS.ERROR, false))
+              this.setState({
+                error: false,
+                isPaymentDone: true,
+              });
+            else this.setState({isPaymentDone: true});
+          }
+        }
+      })
+      .catch(err => {
+        showSnackBar({}, localeString(LOCALE_STRING.INVALID_AMOUNT));
+      });
   };
 
   handleDecPress = () => {
     let currentAmount = this.state.amount.replace(/,/g, '');
     let updatedAmount = Number(currentAmount) - INC_DEC_OFFSET;
-    if (updatedAmount >= OVERPAYMENT_MIN_CAP)
+    if (updatedAmount > OVERPAYMENT_MIN_CAP)
       this.setState({
         amount: String(updatedAmount),
       });
   };
 
   render() {
-    const {amount, error} = this.state;
+    const {amount, error, isPaymentDone} = this.state;
+    const {
+      getMonthlyPaymentRecordResponse,
+      setOverpaymentResponse,
+    } = this.props;
+    let currentRemainingBalance = _get(
+      getMonthlyPaymentRecordResponse,
+      DB_KEYS.BALANCE_AMOUNT,
+      null,
+    );
     let amountWithOutCommas = String(amount).replace(/,/g, '');
     let amountWithCommas = getNumberWithCommas(amountWithOutCommas);
     return (
@@ -111,9 +188,6 @@ export class OverPayment extends React.Component<props, state> {
                 </Text>
                 <View style={styles.inputContainer}>
                   <Text style={styles.poundText}>£ </Text>
-                  {/*
-                    TODO : Validations of maxCap===10000 to be added, position TBD
-                    */}
                   <TextInput
                     style={styles.textInput}
                     ref={input => {
@@ -137,7 +211,11 @@ export class OverPayment extends React.Component<props, state> {
                     />
                   </TouchableOpacity>
                 </View>
-                <Text style={styles.overPaymentOfText}>£175 more to go</Text>
+                <Text style={styles.overPaymentOfText}>
+                  {currentRemainingBalance
+                    ? `£${currentRemainingBalance} more to go`
+                    : localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.ON_TARCK)}
+                </Text>
               </View>
               <IncDecCounter
                 onIncrementPress={() => this.handleIncPress()}
@@ -175,23 +253,31 @@ export class OverPayment extends React.Component<props, state> {
           onPress={() => this.handlePayNow()}
           titleStyle={styles.buttonExteriorStyle}
           buttonStyle={styles.buttonInteriorStyle}
+          loading={_get(setOverpaymentResponse, DB_KEYS.IS_FETCHING, false)}
         />
-        {error && (
-          /*
-          TODO : Conditions to be added as per error state, and props will be accordingly handled, 1/0 added temporarily
-          */
+        {isPaymentDone && (
           <StatusOverlay
-            icon={1 ? tick : correct}
-            mainTitle={1 && '£ 300'}
-            mainMessage={1 ? 'Paid towards your mortgage today' : 'Oh no!'}
-            infoTitle={
-              1
-                ? 'Brilliant! At this rate, you could save £1,690 in interest, and pay off your mortgage 3 years earlier'
-                : 'Something went wrong Please try again'
+            icon={!error ? tick : correct}
+            mainTitle={!error && `£ ${amount}`}
+            mainMessage={
+              !error
+                ? localeString(LOCALE_STRING.STATUS_OVERLAY.PAID)
+                : localeString(LOCALE_STRING.STATUS_OVERLAY.OH_NO)
             }
-            firstButtonText={1 ? 'Next  ' : 'Try Again'}
+            infoTitle={
+              !error
+                ? localeString(LOCALE_STRING.STATUS_OVERLAY.BRILLIANT)
+                : localeString(LOCALE_STRING.STATUS_OVERLAY.WENT_WRONG)
+            }
+            firstButtonText={
+              !error
+                ? localeString(LOCALE_STRING.STATUS_OVERLAY.NEXT)
+                : localeString(LOCALE_STRING.STATUS_OVERLAY.TRY_AGAIN)
+            }
             handleFirstButton={() => this.handleFirstButton()}
-            secondButtonText={'Cancel'}
+            secondButtonText={
+              error && localeString(LOCALE_STRING.STATUS_OVERLAY.CANCEL)
+            }
             handleSecondButton={() => this.handleSecondButton()}
           />
         )}
@@ -199,3 +285,17 @@ export class OverPayment extends React.Component<props, state> {
     );
   }
 }
+const mapStateToProps = state => ({
+  getUserInfoResponse: state.getUserInfo,
+  getMonthlyPaymentRecordResponse: state.getMonthlyPaymentRecord,
+  setOverpaymentResponse: state.setOverpayment,
+});
+
+const bindActions = dispatch => ({
+  setOverpayment: payload => dispatch(setOverpayment.fetchCall(payload)),
+});
+
+export const OverPayment = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedOverPayment);
