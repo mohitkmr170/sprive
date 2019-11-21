@@ -168,7 +168,7 @@ export const NAVIGATION_SCREEN_NAME = {
   MORTGAGE_INPUT_SCREEN: 'MortgageInputScreen',
   SAVE_INTEREST_SCREEN: 'SaveInterestScreen',
   TAB_NAVIGATOR: 'TabNavigatorScreen',
-  OVERPAYMENT: 'OverpaymentScreen',
+  OVERPAYMENT: 'OverPaymentScreen',
   OVERPAYMENT_HISTORY: 'OverpaymentHistoryScreen',
 };
 

@@ -6,10 +6,17 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import {dashBoardCard, report, plusIncome, minusIncome} from '../../assets';
+import {
+  dashBoardCard,
+  report,
+  plusIncome,
+  minusIncome,
+  correct,
+} from '../../assets';
 import {connect} from 'react-redux';
 import {StackBarGraph, StatusOverlay, LoadingModal} from '../../components';
 import * as Progress from 'react-native-progress';
@@ -78,6 +85,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     };
     await getMonthlyPaymentRecord({}, qParam);
     this.setState({loading: false});
+  };
+
+  handleMakeOverPayment = () => {
+    // Alert.alert();
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
   };
 
   handleDrawer() {}
@@ -212,6 +224,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   )}
                   titleStyle={styles.buttonTitle}
                   buttonStyle={styles.button}
+                  onPress={() => this.handleMakeOverPayment()}
                 />
               </View>
             </View>
@@ -232,11 +245,15 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           </ScrollView>
           {_get(getMonthlyPaymentRecordResponse, DB_KEYS.ERROR, true) && (
             <StatusOverlay
-              handleContinue={() =>
+              icon={correct}
+              firstButtonText="Set Goal"
+              handleFirstButton={() =>
                 this.props.navigation.navigate(
                   NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN,
                 )
               }
+              mainMessage="Oh no!"
+              infoTitle="Goal not set, please go ahead and set your goal to see your Dashboard"
             />
           )}
         </View>
