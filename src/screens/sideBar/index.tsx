@@ -11,16 +11,10 @@ import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const SIDEBAR_DATA = [
-  {
-    title: 'Log Out',
-    icon: 'logout',
-  },
-];
-
 interface props {
   navigation: {
-    navigate: Function;
+    navigate: (routeName: string) => void;
+    goBack: () => void;
   };
   getUserInfoResponse: object;
 }
@@ -32,6 +26,21 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     super(props);
     this.state = {};
   }
+  SIDEBAR_DATA = [
+    {
+      title: 'Log Out',
+      icon: 'logout',
+      action: () => this.handleLogOut(),
+    },
+    {
+      title: 'Overpayment History',
+      icon: 'copy1',
+      action: () =>
+        this.props.navigation.navigate(
+          NAVIGATION_SCREEN_NAME.OVERPAYMENT_HISTORY,
+        ),
+    },
+  ];
   handleLogOut = () => {
     const {getUserInfoResponse} = this.props;
     setAuthToken(
@@ -49,11 +58,15 @@ export class UnconnectedSideBar extends React.Component<props, state> {
   render() {
     return (
       <ScrollView contentContainerStyle={styles.mainContainer}>
-        {SIDEBAR_DATA.map((item, index) => {
+        {this.SIDEBAR_DATA.map((item, index) => {
           return (
             <TouchableOpacity
-              onPress={() => this.handleLogOut()}
-              style={{flexDirection: 'row', alignItems: 'center'}}>
+              onPress={item.action}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 8,
+              }}>
               <Icon name={item.icon} size={20} />
               <Text
                 key={index}
