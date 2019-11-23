@@ -40,7 +40,10 @@ export class ToolTip extends React.Component<props, state> {
             }}>
             £ {overPayment}
           </Text>
-          <Text style={styles.monthlyTargetText}>/£ {monthlyTarget}</Text>
+          <Text style={styles.monthlyTargetText}>
+            /£{' '}
+            {svgMonthlyMortgage === '#D3D6EB' ? monthlyMortgage : monthlyTarget}
+          </Text>
         </Text>
         <Text style={styles.fixesPaymentText}>
           Fixed Payment{' '}

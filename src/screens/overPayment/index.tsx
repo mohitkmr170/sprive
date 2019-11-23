@@ -49,7 +49,7 @@ interface state {
   isPaymentDone: boolean;
 }
 
-export class UnconnectedOverPayment extends React.Component<props, state> {
+class UnconnectedOverPayment extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {

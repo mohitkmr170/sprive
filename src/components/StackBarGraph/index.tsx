@@ -124,6 +124,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
 
   onStackBarPress = (graphIndex: number) => {
     const {graphData} = this.state;
+    console.log('ajshhjvasd', graphData, graphIndex);
     let toolTipObj = {
       monthly_mortgage: graphData[graphIndex].emi.value,
       overPayment: graphData[graphIndex].overPayment.value,
@@ -159,29 +160,23 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       '',
     );
     for (let i = 0; i < graphDataArray.length; i++) {
-      currentGraphData[graphDataArray[i].month - GRAPH_OFFSET - 1].emi.value =
+      let currentGraphIndex = graphDataArray[i].month - GRAPH_OFFSET - 1;
+      currentGraphData[currentGraphIndex].emi.value =
         graphDataArray[i].mortgage_amount;
-      currentGraphData[
-        graphDataArray[i].month - GRAPH_OFFSET - 1
-      ].emi.svg.fill = COLORS[0];
-      currentGraphData[
-        graphDataArray[i].month - GRAPH_OFFSET - 1
-      ].overPayment.value = graphDataArray[i].overpayment;
-      currentGraphData[
-        graphDataArray[i].month - GRAPH_OFFSET - 1
-      ].overPayment.svg.onPress = () => this.onStackBarPress(i);
-      currentGraphData[graphDataArray[i].month - GRAPH_OFFSET - 1].status =
-        graphDataArray[i].status;
-      currentGraphData[
-        graphDataArray[i].month - GRAPH_OFFSET - 1
-      ].monthly_target = graphDataArray[i].monthly_target;
+      currentGraphData[currentGraphIndex].emi.svg.fill = COLORS[0];
+      currentGraphData[currentGraphIndex].overPayment.value =
+        graphDataArray[i].overpayment;
+      currentGraphData[currentGraphIndex].overPayment.svg.onPress = () =>
+        this.onStackBarPress(currentGraphIndex);
+      currentGraphData[currentGraphIndex].status = graphDataArray[i].status;
+      currentGraphData[currentGraphIndex].monthly_target =
+        graphDataArray[i].monthly_target;
       if (graphDataArray[i].overpayment >= graphDataArray[i].monthly_target)
-        currentGraphData[
-          graphDataArray[i].month - GRAPH_OFFSET - 1
-        ].overPayment.svg.fill = COLOR.SLIDER_COLOR;
+        currentGraphData[currentGraphIndex].overPayment.svg.fill =
+          COLOR.SLIDER_COLOR;
       if (graphDataArray[i].month === actualCurrentMonthIndex) {
         currentGraphData[
-          graphDataArray[i].month - GRAPH_OFFSET - 1 + 1
+          currentGraphIndex + 1
         ].monthly_target = this.props.currentMonthTarget;
       }
       if (i === graphDataArray.length - 1)

@@ -107,7 +107,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
       DB_KEYS.BALANCE_AMOUNT,
-      0,
+      null,
     );
     const monthlyTarget = _get(
       getMonthlyPaymentRecordResponse,
@@ -154,17 +154,17 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <Text style={styles.overPaymentTargetText}>
                 {localeString(LOCALE_STRING.DASHBOARD_SCREEN.OVER_PAYMENT)}
               </Text>
-              {!balanceAmount ? (
+              {balanceAmount === 0 ? (
                 <Text style={styles.dueReminderText}>
                   {localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_IT_UP)}
                 </Text>
               ) : (
                 <Text style={styles.dueReminderText}>
                   {balanceAmount > 0 && balanceAmount < monthlyTarget
-                    ? localeString(
+                    ? `£ ${balanceAmount} more to go!`
+                    : localeString(
                         LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
-                      )
-                    : `£ ${balanceAmount} more to go!`}
+                      )}
                 </Text>
               )}
             </ImageBackground>
