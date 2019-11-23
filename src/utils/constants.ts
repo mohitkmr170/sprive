@@ -31,6 +31,7 @@ export const APP_CONSTANTS = {
     'Nov',
     'Dec',
   ],
+  MONTH_NUMBER: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   LISTENER: {
     DID_FOCUS: 'didFocus',
   },
@@ -137,6 +138,8 @@ export const ICON_NAME = {
 export const DB_KEYS = {
   ACCESS_TOKEN: 'response.accessToken',
   IS_FETCHING: 'isFetching',
+  META_TOTAL: 'response.meta.total',
+  META_SKIP: 'response.meta.skip',
   TOTAL_INTEREST: 'response.data.totalInterest',
   AUTH_STATUS: 'status',
   CURRENT_USER_EMAIL: 'response.data.email',
@@ -157,6 +160,7 @@ export const DB_KEYS = {
   BALANCE_AMOUNT: 'response.data.balance_amount',
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
+  CREATED_AT: 'response.data[0].createdAt',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -281,5 +285,6 @@ export const LOCALE_STRING = {
     SORT_CODE: 'overPaymentHistory.sortCode',
     REFERENCE_CODE: 'overPaymentHistory.refCode',
     ON_TARCK: 'overPaymentHistory.onTrack',
+    YEAR: 'overPaymentHistory.year',
   },
 };
