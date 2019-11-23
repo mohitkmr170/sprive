@@ -20,10 +20,23 @@ export const styles = StyleSheet.create({
     borderWidth: 0.5,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
   },
+  loadingContainer: {
+    position: 'relative',
+    paddingVertical: 20,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  monthYearText: {
+    color: '#22319B',
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '600',
+    marginTop: 24,
+  },
   cardContainer: {
     marginTop: STYLE_CONSTANTS.margin.LARGEST,
     borderBottomColor: COLOR.GRAY,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     paddingBottom: STYLE_CONSTANTS.padding.BELOW_NORMAL,
   },
   cardMainContainer: {
