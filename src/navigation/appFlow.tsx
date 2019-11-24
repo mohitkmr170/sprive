@@ -23,6 +23,7 @@ import {
   SetGoal,
   OverPayment,
   OverpaymentHistory,
+  ReportIssue,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 import {Alert, ViewPropTypes} from 'react-native';
@@ -132,9 +133,12 @@ const AppStackNavigator = createStackNavigator(
     OverpaymentHistoryScreen: {
       screen: OverpaymentHistory,
     },
+    ReportIssueScreen: {
+      screen: ReportIssue,
+    },
   },
   {
-    initialRouteName: 'TabNavigatorScreen',
+    initialRouteName: 'ReportIssueScreen',
     headerMode: 'none',
   },
 );
