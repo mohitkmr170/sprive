@@ -23,6 +23,7 @@ import {
   SetGoal,
   OverPayment,
   OverpaymentHistory,
+  UpdateMortgage,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 import {Alert, ViewPropTypes} from 'react-native';
@@ -131,6 +132,9 @@ const AppStackNavigator = createStackNavigator(
     },
     OverpaymentHistoryScreen: {
       screen: OverpaymentHistory,
+    },
+    UpdateMortgageScreen: {
+      screen: UpdateMortgage,
     },
   },
   {
