@@ -80,7 +80,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
       const {getOverpaymentHistoryResponse} = this.props;
       if (!_get(getOverpaymentHistoryResponse, DB_KEYS.ERROR, false)) {
         if (
-          _get(getOverpaymentHistoryResponse, `response.data.${year}`, null)
+          _get(getOverpaymentHistoryResponse, `response.data.y_${year}`, null)
         ) {
           let prevData = this.state.data;
           this.setState({
@@ -91,14 +91,14 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
               page === 1
                 ? _get(
                     getOverpaymentHistoryResponse,
-                    `response.data.${year}`,
+                    `response.data.y_${year}`,
                     null,
                   )
                 : {
                     ...prevData,
                     ..._get(
                       getOverpaymentHistoryResponse,
-                      `response.data.${year}`,
+                      `response.data.y_${year}`,
                       null,
                     ),
                   },
@@ -157,7 +157,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
       );
   };
   render() {
-    const {navigation, getOverpaymentHistoryResponse} = this.props;
+    const {getOverpaymentHistoryResponse} = this.props;
     const {year, data} = this.state;
     return (
       <View style={styles.mainContainer}>
@@ -190,7 +190,9 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
                   return (
                     <View>
                       <Text style={styles.monthYearText}>
-                        {APP_CONSTANTS.MONTH_NAMES[key.item - 1] + ' ' + year}
+                        {APP_CONSTANTS.MONTH_NAMES[key.item.substring(2) - 1] +
+                          ' ' +
+                          year}
                       </Text>
 
                       {monthData.map((item: object, index: number) => {
