@@ -301,17 +301,17 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 monthlyOverPayment={monthlyOverPayment}
                 interestSaving={interestSaving}
               />
-              <Button
-                title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
-                titleStyle={styles.buttonTitleStyle}
-                buttonStyle={styles.buttonStyle}
-                onPress={() => this.handleSetGoal()}
-                loading={
-                  _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
-                  _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
-                }
-              />
             </ScrollView>
+            <Button
+              title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
+              titleStyle={styles.buttonTitleStyle}
+              buttonStyle={styles.buttonStyle}
+              onPress={() => this.handleSetGoal()}
+              loading={
+                _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
+                _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
+              }
+            />
           </View>
         )}
         {ercLimitCrossed && (
