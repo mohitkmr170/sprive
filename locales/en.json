@@ -32,7 +32,7 @@
     "monthlyMortgagePaymentLabel": "Monthly Mortgage Payment",
     "mortgageData": "Mortgage Data",
     "letUsWorkOut": "Let's work out how much interest you’re paying",
-    "takeYourBest": "Take your best guess for now, you can always update this later"
+    "takeYourBest": "Take your best guess for now, you can always update this later",
   },
   "saveInterest": {
     "cardText": "The amount you will pay your bank in interest alone",

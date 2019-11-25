@@ -213,7 +213,7 @@ export const LOCALE_STRING = {
     LOCALE_STRING_WORKOUT: 'mortgageForm.letUsWorkOut',
     LOCALE_STRING_TAKE_YOUR_BEST: 'mortgageForm.takeYourBest',
     BUTTON_LOCALE_STRING: 'global.calculateNow',
-    INVALID_AMOUNT: 'mortgageForm.inValidAmount',
+    INVALID_AMOUNT: 'validationMessages.inValidAmount',
   },
   VALIDATIONS: {
     IS_REQUIRED: 'validationMessages.required',
