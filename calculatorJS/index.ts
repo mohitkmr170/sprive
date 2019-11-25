@@ -35,7 +35,7 @@ export function calculateGoal(
 
   let interestCalcWithOverpayments = overpaymentCalc(
     outstandingLoan,
-    outstandingTermYrs, //Initially it was outstandingTermYrs, changed!
+    desiredOutstandingTermYrs, //Initially it was outstandingTermYrs, changed!
     interestRate * 100,
     1489,
   );
