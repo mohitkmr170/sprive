@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import {Header, LoadingModal} from '../../components';
+import {Header, LoadingModal, GeneralStatusBar} from '../../components';
 import Slider from '@react-native-community/slider';
 import {localeString} from '../../utils/i18n';
 import {connect} from 'react-redux';
@@ -150,14 +150,8 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       null,
     );
     let desiredTerm = currentMortgageTerm;
-    if (loading) {
-      /*
-      TODO : Need to add ERC value based desiredTerm & mortgageTerm/2(Max of either)
-      */
-      desiredTerm = Math.ceil(currentMortgageTerm / 2);
-    } else {
-      desiredTerm = newTerm;
-    }
+    desiredTerm = newTerm ? newTerm : Math.ceil(currentMortgageTerm / 2);
+    // }
     //calculating using calculatorJS
     let newGoal = calculateGoal(
       currentMortgageAmount,
@@ -259,6 +253,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
           <LoadingModal loadingText="Loading..." />
         ) : (
           <View style={{flex: 1}}>
+            <GeneralStatusBar />
             <Header />
             <ScrollView contentContainerStyle={styles.middleContainer}>
               <View style={styles.mortgageStatusProgressContainer}>

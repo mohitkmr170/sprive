@@ -17,7 +17,12 @@ import {
   correct,
 } from '../../assets';
 import {connect} from 'react-redux';
-import {StackBarGraph, StatusOverlay, LoadingModal} from '../../components';
+import {
+  StackBarGraph,
+  StatusOverlay,
+  LoadingModal,
+  GeneralStatusBar,
+} from '../../components';
 import * as Progress from 'react-native-progress';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
@@ -120,6 +125,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           <ScrollView
             contentContainerStyle={styles.middleContainer}
             showsVerticalScrollIndicator={false}>
+            <GeneralStatusBar backgroundColor={COLOR.DARK_BLUE} />
             <ImageBackground
               source={dashBoardCard}
               style={styles.blueImageBackground}>

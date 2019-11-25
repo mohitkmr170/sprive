@@ -3,7 +3,7 @@ import {View, Alert, Text} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
-import {Header, ReduxFormField} from '../../components';
+import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
@@ -164,6 +164,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     );
     return (
       <View style={styles.mainContainer}>
+        <GeneralStatusBar />
         <Header
           title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
           onBackPress={() => this.handleBackPress()}

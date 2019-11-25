@@ -10,7 +10,12 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import {setOverpayment} from '../../store/reducers';
-import {Header, IncDecCounter, StatusOverlay} from '../../components';
+import {
+  Header,
+  IncDecCounter,
+  StatusOverlay,
+  GeneralStatusBar,
+} from '../../components';
 import {chatIcon, correct, tick} from '../../assets';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
@@ -175,6 +180,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
     let amountWithCommas = getNumberWithCommas(amountWithOutCommas);
     return (
       <View style={styles.topContainer}>
+        <GeneralStatusBar />
         <Header
           title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT)}
           rightIconPresent

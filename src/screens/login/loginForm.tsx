@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
-import {Header, ReduxFormField} from '../../components';
+import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
@@ -89,6 +89,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     const {handleSubmit, loginUserResponse} = this.props;
     return (
       <View style={styles.mainContainer}>
+        <GeneralStatusBar />
         <Header
           title={localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_BUTTON)}
           onBackPress={() => this.handleBackPress()}

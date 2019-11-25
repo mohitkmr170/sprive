@@ -1,7 +1,11 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {styles} from './styles';
-import {Header, MortgageInputContainer} from '../../components';
+import {
+  Header,
+  MortgageInputContainer,
+  GeneralStatusBar,
+} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {NAVIGATION_SCREEN_NAME, DB_KEYS} from '../../utils/constants';
 import {Button} from 'react-native-elements';
@@ -70,6 +74,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     const {handleSubmit, getCumulativeInterestResponse} = this.props;
     return (
       <View style={styles.screenContainer}>
+        <GeneralStatusBar />
         <Header onBackPress={() => this.handleBackPress()} />
         <View style={styles.mainContainer}>
           <KeyboardAwareScrollView

@@ -1,6 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, StatusBar} from 'react-native';
-import {SafeAreaView} from 'react-navigation';
+import {StyleSheet, View} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
@@ -16,12 +15,9 @@ class App extends React.Component<props, state> {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <View style={styles.appContainer}>
-            <StatusBar barStyle="dark-content" />
-            <SafeAreaView
-              style={styles.mainContainer}
-              forceInset={{bottom: 'never'}}>
+            <View style={styles.mainContainer}>
               <AppNavigator />
-            </SafeAreaView>
+            </View>
           </View>
         </PersistGate>
       </Provider>

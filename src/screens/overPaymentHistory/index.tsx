@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, FlatList, ActivityIndicator} from 'react-native';
-import {Header} from '../../components';
+import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
 import {LOCALE_STRING, DB_KEYS} from '../../utils/constants';
 import {localeString} from '../../utils/i18n';
@@ -156,6 +156,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
     const {year, data} = this.state;
     return (
       <View style={styles.mainContainer}>
+        <GeneralStatusBar />
         <Header
           title={localeString(
             LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT_HISTORY,
