@@ -15,6 +15,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {connect} from 'react-redux';
 import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
 import {get as _get} from 'lodash';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -54,9 +55,14 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     );
     const {getCumulativeInterest} = this.props;
     const payload = {
-      mortgage_balance: values.mortgageAmount.replace(/,/g, ''),
-      mortgage_term: values.timePeriod.replace(/,/g, ''),
-      mortgage_payment: values.monthlyMortgagePayment.replace(/,/g, ''),
+      [PAYLOAD_KEYS.MORTGAGE_INPUT
+        .MORTGAGE_BALANCE]: values.mortgageAmount.replace(/,/g, ''),
+      [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_TERM]: values.timePeriod.replace(
+        /,/g,
+        '',
+      ),
+      [PAYLOAD_KEYS.MORTGAGE_INPUT
+        .MORTGAGE_PAYMENT]: values.monthlyMortgagePayment.replace(/,/g, ''),
     };
     await getCumulativeInterest(payload);
     const {getCumulativeInterestResponse} = this.props;

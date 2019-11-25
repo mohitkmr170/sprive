@@ -11,4 +11,19 @@ export const PAYLOAD_KEYS: any = {
   OVERPAYMENT: {
     OVERPAYMENT_AMOUNT: 'amount',
   },
+  LOGIN: {
+    STRATEGY: 'strategy',
+    EMAIL: 'email',
+    PASSWORD: 'password',
+  },
+  SIGNUP: {
+    EMAIL: 'email',
+    PASSWORD: 'password',
+  },
+  MORTGAGE_INPUT: {
+    MORTGAGE_ID: 'mortgage_id',
+    MORTGAGE_BALANCE: 'mortgage_balance',
+    MORTGAGE_TERM: 'mortgage_term',
+    MORTGAGE_PAYMENT: 'mortgage_payment',
+  },
 };

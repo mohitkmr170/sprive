@@ -31,6 +31,7 @@ import {
   resetAuthToken,
 } from '../../utils/helperFunctions';
 import {COLOR} from '../../utils/colors';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -71,7 +72,10 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
       reducerResponse,
       getUserInfo,
     } = this.props;
-    const payload = {email: values.email, password: values.password};
+    const payload = {
+      [PAYLOAD_KEYS.SIGNUP.EMAIL]: values.email,
+      [PAYLOAD_KEYS.SIGNUP.PASSWORD]: values.password,
+    };
     await signUpUser(payload);
     const {signUpUserResponse} = this.props;
     if (!_get(signUpUserResponse, DB_KEYS.ERROR, null)) {

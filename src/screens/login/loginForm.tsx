@@ -23,6 +23,7 @@ import {
   LOCALE_STRING,
   DB_KEYS,
 } from '../../utils/constants';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -59,9 +60,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     );
     const {loginUser, navigation} = this.props;
     const payload = {
-      strategy: 'local',
-      email: values.email,
-      password: values.password,
+      [PAYLOAD_KEYS.LOGIN.STRATEGY]: 'local',
+      [PAYLOAD_KEYS.LOGIN.EMAIL]: values.email,
+      [PAYLOAD_KEYS.LOGIN.PASSWORD]: values.password,
     };
     await loginUser(payload);
     const {loginUserResponse, getUserInfo} = this.props;

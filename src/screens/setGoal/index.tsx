@@ -23,6 +23,7 @@ import {COLOR} from '../../utils/colors';
 import {calculateGoal} from '../../../calculatorJS/index';
 import {ErcWarning} from './ercWarning';
 import {TargetDetails} from './targetDetails';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 const SLIDER_START_VALUE = 1;
 const SLIDER_STEP = 1;
@@ -201,8 +202,10 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       )
     ) {
       const payload = {
-        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
-        mortgage_id: String(
+        [PAYLOAD_KEYS.USER_ID]: String(
+          _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+        ),
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_ID]: String(
           _get(getUserMortgageDataResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
         ),
         monthly_overpayment_amount: this.state.monthlyOverPayment,
