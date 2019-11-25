@@ -191,8 +191,11 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
    */
 
   handleGraphLeftSwipe = () => {
+    /*
+    TODO : To be changed
+    */
     const {getGraphDataResponse} = this.props;
-    if (_get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, '').length) {
+    if (!_get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, '').length) {
       let dateRange = this.getDataRange(-6);
       this.getNewGraphData(dateRange[0], dateRange[1]);
       this.setState({
@@ -208,8 +211,11 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
    */
 
   handleGraphRightSwipe = () => {
+    /*
+    TODO : To be changed
+    */
     const {getGraphDataResponse} = this.props;
-    if (_get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, '').length) {
+    if (!_get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, '').length) {
       let dateRange = this.getDataRange(0);
       this.getNewGraphData(dateRange[0], dateRange[1]);
       this.setState({
