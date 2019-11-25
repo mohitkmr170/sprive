@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
 import * as Animatable from 'react-native-animatable';
 import {localeString} from '../../utils/i18n';
-import {LOCALE_STRING} from '../../utils/constants';
+import {LOCALE_STRING, APP_CONSTANTS} from '../../utils/constants';
 
 interface props {
   handleFirstButton: () => void;
@@ -65,8 +65,10 @@ export class StatusOverlay extends React.Component<props, state> {
               {this.props.infoTitle}
             </Text>
           )}
-          {this.props.handleFirstButton && (
-            <TouchableOpacity onPress={this.props.handleFirstButton}>
+          {this.props.firstButtonText && (
+            <TouchableOpacity
+              onPress={this.props.handleFirstButton}
+              hitSlop={APP_CONSTANTS.HIT_SLOP}>
               <Text
                 style={{
                   color: '#DD2371',
@@ -80,8 +82,10 @@ export class StatusOverlay extends React.Component<props, state> {
               </Text>
             </TouchableOpacity>
           )}
-          {this.props.handleSecondButton && (
-            <TouchableOpacity onPress={this.props.handleSecondButton}>
+          {this.props.secondButtonText && (
+            <TouchableOpacity
+              onPress={this.props.handleSecondButton}
+              hitSlop={APP_CONSTANTS.HIT_SLOP}>
               <Text
                 style={{
                   color: '#09245E',
