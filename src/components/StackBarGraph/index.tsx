@@ -127,7 +127,6 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
 
   onStackBarPress = (graphIndex: number) => {
     const {graphData} = this.state;
-    console.log('ajshhjvasd', graphData, graphIndex);
     let toolTipObj = {
       monthly_mortgage: graphData[graphIndex].emi.value,
       overPayment: graphData[graphIndex].overPayment.value,
