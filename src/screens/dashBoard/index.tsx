@@ -125,7 +125,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           <ScrollView
             contentContainerStyle={styles.middleContainer}
             showsVerticalScrollIndicator={false}>
-            <GeneralStatusBar backgroundColor={COLOR.DARK_BLUE} />
+            <GeneralStatusBar
+              backgroundColor={COLOR.DARK_BLUE}
+              barStyle="light-content"
+            />
             <ImageBackground
               source={dashBoardCard}
               style={styles.blueImageBackground}>

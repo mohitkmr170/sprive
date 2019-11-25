@@ -4,6 +4,7 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 interface props {
   backgroundColor: string;
+  barStyle: string;
 }
 interface state {}
 export class GeneralStatusBar extends React.Component<props, state> {
@@ -11,14 +12,17 @@ export class GeneralStatusBar extends React.Component<props, state> {
     super(props);
   }
   render() {
-    const {backgroundColor} = this.props;
+    const {backgroundColor, barStyle} = this.props;
     return (
       <View
         style={{
           height: getStatusBarHeight(),
           backgroundColor: backgroundColor,
         }}>
-        <StatusBar barStyle="dark-content" backgroundColor={backgroundColor} />
+        <StatusBar
+          barStyle={barStyle ? barStyle : 'dark-content'}
+          backgroundColor={backgroundColor}
+        />
       </View>
     );
   }
