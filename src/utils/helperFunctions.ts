@@ -134,3 +134,11 @@ export function showSnackBar(err: object, nonApiError?: string) {
 export function getNumberWithCommas(data: string) {
   return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+/**
+ *
+ * @param data : number : I/P number to be rounded off
+ */
+export function getRoundFigure(data: number) {
+  return Math.round(data);
+}

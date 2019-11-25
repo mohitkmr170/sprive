@@ -6,7 +6,6 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';

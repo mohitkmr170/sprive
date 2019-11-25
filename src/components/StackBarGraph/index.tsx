@@ -69,7 +69,10 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       graphData: [],
       currentTarget: {},
       loading: true,
-      activeGraphIndex: -1,
+      activeGraphIndex:
+        currentMonthIndex > 6
+          ? currentMonthIndex - GRAPH_OFFSET
+          : currentMonthIndex,
     };
   }
 
@@ -219,7 +222,13 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
   };
 
   hideBarInfo = () => {
-    this.setState({showInfoToolTip: false, activeGraphIndex: -1});
+    this.setState({
+      showInfoToolTip: false,
+      activeGraphIndex:
+        currentMonthIndex > 6
+          ? currentMonthIndex - GRAPH_OFFSET
+          : currentMonthIndex,
+    });
   };
 
   render() {
@@ -273,14 +282,15 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                   <View
                     style={{
                       borderBottomColor: COLOR.VOILET,
-                      borderBottomWidth: currentMonth === item ? 1 : 0,
+                      borderBottomWidth:
+                        this.state.activeGraphIndex === index ? 1 : 0,
                     }}>
                     <Text
                       style={[
                         styles.monthText,
                         {
                           color:
-                            currentMonth === item
+                            this.state.activeGraphIndex === index
                               ? COLOR.VOILET
                               : COLOR.STEEL_GRAY,
                           fontWeight:

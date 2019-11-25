@@ -25,7 +25,11 @@ import {get as _get} from 'lodash';
 import {AmountContainer} from './amountContainer';
 import {CardDetails} from './cardDetails';
 import {COLOR} from '../../utils/colors';
-import {getNumberWithCommas, showSnackBar} from '../../utils/helperFunctions';
+import {
+  getNumberWithCommas,
+  showSnackBar,
+  getRoundFigure,
+} from '../../utils/helperFunctions';
 import {localeString} from '../../utils/i18n';
 
 const INC_DEC_OFFSET = 10;
@@ -164,6 +168,9 @@ class UnconnectedOverPayment extends React.Component<props, state> {
       DB_KEYS.BALANCE_AMOUNT,
       null,
     );
+    let monthlyTarget = getRoundFigure(
+      _get(getMonthlyPaymentRecordResponse, DB_KEYS.MONTHLY_TARGET, null),
+    );
     let amountWithOutCommas = String(amount).replace(/,/g, '');
     let amountWithCommas = getNumberWithCommas(amountWithOutCommas);
     return (
@@ -228,7 +235,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                   title={localeString(
                     LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
                   )}
-                  monthlyTarget={'21,312.00'}
+                  monthlyTarget={'21,312'}
                 />
               </View>
               <View style={styles.rightContainer}>
@@ -236,7 +243,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                   title={localeString(
                     LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
                   )}
-                  monthlyTarget={'322.00'}
+                  monthlyTarget={monthlyTarget}
                 />
               </View>
             </View>
