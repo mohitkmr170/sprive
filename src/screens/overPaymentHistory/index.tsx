@@ -2,7 +2,11 @@ import React from 'react';
 import {View, Text, FlatList, ActivityIndicator} from 'react-native';
 import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
-import {LOCALE_STRING, DB_KEYS} from '../../utils/constants';
+import {
+  LOCALE_STRING,
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
+} from '../../utils/constants';
 import {localeString} from '../../utils/i18n';
 import {chatIcon} from '../../assets';
 import {connect} from 'react-redux';
@@ -10,6 +14,7 @@ import {get as _get} from 'lodash';
 import {getOverpaymentHistory, getUserGoal} from '../../store/reducers';
 import {Dropdown} from 'react-native-material-dropdown';
 import Moment from 'moment';
+import {reset} from '../../navigation/navigationService';
 import {APP_CONSTANTS} from '../../utils/constants';
 import {PaymentHistoryList} from './paymentHistoryList';
 interface props {
@@ -163,7 +168,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
           )}
           rightIconPresent
           iconName={chatIcon}
-          onBackPress={() => navigation.goBack()}
+          onBackPress={() => reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR)}
         />
         <View style={styles.scrollContainer}>
           <Dropdown

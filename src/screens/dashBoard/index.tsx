@@ -92,16 +92,12 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   };
 
   handleMakeOverPayment = () => {
-    // Alert.alert();
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
   };
 
   handleDrawer() {}
 
-  handleLogOut = () => {
-    //temporarily here, need to moved upon tab press
-    this.props.navigation.openDrawer();
-  };
+  handleLogOut = () => {};
   componentWillUnmount() {
     this.didFocusListener.remove();
   }
@@ -132,12 +128,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             <ImageBackground
               source={dashBoardCard}
               style={styles.blueImageBackground}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({isLoggedOut: true});
-                  this.handleLogOut();
-                }}
-                style={styles.supportIcon}>
+              <TouchableOpacity onPress={() => {}} style={styles.supportIcon}>
                 <Image source={report} />
               </TouchableOpacity>
               <Text style={styles.thisMonthText}>

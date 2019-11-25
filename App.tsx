@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
 import AppNavigator from './src/navigation/appFlow';
+import {setNavigator} from './src/navigation/navigationService';
 interface props {}
 interface state {}
 class App extends React.Component<props, state> {
@@ -16,7 +17,11 @@ class App extends React.Component<props, state> {
         <PersistGate loading={null} persistor={persistor}>
           <View style={styles.appContainer}>
             <View style={styles.mainContainer}>
-              <AppNavigator />
+              <AppNavigator
+                ref={(ref: any) => {
+                  setNavigator(ref);
+                }}
+              />
             </View>
           </View>
         </PersistGate>

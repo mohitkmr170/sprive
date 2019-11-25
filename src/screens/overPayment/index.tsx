@@ -19,6 +19,7 @@ import {
 import {chatIcon, correct, tick} from '../../assets';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import {reset} from '../../navigation/navigationService';
 import {
   APP_CONSTANTS,
   LOCALE_STRING,
@@ -89,8 +90,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
   handleFirstButton = () => {
     const {error} = this.state;
     if (error) this.setState({isPaymentDone: false});
-    else
-      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+    else reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
   };
 
   handleSecondButton = () => {
@@ -185,7 +185,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
           title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT)}
           rightIconPresent
           iconName={chatIcon}
-          onBackPress={() => this.props.navigation.goBack()}
+          onBackPress={() => reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR)}
         />
         <ScrollView contentContainerStyle={styles.mainContainer}>
           <View

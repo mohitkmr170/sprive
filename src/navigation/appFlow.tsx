@@ -1,17 +1,12 @@
 import React from 'react';
-import {
-  createAppContainer,
-  createSwitchNavigator,
-  NavigationActions,
-  NavigationEvents,
-} from 'react-navigation';
-import {checkPropTypes} from 'prop-types';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator, DrawerActions} from 'react-navigation-drawer';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/Entypo';
 import Icons from 'react-native-vector-icons/Feather';
 import {COLOR} from '../utils/colors';
+import {openDrawer} from './navigationService';
 import {STYLE_CONSTANTS} from '../utils/constants';
 import {
   Login,
@@ -25,7 +20,6 @@ import {
   OverpaymentHistory,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
-import {Alert, ViewPropTypes} from 'react-native';
 
 /**
  * Tab Navigator, can be used as a screen to which we can navigate to
@@ -58,7 +52,9 @@ const TabNavigator = createBottomTabNavigator(
         tabBarIcon: ({tintColor}) => (
           <Icon name="menu" size={24} color={tintColor} />
         ),
-        tabBarOnPress: () => {} /*
+        tabBarOnPress: () => {
+          openDrawer();
+        } /*
         TODO : Onpress of this, Side bar should be opened
         */,
       },
@@ -72,8 +68,8 @@ const TabNavigator = createBottomTabNavigator(
       inactiveTintColor: COLOR.INACTIVE_TAB,
       showIcon: true,
       labelStyle: {
-        // fontSize: STYLE_CONSTANTS.font.SIZE.TINY,
-        // lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.SMALL,
+        fontSize: STYLE_CONSTANTS.font.SIZE.TINY,
+        lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.SMALL,
       },
     },
   },
