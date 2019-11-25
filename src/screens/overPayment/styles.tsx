@@ -7,7 +7,6 @@ STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD;
 export const styles = StyleSheet.create({
   topContainer: {flex: 1},
   mainContainer: {
-    flex: 1,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
   },
   innerLeftContainer: {flex: 1},

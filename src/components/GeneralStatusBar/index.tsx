@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StatusBar} from 'react-native';
+import {View, StatusBar, Platform} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 interface props {
@@ -16,7 +16,7 @@ export class GeneralStatusBar extends React.Component<props, state> {
     return (
       <View
         style={{
-          height: getStatusBarHeight(),
+          height: Platform.OS === 'ios' ? getStatusBarHeight() : 20,
           backgroundColor: backgroundColor,
         }}>
         <StatusBar

@@ -12,7 +12,6 @@ export const styles = StyleSheet.create({
   },
   blueImageBackground: {
     paddingLeft: STYLE_CONSTANTS.padding.HUGISH,
-    paddingTop: STYLE_CONSTANTS.padding.SMALL,
     paddingBottom: STYLE_CONSTANTS.padding.HUMONGOUS,
     paddingRight: STYLE_CONSTANTS.padding.LARGEST,
   },
