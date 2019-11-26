@@ -16,7 +16,7 @@ export class GeneralStatusBar extends React.Component<props, state> {
     return (
       <View
         style={{
-          height: Platform.OS === 'ios' ? getStatusBarHeight() : 20,
+          height: Platform.OS === 'android' ? 0 : getStatusBarHeight(),
           backgroundColor: backgroundColor,
         }}>
         <StatusBar

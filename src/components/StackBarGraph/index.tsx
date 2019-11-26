@@ -69,10 +69,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       graphData: [],
       currentTarget: {},
       loading: true,
-      activeGraphIndex:
-        currentMonthIndex > 6
-          ? currentMonthIndex - GRAPH_OFFSET
-          : currentMonthIndex,
+      activeGraphIndex: -1,
     };
   }
 
@@ -173,7 +170,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       currentGraphData[currentGraphIndex].status = graphDataArray[i].status;
       currentGraphData[currentGraphIndex].monthly_target =
         graphDataArray[i].monthly_target;
-      if (graphDataArray[i].overpayment >= graphDataArray[i].monthly_target)
+      if (graphDataArray[i].overpayment === graphDataArray[i].monthly_target)
         currentGraphData[currentGraphIndex].overPayment.svg.fill =
           COLOR.SLIDER_COLOR;
       if (graphDataArray[i].month === actualCurrentMonthIndex) {
@@ -229,10 +226,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
   hideBarInfo = () => {
     this.setState({
       showInfoToolTip: false,
-      activeGraphIndex:
-        currentMonthIndex > 6
-          ? currentMonthIndex - GRAPH_OFFSET
-          : currentMonthIndex,
+      activeGraphIndex: -1,
     });
   };
 
@@ -341,7 +335,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                   <Text style={styles.savingText}>
                     {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
                   </Text>
-                  <Text style={styles.projectSavingText}>£ 175</Text>
+                  <Text style={styles.projectSavingText}>£175</Text>
                 </View>
               </View>
             </View>

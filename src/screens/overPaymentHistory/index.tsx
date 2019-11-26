@@ -65,6 +65,9 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
       yearRange.push({value: i});
     this.fetchAllHistory();
   };
+  componentWillUnmount() {
+    yearRange = [];
+  }
   fetchAllHistory = async () => {
     const {page, year} = this.state;
     const {getUserInfoResponse} = this.props;
@@ -172,6 +175,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
         />
         <View style={styles.scrollContainer}>
           <Dropdown
+            animationDuration={0}
             data={yearRange}
             label={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.YEAR)}
             value={year}

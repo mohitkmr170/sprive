@@ -142,7 +142,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                       color: !balanceAmount ? COLOR.SLIDER_COLOR : COLOR.WHITE,
                     },
                   ]}>
-                  £ {Math.round(monthlyTarget)}
+                  £{Math.round(monthlyTarget)}
                 </Text>
                 {!balanceAmount && (
                   <View style={styles.paidButton}>
@@ -160,7 +160,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               ) : (
                 <Text style={styles.dueReminderText}>
                   {balanceAmount > 0 && balanceAmount < monthlyTarget
-                    ? `£ ${balanceAmount} more to go!`
+                    ? `£${balanceAmount} more to go!`
                     : localeString(
                         LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
                       )}
@@ -171,10 +171,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <View style={styles.statusContainer}>
                 <Text style={styles.statusLefttext}>
                   {localeString(LOCALE_STRING.DASHBOARD_SCREEN.AMOUNT_LEFT)}{' '}
-                  <Text style={styles.innerFirstText}>£ 2880</Text>
+                  <Text style={styles.innerFirstText}>£2880</Text>
                 </Text>
                 <Text style={styles.statusRightText}>
-                  Spent £ 560 out of £ 3440
+                  Spent £560 out of £3440
                 </Text>
               </View>
               <View style={styles.passStrengthInnerContainer}>
@@ -216,7 +216,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                     LOCALE_STRING.DASHBOARD_SCREEN.AVAILABLE_BALANCE,
                   )}
                 </Text>
-                <Text style={styles.availableAmountText}>£ 21,312</Text>
+                <Text style={styles.availableAmountText}>£21,312</Text>
                 <Button
                   title={localeString(
                     LOCALE_STRING.DASHBOARD_SCREEN.MAKE_OVERPAYMENT,

@@ -200,7 +200,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                   )}
                 </Text>
                 <View style={styles.inputContainer}>
-                  <Text style={styles.poundText}>£ </Text>
+                  <Text style={styles.poundText}>£</Text>
                   <TextInput
                     style={styles.textInput}
                     ref={input => {
@@ -209,8 +209,8 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                     maxLength={6}
                     onChangeText={text => this.setState({amount: text})}
                     keyboardType="number-pad"
-                    placeholder="175"
-                    placeholderTextColor={COLOR.BLACKISH_GRAY}>
+                    placeholder="0"
+                    placeholderTextColor={COLOR.LIGHT_GRAY}>
                     {amountWithCommas}
                   </TextInput>
                   <TouchableOpacity
@@ -249,7 +249,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                   title={localeString(
                     LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
                   )}
-                  monthlyTarget={monthlyTarget}
+                  monthlyTarget={getNumberWithCommas(String(monthlyTarget))}
                 />
               </View>
             </View>
@@ -271,7 +271,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
         {isPaymentDone && (
           <StatusOverlay
             icon={!error ? tick : correct}
-            mainTitle={!error && `£ ${amount}`}
+            mainTitle={!error && `£${amountWithCommas}`}
             mainMessage={
               !error
                 ? localeString(LOCALE_STRING.STATUS_OVERLAY.PAID)

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {COLOR} from '../../utils/colors';
 import {get as _get} from 'lodash';
@@ -38,16 +38,16 @@ export class ToolTip extends React.Component<props, state> {
                   ? COLOR.SLIDER_COLOR
                   : COLOR.DARK_YELLOW,
             }}>
-            £ {overPayment}
+            £{overPayment}
           </Text>
           <Text style={styles.monthlyTargetText}>
-            /£{' '}
+            /£
             {svgMonthlyMortgage === '#D3D6EB' ? monthlyMortgage : monthlyTarget}
           </Text>
         </Text>
         <Text style={styles.fixesPaymentText}>
           Fixed Payment{' '}
-          <Text style={{color: '#22319B'}}>£ {monthlyMortgage}</Text>
+          <Text style={{color: '#22319B'}}>£{monthlyMortgage}</Text>
         </Text>
       </Animatable.View>
     );
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     shadowOffset: {height: 4, width: 4},
     shadowOpacity: 4,
     shadowRadius: 4,
+    elevation: Platform.OS = 'android' ? 5 : 0,
   },
   overPaymentText: {
     fontSize: 12,

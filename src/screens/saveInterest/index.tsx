@@ -104,7 +104,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
               </Text>
               {/* Need to be modified, for now it's contant */}
               <Text style={styles.cardInterestText}>
-                £ {getNumberWithCommas(String(cumulativeInterest))}
+                £{getNumberWithCommas(String(cumulativeInterest))}
               </Text>
             </View>
           </ImageBackground>
