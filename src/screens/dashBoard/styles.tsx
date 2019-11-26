@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     paddingLeft: STYLE_CONSTANTS.padding.HUGISH,
     paddingBottom: STYLE_CONSTANTS.padding.HUMONGOUS,
     paddingRight: STYLE_CONSTANTS.padding.LARGEST,
-    paddingTop: Platform.OS = 'android' ? 16 : 0,
+    paddingTop: Platform.OS === 'android' ? 12 : 0,
   },
   supportIcon: {
     height: STYLE_CONSTANTS.padding.HUMONGOUS,

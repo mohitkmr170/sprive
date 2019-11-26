@@ -3,7 +3,8 @@ import {COLOR} from '../../utils/colors';
 
 export const styles = StyleSheet.create({
   mainContainer: {
-    padding: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',

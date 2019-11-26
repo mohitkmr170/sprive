@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     shadowOffset: {height: 4, width: 4},
     shadowOpacity: 4,
     shadowRadius: 4,
-    elevation: Platform.OS = 'android' ? 5 : 0,
+    elevation: Platform.OS === 'android' ? 5 : 0,
   },
   overPaymentText: {
     fontSize: 12,
