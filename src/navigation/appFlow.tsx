@@ -62,7 +62,6 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: 'DashboardScreen',
-    lazy: false,
     tabBarOptions: {
       activeTintColor: COLOR.PRIMARY,
       inactiveTintColor: COLOR.INACTIVE_TAB,

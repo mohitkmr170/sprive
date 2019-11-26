@@ -67,7 +67,7 @@ export class PaymentHistoryList extends React.Component<props, state> {
                     : COLOR.DARK_BLUE,
                 },
               ]}>
-              £{_get(item, 'amount', '')}
+              £{_get(item, 'amount', '').toFixed(2)}
             </Text>
           </View>
         </View>

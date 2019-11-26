@@ -64,12 +64,15 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       currentScrollIndex: 0,
       isLeftButtonActive: false,
       isRightButtonActive: true,
-      showInfoToolTip: false,
+      showInfoToolTip: true,
       monthOfset: 4,
       graphData: [],
       currentTarget: {},
       loading: true,
-      activeGraphIndex: -1,
+      activeGraphIndex:
+        currentMonthIndex > 6
+          ? currentMonthIndex - GRAPH_OFFSET
+          : currentMonthIndex,
     };
   }
 
@@ -178,8 +181,10 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
           currentGraphIndex + 1
         ].monthly_target = this.props.currentMonthTarget;
       }
-      if (i === graphDataArray.length - 1)
+      if (i === graphDataArray.length - 1) {
+        this.onStackBarPress(this.state.activeGraphIndex);
         this.setState({loading: false, graphData: currentGraphData});
+      }
     }
   }
 
@@ -226,7 +231,10 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
   hideBarInfo = () => {
     this.setState({
       showInfoToolTip: false,
-      activeGraphIndex: -1,
+      activeGraphIndex:
+        currentMonthIndex > 6
+          ? currentMonthIndex - GRAPH_OFFSET
+          : currentMonthIndex,
     });
   };
 
