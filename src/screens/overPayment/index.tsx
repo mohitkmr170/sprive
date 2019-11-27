@@ -210,7 +210,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                     onChangeText={text => this.setState({amount: text})}
                     keyboardType="number-pad"
                     placeholder="0"
-                    placeholderTextColor={COLOR.LIGHT_GRAY}>
+                    placeholderTextColor={COLOR.REDUX_TEXTINPUT_TEXT}>
                     {amountWithCommas}
                   </TextInput>
                   <TouchableOpacity
