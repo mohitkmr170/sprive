@@ -174,6 +174,7 @@ export const NAVIGATION_SCREEN_NAME = {
   TAB_NAVIGATOR: 'TabNavigatorScreen',
   OVERPAYMENT: 'OverPaymentScreen',
   OVERPAYMENT_HISTORY: 'OverpaymentHistoryScreen',
+  REPORT_ISSUE: 'ReportIssueScreen',
 };
 
 export const LOCALE_STRING = {
@@ -286,5 +287,15 @@ export const LOCALE_STRING = {
     REFERENCE_CODE: 'overPaymentHistory.refCode',
     ON_TARCK: 'overPaymentHistory.onTrack',
     YEAR: 'overPaymentHistory.year',
+  },
+  REPORT_ISSUE: {
+    PLACEHOLDER: 'reportIssue.placeHolder',
+    REPORT_AN_ISSUE: 'reportIssue.reportAnIssue',
+    HAVE_AN_ISSUE: 'reportIssue.haveAnIssue',
+    BUG_CATEGORY: 'reportIssue.bugCategory',
+    ISSUE: 'reportIssue.issue',
+    CHARACTERS_LIMIT: 'reportIssue.characterLimit',
+    CHAR_LEFT: 'reportIssue.chLeft',
+    REPORT_ISSUE: 'reportIssue.reportIssue',
   },
 };

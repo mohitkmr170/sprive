@@ -11,4 +11,8 @@ export const PAYLOAD_KEYS: any = {
   OVERPAYMENT: {
     OVERPAYMENT_AMOUNT: 'amount',
   },
+  ISSUE: {
+    CATEGORY_ID: 'category_id',
+    DESCRIPTION: 'description',
+  },
 };

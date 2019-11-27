@@ -14,5 +14,7 @@ export default {
     GOAL: '/goal',
     GET_GRAPH_DATA: '/monthly-payment-record',
     OVERPAYMENT: '/overpayment',
+    ISSUE_CATEGORY: '/issue-category',
+    ISSUES: '/issues',
   },
 };

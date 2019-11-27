@@ -40,4 +40,5 @@ export const COLOR = {
   SLIGHT_YELLOW: '#FFF0CC',
   SLIGHT_BLUE: '#22319B66',
   BLACK_SHADOW_COLOR: '#0000000F',
+  PLACEHOLDER: 'rgba(9, 36, 94, 0.5)',
 };

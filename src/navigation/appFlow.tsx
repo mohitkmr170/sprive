@@ -138,7 +138,7 @@ const AppStackNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'ReportIssueScreen',
+    initialRouteName: 'TabNavigatorScreen',
     headerMode: 'none',
   },
 );
