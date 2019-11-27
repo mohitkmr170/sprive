@@ -3,10 +3,11 @@ import {View, Text} from 'react-native';
 import {styles} from './styles';
 import {Header, MortgageInputContainer} from '../../components';
 import {localeString} from '../../utils/i18n';
-import {DB_KEYS} from '../../utils/constants';
+import {DB_KEYS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 import {Button} from 'react-native-elements';
 import {reduxForm} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {updateUserMortgage} from '../../store/reducers';
 import {connect} from 'react-redux';
 import {
   APP_CONSTANTS,
@@ -20,6 +21,10 @@ interface props {
     navigate: (routeName: string) => void;
   };
   handleSubmit: (firstParam: (values: object) => void) => void;
+  getUserMortgageDataResponse: object;
+  updateUserMortgage: (payload: object, extraPayload: object) => void;
+  updateUserMortgageResponse: object;
+  getUserInfoResponse: object;
 }
 
 interface state {
@@ -30,12 +35,19 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
-      enableButton: true,
+      enableButton: false,
     };
     this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
   }
+  componentDidMount = () => {
+    const {getUserMortgageDataResponse} = this.props;
+    if (_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE, null))
+      this.setState({enableButton: true});
+  };
   // Back Icon Pressed
-  handleBackPress = () => {};
+  handleBackPress = () => {
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+  };
   // Funtion to toggle the visibility of the submit buttons
   handlePayNowVisibility() {
     this.setState({enableButton: false});
@@ -45,13 +57,29 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
    * @param values : object : object with all form values
    */
   handlePayNowPress = async (values: object) => {
-    console.log(
-      'UnconnectedMortgageInput : handlePayNowPress : values =>',
-      values,
-    );
+    const {
+      updateUserMortgage,
+      getUserInfoResponse,
+      getUserMortgageDataResponse,
+    } = this.props;
+    const payload = {
+      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      mortgage_balance: _get(values, 'mortgageAmount', '').replace(/,/g, ''),
+      mortgage_term: _get(values, 'timePeriod', '').replace(/,/g, ''),
+      mortgage_payment: _get(values, 'monthlyMortgagePayment', '').replace(
+        /,/g,
+        '',
+      ),
+    };
+    await updateUserMortgage(payload, {
+      id: _get(getUserMortgageDataResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
+    });
+    const {updateUserMortgageResponse} = this.props;
+    if (!_get(updateUserMortgageResponse, DB_KEYS.ERROR, true))
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
   };
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, updateUserMortgageResponse} = this.props;
     return (
       <View style={styles.screenContainer}>
         <Header onBackPress={() => this.handleBackPress()} />
@@ -72,21 +100,25 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
                 styles.mainHeaderText,
                 {marginTop: STYLE_CONSTANTS.margin.LARGEST},
               ]}>
-              Update Mortgage
+              {localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE_MORTGAGE)}
             </Text>
-            <Text style={styles.mainHeaderText}>Information</Text>
+            <Text style={styles.mainHeaderText}>
+              {localeString(LOCALE_STRING.UPDATE_MORTGAGE.INFO)}
+            </Text>
             <View style={styles.mortgageFormComponent}>
-              <MortgageInputContainer
-                handleCalculateNowPressed={this.handlePayNowVisibility}
-              />
+              <MortgageInputContainer />
             </View>
             <Button
-              title="Update"
+              title={localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE)}
               onPress={handleSubmit(this.handlePayNowPress)}
               titleStyle={styles.buttonExteriorStyle}
               buttonStyle={styles.buttonInteriorStyle}
-              disabled={this.state.enableButton}
-              loading={false}
+              disabled={!this.state.enableButton}
+              loading={_get(
+                updateUserMortgageResponse,
+                DB_KEYS.IS_FETCHING,
+                false,
+              )}
             />
           </KeyboardAwareScrollView>
         </View>
@@ -98,9 +130,29 @@ export const MortgageUpdateForm = reduxForm({
   form: APP_CONSTANTS.MORTGAGE_INPUT_FORM,
 })(UnconnectedUpdateMortgage);
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  updateUserMortgageResponse: state.updateUserMortgage,
+  getUserMortgageDataResponse: state.getUserMortgageData,
+  getUserInfoResponse: state.getUserInfo,
+  initialValues: {
+    mortgageAmount: `${_get(
+      state.getUserMortgageData,
+      DB_KEYS.MORTGAGE_BALANCE,
+      '',
+    )}`,
+    timePeriod: `${_get(state.getUserMortgageData, DB_KEYS.MORTGAGE_TERM, '')}`,
+    monthlyMortgagePayment: `${_get(
+      state.getUserMortgageData,
+      DB_KEYS.MORTGAGE_PAYMENT,
+      '',
+    )}`,
+  },
+});
 
-const bindActions = dispatch => ({});
+const bindActions = dispatch => ({
+  updateUserMortgage: (payload, extraPayload) =>
+    dispatch(updateUserMortgage.fetchCall(payload, extraPayload)),
+});
 
 export const UpdateMortgage = connect(
   mapStateToProps,

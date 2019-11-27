@@ -40,6 +40,12 @@ export class UnconnectedSideBar extends React.Component<props, state> {
           NAVIGATION_SCREEN_NAME.OVERPAYMENT_HISTORY,
         ),
     },
+    {
+      title: 'Update Mortgage',
+      icon: 'antdesign',
+      action: () =>
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.UPDATE_MORTGAGE),
+    },
   ];
   handleLogOut = () => {
     const {getUserInfoResponse} = this.props;
