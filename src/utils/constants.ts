@@ -161,6 +161,7 @@ export const DB_KEYS = {
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
   CREATED_AT: 'response.data[0].createdAt',
+  RESPONSE: 'response',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -174,6 +175,7 @@ export const NAVIGATION_SCREEN_NAME = {
   TAB_NAVIGATOR: 'TabNavigatorScreen',
   OVERPAYMENT: 'OverPaymentScreen',
   OVERPAYMENT_HISTORY: 'OverpaymentHistoryScreen',
+  UPDATE_MORTGAGE: 'UpdateMortgageScreen',
 };
 
 export const LOCALE_STRING = {
@@ -286,5 +288,10 @@ export const LOCALE_STRING = {
     REFERENCE_CODE: 'overPaymentHistory.refCode',
     ON_TARCK: 'overPaymentHistory.onTrack',
     YEAR: 'overPaymentHistory.year',
+  },
+  UPDATE_MORTGAGE: {
+    UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',
+    INFO: 'updateMortgage.info',
+    UPDATE: 'updateMortgage.update',
   },
 };

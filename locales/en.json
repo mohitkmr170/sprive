@@ -116,5 +116,10 @@
     "refCode": "Reference Code",
     "onTrack": "You are on track",
     "year": "Year"
+  },
+  "updateMortgage": {
+    "updateMortgage": "Update Mortgage",
+    "info": "Information",
+    "update": "Update"
   }
 }
