@@ -157,6 +157,13 @@ export const DB_KEYS = {
   BALANCE_AMOUNT: 'response.data.balance_amount',
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
+  PROJECTED_DATA: {
+    PROJECTED_TIME_YEARS: 'response.data.projected_time_savings.years',
+    PROJECTED_TIME_MONTHS: 'response.data.projected_time_savings.months',
+    INTEREST_SAVING: 'response.data.projected_interest_savings',
+    ESTIMATED_TIME_YEARS: 'response.data.estimated_time_savings.years',
+    ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
+  },
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -239,6 +246,7 @@ export const LOCALE_STRING = {
     PROJECTED_TIME: 'stackBarGraphComponent.projectedTime',
     SAVING: 'stackBarGraphComponent.saving',
     MONTHS: 'stackBarGraphComponent.months',
+    YEARS: 'stackBarGraphComponent.years',
     PROJECTED_INT: 'stackBarGraphComponent.projectInterested',
   },
   DASHBOARD_SCREEN: {
