@@ -125,10 +125,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               source={dashBoardCard}
               style={styles.blueImageBackground}>
               <TouchableOpacity
-                onPress={() => {
-                  this.setState({isLoggedOut: true});
-                  this.handleLogOut();
-                }}
+                onPress={() =>
+                  this.props.navigation.navigate(
+                    NAVIGATION_SCREEN_NAME.REPORT_ISSUE,
+                  )
+                }
                 style={styles.supportIcon}>
                 <Image source={report} />
               </TouchableOpacity>
