@@ -4,7 +4,7 @@ import {COLOR} from '../../utils/colors';
 
 export const graphData = [
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
@@ -22,7 +22,7 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
@@ -40,7 +40,7 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
@@ -58,7 +58,7 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
@@ -76,7 +76,7 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
@@ -94,7 +94,7 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
