@@ -139,7 +139,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   style={[
                     styles.overPaymentTargetAmount,
                     {
-                      color: !balanceAmount ? COLOR.SLIDER_COLOR : COLOR.WHITE,
+                      color: !balanceAmount ? COLOR.SHADED_GREEN : COLOR.WHITE,
                     },
                   ]}>
                   £{Math.round(monthlyTarget)}
