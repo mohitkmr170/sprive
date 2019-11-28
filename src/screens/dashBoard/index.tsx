@@ -39,6 +39,7 @@ import {
 } from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+import {getNumberWithCommas} from '../../utils/helperFunctions';
 
 interface props {
   navigation: {
@@ -133,6 +134,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       DB_KEYS.MONTHLY_TARGET,
       0,
     );
+
+    const monthlyTargetWithCommas = getNumberWithCommas(Math.round(monthlyTarget));
+    const balanceAmountWithCommas = getNumberWithCommas(balanceAmount);
     const estimatedMonths = _get(
       getProjectedDataResponse,
       DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
@@ -171,7 +175,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                       color: !balanceAmount ? COLOR.SHADED_GREEN : COLOR.WHITE,
                     },
                   ]}>
-                  £{Math.round(monthlyTarget)}
+                  £{monthlyTargetWithCommas}
                 </Text>
                 {!balanceAmount && (
                   <View style={styles.paidButton}>
@@ -189,7 +193,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               ) : (
                 <Text style={styles.dueReminderText}>
                   {balanceAmount > 0 && balanceAmount < monthlyTarget
-                    ? `£${balanceAmount} more to go!`
+                    ? `£${balanceAmountWithCommas} more to go!`
                     : localeString(
                         LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
                       )}
@@ -200,10 +204,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <View style={styles.statusContainer}>
                 <Text style={styles.statusLefttext}>
                   {localeString(LOCALE_STRING.DASHBOARD_SCREEN.AMOUNT_LEFT)}{' '}
-                  <Text style={styles.innerFirstText}>£2880</Text>
+                  <Text style={styles.innerFirstText}>£2,880</Text>
                 </Text>
                 <Text style={styles.statusRightText}>
-                  Spent £560 out of £3440
+                  Spent £560 out of £3,440
                 </Text>
               </View>
               <View style={styles.passStrengthInnerContainer}>
