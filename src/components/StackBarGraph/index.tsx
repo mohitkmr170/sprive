@@ -33,6 +33,11 @@ import {ToolTip} from './toolTip';
 const FIXED_PAYMENT = 'Fixed Payment';
 const OVER_PAYMENT = 'Overpayment';
 const TARGET_MET = 'Target Met';
+const ACTIONS = {
+  LEFT: 'left',
+  RIGHT: 'right',
+};
+const OVERPAYMENT = 'overpayment';
 //Number of data to be shown along x-axis(bar count)
 const GRAPH_OFFSET = 6;
 
@@ -216,7 +221,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
           currentGraphData[index].overPayment.svg.fill = COLOR.SLIDER_COLOR;
         if (index === Object.keys(currentgraphDataArray).length - 1) {
           if (currentgraphDataArray[item].month === actualCurrentMonthIndex + 1)
-            currentGraphData[index].monthlyMortgage.svg.fill = '#D3D6EB';
+            currentGraphData[index].monthlyMortgage.svg.fill = COLOR.STEEL_GRAY;
           currentGraphData[index].monthlyMortgage.value = _get(
             getUserMortgageDataResponse,
             DB_KEYS.MORTGAGE_PAYMENT,
@@ -240,12 +245,12 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
     /*
     TODO : To be changed
     */
-    this.getDataRange('left');
+    this.getDataRange(ACTIONS.LEFT);
     this.getNewGraphData();
     const {getGraphDataResponse} = this.props;
     if (
       _get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, {}).hasOwnProperty(
-        'overpayment',
+        OVERPAYMENT,
       )
     ) {
       this.setState({
@@ -264,12 +269,12 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
     /*
     TODO : To be changed
     */
-    this.getDataRange('right');
+    this.getDataRange(ACTIONS.RIGHT);
     this.getNewGraphData();
     const {getGraphDataResponse} = this.props;
     if (
       _get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, {}).hasOwnProperty(
-        'overpayment',
+        OVERPAYMENT,
       )
     ) {
       this.setState({

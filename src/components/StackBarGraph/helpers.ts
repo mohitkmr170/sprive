@@ -8,7 +8,7 @@ export const graphData = [
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -26,7 +26,7 @@ export const graphData = [
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -44,7 +44,7 @@ export const graphData = [
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -62,7 +62,7 @@ export const graphData = [
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -80,7 +80,7 @@ export const graphData = [
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -98,7 +98,7 @@ export const graphData = [
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
