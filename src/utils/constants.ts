@@ -51,6 +51,9 @@ export const STYLE_CONSTANTS = {
     DEVICE_TYPE_ANDROID: 'Android',
     DEVICE_TYPE_IOS: 'IOS',
   },
+  elevation: {
+    BASIC: 5,
+  },
   margin: {
     EXTRA_HUMUNGOUS: 52,
     SLIGHT_HUMUNGOUS: 48,

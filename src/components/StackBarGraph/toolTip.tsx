@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: STYLE_CONSTANTS.padding.LARGISH,
     paddingVertical: STYLE_CONSTANTS.padding.SMALLER,
     shadowColor: COLOR.GRAY,
+    elevation: STYLE_CONSTANTS.elevation.BASIC,
     shadowOffset: {
       height: STYLE_CONSTANTS.padding.SMALLEST,
       width: STYLE_CONSTANTS.padding.SMALLEST,
