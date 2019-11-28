@@ -133,7 +133,7 @@ export function showSnackBar(err: object, nonApiError?: string) {
  * @param data : number : Number to be converted as per UK Conventions
  */
 export function getNumberWithCommas(data: string) {
-  return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return data && data.toString()? data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : data;
 }
 
 /**
