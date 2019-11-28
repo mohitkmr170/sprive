@@ -1,144 +1,252 @@
 import React from 'react';
-import {View, Text, Image, ScrollView, TextInput, FlatList} from 'react-native';
-import {Header} from '../../components';
+import {View, Text, FlatList, ActivityIndicator} from 'react-native';
+import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
-import {LOCALE_STRING} from '../../utils/constants';
+import {
+  LOCALE_STRING,
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
+} from '../../utils/constants';
 import {localeString} from '../../utils/i18n';
-import {chatIcon, hsbcBank} from '../../assets';
-import {COLOR} from '../../utils/colors';
+import {chatIcon} from '../../assets';
+import {connect} from 'react-redux';
+import {get as _get} from 'lodash';
+import {getOverpaymentHistory, getUserGoal} from '../../store/reducers';
+import {Dropdown} from 'react-native-material-dropdown';
+import Moment from 'moment';
+import {reset} from '../../navigation/navigationService';
+import {APP_CONSTANTS} from '../../utils/constants';
+import {PaymentHistoryList} from './paymentHistoryList';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
     goBack: () => void;
   };
+  getOverpaymentHistory: (payload: object, extraPayload: object) => void;
+  getUserGoal: (payload: object, extraPayload: object) => void;
+  getOverpaymentHistoryResponse: object;
+  getUserInfoResponse: object;
+  getUserGoalResponse: object;
 }
-interface state {}
+interface state {
+  data: any;
+  page: number;
+  loading: boolean;
+  loadingMore: boolean;
+  refreshing: boolean;
+  error: any;
+  year: number;
+}
 
-//Sample data for overPayment history, will change as per response
-const overPaymentHostoryData = [
-  {
-    paymentType: 'Overpayment',
-    date: '08/04/19',
-    refId: 'Ref EHSLW6191CIQLN',
-    id: '55557777',
-    amount: '250.00',
-  },
-  {
-    paymentType: 'Fixed',
-    date: '08/04/19',
-    refId: 'Ref EHSLW6191CIQLN',
-    id: '55557777',
-    amount: '250.00',
-  },
-  {
-    paymentType: 'Overpayment',
-    date: '08/04/19',
-    refId: 'Ref EHSLW6191CIQLN',
-    id: '55557777',
-    amount: '250.00',
-  },
-  {
-    paymentType: 'Fixed',
-    date: '08/04/19',
-    refId: 'Ref EHSLW6191CIQLN',
-    id: '55557777',
-    amount: '250.00',
-  },
-];
+const CURRENT_YEAR = new Date().getFullYear();
+let yearRange: any = [];
 
-export class OverpaymentHistory extends React.Component<props, state> {
-  returnItem = (item: object) => {
-    return (
-      <View style={styles.cardContainer}>
-        <Image source={hsbcBank} />
-        <View style={styles.cardMainContainer}>
-          <View>
-            <Text style={styles.dateText}>{item.date}</Text>
-            <Text style={styles.refIdText}>{item.refId}</Text>
-            <Text style={styles.idText}>{item.id}</Text>
-          </View>
-          <View style={styles.rightContainer}>
-            <View
-              style={[
-                styles.paymentTypeContainer,
-                {
-                  backgroundColor:
-                    item.paymentType ===
-                    localeString(
-                      LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT,
-                    )
-                      ? COLOR.SLIGHT_YELLOW
-                      : COLOR.STEEL_GRAY,
-                },
-              ]}>
-              <Text
-                style={[
-                  {
-                    color:
-                      item.paymentType ===
-                      localeString(
-                        LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT,
-                      )
-                        ? COLOR.DARK_YELLOW
-                        : COLOR.DARK_BLUE,
+class UnconnectedOverpaymentHistory extends React.Component<props, state> {
+  constructor(props: props) {
+    super(props);
+    this.state = {
+      data: [],
+      page: 1,
+      year: CURRENT_YEAR,
+      loading: true,
+      loadingMore: false,
+      refreshing: false,
+      error: null,
+    };
+  }
+  componentDidMount = async () => {
+    const {getUserGoalResponse} = this.props;
+    let createdYear = Moment(
+      _get(getUserGoalResponse, DB_KEYS.CREATED_AT, null),
+    )
+      .toDate()
+      .getFullYear();
+    for (let i = createdYear; i <= CURRENT_YEAR; i++)
+      yearRange.push({value: i});
+    this.fetchAllHistory();
+  };
+  componentWillUnmount() {
+    yearRange = [];
+  }
+  fetchAllHistory = async () => {
+    const {page, year} = this.state;
+    const {getUserInfoResponse} = this.props;
+    const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
+    if (userId) {
+      const qParam = {
+        [PAYLOAD_KEYS.USER_ID]: userId,
+        [PAYLOAD_KEYS.PAGE]: page,
+        [PAYLOAD_KEYS.YEAR]: year,
+      };
+      const {getOverpaymentHistory} = this.props;
+      await getOverpaymentHistory({}, qParam);
+      const {getOverpaymentHistoryResponse} = this.props;
+      if (!_get(getOverpaymentHistoryResponse, DB_KEYS.ERROR, false)) {
+        if (
+          _get(getOverpaymentHistoryResponse, `response.data.y_${year}`, null)
+        ) {
+          let prevData = this.state.data;
+          this.setState({
+            loading: false,
+            loadingMore: false,
+            refreshing: false,
+            data:
+              page === 1
+                ? _get(
+                    getOverpaymentHistoryResponse,
+                    `response.data.y_${year}`,
+                    null,
+                  )
+                : {
+                    ...prevData,
+                    ..._get(
+                      getOverpaymentHistoryResponse,
+                      `response.data.y_${year}`,
+                      null,
+                    ),
                   },
-                  styles.paymentTypeText,
-                ]}>
-                {item.paymentType}
-              </Text>
-            </View>
-            <Text
-              style={[
-                styles.amountText,
-                {
-                  color:
-                    item.paymentType ===
-                    localeString(
-                      LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT,
-                    )
-                      ? COLOR.DARK_YELLOW
-                      : COLOR.DARK_BLUE,
-                },
-              ]}>
-              £ {item.amount}
-            </Text>
-          </View>
-        </View>
-      </View>
+          });
+        } else {
+          this.setState({
+            loading: false,
+            loadingMore: false,
+            refreshing: false,
+          });
+        }
+      }
+    }
+  };
+  handleLoadMore = () => {
+    this.setState(
+      (prevState, nextProps) => ({
+        page: prevState.page + 1,
+        loadingMore: true,
+      }),
+      () => {
+        this.fetchAllHistory();
+      },
     );
   };
+  handleRefresh = () => {
+    this.setState(
+      {
+        page: 1,
+        refreshing: true,
+      },
+      () => {
+        this.fetchAllHistory();
+      },
+    );
+  };
+
+  handleYearChange = (newYear: number) => {
+    this.setState(
+      {
+        year: newYear,
+        page: 1,
+      },
+      () => {
+        this.fetchAllHistory();
+      },
+    );
+  };
+  renderFooter = () => {
+    if (!this.state.loadingMore) return null;
+    else
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" />
+        </View>
+      );
+  };
   render() {
-    const {navigation} = this.props;
+    const {getOverpaymentHistoryResponse} = this.props;
+    const {year, data} = this.state;
     return (
       <View style={styles.mainContainer}>
+        <GeneralStatusBar />
         <Header
           title={localeString(
             LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT_HISTORY,
           )}
           rightIconPresent
           iconName={chatIcon}
-          onBackPress={() => navigation.goBack()}
+          onBackPress={() => reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR)}
         />
-        <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          style={styles.searchTextInput}
-          placeholder={localeString(
-            LOCALE_STRING.OVER_PAYMENT_HISTORY.SEARCH_MONTH,
-          )}
-          placeholderTextColor={COLOR.REDUX_FORM_INPUT_CONTAINER}
-        />
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.flatListContainer}>
-            <FlatList
-              data={overPaymentHostoryData}
-              extraData={this.props}
-              keyExtractor={index => index.toString()}
-              renderItem={({item, index}) => this.returnItem(item)}
-            />
+        <View style={styles.scrollContainer}>
+          <Dropdown
+            animationDuration={0}
+            data={yearRange}
+            label={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.YEAR)}
+            value={year}
+            onChangeText={newYear => this.handleYearChange(newYear)}
+          />
+          <View
+            style={[styles.flatListContainer, {height: '100%', width: '100%'}]}>
+            {data && (
+              <FlatList
+                data={Object.keys(data)}
+                extraData={this.props}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={index => index.toString()}
+                renderItem={(key: string) => {
+                  let monthData = data[key.item];
+                  return (
+                    <View>
+                      <Text style={styles.monthYearText}>
+                        {APP_CONSTANTS.MONTH_NAMES[key.item.substring(2) - 1] +
+                          ' ' +
+                          year}
+                      </Text>
+
+                      {monthData.map((item: object, index: number) => {
+                        return <PaymentHistoryList item={item} />;
+                      })}
+                    </View>
+                  );
+                }}
+                onEndReached={() => {
+                  !this.state.loadingMore &&
+                    (_get(
+                      getOverpaymentHistoryResponse,
+                      DB_KEYS.META_TOTAL,
+                      0,
+                    ) >=
+                      _get(
+                        getOverpaymentHistoryResponse,
+                        DB_KEYS.META_SKIP,
+                        0,
+                      ) &&
+                      this.handleLoadMore());
+                }}
+                onEndReachedThreshold={0.5}
+                initialNumToRender={10} //Initially it will load only 10 data/render
+                ListFooterComponent={() => this.renderFooter()}
+                onRefresh={() => this.handleRefresh()} //Pull to refresh
+                refreshing={this.state.refreshing} //Pull to refresh status
+              />
+            )}
           </View>
-        </ScrollView>
+        </View>
       </View>
     );
   }
 }
+const mapStateToProps = state => ({
+  getUserInfoResponse: state.getUserInfo,
+  getOverpaymentHistoryResponse: state.getOverpaymentHistory,
+  getUserGoalResponse: state.getUserGoal,
+});
+
+const bindActions = dispatch => ({
+  getOverpaymentHistory: (payload, extraPayload) =>
+    dispatch(getOverpaymentHistory.fetchCall(payload, extraPayload)),
+  getUserGoal: (payload, extraPayload) =>
+    dispatch(getUserGoal.fetchCall(payload, extraPayload)),
+});
+
+export const OverpaymentHistory = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedOverpaymentHistory);

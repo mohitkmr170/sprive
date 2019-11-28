@@ -3,9 +3,9 @@ import {View, Alert, Text} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
-import {Header, ReduxFormField} from '../../components';
+import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {localeString} from '../../utils/i18n';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, reset} from 'redux-form';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import {signUpUser, setUserMortgage, getUserInfo} from '../../store/reducers';
@@ -16,6 +16,7 @@ import {
   maxLength16,
   required,
   alphaNumeric,
+  noWhiteSpaces,
 } from '../../utils/validate';
 import {
   APP_CONSTANTS,
@@ -31,6 +32,7 @@ import {
   resetAuthToken,
 } from '../../utils/helperFunctions';
 import {COLOR} from '../../utils/colors';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -71,7 +73,10 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
       reducerResponse,
       getUserInfo,
     } = this.props;
-    const payload = {email: values.email, password: values.password};
+    const payload = {
+      [PAYLOAD_KEYS.SIGNUP.EMAIL]: values.email,
+      [PAYLOAD_KEYS.SIGNUP.PASSWORD]: values.password,
+    };
     await signUpUser(payload);
     const {signUpUserResponse} = this.props;
     if (!_get(signUpUserResponse, DB_KEYS.ERROR, null)) {
@@ -103,12 +108,6 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           ).replace(/,/g, ''),
           user_id: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
         };
-        console.log('dyhfgjkyfutdhgcvjbkh', mortgageData);
-        // if (
-        //   mortgageData.mortgage_balance &&
-        //   mortgageData.mortgage_payment &&
-        //   mortgageData.mortgage_term
-        // )
         await setUserMortgage(mortgageData);
         const {setUserMortgageResponse} = this.props;
         if (!_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
@@ -151,6 +150,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
   };
 
   handleSignInPress = () => {
+    this.props.reset(APP_CONSTANTS.SIGNUP_FORM);
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
   };
 
@@ -162,6 +162,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     );
     return (
       <View style={styles.mainContainer}>
+        <GeneralStatusBar />
         <Header
           title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
           onBackPress={() => this.handleBackPress()}
@@ -218,7 +219,13 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                     onChangeText: (password: string) =>
                       this.handlePassword(password),
                   }}
-                  validate={[minLength8, maxLength16, alphaNumeric, required]}
+                  validate={[
+                    minLength8,
+                    maxLength16,
+                    alphaNumeric,
+                    required,
+                    noWhiteSpaces,
+                  ]}
                 />
                 {_get(
                   this.props.reducerResponse,
@@ -297,6 +304,7 @@ const bindActions = dispatch => ({
   signUpUser: payload => dispatch(signUpUser.fetchCall(payload)),
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
+  reset,
 });
 
 export const SignUpForm = connect(

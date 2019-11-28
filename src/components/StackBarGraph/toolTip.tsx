@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {COLOR} from '../../utils/colors';
 import {get as _get} from 'lodash';
@@ -19,6 +19,7 @@ export class ToolTip extends React.Component<props, state> {
   render() {
     const overPayment = Math.round(Number(this.props.info.overPayment));
     const monthlyTarget = Math.round(Number(this.props.info.monthlyTarget));
+    console.log('monthlyTarget', monthlyTarget);
     const monthlyMortgage = Math.round(
       Number(this.props.info.monthly_mortgage),
     );
@@ -40,13 +41,16 @@ export class ToolTip extends React.Component<props, state> {
                   ? COLOR.SLIDER_COLOR
                   : COLOR.DARK_YELLOW,
             }}>
-            £ {overPayment}
+            £{overPayment}
           </Text>
-          <Text style={styles.monthlyTargetText}>/£ {monthlyTarget}</Text>
+          <Text style={styles.monthlyTargetText}>
+            /£
+            {monthlyTarget}
+          </Text>
         </Text>
         <Text style={styles.fixesPaymentText}>
           Fixed Payment{' '}
-          <Text style={{color: COLOR.DARK_BLUE}}>£ {monthlyMortgage}</Text>
+          <Text style={{color: COLOR.DARK_BLUE}}>£{monthlyMortgage}</Text>
         </Text>
       </Animatable.View>
     );

@@ -5,9 +5,9 @@ import {STYLE_CONSTANTS} from '../../utils/constants';
 export const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: COLOR.COUNTER_BG_COLOR,
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    borderRadius: 8,
+    paddingHorizontal: STYLE_CONSTANTS.padding.LARGER,
+    paddingVertical: STYLE_CONSTANTS.padding.SMALLISH,
+    borderRadius: STYLE_CONSTANTS.padding.SMALLER,
   },
   touchableOpacity: {borderBottomColor: COLOR.WHITE, borderBottomWidth: 2},
 });

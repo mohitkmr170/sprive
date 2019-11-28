@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {STYLE_CONSTANTS} from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
 
@@ -12,9 +12,9 @@ export const styles = StyleSheet.create({
   },
   blueImageBackground: {
     paddingLeft: STYLE_CONSTANTS.padding.HUGISH,
-    paddingTop: STYLE_CONSTANTS.padding.SMALL,
     paddingBottom: STYLE_CONSTANTS.padding.HUMONGOUS,
     paddingRight: STYLE_CONSTANTS.padding.LARGEST,
+    paddingTop: Platform.OS === 'android' ? 12 : 0,
   },
   supportIcon: {
     height: STYLE_CONSTANTS.padding.HUMONGOUS,

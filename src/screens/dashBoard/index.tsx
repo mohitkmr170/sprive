@@ -6,7 +6,6 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
@@ -18,7 +17,12 @@ import {
   correct,
 } from '../../assets';
 import {connect} from 'react-redux';
-import {StackBarGraph, StatusOverlay, LoadingModal} from '../../components';
+import {
+  StackBarGraph,
+  StatusOverlay,
+  LoadingModal,
+  GeneralStatusBar,
+} from '../../components';
 import * as Progress from 'react-native-progress';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
@@ -34,6 +38,7 @@ import {
   DB_KEYS,
 } from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -44,6 +49,8 @@ interface props {
   getMonthlyPaymentRecord: (payload: object, extraPayload: object) => void;
   getMonthlyPaymentRecordResponse: object;
   getUserInfo: () => void;
+  getProjectedData: (payload: object, extraPayload: object) => void;
+  getProjectedDataResponse: object;
 }
 
 interface state {
@@ -89,7 +96,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getProjectedData,
     } = this.props;
     const qParam = {
-      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.GRAPH.CURRENT_DATE]: new Date().toISOString(),
     };
     await getMonthlyPaymentRecord({}, qParam);
     const qParamProjectData = {
@@ -100,16 +108,12 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   };
 
   handleMakeOverPayment = () => {
-    // Alert.alert();
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
   };
 
   handleDrawer() {}
 
-  handleLogOut = () => {
-    //temporarily here, need to moved upon tab press
-    this.props.navigation.openDrawer();
-  };
+  handleLogOut = () => {};
   componentWillUnmount() {
     this.didFocusListener.remove();
   }
@@ -122,12 +126,22 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
       DB_KEYS.BALANCE_AMOUNT,
-      0,
+      null,
     );
     const monthlyTarget = _get(
       getMonthlyPaymentRecordResponse,
       DB_KEYS.MONTHLY_TARGET,
       0,
+    );
+    const estimatedMonths = _get(
+      getProjectedDataResponse,
+      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
+      '',
+    );
+    const extimatedYears = _get(
+      getProjectedDataResponse,
+      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+      '',
     );
     if (this.state.loading) return <LoadingModal loadingText="Loading..." />;
     else
@@ -136,15 +150,14 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           <ScrollView
             contentContainerStyle={styles.middleContainer}
             showsVerticalScrollIndicator={false}>
+            <GeneralStatusBar
+              backgroundColor={COLOR.DARK_BLUE}
+              barStyle="light-content"
+            />
             <ImageBackground
               source={dashBoardCard}
               style={styles.blueImageBackground}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({isLoggedOut: true});
-                  this.handleLogOut();
-                }}
-                style={styles.supportIcon}>
+              <TouchableOpacity onPress={() => {}} style={styles.supportIcon}>
                 <Image source={report} />
               </TouchableOpacity>
               <Text style={styles.thisMonthText}>
@@ -155,10 +168,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   style={[
                     styles.overPaymentTargetAmount,
                     {
-                      color: !balanceAmount ? COLOR.SLIDER_COLOR : COLOR.WHITE,
+                      color: !balanceAmount ? COLOR.SHADED_GREEN : COLOR.WHITE,
                     },
                   ]}>
-                  £ {Math.round(monthlyTarget)}
+                  £{Math.round(monthlyTarget)}
                 </Text>
                 {!balanceAmount && (
                   <View style={styles.paidButton}>
@@ -169,17 +182,17 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <Text style={styles.overPaymentTargetText}>
                 {localeString(LOCALE_STRING.DASHBOARD_SCREEN.OVER_PAYMENT)}
               </Text>
-              {!balanceAmount ? (
+              {balanceAmount === 0 ? (
                 <Text style={styles.dueReminderText}>
                   {localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_IT_UP)}
                 </Text>
               ) : (
                 <Text style={styles.dueReminderText}>
                   {balanceAmount > 0 && balanceAmount < monthlyTarget
-                    ? localeString(
+                    ? `£${balanceAmount} more to go!`
+                    : localeString(
                         LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
-                      )
-                    : `£ ${balanceAmount} more to go!`}
+                      )}
                 </Text>
               )}
             </ImageBackground>
@@ -187,10 +200,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <View style={styles.statusContainer}>
                 <Text style={styles.statusLefttext}>
                   {localeString(LOCALE_STRING.DASHBOARD_SCREEN.AMOUNT_LEFT)}{' '}
-                  <Text style={styles.innerFirstText}>£ 2880</Text>
+                  <Text style={styles.innerFirstText}>£2880</Text>
                 </Text>
                 <Text style={styles.statusRightText}>
-                  Spent £ 560 out of £ 3440
+                  Spent £560 out of £3440
                 </Text>
               </View>
               <View style={styles.passStrengthInnerContainer}>
@@ -232,7 +245,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                     LOCALE_STRING.DASHBOARD_SCREEN.AVAILABLE_BALANCE,
                   )}
                 </Text>
-                <Text style={styles.availableAmountText}>£ 21,312</Text>
+                <Text style={styles.availableAmountText}>£21,312</Text>
                 <Button
                   title={localeString(
                     LOCALE_STRING.DASHBOARD_SCREEN.MAKE_OVERPAYMENT,
@@ -253,18 +266,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                     LOCALE_STRING.DASHBOARD_SCREEN.PROJECTED_MORTGAGE,
                   )}{' '}
                   <Text style={styles.monthsLeftText}>
-                    {_get(
-                      getProjectedDataResponse,
-                      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
-                      '',
-                    )}
-                    yr{' '}
-                    {_get(
-                      getProjectedDataResponse,
-                      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
-                      '',
-                    )}
-                    m
+                    {extimatedYears ? extimatedYears + 'yr' : ''}{' '}
+                    {estimatedMonths ? estimatedMonths + 'm' : ''}
                   </Text>
                 </Text>
               </View>

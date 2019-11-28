@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {COLOR} from '../../utils/colors';
 import {STYLE_CONSTANTS} from '../../utils/constants';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -43,7 +44,7 @@ export const styles = StyleSheet.create({
   },
   ercLimitContainer: {
     position: 'absolute',
-    top: 14,
+    top: getStatusBarHeight(),
     left: 14,
     right: 14,
     zIndex: 1,

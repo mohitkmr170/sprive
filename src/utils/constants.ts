@@ -143,6 +143,8 @@ export const ICON_NAME = {
 export const DB_KEYS = {
   ACCESS_TOKEN: 'response.accessToken',
   IS_FETCHING: 'isFetching',
+  META_TOTAL: 'response.meta.total',
+  META_SKIP: 'response.meta.skip',
   TOTAL_INTEREST: 'response.data.totalInterest',
   AUTH_STATUS: 'status',
   CURRENT_USER_EMAIL: 'response.data.email',
@@ -163,6 +165,12 @@ export const DB_KEYS = {
   BALANCE_AMOUNT: 'response.data.balance_amount',
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
+  CREATED_AT: 'response.data[0].createdAt',
+  PROJECTED: {
+    INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
+    YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
+    MONTHS_SAVED: 'response.data.projected_data.projected_time_savings.months',
+  },
   PROJECTED_DATA: {
     PROJECTED_TIME_YEARS: 'response.data.projected_time_savings.years',
     PROJECTED_TIME_MONTHS: 'response.data.projected_time_savings.months',
@@ -170,6 +178,7 @@ export const DB_KEYS = {
     ESTIMATED_TIME_YEARS: 'response.data.estimated_time_savings.years',
     ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
   },
+  ERROR_MESSAGE: 'response.data.message',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -216,12 +225,13 @@ export const LOCALE_STRING = {
     SAVE_BUTTON_TEXT: 'saveInterest.buttonText',
   },
   LOADING: 'Loading',
+  INVALID_AMOUNT: 'global.invalidAmount',
   MORTGAGE_INPUT_DATA: {
     LOCALE_STRING_MORTGAGE_DATA: 'mortgageForm.mortgageData',
     LOCALE_STRING_WORKOUT: 'mortgageForm.letUsWorkOut',
     LOCALE_STRING_TAKE_YOUR_BEST: 'mortgageForm.takeYourBest',
     BUTTON_LOCALE_STRING: 'global.calculateNow',
-    INVALID_AMOUNT: 'mortgageForm.inValidAmount',
+    INVALID_AMOUNT: 'validationMessages.inValidAmount',
   },
   VALIDATIONS: {
     IS_REQUIRED: 'validationMessages.required',
@@ -235,6 +245,7 @@ export const LOCALE_STRING = {
     INVALID_EMAIL: 'validationMessages.invalidEmail',
     ALPHA_NUMERIC: 'validationMessages.alphaNumberic',
     YEAR_RANGE: 'validationMessages.yearRange',
+    WHITE_SPACES: 'validationMessages.whiteSpaces',
   },
   SET_GOAL_SCREEN: {
     HOW_QUICKLY: 'setGoalScreen.howQuickly',
@@ -274,6 +285,12 @@ export const LOCALE_STRING = {
     MESSAGE: 'statusOverlay.message',
     CONTINUE: 'statusOverlay.continue',
     OH_NO: 'statusOverlay.ohNo',
+    PAID: 'statusOverlay.paid',
+    NEXT: 'statusOverlay.next',
+    TRY_AGAIN: 'statusOverlay.tryAgain',
+    BRILLIANT: 'statusOverlay.brilliant',
+    WENT_WRONG: 'statusOverlay.wentWrong',
+    CANCEL: 'statusOverlay.cancel',
   },
   OVER_PAYMENT_HISTORY: {
     OVER_PAYMENT: 'overPaymentHistory.overPayment',
@@ -287,5 +304,7 @@ export const LOCALE_STRING = {
     ACCOUNT_NUMBER: 'overPaymentHistory.accNumber',
     SORT_CODE: 'overPaymentHistory.sortCode',
     REFERENCE_CODE: 'overPaymentHistory.refCode',
+    ON_TARCK: 'overPaymentHistory.onTrack',
+    YEAR: 'overPaymentHistory.year',
   },
 };

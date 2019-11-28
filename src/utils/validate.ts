@@ -86,6 +86,10 @@ export const email = (value: string) =>
     ? localeString(LOCALE_STRING.VALIDATIONS.INVALID_EMAIL)
     : undefined;
 
+export const noWhiteSpaces = (value: string) =>
+  value && value.includes(' ')
+    ? localeString(LOCALE_STRING.VALIDATIONS.WHITE_SPACES)
+    : undefined;
 /**
  *
  * @param value : any : to validate alpha numeric values

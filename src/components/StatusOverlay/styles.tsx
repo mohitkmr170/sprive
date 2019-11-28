@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {COLOR} from '../../utils/colors';
-import {STYLE_CONSTANTS} from 'src/utils/constants';
+import {STYLE_CONSTANTS} from '../../utils/constants';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -25,25 +25,44 @@ export const styles = StyleSheet.create({
     borderRadius: STYLE_CONSTANTS.padding.SMALL,
   },
   innerTitle: {
+    color: COLOR.SLIDER_COLOR,
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGEST,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    paddingTop: STYLE_CONSTANTS.padding.HUGE,
+    textAlign: 'center',
+  },
+  mainMessage: {
     color: COLOR.VOILET,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGER,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
-    paddingTop: STYLE_CONSTANTS.padding.HUMONGOUS,
-  },
-  innerText: {
+    paddingTop: STYLE_CONSTANTS.padding.LARGEST,
     textAlign: 'center',
-    paddingTop: STYLE_CONSTANTS.padding.SMALLISH,
-    color: COLOR.VOILET,
-    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
-    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
-    opacity: 0.5,
   },
-  okPressButton: {
+  firstText: {
     color: COLOR.PRIMARY,
-    paddingTop: STYLE_CONSTANTS.padding.HUGE,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    marginTop: STYLE_CONSTANTS.margin.HUGER,
+    textAlign: 'center',
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+  },
+  secondText: {
+    color: COLOR.VOILET,
+    opacity: 0.3,
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    marginTop: STYLE_CONSTANTS.margin.NORMAL,
+    textAlign: 'center',
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+  },
+  infoTitle: {
+    color: COLOR.VOILET,
+    opacity: 0.5,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    paddingTop: STYLE_CONSTANTS.padding.SMALLISH,
+    textAlign: 'center',
   },
 });

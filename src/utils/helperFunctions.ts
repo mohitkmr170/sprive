@@ -2,6 +2,7 @@ import * as Keychain from 'react-native-keychain';
 import Snackbar from 'react-native-snackbar';
 import {get as _get} from 'lodash';
 import {COLOR} from '../utils/colors';
+import {APP_CONSTANTS, DB_KEYS} from './constants';
 
 /**
  * Funtion to get password strength(out of 4)
@@ -111,9 +112,11 @@ export async function resetAuthToken() {
  * Common wrapper function to show Snackbar
  * @param err : object : Error object of API error
  */
-export function showSnackBar(err: object) {
+export function showSnackBar(err: object, nonApiError?: string) {
   return Snackbar.show({
-    title: _get(err, 'response.data.message', 'Something went wrong!'),
+    title: nonApiError
+      ? nonApiError
+      : _get(err, DB_KEYS.ERROR_MESSAGE, APP_CONSTANTS.GENERAL_ERROR),
     duration: Snackbar.LENGTH_LONG,
     action: {
       title: 'OK', //For any button title
@@ -131,4 +134,12 @@ export function showSnackBar(err: object) {
  */
 export function getNumberWithCommas(data: string) {
   return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+/**
+ *
+ * @param data : number : I/P number to be rounded off
+ */
+export function getRoundFigure(data: number) {
+  return Math.round(data);
 }
