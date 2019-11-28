@@ -130,6 +130,10 @@ export const STYLE_CONSTANTS = {
     },
   },
 };
+export const ICON = {
+  UP: 'ios-arrow-round-up',
+  DOWN: 'ios-arrow-round-down',
+};
 export const ICON_NAME = {
   LEFT_ICON: 'chevrons-left',
   RIGHT_ICON: 'chevrons-right',
