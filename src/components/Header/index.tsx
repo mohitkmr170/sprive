@@ -7,12 +7,13 @@ interface props {
   title: String;
   rightIconPresent: boolean;
   onBackPress: () => void;
+  iconName: any;
 }
 interface state {}
 
 export class Header extends React.Component<props, state> {
   render() {
-    const {rightIconPresent} = this.props;
+    const {rightIconPresent, iconName} = this.props;
     return (
       <View style={styles.mainContainer}>
         <TouchableOpacity
@@ -24,7 +25,7 @@ export class Header extends React.Component<props, state> {
         {rightIconPresent && (
           <Text style={styles.middleContainer}>{this.props.title}</Text>
         )}
-        {rightIconPresent && <Text style={styles.sideText}>Icon</Text>}
+        {rightIconPresent && <Image source={iconName} height={40} width={40} />}
       </View>
     );
   }

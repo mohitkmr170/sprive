@@ -11,7 +11,8 @@
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
-    "calculateNow": "Calculate Now"
+    "calculateNow": "Calculate Now",
+    "currencyPound": "£"
   },
   "signUp": {
     "signUpText": "Sign up",
@@ -94,5 +95,18 @@
     "message": "Goal not set, please go ahead and set your goal to continue",
     "continue": "Continue",
     "ohNo": "Oh no!"
+  },
+  "overPaymentHistory": {
+    "overPayment": "Overpayment",
+    "overPaymentHistory": "Overpayment History",
+    "searchMonth": "Search Month",
+    "overPaymentOf": "Overpayment of",
+    "availableBalance": "Available Balance",
+    "monthlyTarget": "Monthly Target",
+    "basicInfo": "Most lenders allow you to overpay up to 10% of your mortgage balance a year but do check if you’re not sure. You risk being charged early repayment fees if you pay over the permitted amount.",
+    "payNow": "Pay Now",
+    "accNumber": "Account Number",
+    "sortCode": "Sort Code",
+    "refCode": "Reference Code"
   }
 }

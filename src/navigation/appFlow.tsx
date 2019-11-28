@@ -21,6 +21,8 @@ import {
   SaveInterest,
   DashBoard,
   SetGoal,
+  OverPayment,
+  OverpaymentHistory,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 import {Alert, ViewPropTypes} from 'react-native';
@@ -123,6 +125,12 @@ const AppStackNavigator = createStackNavigator(
      */
     TabNavigatorScreen: {
       screen: TabNavigator,
+    },
+    OverPaymentScreen: {
+      screen: OverPayment,
+    },
+    OverpaymentHistoryScreen: {
+      screen: OverpaymentHistory,
     },
   },
   {
