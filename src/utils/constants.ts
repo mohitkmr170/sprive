@@ -161,6 +161,11 @@ export const DB_KEYS = {
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
   CREATED_AT: 'response.data[0].createdAt',
+  PROJECTED: {
+    INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
+    YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
+    MONTHS_SAVED: 'response.data.projected_data.projected_time_savings.months',
+  },
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',

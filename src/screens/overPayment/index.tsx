@@ -42,6 +42,8 @@ const INC_DEC_OFFSET = 10;
 const EDIT_ICON_NAME = 'pencil';
 const OVERPAYMENT_MAX_CAP = 10000;
 const OVERPAYMENT_MIN_CAP = 0;
+const YEARS = 'years';
+const MONTHS = 'months';
 
 interface props {
   navigation: {
@@ -168,6 +170,19 @@ class UnconnectedOverPayment extends React.Component<props, state> {
       getMonthlyPaymentRecordResponse,
       setOverpaymentResponse,
     } = this.props;
+    let interesetSaving = Math.round(
+      _get(setOverpaymentResponse, DB_KEYS.PROJECTED.INTEREST_SAVING, 0),
+    );
+    let savedYears = _get(
+      setOverpaymentResponse,
+      DB_KEYS.PROJECTED.YEARS_SAVED,
+      0,
+    );
+    let savedMonths = _get(
+      setOverpaymentResponse,
+      DB_KEYS.PROJECTED.MONTHS_SAVED,
+      0,
+    );
     let currentRemainingBalance = _get(
       getMonthlyPaymentRecordResponse,
       DB_KEYS.BALANCE_AMOUNT,
@@ -279,7 +294,11 @@ class UnconnectedOverPayment extends React.Component<props, state> {
             }
             infoTitle={
               !error
-                ? localeString(LOCALE_STRING.STATUS_OVERLAY.BRILLIANT)
+                ? localeString(LOCALE_STRING.STATUS_OVERLAY.BRILLIANT, {
+                    interestSaved: Math.round(interesetSaving),
+                    timeSaved: savedYears ? savedYears + ` ${YEARS}` : '',
+                    month: savedMonths ? savedMonths + ` ${MONTHS}` : '',
+                  })
                 : localeString(LOCALE_STRING.STATUS_OVERLAY.WENT_WRONG)
             }
             firstButtonText={
