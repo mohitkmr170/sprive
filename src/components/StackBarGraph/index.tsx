@@ -31,6 +31,9 @@ import {graphData} from './helpers';
 console.log('graphDataf', JSON.parse(JSON.stringify(graphData)));
 import {ToolTip} from './toolTip';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+import {
+  getNumberWithCommas
+} from '../../utils/helperFunctions';
 
 const FIXED_PAYMENT = 'Fixed Payment';
 const OVER_PAYMENT = 'Overpayment';
@@ -216,7 +219,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
           APP_CONSTANTS.MONTH_NAMES[currentgraphDataArray[item].month - 1],
         );
         currentGraphData[index].monthlyMortgage.value =
-          currentgraphDataArray[item].mortgage_amount;
+          Number(currentgraphDataArray[item].mortgage_amount);
         currentGraphData[index].monthlyMortgage.svg.fill = COLORS[0];
         currentGraphData[index].overPayment.value = Number(
           currentgraphDataArray[item].overpayment,
@@ -227,12 +230,15 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
           this.onStackBarPress(index);
         currentGraphData[index].status = currentgraphDataArray[item].status;
         currentGraphData[index].monthly_target =
-          currentgraphDataArray[item].monthly_target;
+          Number(currentgraphDataArray[item].monthly_target);
         if (
-          currentgraphDataArray[item].overpayment >=
-          currentgraphDataArray[item].monthly_target
+          parseFloat(currentgraphDataArray[item].overpayment) >=
+          parseFloat(currentgraphDataArray[item].monthly_target)
         )
           currentGraphData[index].overPayment.svg.fill = COLOR.SLIDER_COLOR;
+        else
+          currentGraphData[index].overPayment.svg.fill = COLOR.DARK_YELLOW;
+
         if (index === Object.keys(currentgraphDataArray).length - 1) {
           if (
             currentgraphDataArray[item].month ===
@@ -322,6 +328,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
     const interestSaving = Math.round(
       _get(getProjectedDataResponse, DB_KEYS.PROJECTED_DATA.INTEREST_SAVING, 0),
     );
+    const interestSavingWithCommas = getNumberWithCommas(interestSaving);
     const projectedMonths = _get(
       getProjectedDataResponse,
       DB_KEYS.PROJECTED_DATA.PROJECTED_TIME_MONTHS,
@@ -445,7 +452,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                     {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
                   </Text>
                   <Text style={styles.projectSavingText}>
-                    £{interestSaving}
+                    £{interestSavingWithCommas}
                   </Text>
                 </View>
               </View>
