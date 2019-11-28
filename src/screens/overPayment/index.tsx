@@ -193,6 +193,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
     );
     let amountWithOutCommas = String(amount).replace(/,/g, '');
     let amountWithCommas = getNumberWithCommas(amountWithOutCommas);
+    let interesetSavingWithCommas = getNumberWithCommas(Math.round(interesetSaving));
     return (
       <View style={styles.topContainer}>
         <GeneralStatusBar />
@@ -295,7 +296,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
             infoTitle={
               !error
                 ? localeString(LOCALE_STRING.STATUS_OVERLAY.BRILLIANT, {
-                    interestSaved: Math.round(interesetSaving),
+                    interestSaved: interesetSavingWithCommas,
                     timeSaved: savedYears ? savedYears + ` ${YEARS}` : '',
                     month: savedMonths ? savedMonths + ` ${MONTHS}` : '',
                   })
