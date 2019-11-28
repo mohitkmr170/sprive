@@ -179,6 +179,13 @@ export const DB_KEYS = {
     ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
   },
   ERROR_MESSAGE: 'response.data.message',
+  PAYMENT_HISTORY : {
+    AMOUNT: 'amount',
+    PAYMENT_DATE: 'payment_date',
+    REFERENCE_NUMBER: 'reference_number',
+    ID: 'id',
+    IS_OVERPAYMENT: 'is_overpayment'
+  }
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
