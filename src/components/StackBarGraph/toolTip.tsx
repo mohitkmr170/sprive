@@ -5,6 +5,9 @@ import {COLOR} from '../../utils/colors';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
 import {LOCALE_STRING, STYLE_CONSTANTS} from '../../utils/constants';
+import {
+  getNumberWithCommas
+} from '../../utils/helperFunctions';
 
 interface props {
   info: {
@@ -23,6 +26,10 @@ export class ToolTip extends React.Component<props, state> {
     const monthlyMortgage = Math.round(
       Number(this.props.info.monthly_mortgage),
     );
+
+    const overPaymentWithCommas = getNumberWithCommas(overPayment);
+    const monthlyTargetWithCommas = getNumberWithCommas(monthlyTarget);
+    const monthlyMortgageWithCommas = getNumberWithCommas(monthlyMortgage);
     const svgMonthlyMortgage = this.props.info.svgColor;
     return (
       <Animatable.View
@@ -41,16 +48,16 @@ export class ToolTip extends React.Component<props, state> {
                   ? COLOR.SLIDER_COLOR
                   : COLOR.DARK_YELLOW,
             }}>
-            £{overPayment}
+            £{overPaymentWithCommas}
           </Text>
           <Text style={styles.monthlyTargetText}>
             /£
-            {monthlyTarget}
+            {monthlyTargetWithCommas}
           </Text>
         </Text>
         <Text style={styles.fixesPaymentText}>
           Fixed Payment{' '}
-          <Text style={{color: COLOR.DARK_BLUE}}>£{monthlyMortgage}</Text>
+          <Text style={{color: COLOR.DARK_BLUE}}>£{monthlyMortgageWithCommas}</Text>
         </Text>
       </Animatable.View>
     );
