@@ -31,6 +31,7 @@ export const APP_CONSTANTS = {
     'Nov',
     'Dec',
   ],
+  DATE_FORMAT: 'YYYY-MM-DD',
   MONTH_NUMBER: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   LISTENER: {
     DID_FOCUS: 'didFocus',
@@ -131,6 +132,10 @@ export const STYLE_CONSTANTS = {
     },
   },
 };
+export const ICON = {
+  UP: 'ios-arrow-round-up',
+  DOWN: 'ios-arrow-round-down',
+};
 export const ICON_NAME = {
   LEFT_ICON: 'chevrons-left',
   RIGHT_ICON: 'chevrons-right',
@@ -165,6 +170,13 @@ export const DB_KEYS = {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
     MONTHS_SAVED: 'response.data.projected_data.projected_time_savings.months',
+  },
+  PROJECTED_DATA: {
+    PROJECTED_TIME_YEARS: 'response.data.projected_time_savings.years',
+    PROJECTED_TIME_MONTHS: 'response.data.projected_time_savings.months',
+    INTEREST_SAVING: 'response.data.projected_interest_savings',
+    ESTIMATED_TIME_YEARS: 'response.data.estimated_time_savings.years',
+    ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
   },
 };
 export const NAVIGATION_SCREEN_NAME = {
@@ -251,6 +263,7 @@ export const LOCALE_STRING = {
     PROJECTED_TIME: 'stackBarGraphComponent.projectedTime',
     SAVING: 'stackBarGraphComponent.saving',
     MONTHS: 'stackBarGraphComponent.months',
+    YEARS: 'stackBarGraphComponent.years',
     PROJECTED_INT: 'stackBarGraphComponent.projectInterested',
   },
   DASHBOARD_SCREEN: {

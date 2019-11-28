@@ -3,6 +3,8 @@ import {Text, StyleSheet, Platform} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {COLOR} from '../../utils/colors';
 import {get as _get} from 'lodash';
+import {localeString} from '../../utils/i18n';
+import {LOCALE_STRING, STYLE_CONSTANTS} from '../../utils/constants';
 
 interface props {
   info: {
@@ -28,12 +30,12 @@ export class ToolTip extends React.Component<props, state> {
         duration={200}
         style={styles.mainContainer}>
         <Text style={styles.overPaymentText}>
-          Overpayment{' '}
+          {localeString(LOCALE_STRING.SET_GOAL_SCREEN.OVER_PAYMENT)}{' '}
           <Text
             style={{
               color:
-                svgMonthlyMortgage === '#D3D6EB'
-                  ? '#0000004D'
+                svgMonthlyMortgage === COLOR.STEEL_GRAY
+                  ? COLOR.REDUX_FORM_INPUT_CONTAINER
                   : overPayment >= monthlyTarget
                   ? COLOR.SLIDER_COLOR
                   : COLOR.DARK_YELLOW,
@@ -47,7 +49,7 @@ export class ToolTip extends React.Component<props, state> {
         </Text>
         <Text style={styles.fixesPaymentText}>
           Fixed Payment{' '}
-          <Text style={{color: '#22319B'}}>£{monthlyMortgage}</Text>
+          <Text style={{color: COLOR.DARK_BLUE}}>£{monthlyMortgage}</Text>
         </Text>
       </Animatable.View>
     );
@@ -61,29 +63,31 @@ const styles = StyleSheet.create({
     zIndex: 1,
     backgroundColor: COLOR.WHITE,
     borderColor: COLOR.GRAY,
-    borderRadius: 4,
-    paddingHorizontal: 18,
-    paddingVertical: 8,
-    shadowColor: 'gray',
-    shadowOffset: {height: 4, width: 4},
-    shadowOpacity: 4,
-    shadowRadius: 4,
-    elevation: Platform.OS === 'android' ? 5 : 0,
+    borderRadius: STYLE_CONSTANTS.padding.SMALLEST,
+    paddingHorizontal: STYLE_CONSTANTS.padding.LARGISH,
+    paddingVertical: STYLE_CONSTANTS.padding.SMALLER,
+    shadowColor: COLOR.GRAY,
+    shadowOffset: {
+      height: STYLE_CONSTANTS.padding.SMALLEST,
+      width: STYLE_CONSTANTS.padding.SMALLEST,
+    },
+    shadowOpacity: STYLE_CONSTANTS.padding.SMALLEST,
+    shadowRadius: STYLE_CONSTANTS.padding.SMALLEST,
   },
   overPaymentText: {
-    fontSize: 12,
-    lineHeight: 24,
-    color: '#09245E',
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    color: COLOR.VOILET,
     opacity: 0.5,
-    fontWeight: '500',
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
-  monthlyTargetText: {color: '#0000004D'},
+  monthlyTargetText: {color: COLOR.REDUX_FORM_INPUT_CONTAINER},
   fixesPaymentText: {
-    fontSize: 12,
-    lineHeight: 24,
-    color: '#09245E',
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    color: COLOR.VOILET,
     opacity: 0.5,
-    paddingTop: 4,
-    fontWeight: '500',
+    paddingTop: STYLE_CONSTANTS.padding.SMALLEST,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
 });

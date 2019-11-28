@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {COLOR} from '../../utils/colors';
+import {STYLE_CONSTANTS} from '../../utils/constants';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -13,8 +14,8 @@ export const styles = StyleSheet.create({
   },
   sideText: {alignSelf: 'center'},
   middleContainer: {
-    fontSize: 18,
-    color: '#22319B',
-    fontWeight: '500',
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,
+    color: COLOR.DARK_BLUE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
 });
