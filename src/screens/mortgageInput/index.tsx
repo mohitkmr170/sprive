@@ -52,6 +52,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
   handlePayNowVisibility() {
     this.setState({enableButton: false});
   }
+  componentWillUnmount() {
+    this.didFocusListener.remove();
+  }
   /**
    *
    * @param values : object : object with all form values

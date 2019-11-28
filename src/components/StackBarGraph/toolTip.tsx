@@ -19,6 +19,7 @@ export class ToolTip extends React.Component<props, state> {
   render() {
     const overPayment = Math.round(Number(this.props.info.overPayment));
     const monthlyTarget = Math.round(Number(this.props.info.monthlyTarget));
+    console.log('monthlyTarget', monthlyTarget);
     const monthlyMortgage = Math.round(
       Number(this.props.info.monthly_mortgage),
     );
@@ -44,7 +45,7 @@ export class ToolTip extends React.Component<props, state> {
           </Text>
           <Text style={styles.monthlyTargetText}>
             /£
-            {svgMonthlyMortgage === '#D3D6EB' ? monthlyMortgage : monthlyTarget}
+            {monthlyTarget}
           </Text>
         </Text>
         <Text style={styles.fixesPaymentText}>

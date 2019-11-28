@@ -97,6 +97,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     } = this.props;
     const qParam = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.GRAPH.CURRENT_DATE]: new Date().toISOString(),
     };
     await getMonthlyPaymentRecord({}, qParam);
     const qParamProjectData = {

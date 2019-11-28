@@ -2,6 +2,7 @@ import * as Keychain from 'react-native-keychain';
 import Snackbar from 'react-native-snackbar';
 import {get as _get} from 'lodash';
 import {COLOR} from '../utils/colors';
+import {APP_CONSTANTS, DB_KEYS} from './constants';
 
 /**
  * Funtion to get password strength(out of 4)
@@ -115,7 +116,7 @@ export function showSnackBar(err: object, nonApiError?: string) {
   return Snackbar.show({
     title: nonApiError
       ? nonApiError
-      : _get(err, 'response.data.message', 'Something went wrong!'),
+      : _get(err, DB_KEYS.ERROR_MESSAGE, APP_CONSTANTS.GENERAL_ERROR),
     duration: Snackbar.LENGTH_LONG,
     action: {
       title: 'OK', //For any button title

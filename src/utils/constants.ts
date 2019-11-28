@@ -178,6 +178,7 @@ export const DB_KEYS = {
     ESTIMATED_TIME_YEARS: 'response.data.estimated_time_savings.years',
     ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
   },
+  ERROR_MESSAGE: 'response.data.message',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',

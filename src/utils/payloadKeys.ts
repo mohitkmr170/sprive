@@ -39,5 +39,6 @@ export const PAYLOAD_KEYS: any = {
     GRAPH_DATA: 'graph_data',
     FROM_DATE: 'from_date',
     TO_DATE: 'to_date',
+    CURRENT_DATE: 'current_date',
   },
 };
