@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import {NavigationActions, StackActions} from 'react-navigation';
 import {DrawerActions} from 'react-navigation-drawer';
 
