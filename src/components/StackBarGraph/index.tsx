@@ -221,7 +221,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
         currentGraphData[index].mortgage_amount =
           currentgraphDataArray[item].mortgage_amount;
         if (
-          currentgraphDataArray[item].overpayment >=
+          currentgraphDataArray[item].overpayment ===
           currentgraphDataArray[item].monthly_target
         )
           currentGraphData[index].overPayment.svg.fill = COLOR.SLIDER_COLOR;

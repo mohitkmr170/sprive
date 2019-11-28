@@ -5,7 +5,7 @@ import {styles} from './styles';
 import {Button} from 'react-native-elements';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {localeString} from '../../utils/i18n';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, reset} from 'redux-form';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import {signUpUser, setUserMortgage, getUserInfo} from '../../store/reducers';
@@ -149,6 +149,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
   };
 
   handleSignInPress = () => {
+    this.props.reset(APP_CONSTANTS.SIGNUP_FORM);
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
   };
 
@@ -296,6 +297,7 @@ const bindActions = dispatch => ({
   signUpUser: payload => dispatch(signUpUser.fetchCall(payload)),
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
+  reset,
 });
 
 export const SignUpForm = connect(

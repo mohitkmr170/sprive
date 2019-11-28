@@ -49,6 +49,8 @@ interface props {
   getMonthlyPaymentRecord: (payload: object, extraPayload: object) => void;
   getMonthlyPaymentRecordResponse: object;
   getUserInfo: () => void;
+  getProjectedData: (payload: object, extraPayload: object) => void;
+  getProjectedDataResponse: object;
 }
 
 interface state {

@@ -10,7 +10,7 @@ import {localeString} from '../../utils/i18n';
 import {NAVIGATION_SCREEN_NAME, DB_KEYS} from '../../utils/constants';
 import {Button} from 'react-native-elements';
 import {getCumulativeInterest} from '../../store/reducers';
-import {reduxForm} from 'redux-form';
+import {reduxForm, reset} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {connect} from 'react-redux';
 import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
@@ -37,6 +37,14 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       enableButton: true,
     };
     this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
+  }
+  componentDidMount() {
+    this.didFocusListener = this.props.navigation.addListener(
+      APP_CONSTANTS.LISTENER.DID_FOCUS,
+      async () => {
+        this.props.reset(APP_CONSTANTS.MORTGAGE_INPUT_FORM);
+      },
+    );
   }
   // Back Icon Pressed
   handleBackPress = () => {};
@@ -141,6 +149,7 @@ const mapStateToProps = state => ({
 const bindActions = dispatch => ({
   getCumulativeInterest: payload =>
     dispatch(getCumulativeInterest.fetchCall(payload)),
+  reset,
 });
 
 export const MortgageInput = connect(

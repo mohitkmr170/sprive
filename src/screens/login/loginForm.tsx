@@ -176,7 +176,7 @@ const mapStateToProps = state => ({
 
 const bindActions = dispatch => ({
   loginUser: payload => dispatch(loginUser.fetchCall(payload)),
-  getUserInfo: payload => dispatch(getUserInfo.fetchCall(payload)),
+  getUserInfo: payload => dispatch(getUserInfo.fetchCall(payload)), // requires form name
 });
 
 export const LoginForm = connect(
