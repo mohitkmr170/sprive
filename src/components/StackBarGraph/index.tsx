@@ -24,6 +24,7 @@ import {localeString} from '../../utils/i18n';
 import {COLOR} from '../../utils/colors';
 import {graphData} from './helpers';
 import {ToolTip} from './toolTip';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 const FIXED_PAYMENT = 'Fixed Payment';
 const OVER_PAYMENT = 'Overpayment';
@@ -80,7 +81,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
     const {getUserInfoResponse, getUserMortgageData} = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     const qParamsInfo = {
-      user_id: userId,
+      [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
     const {getUserMortgageDataResponse} = this.props;
@@ -144,15 +145,15 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
     const {getUserInfoResponse, getUserMortgageData, getGraphData} = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     const qParamsInfo = {
-      user_id: userId,
+      [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
     let currentGraphData = this.state.graphData;
     const qParam = {
-      user_id: userId,
-      graph_data: true,
-      from_date: fromDate,
-      to_date: toDate,
+      [PAYLOAD_KEYS.USER_ID]: userId,
+      [PAYLOAD_KEYS.GRAPH.GRAPH_DATA]: true,
+      [PAYLOAD_KEYS.GRAPH.FROM_DATE]: fromDate,
+      [PAYLOAD_KEYS.GRAPH.TO_DATE]: toDate,
     };
     await getGraphData({}, qParam);
     const {getGraphDataResponse} = this.props;

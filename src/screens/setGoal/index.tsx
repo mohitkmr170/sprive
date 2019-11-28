@@ -90,11 +90,11 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     const {getUserMortgageData, getUserInfoResponse, getUserGoal} = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     const qParamsInfo = {
-      user_id: userId,
+      [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
     const qParams = {
-      user_id: userId,
+      [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserGoal({}, qParams);
     const {getUserGoalResponse} = this.props;
@@ -208,28 +208,40 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_ID]: String(
           _get(getUserMortgageDataResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
         ),
-        monthly_overpayment_amount: this.state.monthlyOverPayment,
-        old_mortgage_term: _get(
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.MONTHLY_OVERPAYMENT_AMOUNT]: this.state
+          .monthlyOverPayment,
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.OLD_MORTGAGE_TERM]: _get(
           getUserMortgageDataResponse,
           DB_KEYS.MORTGAGE_TERM,
           null,
         ),
-        new_mortgage_term: this.state.mortgageTerm,
-        total_interest_saved: this.state.interestSaving,
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.NEW_MORTGAGE_TERM]: this.state
+          .mortgageTerm,
+        [PAYLOAD_KEYS.INTEREST.TOTAL_INTEREST_SAVED]: this.state.interestSaving,
       };
       await setUserGoal(payload);
       if (!_get(this.props.setUserGoalResponse, DB_KEYS.ERROR, true))
         navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     } else {
       const body = {
-        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
-        monthly_overpayment_amount: this.state.monthlyOverPayment,
-        new_mortgage_term: this.state.mortgageTerm,
-        total_interest_saved: this.state.interestSaving,
+        [PAYLOAD_KEYS.USER_ID]: String(
+          _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+        ),
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.MONTHLY_OVERPAYMENT_AMOUNT]: this.state
+          .monthlyOverPayment,
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.NEW_MORTGAGE_TERM]: this.state
+          .mortgageTerm,
+        [PAYLOAD_KEYS.INTEREST.TOTAL_INTEREST_SAVED]: this.state.interestSaving,
       };
       const qParam = {
-        id: _get(getUserGoalResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
-        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
+        [PAYLOAD_KEYS.ID]: _get(
+          getUserGoalResponse,
+          DB_KEYS.DATA_OF_ZERO_ID,
+          null,
+        ),
+        [PAYLOAD_KEYS.USER_ID]: String(
+          _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+        ),
       };
       await updateUserGoal(body, qParam);
       if (!_get(this.props.updateUserGoalResponse, DB_KEYS.ERROR, true))

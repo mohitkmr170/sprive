@@ -17,6 +17,7 @@ import Moment from 'moment';
 import {reset} from '../../navigation/navigationService';
 import {APP_CONSTANTS} from '../../utils/constants';
 import {PaymentHistoryList} from './paymentHistoryList';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -74,9 +75,9 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     if (userId) {
       const qParam = {
-        user_id: userId,
-        page: page,
-        year: year,
+        [PAYLOAD_KEYS.USER_ID]: userId,
+        [PAYLOAD_KEYS.PAGE]: page,
+        [PAYLOAD_KEYS.YEAR]: year,
       };
       const {getOverpaymentHistory} = this.props;
       await getOverpaymentHistory({}, qParam);

@@ -34,6 +34,7 @@ import {
   DB_KEYS,
 } from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -85,7 +86,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     await this.props.getUserInfo();
     const {getMonthlyPaymentRecord, getUserInfoResponse} = this.props;
     const qParam = {
-      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
     };
     await getMonthlyPaymentRecord({}, qParam);
     this.setState({loading: false});

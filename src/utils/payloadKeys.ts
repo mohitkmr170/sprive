@@ -8,8 +8,11 @@
 
 export const PAYLOAD_KEYS: any = {
   USER_ID: 'user_id',
+  ID: 'id',
   OVERPAYMENT: {
     OVERPAYMENT_AMOUNT: 'amount',
+    PAGE: 'page',
+    YEAR: 'year',
   },
   LOGIN: {
     STRATEGY: 'strategy',
@@ -25,5 +28,16 @@ export const PAYLOAD_KEYS: any = {
     MORTGAGE_BALANCE: 'mortgage_balance',
     MORTGAGE_TERM: 'mortgage_term',
     MORTGAGE_PAYMENT: 'mortgage_payment',
+    OLD_MORTGAGE_TERM: 'old_mortgage_term',
+    NEW_MORTGAGE_TERM: 'new_mortgage_term',
+    MONTHLY_OVERPAYMENT_AMOUNT: 'monthly_overpayment_amount',
+  },
+  INTEREST: {
+    TOTAL_INTEREST_SAVED: 'total_interest_saved',
+  },
+  GRAPH: {
+    GRAPH_DATA: 'graph_data',
+    FROM_DATE: 'from_date',
+    TO_DATE: 'to_date',
   },
 };
