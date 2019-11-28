@@ -16,6 +16,7 @@ import {
   maxLength16,
   required,
   alphaNumeric,
+  noWhiteSpaces,
 } from '../../utils/validate';
 import {
   APP_CONSTANTS,
@@ -139,7 +140,13 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 placeholder: 'Password',
               }}
               editIcon={true}
-              validate={[minLength8, maxLength16, alphaNumeric, required]}
+              validate={[
+                minLength8,
+                maxLength16,
+                alphaNumeric,
+                required,
+                noWhiteSpaces,
+              ]}
             />
             <TouchableOpacity style={styles.forgotPasswordContainer}>
               <Text style={styles.forgotPassword}>

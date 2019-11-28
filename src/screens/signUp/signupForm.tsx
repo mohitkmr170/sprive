@@ -16,6 +16,7 @@ import {
   maxLength16,
   required,
   alphaNumeric,
+  noWhiteSpaces,
 } from '../../utils/validate';
 import {
   APP_CONSTANTS,
@@ -218,7 +219,13 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                     onChangeText: (password: string) =>
                       this.handlePassword(password),
                   }}
-                  validate={[minLength8, maxLength16, alphaNumeric, required]}
+                  validate={[
+                    minLength8,
+                    maxLength16,
+                    alphaNumeric,
+                    required,
+                    noWhiteSpaces,
+                  ]}
                 />
                 {_get(
                   this.props.reducerResponse,

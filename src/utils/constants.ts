@@ -244,6 +244,7 @@ export const LOCALE_STRING = {
     INVALID_EMAIL: 'validationMessages.invalidEmail',
     ALPHA_NUMERIC: 'validationMessages.alphaNumberic',
     YEAR_RANGE: 'validationMessages.yearRange',
+    WHITE_SPACES: 'validationMessages.whiteSpaces',
   },
   SET_GOAL_SCREEN: {
     HOW_QUICKLY: 'setGoalScreen.howQuickly',
