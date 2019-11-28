@@ -10,6 +10,7 @@ import {StackedBarChart} from 'react-native-svg-charts';
 import {styles} from './styles';
 import {GraphDetails} from './graphDetails';
 import {connect} from 'react-redux';
+import Moment from 'moment';
 import {
   APP_CONSTANTS,
   STYLE_CONSTANTS,
@@ -18,7 +19,11 @@ import {
   DB_KEYS,
 } from '../../utils/constants';
 import {get as _get} from 'lodash';
-import {getGraphData, getUserMortgageData} from '../../store/reducers';
+import {
+  getGraphData,
+  getUserMortgageData,
+  getProjectedData,
+} from '../../store/reducers';
 import Icons from 'react-native-vector-icons/Feather';
 import {localeString} from '../../utils/i18n';
 import {COLOR} from '../../utils/colors';
@@ -28,11 +33,16 @@ import {ToolTip} from './toolTip';
 const FIXED_PAYMENT = 'Fixed Payment';
 const OVER_PAYMENT = 'Overpayment';
 const TARGET_MET = 'Target Met';
+const ACTIONS = {
+  LEFT: 'left',
+  RIGHT: 'right',
+};
+const OVERPAYMENT = 'overpayment';
 //Number of data to be shown along x-axis(bar count)
 const GRAPH_OFFSET = 6;
 
 const COLORS = [COLOR.DARK_BLUE, COLOR.DARK_YELLOW];
-const KEYS = ['emi', 'overPayment'];
+const KEYS = ['monthlyMortgage', 'overPayment'];
 interface props {
   getGraphData: (payload: object, extraPayload: object) => void;
   getUserMortgageData: (payload: object, extraPayload: object) => void;
@@ -40,6 +50,8 @@ interface props {
   getUserInfoResponse: object;
   getUserMortgageDataResponse: object;
   currentMonthTarget: any;
+  getProjectedData: (payload: object, extraPayload: object) => void;
+  getProjectedDataResponse: object;
 }
 
 interface state {
@@ -49,6 +61,7 @@ interface state {
   showInfoToolTip: boolean;
   monthOfset: number;
   graphData: object;
+  month: object;
   currentTarget: object;
   loading: boolean;
   activeGraphIndex: number;
@@ -56,6 +69,10 @@ interface state {
 const currentMonthIndex = new Date().getMonth();
 const currentMonth = APP_CONSTANTS.MONTH_NAMES[currentMonthIndex];
 const actualCurrentMonthIndex = currentMonthIndex + 1;
+let dateRange = {
+  firstDate: '',
+  lastDate: '',
+};
 
 export class UnconnectedStackBarGraph extends React.Component<props, state> {
   constructor(props: any) {
@@ -67,6 +84,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       showInfoToolTip: false,
       monthOfset: 4,
       graphData: [],
+      month: [],
       currentTarget: {},
       loading: true,
       activeGraphIndex: -1,
@@ -80,55 +98,74 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       user_id: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
-    const {getUserMortgageDataResponse} = this.props;
-    let currentGraphData = graphData;
+    let currentGraphData = [];
+    currentGraphData = graphData;
+    /*
+    TODO : Loop to be removed, after merging
+    */
     for (let i = 0; i < graphData.length; i++) {
-      currentGraphData[i].monthly_target = _get(
-        getUserMortgageDataResponse,
-        DB_KEYS.MORTGAGE_PAYMENT,
-        null,
-      );
-      currentGraphData[i].emi.svg.onPress = () => this.onStackBarPress(i);
+      currentGraphData[i].monthlyMortgage.svg.onPress = () =>
+        this.onStackBarPress(i);
+      if (currentGraphData.length - 1 === i) {
+        this.setState(
+          {
+            currentScrollIndex: 1,
+            graphData: currentGraphData,
+          },
+          () => {
+            this.getDataRange();
+            this.getNewGraphData();
+          },
+        );
+      }
     }
-    graphData[actualCurrentMonthIndex - GRAPH_OFFSET].emi.value = _get(
-      getUserMortgageDataResponse,
-      DB_KEYS.MORTGAGE_PAYMENT,
-      null,
-    );
-    if (currentMonth > String(GRAPH_OFFSET))
-      this.setState({currentScrollIndex: 1, graphData: currentGraphData});
-    let dateRange = this.getDataRange(0);
-    this.getNewGraphData(dateRange[0], dateRange[1]);
   };
   /**
    * Function that will return date range (4 months before current and 1 month after current Month)
    */
-  getDataRange = (monthFactor: number) => {
-    let currentDate = new Date();
-    return [
-      currentDate.getFullYear() +
-        '-' +
-        (currentDate.getMonth() - this.state.monthOfset + monthFactor + 1) +
-        '-' +
-        '01',
-      currentDate.getFullYear() +
-        '-' +
-        (currentDate.getMonth() -
-          this.state.monthOfset +
-          monthFactor +
-          GRAPH_OFFSET) +
-        '-' +
-        '30',
-    ];
+  getDataRange = (action?: string) => {
+    let currentDate = Moment(new Date());
+    let firstDate = '';
+    let lastDate = '';
+    if (action === 'right') {
+      firstDate = Moment(dateRange.lastDate)
+        .add(1, 'month')
+        .startOf('month')
+        .format(APP_CONSTANTS.DATE_FORMAT);
+      lastDate = Moment(firstDate)
+        .add(5, 'months')
+        .endOf('month')
+        .format(APP_CONSTANTS.DATE_FORMAT);
+    } else if (action === 'left') {
+      lastDate = Moment(dateRange.firstDate)
+        .subtract(1, 'month')
+        .endOf('month')
+        .format(APP_CONSTANTS.DATE_FORMAT);
+      firstDate = Moment(lastDate)
+        .subtract(5, 'months')
+        .startOf('month')
+        .format(APP_CONSTANTS.DATE_FORMAT);
+    } else {
+      firstDate = Moment(currentDate)
+        .subtract(4, 'months')
+        .startOf('month')
+        .format(APP_CONSTANTS.DATE_FORMAT);
+      lastDate = Moment(currentDate)
+        .add(1, 'month')
+        .endOf('month')
+        .format(APP_CONSTANTS.DATE_FORMAT);
+    }
+    dateRange.firstDate = firstDate;
+    dateRange.lastDate = lastDate;
   };
 
   onStackBarPress = (graphIndex: number) => {
     const {graphData} = this.state;
     let toolTipObj = {
-      monthly_mortgage: graphData[graphIndex].emi.value,
+      monthly_mortgage: graphData[graphIndex].monthlyMortgage.value,
       overPayment: graphData[graphIndex].overPayment.value,
-      monthlyTarget: graphData[graphIndex].monthly_target,
-      svgColor: graphData[graphIndex].emi.svg.fill,
+      monthlyTarget: graphData[graphIndex].mortgage_amount,
+      svgColor: graphData[graphIndex].monthlyMortgage.svg.fill,
     };
     this.setState({
       showInfoToolTip: true,
@@ -137,67 +174,85 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
     });
   };
 
-  async getNewGraphData(fromDate: string, toDate: string) {
+  getNewGraphData = async () => {
     const {getUserInfoResponse, getUserMortgageData, getGraphData} = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     const qParamsInfo = {
       user_id: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
-    let currentGraphData = this.state.graphData;
+    let currentGraphData: any = this.state.graphData;
+    let currentMonthArray: any = [];
     const qParam = {
       user_id: userId,
       graph_data: true,
-      from_date: fromDate,
-      to_date: toDate,
+      from_date: new Date(dateRange.firstDate).toISOString(),
+      to_date: new Date(dateRange.lastDate).toISOString(),
     };
     await getGraphData({}, qParam);
-    const {getGraphDataResponse} = this.props;
+    const {getGraphDataResponse, getUserMortgageDataResponse} = this.props;
     const graphDataArray = _get(
       getGraphDataResponse,
       DB_KEYS.RESPONSE_DATA,
       '',
     );
-    for (let i = 0; i < graphDataArray.length; i++) {
-      currentGraphData[graphDataArray[i].month - GRAPH_OFFSET - 1].emi.value =
-        graphDataArray[i].mortgage_amount;
-      currentGraphData[
-        graphDataArray[i].month - GRAPH_OFFSET - 1
-      ].emi.svg.fill = COLORS[0];
-      currentGraphData[
-        graphDataArray[i].month - GRAPH_OFFSET - 1
-      ].overPayment.value = graphDataArray[i].overpayment;
-      currentGraphData[
-        graphDataArray[i].month - GRAPH_OFFSET - 1
-      ].overPayment.svg.onPress = () => this.onStackBarPress(i);
-      currentGraphData[graphDataArray[i].month - GRAPH_OFFSET - 1].status =
-        graphDataArray[i].status;
-      currentGraphData[
-        graphDataArray[i].month - GRAPH_OFFSET - 1
-      ].monthly_target = graphDataArray[i].monthly_target;
-      if (graphDataArray[i].overpayment >= graphDataArray[i].monthly_target)
-        currentGraphData[
-          graphDataArray[i].month - GRAPH_OFFSET - 1
-        ].overPayment.svg.fill = COLOR.SLIDER_COLOR;
-      if (graphDataArray[i].month === actualCurrentMonthIndex) {
-        currentGraphData[
-          graphDataArray[i].month - GRAPH_OFFSET - 1 + 1
-        ].monthly_target = this.props.currentMonthTarget;
-      }
-      if (i === graphDataArray.length - 1)
-        this.setState({loading: false, graphData: currentGraphData});
-    }
-  }
+    Object.keys(graphDataArray).map((itemYear, indexYear) => {
+      let currentKey = itemYear;
+      let currentgraphDataArray = graphDataArray[currentKey];
+      Object.keys(currentgraphDataArray).map((item, index) => {
+        currentMonthArray.push(APP_CONSTANTS.MONTH_NAMES[Number(item) - 1]);
+        currentGraphData[index].monthlyMortgage.value =
+          currentgraphDataArray[item].mortgage_amount;
+        currentGraphData[index].monthlyMortgage.svg.fill = COLORS[0];
+        currentGraphData[index].overPayment.value = Number(
+          currentgraphDataArray[item].overpayment,
+        );
+        currentGraphData[index].overPayment.svg.onPress = () =>
+          this.onStackBarPress(index);
+        currentGraphData[index].monthlyMortgage.svg.onPress = () =>
+          this.onStackBarPress(index);
+        currentGraphData[index].status = currentgraphDataArray[item].status;
+        currentGraphData[index].mortgage_amount =
+          currentgraphDataArray[item].mortgage_amount;
+        if (
+          currentgraphDataArray[item].overpayment >=
+          currentgraphDataArray[item].monthly_target
+        )
+          currentGraphData[index].overPayment.svg.fill = COLOR.SLIDER_COLOR;
+        if (index === Object.keys(currentgraphDataArray).length - 1) {
+          if (currentgraphDataArray[item].month === actualCurrentMonthIndex + 1)
+            currentGraphData[index].monthlyMortgage.svg.fill = COLOR.STEEL_GRAY;
+          currentGraphData[index].monthlyMortgage.value = _get(
+            getUserMortgageDataResponse,
+            DB_KEYS.MORTGAGE_PAYMENT,
+            null,
+          );
+          this.setState({
+            loading: false,
+            graphData: currentGraphData,
+            month: currentMonthArray,
+          });
+        }
+      });
+    });
+  };
 
   /**
    * This function is to decrement currentScrollIndex by 1 upon left click
    */
 
   handleGraphLeftSwipe = () => {
+    /*
+    TODO : To be changed
+    */
+    this.getDataRange(ACTIONS.LEFT);
+    this.getNewGraphData();
     const {getGraphDataResponse} = this.props;
-    if (_get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, '').length) {
-      let dateRange = this.getDataRange(-6);
-      this.getNewGraphData(dateRange[0], dateRange[1]);
+    if (
+      _get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, {}).hasOwnProperty(
+        OVERPAYMENT,
+      )
+    ) {
       this.setState({
         currentScrollIndex: this.state.currentScrollIndex - 1,
         isRightButtonActive: !this.state.isRightButtonActive,
@@ -211,10 +266,17 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
    */
 
   handleGraphRightSwipe = () => {
+    /*
+    TODO : To be changed
+    */
+    this.getDataRange(ACTIONS.RIGHT);
+    this.getNewGraphData();
     const {getGraphDataResponse} = this.props;
-    if (_get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, '').length) {
-      let dateRange = this.getDataRange(0);
-      this.getNewGraphData(dateRange[0], dateRange[1]);
+    if (
+      _get(getGraphDataResponse, DB_KEYS.RESPONSE_DATA, {}).hasOwnProperty(
+        OVERPAYMENT,
+      )
+    ) {
       this.setState({
         currentScrollIndex: this.state.currentScrollIndex + 1,
         isRightButtonActive: !this.state.isRightButtonActive,
@@ -228,10 +290,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
   };
 
   render() {
-    let currMonthName = APP_CONSTANTS.MONTH_NAMES.slice(
-      this.state.currentScrollIndex * GRAPH_OFFSET,
-      GRAPH_OFFSET * (this.state.currentScrollIndex + 1),
-    );
+    const {getProjectedDataResponse} = this.props;
     return (
       <TouchableWithoutFeedback
         style={styles.mainTopContainer}
@@ -273,7 +332,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
               </View>
             )}
             <View style={styles.monthView}>
-              {currMonthName.map((item, index) => {
+              {this.state.month.map((item, index) => {
                 return (
                   <View
                     style={{
@@ -315,12 +374,28 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                   <Text style={styles.projectedTimeText}>
                     {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
                   </Text>
-                  <Text style={styles.numberOfMonthText}>
-                    3{' '}
-                    <Text style={styles.monthsText}>
-                      {localeString(LOCALE_STRING.GRAPH_COMPONENT.MONTHS)}
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.numberOfMonthText}>
+                      {_get(
+                        getProjectedDataResponse,
+                        DB_KEYS.PROJECTED_DATA.PROJECTED_TIME_YEARS,
+                        '',
+                      )}{' '}
+                      <Text style={styles.monthsText}>
+                        {localeString(LOCALE_STRING.GRAPH_COMPONENT.YEARS)}{' '}
+                      </Text>
                     </Text>
-                  </Text>
+                    <Text style={styles.numberOfMonthText}>
+                      {_get(
+                        getProjectedDataResponse,
+                        DB_KEYS.PROJECTED_DATA.PROJECTED_TIME_MONTHS,
+                        '',
+                      )}{' '}
+                      <Text style={styles.monthsText}>
+                        {localeString(LOCALE_STRING.GRAPH_COMPONENT.MONTHS)}
+                      </Text>
+                    </Text>
+                  </View>
                 </View>
               </View>
               <View style={styles.bottomRightContainer}>
@@ -331,7 +406,16 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                   <Text style={styles.savingText}>
                     {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
                   </Text>
-                  <Text style={styles.projectSavingText}>£ 175</Text>
+                  <Text style={styles.projectSavingText}>
+                    £{' '}
+                    {Math.round(
+                      _get(
+                        getProjectedDataResponse,
+                        DB_KEYS.PROJECTED_DATA.INTEREST_SAVING,
+                        0,
+                      ),
+                    )}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -359,6 +443,7 @@ const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getGraphDataResponse: state.getGraphData,
   getUserMortgageDataResponse: state.getUserMortgageData,
+  getProjectedDataResponse: state.getProjectedData,
 });
 
 const bindActions = dispatch => ({

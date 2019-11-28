@@ -22,7 +22,11 @@ import {StackBarGraph, StatusOverlay, LoadingModal} from '../../components';
 import * as Progress from 'react-native-progress';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
-import {getMonthlyPaymentRecord, getUserInfo} from '../../store/reducers';
+import {
+  getMonthlyPaymentRecord,
+  getUserInfo,
+  getProjectedData,
+} from '../../store/reducers';
 import {
   NAVIGATION_SCREEN_NAME,
   LOCALE_STRING,
@@ -79,11 +83,19 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
 
   handleInitialMount = async () => {
     await this.props.getUserInfo();
-    const {getMonthlyPaymentRecord, getUserInfoResponse} = this.props;
+    const {
+      getMonthlyPaymentRecord,
+      getUserInfoResponse,
+      getProjectedData,
+    } = this.props;
     const qParam = {
       user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
     };
     await getMonthlyPaymentRecord({}, qParam);
+    const qParamProjectData = {
+      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+    };
+    await getProjectedData({}, qParamProjectData);
     this.setState({loading: false});
   };
 
@@ -103,7 +115,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   }
 
   render() {
-    const {getMonthlyPaymentRecordResponse} = this.props;
+    const {
+      getMonthlyPaymentRecordResponse,
+      getProjectedDataResponse,
+    } = this.props;
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
       DB_KEYS.BALANCE_AMOUNT,
@@ -237,7 +252,20 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   {localeString(
                     LOCALE_STRING.DASHBOARD_SCREEN.PROJECTED_MORTGAGE,
                   )}{' '}
-                  <Text style={styles.monthsLeftText}>3yr 11m</Text>
+                  <Text style={styles.monthsLeftText}>
+                    {_get(
+                      getProjectedDataResponse,
+                      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+                      '',
+                    )}
+                    yr{' '}
+                    {_get(
+                      getProjectedDataResponse,
+                      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
+                      '',
+                    )}
+                    m
+                  </Text>
                 </Text>
               </View>
               <StackBarGraph currentMonthTarget={monthlyTarget} />
@@ -264,12 +292,15 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getMonthlyPaymentRecordResponse: state.getMonthlyPaymentRecord,
+  getProjectedDataResponse: state.getProjectedData,
 });
 
 const bindActions = dispatch => ({
   getMonthlyPaymentRecord: (payload, extraPayload) =>
     dispatch(getMonthlyPaymentRecord.fetchCall(payload, extraPayload)),
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
+  getProjectedData: (payload, extraPayload) =>
+    dispatch(getProjectedData.fetchCall(payload, extraPayload)),
 });
 
 export const DashBoard = connect(

@@ -69,12 +69,19 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
       setAuthToken(
         _get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null),
         values.email,
-      ).then(async response => {
-        await getUserInfo();
-        const {getUserInfoResponse} = this.props;
-        if (!_get(getUserInfoResponse, 'error', null))
-          navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
-      });
+      )
+        .then(async response => {
+          await getUserInfo();
+          const {getUserInfoResponse} = this.props;
+          if (!_get(getUserInfoResponse, 'error', null))
+            navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+        })
+        .catch(err => {
+          /*
+          TODO : Snackbar to be added
+          */
+          console.error(err);
+        });
     }
   };
 
