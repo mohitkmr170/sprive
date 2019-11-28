@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ScrollView, Alert} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {Header, LoadingModal} from '../../components';
@@ -17,6 +17,7 @@ import {
   LOCALE_STRING,
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
+  APP_CONSTANTS,
 } from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
 import {calculateGoal} from '../../../calculatorJS/index';
@@ -31,9 +32,9 @@ interface props {
   navigation: {
     navigate: (routeName: string) => void;
   };
-  getUserMortgageData: (payload: object) => void;
+  getUserMortgageData: (payload: object, extraPayload: object) => void;
   setUserGoal: (payload: object) => void;
-  getUserGoal: (payload: object) => void;
+  getUserGoal: (payload: object, extraPayload: object) => void;
   updateUserGoal: (payload: object, extraPayload: object) => void;
   getUserMortgageDataResponse: object;
   getUserInfoResponse: object;
@@ -62,21 +63,39 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     };
   }
 
+  setToInitialState = () => {
+    this.setState({
+      mortgageTerm: 0,
+      monthlyOverPayment: 0,
+      interestSaving: 0,
+      loading: true,
+      ercLimit: 0,
+      ercLimitCrossed: false,
+    });
+  };
+
   componentDidMount = async () => {
+    this.handleInitialMount();
+    this.navFocusListener = this.props.navigation.addListener(
+      APP_CONSTANTS.LISTENER.DID_FOCUS,
+      async () => {
+        this.setToInitialState();
+        this.handleInitialMount();
+      },
+    );
+  };
+
+  handleInitialMount = async () => {
     const {getUserMortgageData, getUserInfoResponse, getUserGoal} = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
-    const userInfoBody = {
-      qParams: {
-        user_id: userId,
-      },
+    const qParamsInfo = {
+      user_id: userId,
     };
-    await getUserMortgageData(userInfoBody);
-    const userGoalBody = {
-      qParams: {
-        user_id: userId,
-      },
+    await getUserMortgageData({}, qParamsInfo);
+    const qParams = {
+      user_id: userId,
     };
-    await getUserGoal(userGoalBody);
+    await getUserGoal({}, qParams);
     const {getUserGoalResponse} = this.props;
     //To update previously set goal
     if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
@@ -158,6 +177,9 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     });
   };
 
+  componentWillUnmount() {
+    this.navFocusListener.remove();
+  }
   /**
    * Function called upon slider being changed
    * @param newValue : number : updated value of slider
@@ -178,7 +200,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       updateUserGoal,
       navigation,
     } = this.props;
-    //Adding new Goal
     if (
       !(
         getUserGoalResponse.response.data[0] &&
@@ -200,18 +221,22 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         total_interest_saved: this.state.interestSaving,
       };
       await setUserGoal(payload);
-      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      if (!_get(this.props.setUserGoalResponse, DB_KEYS.ERROR, true))
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     } else {
       const body = {
+        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
         monthly_overpayment_amount: this.state.monthlyOverPayment,
         new_mortgage_term: this.state.mortgageTerm,
         total_interest_saved: this.state.interestSaving,
       };
       const qParam = {
         id: _get(getUserGoalResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
+        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
       };
       await updateUserGoal(body, qParam);
-      navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      if (!_get(this.props.updateUserGoalResponse, DB_KEYS.ERROR, true))
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     }
   };
 
@@ -235,19 +260,9 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         ) : (
           <View style={{flex: 1}}>
             <Header />
-            {ercLimitCrossed && (
-              <View style={styles.ercLimitContainer}>
-                <ErcWarning />
-              </View>
-            )}
             <ScrollView contentContainerStyle={styles.middleContainer}>
               <View style={styles.mortgageStatusProgressContainer}>
-                <Text style={styles.mortgageTextData}>
-                  {localeString(
-                    LOCALE_STRING.MORTGAGE_INPUT_DATA
-                      .LOCALE_STRING_MORTGAGE_DATA,
-                  )}
-                </Text>
+                <Text style={styles.mortgageTextData}>Set Goal</Text>
                 <Text style={styles.progressFractionText}>4/4</Text>
               </View>
               <Text style={styles.mainHeaderText}>
@@ -266,7 +281,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                   minimumValue={SLIDER_START_VALUE}
                   maximumValue={_get(
                     getUserMortgageDataResponse,
-                    'response.data[0].mortgage_term',
+                    DB_KEYS.MORTGAGE_TERM,
                     null,
                   )}
                   step={SLIDER_STEP}
@@ -279,7 +294,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 <Text style={styles.sliderLeftText}>
                   {_get(
                     getUserMortgageDataResponse,
-                    'response.data[0].mortgage_term',
+                    DB_KEYS.MORTGAGE_TERM,
                     null,
                   )}
                 </Text>
@@ -288,17 +303,22 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 monthlyOverPayment={monthlyOverPayment}
                 interestSaving={interestSaving}
               />
+              <Button
+                title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
+                titleStyle={styles.buttonTitleStyle}
+                buttonStyle={styles.buttonStyle}
+                onPress={() => this.handleSetGoal()}
+                loading={
+                  _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
+                  _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
+                }
+              />
             </ScrollView>
-            <Button
-              title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
-              titleStyle={styles.buttonTitleStyle}
-              buttonStyle={styles.buttonStyle}
-              onPress={() => this.handleSetGoal()}
-              loading={
-                _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
-                _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
-              }
-            />
+          </View>
+        )}
+        {ercLimitCrossed && (
+          <View style={styles.ercLimitContainer}>
+            <ErcWarning />
           </View>
         )}
       </View>
@@ -314,10 +334,11 @@ const mapStateToProps = state => ({
 });
 
 const bindActions = dispatch => ({
-  getUserMortgageData: payload =>
-    dispatch(getUserMortgageData.fetchCall(payload)),
+  getUserMortgageData: (payload, extraPayload) =>
+    dispatch(getUserMortgageData.fetchCall(payload, extraPayload)),
   setUserGoal: payload => dispatch(setUserGoal.fetchCall(payload)),
-  getUserGoal: payload => dispatch(getUserGoal.fetchCall(payload)),
+  getUserGoal: (payload, extraPayload) =>
+    dispatch(getUserGoal.fetchCall(payload, extraPayload)),
   updateUserGoal: (payload, extraPayload) =>
     dispatch(updateUserGoal.fetchCall(payload, extraPayload)),
 });

@@ -74,6 +74,7 @@
     "projectedTime": "Projected Time",
     "saving": "Saving",
     "months": "Months",
+    "years": "Years",
     "projectInterested": "Projected Interest",
   },
   "dashBoard": {
@@ -86,6 +87,12 @@
     "avaialbleBalance": "Available Balance",
     "makeOverPayment": "Make an Overpayment",
     "myProgress": "My Progress",
-    "projectedMortgage": "Projected: Mortgage free in"
+    "projectedMortgage": "Projected: Mortgage free in",
+    "keepItUp": "You’re on track. Keep it up"
+  },
+  "statusOverlay": {
+    "message": "Goal not set, please go ahead and set your goal to continue",
+    "continue": "Continue",
+    "ohNo": "Oh no!"
   }
 }

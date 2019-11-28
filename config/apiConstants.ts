@@ -12,5 +12,7 @@ export default {
     SIGNUP: '/users',
     USER_MORTGAGE: '/mortgage',
     GOAL: '/goal',
+    GET_GRAPH_DATA: '/monthly-payment-record',
+    GET_PROJECTED_DATA: '/projected-data',
   },
 };

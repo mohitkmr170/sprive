@@ -17,6 +17,29 @@ export const APP_CONSTANTS = {
   GENERAL_ERROR: 'Something went wrong!',
   LOG_OUT: 'Logged Out!',
   FALSE_TOKEN: 'FALSE TOKEN',
+  MONTH_NAMES: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ],
+  DATE_FORMAT: 'YYYY-MM-DD',
+  MONTH_NUMBER: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  LISTENER: {
+    DID_FOCUS: 'didFocus',
+  },
+  LOADER_SIZE: {
+    SMALL: 'small',
+    LARGE: 'large',
+  },
 };
 
 export const STYLE_CONSTANTS = {
@@ -93,7 +116,7 @@ export const STYLE_CONSTANTS = {
     WEIGHT: {
       NORMAL: 'normal',
       SEMI_BOLD: '500',
-      BOLD: 'bold',
+      BOLD: '900',
     },
   },
   border: {
@@ -130,7 +153,17 @@ export const DB_KEYS = {
   FORM_MORTGAGE_TIMEPERIOD: 'MortgageInput.values.timePeriod',
   FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT:
     'MortgageInput.values.monthlyMortgagePayment',
-  USER_ID: 'response.data.id',
+  USER_ID: 'response.data.id', //Same
+  BALANCE_AMOUNT: 'response.data.balance_amount',
+  MONTHLY_TARGET: 'response.data.monthly_target',
+  RESPONSE_DATA: 'response.data',
+  PROJECTED_DATA: {
+    PROJECTED_TIME_YEARS: 'response.data.projected_time_savings.years',
+    PROJECTED_TIME_MONTHS: 'response.data.projected_time_savings.months',
+    INTEREST_SAVING: 'response.data.projected_interest_savings',
+    ESTIMATED_TIME_YEARS: 'response.data.estimated_time_savings.years',
+    ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
+  },
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -213,6 +246,7 @@ export const LOCALE_STRING = {
     PROJECTED_TIME: 'stackBarGraphComponent.projectedTime',
     SAVING: 'stackBarGraphComponent.saving',
     MONTHS: 'stackBarGraphComponent.months',
+    YEARS: 'stackBarGraphComponent.years',
     PROJECTED_INT: 'stackBarGraphComponent.projectInterested',
   },
   DASHBOARD_SCREEN: {
@@ -226,5 +260,11 @@ export const LOCALE_STRING = {
     MAKE_OVERPAYMENT: 'dashBoard.makeOverPayment',
     MY_PROGRESS: 'dashBoard.myProgress',
     PROJECTED_MORTGAGE: 'dashBoard.projectedMortgage',
+    KEEP_IT_UP: 'dashBoard.keepItUp',
+  },
+  STATUS_OVERLAY: {
+    MESSAGE: 'statusOverlay.message',
+    CONTINUE: 'statusOverlay.continue',
+    OH_NO: 'statusOverlay.ohNo',
   },
 };

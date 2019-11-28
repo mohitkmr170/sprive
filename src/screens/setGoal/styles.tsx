@@ -43,9 +43,9 @@ export const styles = StyleSheet.create({
   },
   ercLimitContainer: {
     position: 'absolute',
-    top: 20,
-    left: 20,
-    right: 20,
+    top: 14,
+    left: 14,
+    right: 14,
     zIndex: 1,
   },
   ercContainer: {
@@ -108,7 +108,7 @@ export const styles = StyleSheet.create({
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
-    marginTop: STYLE_CONSTANTS.margin.LARGER,
+    marginTop: STYLE_CONSTANTS.margin.HUGER,
     color: COLOR.VOILET,
     opacity: 0.5,
     textAlign: 'center',

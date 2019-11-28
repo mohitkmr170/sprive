@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     paddingBottom: STYLE_CONSTANTS.padding.SMALLEST,
   },
   graphInnerSpacing: {
-    top: STYLE_CONSTANTS.padding.LARGE,
+    top: 80,
     left: STYLE_CONSTANTS.padding.LARGE,
     right: STYLE_CONSTANTS.padding.LARGE,
   },
@@ -64,6 +64,7 @@ export const styles = StyleSheet.create({
   bottomContainer: {
     marginTop: STYLE_CONSTANTS.margin.HUGISH,
     flexDirection: 'row',
+    marginBottom: 12,
   },
   bottomLeftContainer: {
     flex: 1,

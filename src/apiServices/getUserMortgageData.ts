@@ -9,6 +9,6 @@ const endPoint = apiConstants.API_END_POINTS.USER_MORTGAGE;
  * @param body : object : payload for GET api call
  */
 
-export function getUserMortgageData(body: object) {
-  return getRequest(endPoint, body);
+export function getUserMortgageData(body: object, qParam: object) {
+  return getRequest(endPoint, body, qParam);
 }

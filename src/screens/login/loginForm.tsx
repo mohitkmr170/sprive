@@ -6,7 +6,7 @@ import {Header, ReduxFormField} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
-import {loginUser} from '../../store/reducers';
+import {loginUser, getUserInfo} from '../../store/reducers';
 import {get as _get} from 'lodash';
 import {setAuthToken} from '../../utils/helperFunctions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -30,13 +30,19 @@ interface props {
     goBack: () => void;
   };
   handleSubmit: (values?: {email: string; password: string}) => void;
+  getUserInfo: () => void;
+  getUserInfoResponse: object;
 }
-interface state {}
+interface state {
+  passwordVisibility: boolean;
+}
 
 class UnConnectedLoginScreen extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {};
+    this.state = {
+      passwordVisibility: true,
+    };
   }
 
   handleBackPress = () => {
@@ -58,21 +64,35 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
       password: values.password,
     };
     await loginUser(payload);
-    const {loginUserResponse} = this.props;
+    const {loginUserResponse, getUserInfo} = this.props;
     if (_get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null)) {
       setAuthToken(
         _get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null),
         values.email,
-      );
-      navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+      )
+        .then(async response => {
+          await getUserInfo();
+          const {getUserInfoResponse} = this.props;
+          if (!_get(getUserInfoResponse, 'error', null))
+            navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+        })
+        .catch(err => {
+          /*
+          TODO : Snackbar to be added
+          */
+          console.error(err);
+        });
     }
   };
 
   handleSignUpPress = () => {
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+    this.props.navigation.navigate(
+      NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN,
+    );
   };
 
   render() {
+    const {passwordVisibility} = this.state;
     const {handleSubmit, loginUserResponse} = this.props;
     return (
       <View style={styles.mainContainer}>
@@ -104,11 +124,15 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
             <Field
               name="password"
               label="Password"
+              editIcon={true}
+              onIconPress={() =>
+                this.setState({passwordVisibility: !passwordVisibility})
+              }
               component={ReduxFormField}
               props={{
                 maxLength: 16,
                 style: styles.emailInput,
-                secureTextEntry: true,
+                secureTextEntry: passwordVisibility,
                 autoCapitalize: false,
                 placeholder: 'Password',
               }}
@@ -145,10 +169,12 @@ export const LoginScreen = reduxForm({
 
 const mapStateToProps = state => ({
   loginUserResponse: state.loginUser,
+  getUserInfoResponse: state.getUserInfo,
 });
 
 const bindActions = dispatch => ({
   loginUser: payload => dispatch(loginUser.fetchCall(payload)),
+  getUserInfo: payload => dispatch(getUserInfo.fetchCall(payload)),
 });
 
 export const LoginForm = connect(

@@ -16,7 +16,7 @@ export async function getPasswordStrength(password: string) {
     let strengthMessage = '';
     switch (passStrength.score) {
       case 1:
-        strengthMessage = 'Too Short';
+        strengthMessage = 'Weak';
         break;
       case 2:
         strengthMessage = 'Fair';
@@ -114,10 +114,10 @@ export async function resetAuthToken() {
 export function showSnackBar(err: object) {
   return Snackbar.show({
     title: _get(err, 'response.data.message', 'Something went wrong!'),
-    duration: Snackbar.LENGTH_SHORT,
+    duration: Snackbar.LENGTH_LONG,
     action: {
-      title: '', //For any button title
-      color: COLOR.GREEN,
+      title: 'OK', //For any button title
+      color: COLOR.SLIDER_COLOR,
       onPress: () => {
         /* Do something. */
       },

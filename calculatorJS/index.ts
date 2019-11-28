@@ -35,13 +35,13 @@ export function calculateGoal(
 
   let interestCalcWithOverpayments = overpaymentCalc(
     outstandingLoan,
-    desiredOutstandingTermYrs, //Initially it was outstandingTermYrs, changed!
+    outstandingTermYrs, //Initially it was outstandingTermYrs, changed!
     interestRate * 100,
     1489,
   );
   let newGoal = {
-    monthlyOverPayment: Math.ceil(overpaymentAmountCalc),
-    totalSavings: Math.ceil(
+    monthlyOverPayment: Math.round(overpaymentAmountCalc),
+    totalSavings: Math.round(
       interestCalc.totalInterest - interestCalcWithOverpayments.totalInterest,
     ),
   };

@@ -28,6 +28,7 @@ import {
   getPasswordStrength,
   checkPassMessagePercentage,
   setAuthToken,
+  resetAuthToken,
 } from '../../utils/helperFunctions';
 import {COLOR} from '../../utils/colors';
 
@@ -88,24 +89,31 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           mortgage_balance: _get(
             reducerResponse,
             DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT,
-            null,
+            '',
           ).replace(/,/g, ''),
           mortgage_term: _get(
             reducerResponse,
             DB_KEYS.FORM_MORTGAGE_TIMEPERIOD,
-            null,
+            '',
           ).replace(/,/g, ''),
           mortgage_payment: _get(
             reducerResponse,
             DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
-            null,
+            '',
           ).replace(/,/g, ''),
           user_id: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
         };
+        console.log('dyhfgjkyfutdhgcvjbkh', mortgageData);
+        // if (
+        //   mortgageData.mortgage_balance &&
+        //   mortgageData.mortgage_payment &&
+        //   mortgageData.mortgage_term
+        // )
         await setUserMortgage(mortgageData);
         const {setUserMortgageResponse} = this.props;
-        if (_get(setUserMortgageResponse, DB_KEYS.ERROR, null)) {
-          navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+        if (!_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
+          await resetAuthToken();
+          navigation.navigate(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
         } else {
           navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
         }

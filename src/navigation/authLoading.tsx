@@ -12,6 +12,7 @@ const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
 const AUTH_STACK = 'Auth';
 const APP_STACK = 'App';
+const APP_LOAD_TIME = 2000;
 interface props {
   navigation: {
     navigate: (firstParam: any) => void;
@@ -28,18 +29,23 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount() {
+    console.log('Inside Authloading');
     AsyncStorage.getItem(LAUNCH_STATUS).then(async value => {
       if (!value) {
         AsyncStorage.setItem(LAUNCH_STATUS, FIRST_LAUNCH);
         resetAuthToken()
-          .then(res => this.props.navigation.navigate(AUTH_STACK))
+          .then(res =>
+            setTimeout(() => {
+              this.props.navigation.navigate(AUTH_STACK);
+            }, APP_LOAD_TIME),
+          )
           .catch(err => console.log(err));
       } else {
         getAuthToken()
           .then(res => {
             setTimeout(() => {
               this.authCheck(res);
-            }, 2000);
+            }, APP_LOAD_TIME);
           })
           .catch(err => {
             console.log(err);
