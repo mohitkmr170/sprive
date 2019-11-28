@@ -301,6 +301,19 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
 
   render() {
     const {getProjectedDataResponse} = this.props;
+    const interestSaving = Math.round(
+      _get(getProjectedDataResponse, DB_KEYS.PROJECTED_DATA.INTEREST_SAVING, 0),
+    );
+    const projectedMonths = _get(
+      getProjectedDataResponse,
+      DB_KEYS.PROJECTED_DATA.PROJECTED_TIME_MONTHS,
+      '',
+    );
+    const projectedYears = _get(
+      getProjectedDataResponse,
+      DB_KEYS.PROJECTED_DATA.PROJECTED_TIME_YEARS,
+      '',
+    );
     return (
       <TouchableWithoutFeedback
         style={styles.mainTopContainer}
@@ -386,26 +399,22 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                     {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
                   </Text>
                   <View style={{flexDirection: 'row'}}>
-                    <Text style={styles.numberOfMonthText}>
-                      {_get(
-                        getProjectedDataResponse,
-                        DB_KEYS.PROJECTED_DATA.PROJECTED_TIME_YEARS,
-                        '',
-                      )}{' '}
-                      <Text style={styles.monthsText}>
-                        {localeString(LOCALE_STRING.GRAPH_COMPONENT.YEARS)}{' '}
+                    {projectedYears ? (
+                      <Text style={styles.numberOfMonthText}>
+                        {projectedYears}{' '}
+                        <Text style={styles.monthsText}>
+                          {localeString(LOCALE_STRING.GRAPH_COMPONENT.YEARS)}{' '}
+                        </Text>
                       </Text>
-                    </Text>
-                    <Text style={styles.numberOfMonthText}>
-                      {_get(
-                        getProjectedDataResponse,
-                        DB_KEYS.PROJECTED_DATA.PROJECTED_TIME_MONTHS,
-                        '',
-                      )}{' '}
-                      <Text style={styles.monthsText}>
-                        {localeString(LOCALE_STRING.GRAPH_COMPONENT.MONTHS)}
+                    ) : null}
+                    {projectedMonths ? (
+                      <Text style={styles.numberOfMonthText}>
+                        {projectedMonths}{' '}
+                        <Text style={styles.monthsText}>
+                          {localeString(LOCALE_STRING.GRAPH_COMPONENT.MONTHS)}
+                        </Text>
                       </Text>
-                    </Text>
+                    ) : null}
                   </View>
                 </View>
               </View>
@@ -418,14 +427,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                     {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
                   </Text>
                   <Text style={styles.projectSavingText}>
-                    £{' '}
-                    {Math.round(
-                      _get(
-                        getProjectedDataResponse,
-                        DB_KEYS.PROJECTED_DATA.INTEREST_SAVING,
-                        0,
-                      ),
-                    )}
+                    £ {interestSaving}
                   </Text>
                 </View>
               </View>

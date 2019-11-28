@@ -19,7 +19,7 @@ export class Header extends React.Component<props, state> {
         <TouchableOpacity
           onPress={this.props.onBackPress}
           hitSlop={APP_CONSTANTS.HIT_SLOP}
-          style={{paddingVertical: 12}}>
+          style={styles.touchable}>
           {/* .svg not working for SvgUri, UI specs to be inspected */}
           <Image source={iBack} height={24} width={24} />
         </TouchableOpacity>

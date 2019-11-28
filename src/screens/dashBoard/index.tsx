@@ -132,6 +132,16 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       DB_KEYS.MONTHLY_TARGET,
       0,
     );
+    const estimatedMonths = _get(
+      getProjectedDataResponse,
+      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
+      '',
+    );
+    const extimatedYears = _get(
+      getProjectedDataResponse,
+      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+      '',
+    );
     if (this.state.loading) return <LoadingModal loadingText="Loading..." />;
     else
       return (
@@ -255,18 +265,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                     LOCALE_STRING.DASHBOARD_SCREEN.PROJECTED_MORTGAGE,
                   )}{' '}
                   <Text style={styles.monthsLeftText}>
-                    {_get(
-                      getProjectedDataResponse,
-                      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
-                      '',
-                    )}
-                    yr{' '}
-                    {_get(
-                      getProjectedDataResponse,
-                      DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
-                      '',
-                    )}
-                    m
+                    {extimatedYears ? extimatedYears + 'yr' : ''}{' '}
+                    {estimatedMonths ? estimatedMonths + 'm' : ''}
                   </Text>
                 </Text>
               </View>

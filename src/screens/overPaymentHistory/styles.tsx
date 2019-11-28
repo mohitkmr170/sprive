@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   monthYearText: {
-    color: '#22319B',
+    color: COLOR.VOILET,
     fontSize: 16,
     lineHeight: 24,
     fontWeight: '600',

@@ -4,8 +4,8 @@ import {STYLE_CONSTANTS} from '../../utils/constants';
 
 export const styles = StyleSheet.create({
   mainContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingHorizontal: STYLE_CONSTANTS.padding.SMALL,
+    paddingVertical: STYLE_CONSTANTS.padding.SMALL,
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
@@ -18,4 +18,5 @@ export const styles = StyleSheet.create({
     color: COLOR.DARK_BLUE,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
+  touchable: {paddingVertical: STYLE_CONSTANTS.padding.SMALL},
 });
