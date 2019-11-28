@@ -76,9 +76,10 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
     if (userId) {
       const qParam = {
         [PAYLOAD_KEYS.USER_ID]: userId,
-        [PAYLOAD_KEYS.PAGE]: page,
-        [PAYLOAD_KEYS.YEAR]: year,
+        [PAYLOAD_KEYS.OVERPAYMENT.PAGE]: page,
+        [PAYLOAD_KEYS.OVERPAYMENT.YEAR]: year,
       };
+      console.log('OverpaymentHistory::  fetchAllHistory :: qParam -->', qParam);
       const {getOverpaymentHistory} = this.props;
       await getOverpaymentHistory({}, qParam);
       const {getOverpaymentHistoryResponse} = this.props;
