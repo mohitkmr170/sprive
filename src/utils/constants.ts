@@ -188,7 +188,8 @@ export const DB_KEYS = {
     REFERENCE_NUMBER: 'reference_number',
     ID: 'id',
     IS_OVERPAYMENT: 'is_overpayment'
-  }
+  },
+  ISSUE_CATEGORY_BUG: 'Issue/Bug'
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
