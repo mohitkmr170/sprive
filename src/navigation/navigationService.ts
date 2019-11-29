@@ -1,7 +1,9 @@
 import 'react-native-gesture-handler';
 import {NavigationActions, StackActions} from 'react-navigation';
 import {DrawerActions} from 'react-navigation-drawer';
-
+interface NavigationParams {
+  isUserDataChanged: boolean;
+}
 const NAVIGATOR_CONFIG = {
   navigator: '',
 };
@@ -32,12 +34,12 @@ export function navigate(routeName: string, params: object) {
  * Function to route along with reset action
  * @param routeName : string : Navigation screen route name
  */
-export function reset(routeName: string) {
+export function reset(routeName: string, params?: NavigationParams = {}) {
   if (NAVIGATOR_CONFIG.navigator && routeName) {
     const action = StackActions.reset({
       index: 0,
       key: null,
-      actions: [NavigationActions.navigate({routeName})],
+      actions: [NavigationActions.navigate({routeName, params})],
     });
     NAVIGATOR_CONFIG.navigator.dispatch(action);
   }

@@ -92,19 +92,24 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     return (
       <View style={styles.screenContainer}>
         <GeneralStatusBar />
-        <Header onBackPress={() => this.handleBackPress()} />
+        <Header
+          leftIconPresent={false}
+          rightIconPresent
+          title={localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.TITLE)}
+          onBackPress={() => this.handleBackPress()}
+        />
         <View style={styles.mainContainer}>
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{flexGrow: 1}}>
-            <View style={styles.mortgageStatusProgressContainer}>
+            {/* <View style={styles.mortgageStatusProgressContainer}>
               <Text style={styles.mortgageTextData}>
                 {localeString(
                   LOCALE_STRING.MORTGAGE_INPUT_DATA.LOCALE_STRING_MORTGAGE_DATA,
                 )}
               </Text>
               <Text style={styles.progressFractionText}>1/4</Text>
-            </View>
+            </View> */}
             <Text style={styles.mainHeaderText}>
               {localeString(
                 LOCALE_STRING.MORTGAGE_INPUT_DATA.LOCALE_STRING_WORKOUT,

@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: COLOR.GRAY,
     borderBottomWidth: 0.5,
   },
+  emptyLeftContainer: {paddingVertical: 20},
   sideText: {alignSelf: 'center'},
   middleContainer: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,
