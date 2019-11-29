@@ -34,7 +34,7 @@ export function navigate(routeName: string, params: object) {
  * Function to route along with reset action
  * @param routeName : string : Navigation screen route name
  */
-export function reset(routeName: string, params?: NavigationParams) {
+export function reset(routeName: string, params?: NavigationParams = {}) {
   if (NAVIGATOR_CONFIG.navigator && routeName) {
     const action = StackActions.reset({
       index: 0,
