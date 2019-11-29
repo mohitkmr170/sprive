@@ -91,9 +91,9 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
       <View style={styles.container}>
         <GeneralStatusBar />
         <Header
+          leftIconPresent
           title={localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_AN_ISSUE)}
           rightIconPresent
-          iconName={chatIcon}
           onBackPress={() => this.props.navigation.goBack()}
         />
         <View style={styles.mainContainer}>
