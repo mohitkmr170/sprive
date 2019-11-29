@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {styles} from './styles';
-import {Header, MortgageInputContainer} from '../../components';
+import {Header, MortgageInputContainer, GeneralStatusBar} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {DB_KEYS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 import {Button} from 'react-native-elements';
@@ -13,8 +13,11 @@ import {
   APP_CONSTANTS,
   LOCALE_STRING,
   STYLE_CONSTANTS,
+  FE_FORM_VALUE_CONSTANTS,
 } from '../../utils/constants';
+import { PAYLOAD_KEYS } from '../../utils/payloadKeys.ts';
 import {get as _get} from 'lodash';
+import {COLOR} from '../../utils/colors';
 
 interface props {
   navigation: {
@@ -37,7 +40,7 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     this.state = {
       enableButton: false,
     };
-    this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
+    // this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
   }
   componentDidMount = () => {
     const {getUserMortgageDataResponse} = this.props;
@@ -49,9 +52,12 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
   };
   // Funtion to toggle the visibility of the submit buttons
-  handlePayNowVisibility() {
+  handlePayNowVisibility = () => {
     this.setState({enableButton: false});
   }
+
+  getValue_withoutCommas_ViaLodash = (parent, key) => Number(_get(parent, key, '').replace(/,/g, ''));
+
   /**
    *
    * @param values : object : object with all form values
@@ -63,14 +69,12 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
       getUserMortgageDataResponse,
     } = this.props;
     const payload = {
-      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-      mortgage_balance: _get(values, 'mortgageAmount', '').replace(/,/g, ''),
-      mortgage_term: _get(values, 'timePeriod', '').replace(/,/g, ''),
-      mortgage_payment: _get(values, 'monthlyMortgagePayment', '').replace(
-        /,/g,
-        '',
-      ),
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_BALANCE]: this.getValue_withoutCommas_ViaLodash(values, FE_FORM_VALUE_CONSTANTS.MORTGAGE_INPUT.MORTGAGE_BALANCE),
+      [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_TERM]: this.getValue_withoutCommas_ViaLodash(values, FE_FORM_VALUE_CONSTANTS.MORTGAGE_INPUT.MORTGAGE_TERM),
+      [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_PAYMENT]: this.getValue_withoutCommas_ViaLodash(values, FE_FORM_VALUE_CONSTANTS.MORTGAGE_INPUT.MORTGAGE_PAYMENT),
     };
+    console.log('UnconnectedUpdateMortgage:: handlePayNowPress:: payload -->', payload);
     await updateUserMortgage(payload, {
       id: _get(getUserMortgageDataResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
     });
@@ -78,10 +82,12 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     if (!_get(updateUserMortgageResponse, DB_KEYS.ERROR, true))
       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
   };
+
   render() {
     const {handleSubmit, updateUserMortgageResponse} = this.props;
     return (
       <View style={styles.screenContainer}>
+        <GeneralStatusBar backgroundColor={COLOR.WHITE} />
         <Header onBackPress={() => this.handleBackPress()} />
         <View style={styles.mainContainer}>
           <KeyboardAwareScrollView
