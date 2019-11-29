@@ -6,7 +6,7 @@ import {Header, GeneralStatusBar} from '../../components';
 import {Dropdown} from 'react-native-material-dropdown';
 import {chatIcon} from '../../assets';
 import {connect} from 'react-redux';
-import {get as _get} from 'lodash';
+import {get as _get, map as _map} from 'lodash';
 import {getIssueCategories, setIssue} from '../../store/reducers';
 import {
   NAVIGATION_SCREEN_NAME,
@@ -17,7 +17,7 @@ import {localeString} from '../../utils/i18n';
 import {COLOR} from '../../utils/colors';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
-const BUG_CATEGORY = [];
+// const BUG_CATEGORY = [];
 const DESCRIPTION_MAX_LIMIT = 250;
 
 interface props {
@@ -34,6 +34,7 @@ interface props {
 interface state {
   issue: string;
   description: string;
+  BUG_CATEGORY: Array;
 }
 
 export class UnconnectedReportIssue extends React.Component<props, state> {
@@ -42,6 +43,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
     this.state = {
       issue: '',
       description: '',
+      BUG_CATEGORY: []
     };
   }
   componentDidMount = async () => {
@@ -54,13 +56,15 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
         DB_KEYS.RESPONSE_DATA,
         null,
       );
+      let bug_categories = [];
       issues &&
         issues.map((item: object, index: number) => {
-          BUG_CATEGORY.push({
+          bug_categories.push({
             label: _get(issues[index], 'name', ''),
             value: _get(issues[index], 'id', ''),
           });
         });
+        this.setState({BUG_CATEGORY: bug_categories});
     }
   };
   /**
@@ -82,6 +86,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
   };
   render() {
+    const {BUG_CATEGORY} = this.state;
     return (
       <View style={styles.container}>
         <GeneralStatusBar />
@@ -98,6 +103,8 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
           <Dropdown
             data={BUG_CATEGORY}
             label={localeString(LOCALE_STRING.REPORT_ISSUE.BUG_CATEGORY)}
+            value={BUG_CATEGORY && BUG_CATEGORY[0] &&BUG_CATEGORY[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_LABEL_KEY] ? BUG_CATEGORY[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_LABEL_KEY]: DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG}
+
             animationDuration={0}
             rippleDuration={0}
             labelFontSize={14}
@@ -119,6 +126,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
             multiline={true}
             numberOfLines={10}
             style={styles.descriptionInput}
+            value = {this.state.description}
             placeholder={localeString(LOCALE_STRING.REPORT_ISSUE.PLACEHOLDER)}
             placeholderTextColor={COLOR.PLACEHOLDER}
             maxLength={DESCRIPTION_MAX_LIMIT}
