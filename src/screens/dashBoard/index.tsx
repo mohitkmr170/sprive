@@ -79,7 +79,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   };
 
   componentDidMount = async () => {
-    this.handleInitialMount();
+    // this.handleInitialMount();
     this.didFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
@@ -140,12 +140,12 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     const estimatedMonths = _get(
       getProjectedDataResponse,
       DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
-      '',
+      '-',
     );
     const extimatedYears = _get(
       getProjectedDataResponse,
       DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
-      '',
+      '-',
     );
     if (this.state.loading) return <LoadingModal loadingText="Loading..." />;
     else
