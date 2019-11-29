@@ -120,13 +120,13 @@
     "year": "Year"
   },
   "reportIssue": {
-    "placeHolder": "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
+    "placeHolder": "Describe your issue here",
     "reportAnIssue": "Report an Issue",
     "haveAnIssue": "Have an issue you want us to look into?",
-    "bugCategory": "Bug Category",
+    "bugCategory": "Issue Category",
     "issue": "Issue",
-    "characterLimit": "(Character Limit: 250 characters)",
-    "chLeft": "ch left",
+    "characterLimit": "",
+    "chLeft": "characters left",
     "reportIssue": "Report Issue"
   }
 }
