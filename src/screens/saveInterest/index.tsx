@@ -83,17 +83,17 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
-        <Header onBackPress={() => this.handlebackPress()} />
+        <Header leftIconPresent onBackPress={() => this.handlebackPress()} />
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.topContainer}>
-          <View style={styles.mortgageStatusProgressContainer}>
+          {/* <View style={styles.mortgageStatusProgressContainer}>
             <Text style={styles.mortgageTextData}>
               {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SAVE_INTEREST)}
-            </Text>
-            {/* Need to be modified, for now progress number is contant */}
-            <Text style={styles.progressFractionText}>1/4</Text>
-          </View>
+            </Text> */}
+          {/* Need to be modified, for now progress number is contant */}
+          {/* <Text style={styles.progressFractionText}>1/4</Text>
+          </View> */}
           <ImageBackground
             source={interestBanner}
             style={styles.imageBackgoundStyle}

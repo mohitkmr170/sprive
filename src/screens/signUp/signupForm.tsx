@@ -164,6 +164,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
         <Header
+          leftIconPresent
           title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
@@ -176,13 +177,13 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.topContainer}>
-            <View style={{flexDirection: 'row'}}>
+            {/* <View style={{flexDirection: 'row'}}>
               <Text style={styles.registrationText}>
                 {localeString(LOCALE_STRING.SIGNUP_FORM.REG_AND_SEC)}
-              </Text>
-              {/* To be changed to actual progress state */}
-              <Text style={styles.progressStatusText}>2/4</Text>
-            </View>
+              </Text> */}
+            {/* To be changed to actual progress state */}
+            {/* <Text style={styles.progressStatusText}>2/4</Text>
+            </View> */}
             <Text style={styles.accountSetupText}>
               {localeString(LOCALE_STRING.SIGNUP_FORM.SETUP_ACCOUNT)}
             </Text>
@@ -307,7 +308,4 @@ const bindActions = dispatch => ({
   reset,
 });
 
-export const SignUpForm = connect(
-  mapStateToProps,
-  bindActions,
-)(SignUpScreen);
+export const SignUpForm = connect(mapStateToProps, bindActions)(SignUpScreen);

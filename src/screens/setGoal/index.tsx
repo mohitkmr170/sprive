@@ -28,10 +28,14 @@ import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 const SLIDER_START_VALUE = 1;
 const SLIDER_STEP = 1;
 const ERC_FACTOR = 0.1;
+interface NavigationParams {
+  isUserDataChanged: boolean;
+}
 
 interface props {
   navigation: {
-    navigate: (routeName: string) => void;
+    navigate: (routeName: string, params?: NavigationParams) => void;
+    state: {params?: {isUserDataChanged: boolean}};
   };
   getUserMortgageData: (payload: object, extraPayload: object) => void;
   setUserGoal: (payload: object) => void;
@@ -221,7 +225,9 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       };
       await setUserGoal(payload);
       if (!_get(this.props.setUserGoalResponse, DB_KEYS.ERROR, true))
-        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN, {
+          isUserDataChanged: true,
+        });
     } else {
       const body = {
         [PAYLOAD_KEYS.USER_ID]: String(
@@ -245,7 +251,9 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       };
       await updateUserGoal(body, qParam);
       if (!_get(this.props.updateUserGoalResponse, DB_KEYS.ERROR, true))
-        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN, {
+          isUserDataChanged: true,
+        });
     }
   };
 
@@ -269,12 +277,16 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         ) : (
           <View style={{flex: 1}}>
             <GeneralStatusBar />
-            <Header />
+            <Header
+              leftIconPresent={false}
+              rightIconPresent
+              title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.TITLE)}
+            />
             <ScrollView contentContainerStyle={styles.middleContainer}>
-              <View style={styles.mortgageStatusProgressContainer}>
+              {/* <View style={styles.mortgageStatusProgressContainer}>
                 <Text style={styles.mortgageTextData}>Set Goal</Text>
                 <Text style={styles.progressFractionText}>4/4</Text>
-              </View>
+              </View> */}
               <Text style={styles.mainHeaderText}>
                 {localeString(LOCALE_STRING.SET_GOAL_SCREEN.HOW_QUICKLY)}
               </Text>
@@ -313,17 +325,17 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 monthlyOverPayment={monthlyOverPayment}
                 interestSaving={interestSaving}
               />
+              <Button
+                title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
+                titleStyle={styles.buttonTitleStyle}
+                buttonStyle={styles.buttonStyle}
+                onPress={() => this.handleSetGoal()}
+                loading={
+                  _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
+                  _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
+                }
+              />
             </ScrollView>
-            <Button
-              title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
-              titleStyle={styles.buttonTitleStyle}
-              buttonStyle={styles.buttonStyle}
-              onPress={() => this.handleSetGoal()}
-              loading={
-                _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
-                _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
-              }
-            />
           </View>
         )}
         {ercLimitCrossed && (

@@ -2,7 +2,7 @@
   "login": {
     "loginButton": "Login",
     "signIn": "Sign in",
-    "signInToAccount" : "Sign in to your account",
+    "signInToAccount": "Sign in to your account",
     "forgotPassword": "Forgot Password?",
     "dontHaveAccount": "Don’t have an account?"
   },
@@ -27,6 +27,7 @@
     "accountAlreadyExist": "Already have an account?"
   },
   "mortgageForm": {
+    "title": "Your Mortgage",
     "morgageAmountLabel": "Amount left to pay on your Mortgage",
     "timePeriodLabel": "How long until it's fully paid?",
     "monthlyMortgagePaymentLabel": "Monthly Mortgage Payment",
@@ -43,7 +44,7 @@
     "secondListOne": "Pay off your mortgage as quickly as you can",
     "secondListTwo": "Chip away without impacting your lifestyle",
     "buttonText": "Start saving with Sprive"
-    },
+  },
   "validationMessages": {
     "required": "Required",
     "invalidCardDetails": "Invalid card details",
@@ -60,6 +61,7 @@
     "whiteSpaces": "Whitespaces not allowed"
   },
   "setGoalScreen": {
+    "title": "Set Goal",
     "howQuickly": "How quickly would you like to be Mortgage free?",
     "setTarget": "Set target in years",
     "youCanAdjust": "You can adjust your goals anytime and no payment will ever leave your account without your approval",
@@ -76,9 +78,11 @@
   "stackBarGraphComponent": {
     "projectedTime": "Projected Time",
     "saving": "Saving",
-    "months": "Months",
-    "years": "Years",
-    "projectInterested": "Projected Interest",
+    "months": "months",
+    "month": "month",
+    "year": "year",
+    "years": "years",
+    "projectInterested": "Projected Interest"
   },
   "dashBoard": {
     "thisMonth": "This Month",

@@ -182,13 +182,13 @@ export const DB_KEYS = {
     ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
   },
   ERROR_MESSAGE: 'response.data.message',
-  PAYMENT_HISTORY : {
+  PAYMENT_HISTORY: {
     AMOUNT: 'amount',
     PAYMENT_DATE: 'payment_date',
     REFERENCE_NUMBER: 'reference_number',
     ID: 'id',
-    IS_OVERPAYMENT: 'is_overpayment'
-  }
+    IS_OVERPAYMENT: 'is_overpayment',
+  },
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -242,6 +242,7 @@ export const LOCALE_STRING = {
     LOCALE_STRING_TAKE_YOUR_BEST: 'mortgageForm.takeYourBest',
     BUTTON_LOCALE_STRING: 'global.calculateNow',
     INVALID_AMOUNT: 'validationMessages.inValidAmount',
+    TITLE: 'mortgageForm.title',
   },
   VALIDATIONS: {
     IS_REQUIRED: 'validationMessages.required',
@@ -258,6 +259,7 @@ export const LOCALE_STRING = {
     WHITE_SPACES: 'validationMessages.whiteSpaces',
   },
   SET_GOAL_SCREEN: {
+    TITLE: 'setGoalScreen.title',
     HOW_QUICKLY: 'setGoalScreen.howQuickly',
     SET_TARGET: 'setGoalScreen.setTarget',
     YOU_CAN_ADJUST: 'setGoalScreen.youCanAdjust',
@@ -276,6 +278,8 @@ export const LOCALE_STRING = {
     SAVING: 'stackBarGraphComponent.saving',
     MONTHS: 'stackBarGraphComponent.months',
     YEARS: 'stackBarGraphComponent.years',
+    MONTH: 'stackBarGraphComponent.month',
+    YEAR: 'stackBarGraphComponent.year',
     PROJECTED_INT: 'stackBarGraphComponent.projectInterested',
   },
   DASHBOARD_SCREEN: {

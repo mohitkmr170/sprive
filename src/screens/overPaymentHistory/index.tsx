@@ -79,7 +79,10 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
         [PAYLOAD_KEYS.OVERPAYMENT.PAGE]: page,
         [PAYLOAD_KEYS.OVERPAYMENT.YEAR]: year,
       };
-      console.log('OverpaymentHistory::  fetchAllHistory :: qParam -->', qParam);
+      console.log(
+        'OverpaymentHistory::  fetchAllHistory :: qParam -->',
+        qParam,
+      );
       const {getOverpaymentHistory} = this.props;
       await getOverpaymentHistory({}, qParam);
       const {getOverpaymentHistoryResponse} = this.props;
@@ -168,12 +171,17 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
         <Header
+          leftIconPresent
           title={localeString(
             LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT_HISTORY,
           )}
           rightIconPresent
           iconName={chatIcon}
-          onBackPress={() => reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR)}
+          onBackPress={() =>
+            reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+              isUserDataChanged: false,
+            })
+          }
         />
         <View style={styles.scrollContainer}>
           <Dropdown
@@ -209,7 +217,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
                 }}
                 onEndReached={() => {
                   !this.state.loadingMore &&
-                    (_get(
+                    _get(
                       getOverpaymentHistoryResponse,
                       DB_KEYS.META_TOTAL,
                       0,
@@ -219,7 +227,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
                         DB_KEYS.META_SKIP,
                         0,
                       ) &&
-                      this.handleLoadMore());
+                    this.handleLoadMore();
                 }}
                 onEndReachedThreshold={0.5}
                 initialNumToRender={10} //Initially it will load only 10 data/render

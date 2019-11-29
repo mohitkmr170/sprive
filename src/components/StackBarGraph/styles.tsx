@@ -36,6 +36,9 @@ export const styles = StyleSheet.create({
     left: STYLE_CONSTANTS.padding.LARGE,
     right: STYLE_CONSTANTS.padding.LARGE,
   },
+  emptyText: {
+    fontWeight: '600',
+  },
   overlayView: {
     position: 'absolute',
     bottom: 0,
@@ -53,7 +56,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: STYLE_CONSTANTS.margin.SMALLEST,
   },
   monthText: {
-    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
   },
   graphDetails: {
@@ -80,7 +83,7 @@ export const styles = StyleSheet.create({
   },
   numberOfMonthText: {
     color: COLOR.SLIDER_COLOR,
-    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGISH,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
   monthsText: {fontSize: STYLE_CONSTANTS.font.SIZE.LARGE},
@@ -102,7 +105,7 @@ export const styles = StyleSheet.create({
   },
   projectSavingText: {
     color: COLOR.SLIDER_COLOR,
-    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGISH,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
   rightButton: {alignSelf: 'center'},
