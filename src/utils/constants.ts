@@ -325,3 +325,11 @@ export const LOCALE_STRING = {
     UPDATE: 'updateMortgage.update',
   },
 };
+
+export const FE_FORM_VALUE_CONSTANTS = {
+  MORTGAGE_INPUT: {
+    MORTGAGE_BALANCE: 'mortgageAmount',
+    MORTGAGE_TERM: 'timePeriod',
+    MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
+  },
+};
