@@ -18,6 +18,7 @@ import {
 import { PAYLOAD_KEYS } from '../../utils/payloadKeys.ts';
 import {get as _get} from 'lodash';
 import {COLOR} from '../../utils/colors';
+import {NavigationActions, StackActions} from 'react-navigation';
 
 interface props {
   navigation: {
@@ -79,8 +80,21 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
       id: _get(getUserMortgageDataResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
     });
     const {updateUserMortgageResponse} = this.props;
-    if (!_get(updateUserMortgageResponse, DB_KEYS.ERROR, true))
-      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+    console.log('UnconnectedUpdateMortgage:: handlePayNowPress:: NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR -->', NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR)
+    if (!_get(updateUserMortgageResponse, DB_KEYS.ERROR, true)){
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [
+              NavigationActions.navigate({
+                routeName: NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+                action: NavigationActions.navigate({
+                  routeName: NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN,
+                }),
+              }),
+            ],
+          });
+        this.props.navigation.dispatch(resetAction);
+    }
   };
 
   render() {
