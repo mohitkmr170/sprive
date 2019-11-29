@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
-import {StackedBarChart} from 'react-native-svg-charts';
+import {StackedBarChart, XAxis} from 'react-native-svg-charts';
 import {styles} from './styles';
 import {GraphDetails} from './graphDetails';
 import {connect} from 'react-redux';
@@ -31,9 +31,7 @@ import {graphData} from './helpers';
 console.log('graphDataf', JSON.parse(JSON.stringify(graphData)));
 import {ToolTip} from './toolTip';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-import {
-  getNumberWithCommas
-} from '../../utils/helperFunctions';
+import {getNumberWithCommas} from '../../utils/helperFunctions';
 
 const FIXED_PAYMENT = 'Fixed Payment';
 const OVER_PAYMENT = 'Overpayment';
@@ -218,8 +216,9 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
         currentMonthArray.push(
           APP_CONSTANTS.MONTH_NAMES[currentgraphDataArray[item].month - 1],
         );
-        currentGraphData[index].monthlyMortgage.value =
-          Number(currentgraphDataArray[item].mortgage_amount);
+        currentGraphData[index].monthlyMortgage.value = Number(
+          currentgraphDataArray[item].mortgage_amount,
+        );
         currentGraphData[index].monthlyMortgage.svg.fill = COLORS[0];
         currentGraphData[index].overPayment.value = Number(
           currentgraphDataArray[item].overpayment,
@@ -229,15 +228,15 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
         currentGraphData[index].monthlyMortgage.svg.onPress = () =>
           this.onStackBarPress(index);
         currentGraphData[index].status = currentgraphDataArray[item].status;
-        currentGraphData[index].monthly_target =
-          Number(currentgraphDataArray[item].monthly_target);
+        currentGraphData[index].monthly_target = Number(
+          currentgraphDataArray[item].monthly_target,
+        );
         if (
           parseFloat(currentgraphDataArray[item].overpayment) >=
           parseFloat(currentgraphDataArray[item].monthly_target)
         )
           currentGraphData[index].overPayment.svg.fill = COLOR.SLIDER_COLOR;
-        else
-          currentGraphData[index].overPayment.svg.fill = COLOR.DARK_YELLOW;
+        else currentGraphData[index].overPayment.svg.fill = COLOR.DARK_YELLOW;
 
         if (index === Object.keys(currentgraphDataArray).length - 1) {
           if (
@@ -428,7 +427,11 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                       <Text style={styles.numberOfMonthText}>
                         {projectedYears}{' '}
                         <Text style={styles.monthsText}>
-                          {localeString(LOCALE_STRING.GRAPH_COMPONENT.YEARS)}{' '}
+                          {projectedYears === 1
+                            ? localeString(LOCALE_STRING.GRAPH_COMPONENT.YEAR)
+                            : localeString(
+                                LOCALE_STRING.GRAPH_COMPONENT.YEARS,
+                              )}{' '}
                         </Text>
                       </Text>
                     ) : null}
@@ -436,8 +439,18 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                       <Text style={styles.numberOfMonthText}>
                         {projectedMonths}{' '}
                         <Text style={styles.monthsText}>
-                          {localeString(LOCALE_STRING.GRAPH_COMPONENT.MONTHS)}
+                          {projectedMonths === 1
+                            ? localeString(LOCALE_STRING.GRAPH_COMPONENT.MONTH)
+                            : localeString(
+                                LOCALE_STRING.GRAPH_COMPONENT.MONTHS,
+                              )}
                         </Text>
+                      </Text>
+                    ) : null}
+                    {!projectedYears && !projectedMonths ? (
+                      <Text
+                        style={[styles.numberOfMonthText, styles.emptyText]}>
+                        -
                       </Text>
                     ) : null}
                   </View>
@@ -451,9 +464,15 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                   <Text style={styles.savingText}>
                     {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
                   </Text>
-                  <Text style={styles.projectSavingText}>
-                    £{interestSavingWithCommas}
-                  </Text>
+                  {interestSavingWithCommas ? (
+                    <Text style={styles.projectSavingText}>
+                      £{interestSavingWithCommas}
+                    </Text>
+                  ) : (
+                    <Text style={[styles.projectSavingText, styles.emptyText]}>
+                      -
+                    </Text>
+                  )}
                 </View>
               </View>
             </View>

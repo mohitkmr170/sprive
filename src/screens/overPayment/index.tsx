@@ -92,7 +92,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
   handleFirstButton = () => {
     const {error} = this.state;
     if (error) this.setState({isPaymentDone: false});
-    else reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+    else reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {isUserDataChanged: true});
   };
 
   handleSecondButton = () => {
@@ -193,15 +193,22 @@ class UnconnectedOverPayment extends React.Component<props, state> {
     );
     let amountWithOutCommas = String(amount).replace(/,/g, '');
     let amountWithCommas = getNumberWithCommas(amountWithOutCommas);
-    let interesetSavingWithCommas = getNumberWithCommas(Math.round(interesetSaving));
+    let interesetSavingWithCommas = getNumberWithCommas(
+      Math.round(interesetSaving),
+    );
     return (
       <View style={styles.topContainer}>
         <GeneralStatusBar />
         <Header
+          leftIconPresent
           title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT)}
           rightIconPresent
           iconName={chatIcon}
-          onBackPress={() => reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR)}
+          onBackPress={() =>
+            reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+              isUserDataChanged: false,
+            })
+          }
         />
         <ScrollView contentContainerStyle={styles.mainContainer}>
           <View

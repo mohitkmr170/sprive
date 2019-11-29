@@ -100,6 +100,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
         <Header
+          leftIconPresent
           title={localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
@@ -186,7 +187,4 @@ const bindActions = dispatch => ({
   getUserInfo: payload => dispatch(getUserInfo.fetchCall(payload)), // requires form name
 });
 
-export const LoginForm = connect(
-  mapStateToProps,
-  bindActions,
-)(LoginScreen);
+export const LoginForm = connect(mapStateToProps, bindActions)(LoginScreen);

@@ -24,7 +24,7 @@ import {
   GeneralStatusBar,
 } from '../../components';
 import * as Progress from 'react-native-progress';
-import {get as _get} from 'lodash';
+import {get as _get, cloneDeep} from 'lodash';
 import {localeString} from '../../utils/i18n';
 import {
   getMonthlyPaymentRecord,
@@ -41,10 +41,15 @@ import {COLOR} from '../../utils/colors';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {getNumberWithCommas} from '../../utils/helperFunctions';
 
+interface NavigationParams {
+  isUserDataChanged: boolean;
+}
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
     goBack: () => void;
+    state: {params?: {isUserDataChanged: boolean}};
+    setParams: (params: NavigationParams) => void;
   };
   getUserInfoResponse: (payload: object, extraPayload: object) => void;
   getMonthlyPaymentRecord: (payload: object, extraPayload: object) => void;
@@ -65,7 +70,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     super(props);
     this.state = {
       isLoggedOut: false,
-      loading: true,
+      loading: !props.navigation.state.params
+        ? true
+        : props.navigation.state.params.isUserDataChanged,
       isPaymentComplete: false,
     };
   }
@@ -83,8 +90,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     this.didFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
-        this.setToInitialState();
-        this.handleInitialMount();
+        const navParam = cloneDeep(this.props.navigation.state.params);
+        if (!navParam || navParam.isUserDataChanged) {
+          this.setToInitialState();
+          this.handleInitialMount();
+        }
       },
     );
   };
@@ -95,6 +105,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getMonthlyPaymentRecord,
       getUserInfoResponse,
       getProjectedData,
+      navigation,
     } = this.props;
     const qParam = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
@@ -106,6 +117,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     };
     await getProjectedData({}, qParamProjectData);
     this.setState({loading: false});
+    navigation.setParams({
+      isUserDataChanged: false,
+    });
   };
 
   handleMakeOverPayment = () => {
@@ -135,7 +149,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       0,
     );
 
-    const monthlyTargetWithCommas = getNumberWithCommas(Math.round(monthlyTarget));
+    const monthlyTargetWithCommas = getNumberWithCommas(
+      Math.round(monthlyTarget),
+    );
     const balanceAmountWithCommas = getNumberWithCommas(balanceAmount);
     const estimatedMonths = _get(
       getProjectedDataResponse,
@@ -276,8 +292,15 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                     LOCALE_STRING.DASHBOARD_SCREEN.PROJECTED_MORTGAGE,
                   )}{' '}
                   <Text style={styles.monthsLeftText}>
-                    {extimatedYears ? extimatedYears + 'yr' : ''}{' '}
-                    {estimatedMonths ? estimatedMonths + 'm' : ''}
+                    {extimatedYears
+                      ? extimatedYears +
+                        (extimatedYears === 1 ? ' year' : ' years')
+                      : ''}{' '}
+                    {estimatedMonths
+                      ? estimatedMonths +
+                        (estimatedMonths === 1 ? ' month' : ' months')
+                      : ''}
+                    {!estimatedMonths && !extimatedYears && '-'}
                   </Text>
                 </Text>
               </View>
