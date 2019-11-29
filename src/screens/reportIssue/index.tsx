@@ -6,7 +6,7 @@ import {Header, GeneralStatusBar} from '../../components';
 import {Dropdown} from 'react-native-material-dropdown';
 import {chatIcon} from '../../assets';
 import {connect} from 'react-redux';
-import {get as _get, map as _map} from 'lodash';
+import {get as _get} from 'lodash';
 import {getIssueCategories, setIssue} from '../../store/reducers';
 import {
   NAVIGATION_SCREEN_NAME,
