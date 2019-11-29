@@ -1,6 +1,6 @@
-var rateCalc = require('./rateCalc.js');
-var overpaymentCalc = require('./SimpleOverpaymentCalc.js');
-var overpaymentAmtCalc = require('./OverpaymentAmountCalc.js');
+const rateCalc = require('./v2/rateCalc.js');
+const overpaymentCalc = require('./v2/SimpleOverpaymentCalc.js');
+const overpaymentAmtCalc = require('./v2/OverpaymentAmountCalc.js');
 
 /**
  *
@@ -37,7 +37,7 @@ export function calculateGoal(
     outstandingLoan,
     desiredOutstandingTermYrs, //Initially it was outstandingTermYrs, changed!
     interestRate * 100,
-    1489,
+    overpaymentAmountCalc,
   );
   let newGoal = {
     monthlyOverPayment: Math.round(overpaymentAmountCalc),

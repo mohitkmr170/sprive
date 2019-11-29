@@ -20,7 +20,7 @@ import {
   APP_CONSTANTS,
 } from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
-import {calculateGoal} from '../../../calculatorJS/index';
+import {calculateGoal} from '../../utils/calculator-scripts';
 import {ErcWarning} from './ercWarning';
 import {TargetDetails} from './targetDetails';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
