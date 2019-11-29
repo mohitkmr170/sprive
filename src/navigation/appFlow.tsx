@@ -19,6 +19,7 @@ import {
   SetGoal,
   OverPayment,
   OverpaymentHistory,
+  UpdateMortgage,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -127,6 +128,9 @@ const AppStackNavigator = createStackNavigator(
     },
     OverpaymentHistoryScreen: {
       screen: OverpaymentHistory,
+    },
+    UpdateMortgageScreen: {
+      screen: UpdateMortgage,
     },
   },
   {

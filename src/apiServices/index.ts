@@ -11,4 +11,5 @@ export * from './getMonthlyPaymentRecord';
 export * from './getGraphData';
 export * from './setOverpayment';
 export * from './getOverpaymentHistory';
+export * from './updateUserMortgage';
 export * from './getProjectedData';

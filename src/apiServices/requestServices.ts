@@ -81,6 +81,28 @@ export const postRequest = (endPoint: string, params?: object) => {
 };
 
 /**
+ * PUT request
+ * @param endPoint string
+ * @param params : object
+ */
+export const putRequest = (
+  endPoint: string,
+  params?: object,
+  qParams?: object,
+) => {
+  return new Promise(async (resolve, reject) => {
+    const token = await getAuthToken();
+    axios
+      .put(getCompleteUrl(endPoint) + `/${qParams.id}`, params, {
+        headers: getHeaders(token),
+        timeout: apiConstants.TIMEOUT,
+      })
+      .then(response => resolve(response.data))
+      .catch(err => reject(err));
+  });
+};
+
+/**
  * PATCH request
  * @param endPoint string
  * @param params : object
