@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import {Header, LoadingModal} from '../../components';
+import {Header, LoadingModal, GeneralStatusBar} from '../../components';
 import Slider from '@react-native-community/slider';
 import {localeString} from '../../utils/i18n';
 import {connect} from 'react-redux';
@@ -20,17 +20,22 @@ import {
   APP_CONSTANTS,
 } from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
-import {calculateGoal} from '../../../calculatorJS/index';
+import {calculateGoal} from '../../utils/calculator-scripts';
 import {ErcWarning} from './ercWarning';
 import {TargetDetails} from './targetDetails';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 const SLIDER_START_VALUE = 1;
 const SLIDER_STEP = 1;
 const ERC_FACTOR = 0.1;
+interface NavigationParams {
+  isUserDataChanged: boolean;
+}
 
 interface props {
   navigation: {
-    navigate: (routeName: string) => void;
+    navigate: (routeName: string, params?: NavigationParams) => void;
+    state: {params?: {isUserDataChanged: boolean}};
   };
   getUserMortgageData: (payload: object, extraPayload: object) => void;
   setUserGoal: (payload: object) => void;
@@ -89,11 +94,11 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     const {getUserMortgageData, getUserInfoResponse, getUserGoal} = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     const qParamsInfo = {
-      user_id: userId,
+      [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
     const qParams = {
-      user_id: userId,
+      [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserGoal({}, qParams);
     const {getUserGoalResponse} = this.props;
@@ -150,14 +155,8 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       null,
     );
     let desiredTerm = currentMortgageTerm;
-    if (loading) {
-      /*
-      TODO : Need to add ERC value based desiredTerm & mortgageTerm/2(Max of either)
-      */
-      desiredTerm = Math.ceil(currentMortgageTerm / 2);
-    } else {
-      desiredTerm = newTerm;
-    }
+    desiredTerm = newTerm ? newTerm : Math.ceil(currentMortgageTerm / 2);
+    // }
     //calculating using calculatorJS
     let newGoal = calculateGoal(
       currentMortgageAmount,
@@ -207,36 +206,54 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       )
     ) {
       const payload = {
-        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
-        mortgage_id: String(
+        [PAYLOAD_KEYS.USER_ID]: String(
+          _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+        ),
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_ID]: String(
           _get(getUserMortgageDataResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
         ),
-        monthly_overpayment_amount: this.state.monthlyOverPayment,
-        old_mortgage_term: _get(
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.MONTHLY_OVERPAYMENT_AMOUNT]: this.state
+          .monthlyOverPayment,
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.OLD_MORTGAGE_TERM]: _get(
           getUserMortgageDataResponse,
           DB_KEYS.MORTGAGE_TERM,
           null,
         ),
-        new_mortgage_term: this.state.mortgageTerm,
-        total_interest_saved: this.state.interestSaving,
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.NEW_MORTGAGE_TERM]: this.state
+          .mortgageTerm,
+        [PAYLOAD_KEYS.INTEREST.TOTAL_INTEREST_SAVED]: this.state.interestSaving,
       };
       await setUserGoal(payload);
       if (!_get(this.props.setUserGoalResponse, DB_KEYS.ERROR, true))
-        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN, {
+          isUserDataChanged: true,
+        });
     } else {
       const body = {
-        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
-        monthly_overpayment_amount: this.state.monthlyOverPayment,
-        new_mortgage_term: this.state.mortgageTerm,
-        total_interest_saved: this.state.interestSaving,
+        [PAYLOAD_KEYS.USER_ID]: String(
+          _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+        ),
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.MONTHLY_OVERPAYMENT_AMOUNT]: this.state
+          .monthlyOverPayment,
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.NEW_MORTGAGE_TERM]: this.state
+          .mortgageTerm,
+        [PAYLOAD_KEYS.INTEREST.TOTAL_INTEREST_SAVED]: this.state.interestSaving,
       };
       const qParam = {
-        id: _get(getUserGoalResponse, DB_KEYS.DATA_OF_ZERO_ID, null),
-        user_id: String(_get(getUserInfoResponse, DB_KEYS.DATA_ID, null)),
+        [PAYLOAD_KEYS.ID]: _get(
+          getUserGoalResponse,
+          DB_KEYS.DATA_OF_ZERO_ID,
+          null,
+        ),
+        [PAYLOAD_KEYS.USER_ID]: String(
+          _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+        ),
       };
       await updateUserGoal(body, qParam);
       if (!_get(this.props.updateUserGoalResponse, DB_KEYS.ERROR, true))
-        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+        navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN, {
+          isUserDataChanged: true,
+        });
     }
   };
 
@@ -259,12 +276,17 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
           <LoadingModal loadingText="Loading..." />
         ) : (
           <View style={{flex: 1}}>
-            <Header />
+            <GeneralStatusBar />
+            <Header
+              leftIconPresent={false}
+              rightIconPresent
+              title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.TITLE)}
+            />
             <ScrollView contentContainerStyle={styles.middleContainer}>
-              <View style={styles.mortgageStatusProgressContainer}>
+              {/* <View style={styles.mortgageStatusProgressContainer}>
                 <Text style={styles.mortgageTextData}>Set Goal</Text>
                 <Text style={styles.progressFractionText}>4/4</Text>
-              </View>
+              </View> */}
               <Text style={styles.mainHeaderText}>
                 {localeString(LOCALE_STRING.SET_GOAL_SCREEN.HOW_QUICKLY)}
               </Text>

@@ -1,10 +1,10 @@
-const calculatePayments = function(
+calculatePayments = function(
   initial,
   years,
   targetYrs,
   rate,
   monthlyOverpayment,
-  overpayments = [],
+  overpayments = []
 ) {
   console.log(targetYrs);
   const monthlyRatePct = rate / 1200;
@@ -21,7 +21,7 @@ const calculatePayments = function(
         (1 - Math.pow(1 / (1 + monthlyRatePct), targetYrs * 12));
   let balance = initial;
   let baseline = initial;
-  let payments = [{overpayment: 0, balance, baseline}];
+  let payments = [{ overpayment: 0, balance, baseline }];
   let partial;
   let totalInterest = 0;
 
@@ -57,19 +57,14 @@ const calculatePayments = function(
       interestYearly,
       balance,
       partial,
-      overpayment: overpaymentYearly + +monthlyOverpayment * (partial || 12),
+      overpayment: overpaymentYearly + +monthlyOverpayment * (partial || 12)
     });
     if (partial) partial = 0;
   }
-  return {totalInterest, monthlyPayment, alternativeMonthlyPayment, payments};
+  return { totalInterest, monthlyPayment, alternativeMonthlyPayment, payments };
 };
 
-const calculateRequiredOverpaymentAmt = function(
-  initial,
-  years,
-  targetYrs,
-  rate,
-) {
+calculateRequiredOverpaymentAmt = function(initial, years, targetYrs, rate) {
   const monthlyRatePct = rate / 1200;
   const monthlyPayment =
     monthlyRatePct === 0
@@ -97,5 +92,5 @@ const calculateRequiredOverpaymentAmt = function(
 
 module.exports = {
   calculatePayments,
-  calculateRequiredOverpaymentAmt,
+  calculateRequiredOverpaymentAmt
 };

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {STYLE_CONSTANTS} from '../../utils/constants';
 import {COLOR} from '../../utils/colors';
 
@@ -12,9 +12,9 @@ export const styles = StyleSheet.create({
   },
   blueImageBackground: {
     paddingLeft: STYLE_CONSTANTS.padding.HUGISH,
-    paddingTop: STYLE_CONSTANTS.padding.SMALL,
     paddingBottom: STYLE_CONSTANTS.padding.HUMONGOUS,
     paddingRight: STYLE_CONSTANTS.padding.LARGEST,
+    paddingTop: Platform.OS === 'android' ? 12 : 0,
   },
   supportIcon: {
     height: STYLE_CONSTANTS.padding.HUMONGOUS,
@@ -27,14 +27,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   paidButton: {
-    height: 24,
-    width: 40,
-    backgroundColor: '#4D56B1',
+    height: STYLE_CONSTANTS.margin.LARGER,
+    width: STYLE_CONSTANTS.margin.HUMONGOUS,
+    backgroundColor: COLOR.LIGHTER_VOILET,
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
-    marginTop: 16,
-    marginLeft: 16,
+    marginTop: STYLE_CONSTANTS.margin.NORMAL,
+    marginLeft: STYLE_CONSTANTS.margin.NORMAL,
     borderRadius: 14,
   },
   thisMonthText: {
@@ -75,15 +75,15 @@ export const styles = StyleSheet.create({
   innerFirstText: {color: COLOR.VOILET},
   statusRightText: {color: COLOR.VOILET, opacity: 0.5},
   incomeStatusContainer: {
-    borderBottomColor: '#0000001A',
-    borderColor: '#fff',
+    borderBottomColor: COLOR.BORDER_BLACK,
+    borderColor: COLOR.WHITE,
     borderBottomWidth: 5,
     borderWidth: 1,
-    borderRadius: 20,
-    shadowColor: '#0000001A',
+    borderRadius: STYLE_CONSTANTS.padding.LARGEST,
+    shadowColor: COLOR.BORDER_BLACK,
     shadowOffset: {width: 3, height: 3},
-    shadowOpacity: 10,
-    shadowRadius: 10,
+    shadowOpacity: STYLE_CONSTANTS.padding.SMALLISH,
+    shadowRadius: STYLE_CONSTANTS.padding.SMALLISH,
   },
   incomeInnerContainer: {
     marginTop: STYLE_CONSTANTS.margin.HUMONGOUS,

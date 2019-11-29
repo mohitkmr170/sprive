@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, ImageBackground, FlatList} from 'react-native';
 import {Button} from 'react-native-elements';
-import {Header} from '../../components';
+import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
 import {Bullets} from './bullets';
 import {connect} from 'react-redux';
@@ -82,17 +82,18 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     );
     return (
       <View style={styles.mainContainer}>
-        <Header onBackPress={() => this.handlebackPress()} />
+        <GeneralStatusBar />
+        <Header leftIconPresent onBackPress={() => this.handlebackPress()} />
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.topContainer}>
-          <View style={styles.mortgageStatusProgressContainer}>
+          {/* <View style={styles.mortgageStatusProgressContainer}>
             <Text style={styles.mortgageTextData}>
               {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SAVE_INTEREST)}
-            </Text>
-            {/* Need to be modified, for now progress number is contant */}
-            <Text style={styles.progressFractionText}>1/4</Text>
-          </View>
+            </Text> */}
+          {/* Need to be modified, for now progress number is contant */}
+          {/* <Text style={styles.progressFractionText}>1/4</Text>
+          </View> */}
           <ImageBackground
             source={interestBanner}
             style={styles.imageBackgoundStyle}
@@ -103,7 +104,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
               </Text>
               {/* Need to be modified, for now it's contant */}
               <Text style={styles.cardInterestText}>
-                £ {getNumberWithCommas(String(cumulativeInterest))}
+                £{getNumberWithCommas(String(cumulativeInterest))}
               </Text>
             </View>
           </ImageBackground>

@@ -1,7 +1,8 @@
 import React from 'react';
-import {ScrollView, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
+import {GeneralStatusBar} from '../../components';
 import {
   NAVIGATION_SCREEN_NAME,
   APP_CONSTANTS,
@@ -10,6 +11,7 @@ import {
 import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {COLOR} from '../../utils/colors';
 
 interface props {
   navigation: {
@@ -64,6 +66,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
   render() {
     return (
       <ScrollView contentContainerStyle={styles.mainContainer}>
+        <GeneralStatusBar />
         {this.SIDEBAR_DATA.map((item, index) => {
           return (
             <TouchableOpacity

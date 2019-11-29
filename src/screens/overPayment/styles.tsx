@@ -7,7 +7,6 @@ STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD;
 export const styles = StyleSheet.create({
   topContainer: {flex: 1},
   mainContainer: {
-    flex: 1,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
   },
   innerLeftContainer: {flex: 1},
@@ -75,12 +74,12 @@ export const styles = StyleSheet.create({
   },
   cardMainContainer: {
     borderRadius: 12,
-    borderWidth: 0.2,
+    borderWidth: 0.5,
     borderColor: COLOR.LIGHT_GRAY,
     shadowColor: COLOR.BLACK_SHADOW_COLOR,
     shadowOffset: {height: 3, width: 0},
-    shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowOpacity: 10,
+    shadowRadius: 10,
     paddingHorizontal: STYLE_CONSTANTS.padding.LARGEST,
     paddingTop: STYLE_CONSTANTS.padding.HUGISH,
     paddingBottom: STYLE_CONSTANTS.padding.NORMAL,
@@ -128,13 +127,13 @@ export const styles = StyleSheet.create({
   amountCardContainer: {
     alignItems: 'center',
     paddingVertical: STYLE_CONSTANTS.padding.LARGER,
+    borderWidth: 1,
+    borderRadius: 12,
+    borderColor: COLOR.LIGHT_GRAY,
     shadowColor: '#0000000F',
     shadowOffset: {height: 3, width: 0},
     shadowOpacity: 1,
     shadowRadius: 1,
-    borderRadius: 12,
-    borderWidth: 0.2,
-    borderColor: COLOR.LIGHT_GRAY,
   },
   amountCardTitleText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,

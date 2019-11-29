@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
-import {Header, ReduxFormField} from '../../components';
+import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
@@ -16,6 +16,7 @@ import {
   maxLength16,
   required,
   alphaNumeric,
+  noWhiteSpaces,
 } from '../../utils/validate';
 import {
   APP_CONSTANTS,
@@ -23,6 +24,7 @@ import {
   LOCALE_STRING,
   DB_KEYS,
 } from '../../utils/constants';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -59,9 +61,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     );
     const {loginUser, navigation} = this.props;
     const payload = {
-      strategy: 'local',
-      email: values.email,
-      password: values.password,
+      [PAYLOAD_KEYS.LOGIN.STRATEGY]: 'local',
+      [PAYLOAD_KEYS.LOGIN.EMAIL]: values.email,
+      [PAYLOAD_KEYS.LOGIN.PASSWORD]: values.password,
     };
     await loginUser(payload);
     const {loginUserResponse, getUserInfo} = this.props;
@@ -69,12 +71,19 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
       setAuthToken(
         _get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null),
         values.email,
-      ).then(async response => {
-        await getUserInfo();
-        const {getUserInfoResponse} = this.props;
-        if (!_get(getUserInfoResponse, 'error', null))
-          navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
-      });
+      )
+        .then(async response => {
+          await getUserInfo();
+          const {getUserInfoResponse} = this.props;
+          if (!_get(getUserInfoResponse, 'error', null))
+            navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+        })
+        .catch(err => {
+          /*
+          TODO : Snackbar to be added
+          */
+          console.error(err);
+        });
     }
   };
 
@@ -89,7 +98,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     const {handleSubmit, loginUserResponse} = this.props;
     return (
       <View style={styles.mainContainer}>
+        <GeneralStatusBar />
         <Header
+          leftIconPresent
           title={localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_BUTTON)}
           onBackPress={() => this.handleBackPress()}
         />
@@ -130,7 +141,13 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 placeholder: 'Password',
               }}
               editIcon={true}
-              validate={[minLength8, maxLength16, alphaNumeric, required]}
+              validate={[
+                minLength8,
+                maxLength16,
+                alphaNumeric,
+                required,
+                noWhiteSpaces,
+              ]}
             />
             <TouchableOpacity style={styles.forgotPasswordContainer}>
               <Text style={styles.forgotPassword}>
@@ -167,10 +184,7 @@ const mapStateToProps = state => ({
 
 const bindActions = dispatch => ({
   loginUser: payload => dispatch(loginUser.fetchCall(payload)),
-  getUserInfo: payload => dispatch(getUserInfo.fetchCall(payload)),
+  getUserInfo: payload => dispatch(getUserInfo.fetchCall(payload)), // requires form name
 });
 
-export const LoginForm = connect(
-  mapStateToProps,
-  bindActions,
-)(LoginScreen);
+export const LoginForm = connect(mapStateToProps, bindActions)(LoginScreen);

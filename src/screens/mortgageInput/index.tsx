@@ -1,16 +1,21 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {styles} from './styles';
-import {Header, MortgageInputContainer} from '../../components';
+import {
+  Header,
+  MortgageInputContainer,
+  GeneralStatusBar,
+} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {NAVIGATION_SCREEN_NAME, DB_KEYS} from '../../utils/constants';
 import {Button} from 'react-native-elements';
 import {getCumulativeInterest} from '../../store/reducers';
-import {reduxForm} from 'redux-form';
+import {reduxForm, reset} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {connect} from 'react-redux';
 import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
 import {get as _get} from 'lodash';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -33,11 +38,22 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     };
     this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
   }
+  componentDidMount() {
+    this.didFocusListener = this.props.navigation.addListener(
+      APP_CONSTANTS.LISTENER.DID_FOCUS,
+      async () => {
+        this.props.reset(APP_CONSTANTS.MORTGAGE_INPUT_FORM);
+      },
+    );
+  }
   // Back Icon Pressed
   handleBackPress = () => {};
   // Funtion to toggle the visibility of the submit buttons
   handlePayNowVisibility() {
     this.setState({enableButton: false});
+  }
+  componentWillUnmount() {
+    this.didFocusListener.remove();
   }
   /**
    *
@@ -50,9 +66,14 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     );
     const {getCumulativeInterest} = this.props;
     const payload = {
-      mortgage_balance: values.mortgageAmount.replace(/,/g, ''),
-      mortgage_term: values.timePeriod.replace(/,/g, ''),
-      mortgage_payment: values.monthlyMortgagePayment.replace(/,/g, ''),
+      [PAYLOAD_KEYS.MORTGAGE_INPUT
+        .MORTGAGE_BALANCE]: values.mortgageAmount.replace(/,/g, ''),
+      [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_TERM]: values.timePeriod.replace(
+        /,/g,
+        '',
+      ),
+      [PAYLOAD_KEYS.MORTGAGE_INPUT
+        .MORTGAGE_PAYMENT]: values.monthlyMortgagePayment.replace(/,/g, ''),
     };
     await getCumulativeInterest(payload);
     const {getCumulativeInterestResponse} = this.props;
@@ -70,19 +91,25 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     const {handleSubmit, getCumulativeInterestResponse} = this.props;
     return (
       <View style={styles.screenContainer}>
-        <Header onBackPress={() => this.handleBackPress()} />
+        <GeneralStatusBar />
+        <Header
+          leftIconPresent={false}
+          rightIconPresent
+          title={localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.TITLE)}
+          onBackPress={() => this.handleBackPress()}
+        />
         <View style={styles.mainContainer}>
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{flexGrow: 1}}>
-            <View style={styles.mortgageStatusProgressContainer}>
+            {/* <View style={styles.mortgageStatusProgressContainer}>
               <Text style={styles.mortgageTextData}>
                 {localeString(
                   LOCALE_STRING.MORTGAGE_INPUT_DATA.LOCALE_STRING_MORTGAGE_DATA,
                 )}
               </Text>
               <Text style={styles.progressFractionText}>1/4</Text>
-            </View>
+            </View> */}
             <Text style={styles.mainHeaderText}>
               {localeString(
                 LOCALE_STRING.MORTGAGE_INPUT_DATA.LOCALE_STRING_WORKOUT,
@@ -130,6 +157,7 @@ const mapStateToProps = state => ({
 const bindActions = dispatch => ({
   getCumulativeInterest: payload =>
     dispatch(getCumulativeInterest.fetchCall(payload)),
+  reset,
 });
 
 export const MortgageInput = connect(
