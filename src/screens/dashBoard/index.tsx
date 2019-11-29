@@ -40,6 +40,7 @@ import {
 import {COLOR} from '../../utils/colors';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {getNumberWithCommas} from '../../utils/helperFunctions';
+import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts'
 
 interface NavigationParams {
   isUserDataChanged: boolean;
@@ -57,6 +58,8 @@ interface props {
   getUserInfo: () => void;
   getProjectedData: (payload: object, extraPayload: object) => void;
   getProjectedDataResponse: object;
+  userDataChangeEvent: object;
+  triggerUserDataChange: (value:boolean) => void;
 }
 
 interface state {
@@ -91,9 +94,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
         const navParam = cloneDeep(this.props.navigation.state.params);
-        if (!navParam || navParam.isUserDataChanged) {
+        if (!navParam || navParam.isUserDataChanged || this.props.userDataChangeEvent.userDataChanged) {
           this.setToInitialState();
           this.handleInitialMount();
+          this.props.userDataChangeEvent.userDataChanged && this.props.triggerUserDataChange(false);
         }
       },
     );
@@ -323,6 +327,7 @@ const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getMonthlyPaymentRecordResponse: state.getMonthlyPaymentRecord,
   getProjectedDataResponse: state.getProjectedData,
+  userDataChangeEvent: state.userDataChangeReducer,
 });
 
 const bindActions = dispatch => ({
@@ -331,6 +336,8 @@ const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   getProjectedData: (payload, extraPayload) =>
     dispatch(getProjectedData.fetchCall(payload, extraPayload)),
+  triggerUserDataChange: (value) =>
+    dispatch(triggerUserDataChangeEvent(value)),
 });
 
 export const DashBoard = connect(

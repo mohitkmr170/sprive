@@ -19,6 +19,7 @@ import { PAYLOAD_KEYS } from '../../utils/payloadKeys.ts';
 import {get as _get} from 'lodash';
 import {COLOR} from '../../utils/colors';
 import {NavigationActions, StackActions} from 'react-navigation';
+import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts'
 
 interface props {
   navigation: {
@@ -27,6 +28,7 @@ interface props {
   handleSubmit: (firstParam: (values: object) => void) => void;
   getUserMortgageDataResponse: object;
   updateUserMortgage: (payload: object, extraPayload: object) => void;
+  triggerUserDataChange: (value:boolean) => void;
   updateUserMortgageResponse: object;
   getUserInfoResponse: object;
 }
@@ -93,6 +95,7 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
               }),
             ],
           });
+        this.props.triggerUserDataChange(true);
         this.props.navigation.dispatch(resetAction);
     }
   };
@@ -172,6 +175,8 @@ const mapStateToProps = state => ({
 const bindActions = dispatch => ({
   updateUserMortgage: (payload, extraPayload) =>
     dispatch(updateUserMortgage.fetchCall(payload, extraPayload)),
+  triggerUserDataChange: (value) =>
+    dispatch(triggerUserDataChangeEvent(value)),
 });
 
 export const UpdateMortgage = connect(

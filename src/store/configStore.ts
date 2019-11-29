@@ -7,11 +7,13 @@ import {reducer as formReducer} from 'redux-form';
 import * as reducers from './reducers';
 import storage from 'redux-persist/lib/storage';
 import {applicationReducer} from './appReducers/addUserDetails';
+import {userDataChangeReducer} from './appReducers/triggerUserDataChange.reducer';
 
 const appReducers = {
   ...mapValues(reducers, 'reducers'),
   form: formReducer,
   applicationReducer,
+  userDataChangeReducer,
 };
 
 const appReducer = combineReducers(appReducers);
