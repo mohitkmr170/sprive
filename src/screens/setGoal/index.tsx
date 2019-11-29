@@ -28,6 +28,7 @@ import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 const SLIDER_START_VALUE = 1;
 const SLIDER_STEP = 1;
 const ERC_FACTOR = 0.1;
+const MIN_GOAL_VALUE = 1;
 
 interface props {
   navigation: {
@@ -76,10 +77,12 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
   };
 
   componentDidMount = async () => {
-    this.handleInitialMount();
+    // console.log('SetGoal:: componentDidMount:: REACHED');
+    // this.handleInitialMount();
     this.navFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
+        // console.log('SetGoal:: componentDidMount:: DID_FOCUS:: REACHED');
         this.setToInitialState();
         this.handleInitialMount();
       },
@@ -97,10 +100,29 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserGoal({}, qParams);
-    const {getUserGoalResponse} = this.props;
+    const {getUserGoalResponse, getUserMortgageDataResponse} = this.props;
     //To update previously set goal
     if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
-      const {getUserGoalResponse} = this.props;
+      // UPDATE MODE
+
+      const currentMortgageAmount = _get(
+        getUserMortgageDataResponse,
+        DB_KEYS.MORTGAGE_BALANCE,
+        null,
+      );
+
+      const oldMortgageTerm = _get(
+        getUserMortgageDataResponse,
+        DB_KEYS.MORTGAGE_TERM,
+        null,
+      );
+
+      const currentMonthlyMortgageAmount = _get(
+        getUserMortgageDataResponse,
+        DB_KEYS.MORTGAGE_PAYMENT,
+        null,
+      );
+
       const mortgageTerm = _get(
         getUserGoalResponse,
         DB_KEYS.NEW_MORTGAGE_TERM,
@@ -116,14 +138,55 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         DB_KEYS.GOAL_INTEREST_SAVED,
         null,
       );
-      this.setState({
-        mortgageTerm: mortgageTerm,
-        monthlyOverPayment: monthlyOverPayment,
-        interestSaving: totalInterest,
-        loading: false,
-      });
+
+      let mortgageErc = (currentMortgageAmount / oldMortgageTerm) * ERC_FACTOR;
+      let desiredTerm: Number;
+      let newGoal;
+      // const desiredTerm = !monthlyOverPayment && mortgageTerm===MIN_GOAL_VALUE ? Math.ceil(oldMortgageTerm / 2) : mortgageTerm;
+
+      //INTERNAL GOAL RESET CASE
+      if(!monthlyOverPayment && mortgageTerm===MIN_GOAL_VALUE){
+        desiredTerm = Math.ceil(oldMortgageTerm / 2);
+        newGoal = calculateGoal(
+          currentMortgageAmount,
+          currentMonthlyMortgageAmount,
+          oldMortgageTerm,
+          desiredTerm,
+        );
+        this.setState({
+          mortgageTerm: desiredTerm,
+          monthlyOverPayment: newGoal.monthlyOverPayment,
+          interestSaving: newGoal.totalSavings,
+          loading: false,
+          ercLimitCrossed: newGoal.monthlyOverPayment > mortgageErc
+        }/*, ()=>{
+            console.log('SetGoal:: handleInitialMount:: INTERNAL GOAL RESET CASE:: CHECK:: STATE -->', {...this.state});
+            console.log('SetGoal:: handleInitialMount:: INTERNAL GOAL RESET CASE:: CHECK:: mortgageErc -->', mortgageErc);
+        }*/);
+
+      }else{//NORMAL UPDATE CASE
+        desiredTerm = mortgageTerm;
+        this.setState({
+          mortgageTerm: desiredTerm,
+          monthlyOverPayment: monthlyOverPayment,
+          interestSaving: totalInterest,
+          loading: false,
+          ercLimitCrossed: monthlyOverPayment > mortgageErc
+        }/*, ()=>{
+            console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: STATE -->', {...this.state});
+            console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: mortgageErc -->', mortgageErc);
+        }*/);
+      }
+
+      // console.log('****************** INITIAL CHECK *****************');
+      // console.log('SetGoal:: handleInitialMount:: CHECK:: currentMortgageAmount -->', currentMortgageAmount);
+      // console.log('SetGoal:: handleInitialMount:: CHECK:: oldMortgageTerm -->', oldMortgageTerm);
+      // console.log('SetGoal:: handleInitialMount:: CHECK:: ERC_FACTOR -->', ERC_FACTOR);
+      // console.log('SetGoal:: handleInitialMount:: CHECK:: desiredTerm -->', desiredTerm);
+      // console.log('******************************************');
     } else {
       //To add new goal with Mortgage data
+      // ADD MODE
       this.goalUpdate();
     }
   };
@@ -133,6 +196,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
    * @param newTerm : number : New Mortgage term
    */
   goalUpdate = async (newTerm?: number) => {
+    // console.log('goalUpdate:: newTerm -->', newTerm)
     const {getUserMortgageDataResponse} = this.props;
     const {loading} = this.state;
     let currentMortgageAmount = _get(
@@ -152,6 +216,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     );
     let desiredTerm = currentMortgageTerm;
     desiredTerm = newTerm ? newTerm : Math.ceil(currentMortgageTerm / 2);
+    // console.log('goalUpdate:: desiredTerm -->', desiredTerm)
     // }
     //calculating using calculatorJS
     let newGoal = calculateGoal(
@@ -163,13 +228,26 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     //Calculating ERC Limit
     let mortgageErc =
       (currentMortgageAmount / currentMortgageTerm) * ERC_FACTOR;
+
+      // console.log('****************** UPDATE CHECK *****************');
+      // console.log('SetGoal:: handleInitialMount:: CHECK:: currentMortgageAmount -->', currentMortgageAmount);
+      // console.log('SetGoal:: handleInitialMount:: CHECK:: currentMortgageTerm -->', currentMortgageTerm);
+      // console.log('SetGoal:: handleInitialMount:: CHECK:: ERC_FACTOR -->', ERC_FACTOR);
+      // console.log('SetGoal:: handleInitialMount:: CHECK:: mortgageErc -->', mortgageErc);
+      // console.log('******************************************');
+
+
+    // console.log('SetGoal:: goalUpdate:: CHECK:: mortgageErc -->', mortgageErc);
+    // console.log('SetGoal:: goalUpdate:: CHECK:: STATE  B4-->', {...this.state});
     this.setState({
       mortgageTerm: desiredTerm,
       monthlyOverPayment: newGoal.monthlyOverPayment,
       interestSaving: newGoal.totalSavings,
       loading: false,
       ercLimitCrossed: newGoal.monthlyOverPayment > mortgageErc,
-    });
+    }/*, ()=>{
+      console.log('SetGoal:: goalUpdate:: CHECK:: STATE AFTER -->', {...this.state});
+    }*/);
   };
 
   componentWillUnmount() {
