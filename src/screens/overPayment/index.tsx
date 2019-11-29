@@ -10,10 +10,16 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import {setOverpayment} from '../../store/reducers';
-import {Header, IncDecCounter, StatusOverlay} from '../../components';
+import {
+  Header,
+  IncDecCounter,
+  StatusOverlay,
+  GeneralStatusBar,
+} from '../../components';
 import {chatIcon, correct, tick} from '../../assets';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import {reset} from '../../navigation/navigationService';
 import {
   APP_CONSTANTS,
   LOCALE_STRING,
@@ -25,13 +31,19 @@ import {get as _get} from 'lodash';
 import {AmountContainer} from './amountContainer';
 import {CardDetails} from './cardDetails';
 import {COLOR} from '../../utils/colors';
-import {getNumberWithCommas, showSnackBar} from '../../utils/helperFunctions';
+import {
+  getNumberWithCommas,
+  showSnackBar,
+  getRoundFigure,
+} from '../../utils/helperFunctions';
 import {localeString} from '../../utils/i18n';
 
 const INC_DEC_OFFSET = 10;
 const EDIT_ICON_NAME = 'pencil';
 const OVERPAYMENT_MAX_CAP = 10000;
 const OVERPAYMENT_MIN_CAP = 0;
+const YEARS = 'years';
+const MONTHS = 'months';
 
 interface props {
   navigation: {
@@ -80,8 +92,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
   handleFirstButton = () => {
     const {error} = this.state;
     if (error) this.setState({isPaymentDone: false});
-    else
-      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+    else reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
   };
 
   handleSecondButton = () => {
@@ -159,20 +170,38 @@ class UnconnectedOverPayment extends React.Component<props, state> {
       getMonthlyPaymentRecordResponse,
       setOverpaymentResponse,
     } = this.props;
+    let interesetSaving = Math.round(
+      _get(setOverpaymentResponse, DB_KEYS.PROJECTED.INTEREST_SAVING, 0),
+    );
+    let savedYears = _get(
+      setOverpaymentResponse,
+      DB_KEYS.PROJECTED.YEARS_SAVED,
+      0,
+    );
+    let savedMonths = _get(
+      setOverpaymentResponse,
+      DB_KEYS.PROJECTED.MONTHS_SAVED,
+      0,
+    );
     let currentRemainingBalance = _get(
       getMonthlyPaymentRecordResponse,
       DB_KEYS.BALANCE_AMOUNT,
       null,
     );
+    let monthlyTarget = getRoundFigure(
+      _get(getMonthlyPaymentRecordResponse, DB_KEYS.MONTHLY_TARGET, null),
+    );
     let amountWithOutCommas = String(amount).replace(/,/g, '');
     let amountWithCommas = getNumberWithCommas(amountWithOutCommas);
+    let interesetSavingWithCommas = getNumberWithCommas(Math.round(interesetSaving));
     return (
       <View style={styles.topContainer}>
+        <GeneralStatusBar />
         <Header
           title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT)}
           rightIconPresent
           iconName={chatIcon}
-          onBackPress={() => this.props.navigation.goBack()}
+          onBackPress={() => reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR)}
         />
         <ScrollView contentContainerStyle={styles.mainContainer}>
           <View
@@ -187,7 +216,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                   )}
                 </Text>
                 <View style={styles.inputContainer}>
-                  <Text style={styles.poundText}>£ </Text>
+                  <Text style={styles.poundText}>£</Text>
                   <TextInput
                     style={styles.textInput}
                     ref={input => {
@@ -196,8 +225,8 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                     maxLength={6}
                     onChangeText={text => this.setState({amount: text})}
                     keyboardType="number-pad"
-                    placeholder="175"
-                    placeholderTextColor={COLOR.BLACKISH_GRAY}>
+                    placeholder="0"
+                    placeholderTextColor={COLOR.REDUX_TEXTINPUT_TEXT}>
                     {amountWithCommas}
                   </TextInput>
                   <TouchableOpacity
@@ -228,7 +257,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                   title={localeString(
                     LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
                   )}
-                  monthlyTarget={'21,312.00'}
+                  monthlyTarget={'21,312'}
                 />
               </View>
               <View style={styles.rightContainer}>
@@ -236,7 +265,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                   title={localeString(
                     LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
                   )}
-                  monthlyTarget={'322.00'}
+                  monthlyTarget={getNumberWithCommas(String(monthlyTarget))}
                 />
               </View>
             </View>
@@ -258,7 +287,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
         {isPaymentDone && (
           <StatusOverlay
             icon={!error ? tick : correct}
-            mainTitle={!error && `£ ${amount}`}
+            mainTitle={!error && `£${amountWithCommas}`}
             mainMessage={
               !error
                 ? localeString(LOCALE_STRING.STATUS_OVERLAY.PAID)
@@ -266,7 +295,11 @@ class UnconnectedOverPayment extends React.Component<props, state> {
             }
             infoTitle={
               !error
-                ? localeString(LOCALE_STRING.STATUS_OVERLAY.BRILLIANT)
+                ? localeString(LOCALE_STRING.STATUS_OVERLAY.BRILLIANT, {
+                    interestSaved: interesetSavingWithCommas,
+                    timeSaved: savedYears ? savedYears + ` ${YEARS}` : '',
+                    month: savedMonths ? savedMonths + ` ${MONTHS}` : '',
+                  })
                 : localeString(LOCALE_STRING.STATUS_OVERLAY.WENT_WRONG)
             }
             firstButtonText={

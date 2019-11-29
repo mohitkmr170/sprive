@@ -2,8 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
 import * as Animatable from 'react-native-animatable';
-import {localeString} from '../../utils/i18n';
-import {LOCALE_STRING} from '../../utils/constants';
+import {APP_CONSTANTS} from '../../utils/constants';
 
 interface props {
   handleFirstButton: () => void;
@@ -27,71 +26,26 @@ export class StatusOverlay extends React.Component<props, state> {
         <View style={styles.innerContainer}>
           <Image source={this.props.icon} height={72} width={72} />
           {this.props.mainTitle && (
-            <Text
-              style={{
-                color: '#00C1A4',
-                fontSize: 36,
-                lineHeight: 36,
-                fontWeight: '600',
-                paddingTop: 32,
-                textAlign: 'center',
-              }}>
-              {this.props.mainTitle}
-            </Text>
+            <Text style={styles.innerTitle}>{this.props.mainTitle}</Text>
           )}
           {this.props.mainMessage && (
-            <Text
-              style={{
-                color: '#09245E',
-                fontSize: 18,
-                lineHeight: 28,
-                fontWeight: '600',
-                paddingTop: 20,
-                textAlign: 'center',
-              }}>
-              {this.props.mainMessage}
-            </Text>
+            <Text style={styles.mainMessage}>{this.props.mainMessage}</Text>
           )}
           {this.props.infoTitle && (
-            <Text
-              style={{
-                color: '#09245E',
-                opacity: 0.5,
-                fontSize: 14,
-                lineHeight: 22,
-                paddingTop: 10,
-                textAlign: 'center',
-              }}>
-              {this.props.infoTitle}
-            </Text>
+            <Text style={styles.infoTitle}>{this.props.infoTitle}</Text>
           )}
-          {this.props.handleFirstButton && (
-            <TouchableOpacity onPress={this.props.handleFirstButton}>
-              <Text
-                style={{
-                  color: '#DD2371',
-                  fontSize: 16,
-                  lineHeight: 24,
-                  marginTop: 32,
-                  textAlign: 'center',
-                  fontWeight: '600',
-                }}>
-                {this.props.firstButtonText}
-              </Text>
+          {this.props.firstButtonText && (
+            <TouchableOpacity
+              onPress={this.props.handleFirstButton}
+              hitSlop={APP_CONSTANTS.HIT_SLOP}>
+              <Text style={styles.firstText}>{this.props.firstButtonText}</Text>
             </TouchableOpacity>
           )}
-          {this.props.handleSecondButton && (
-            <TouchableOpacity onPress={this.props.handleSecondButton}>
-              <Text
-                style={{
-                  color: '#09245E',
-                  opacity: 0.3,
-                  fontSize: 16,
-                  lineHeight: 24,
-                  marginTop: 16,
-                  textAlign: 'center',
-                  fontWeight: '600',
-                }}>
+          {this.props.secondButtonText && (
+            <TouchableOpacity
+              onPress={this.props.handleSecondButton}
+              hitSlop={APP_CONSTANTS.HIT_SLOP}>
+              <Text style={styles.secondText}>
                 {this.props.secondButtonText}
               </Text>
             </TouchableOpacity>

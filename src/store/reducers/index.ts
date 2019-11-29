@@ -13,3 +13,4 @@ export * from './setOverpayment';
 export * from './getOverpaymentHistory';
 export * from './getIssueCategories';
 export * from './setIssue';
+export * from './getProjectedData';

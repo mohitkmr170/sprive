@@ -16,5 +16,6 @@ export default {
     OVERPAYMENT: '/overpayment',
     ISSUE_CATEGORY: '/issue-category',
     ISSUES: '/issues',
+    GET_PROJECTED_DATA: '/projected-data',
   },
 };

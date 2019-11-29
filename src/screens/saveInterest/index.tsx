@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, ImageBackground, FlatList} from 'react-native';
 import {Button} from 'react-native-elements';
-import {Header} from '../../components';
+import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
 import {Bullets} from './bullets';
 import {connect} from 'react-redux';
@@ -82,6 +82,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     );
     return (
       <View style={styles.mainContainer}>
+        <GeneralStatusBar />
         <Header onBackPress={() => this.handlebackPress()} />
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
@@ -103,7 +104,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
               </Text>
               {/* Need to be modified, for now it's contant */}
               <Text style={styles.cardInterestText}>
-                £ {getNumberWithCommas(String(cumulativeInterest))}
+                £{getNumberWithCommas(String(cumulativeInterest))}
               </Text>
             </View>
           </ImageBackground>

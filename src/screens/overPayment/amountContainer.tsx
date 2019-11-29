@@ -17,7 +17,7 @@ export class AmountContainer extends React.Component<props, state> {
     return (
       <View style={styles.amountCardContainer}>
         <Text style={styles.amountCardTitleText}>{title}</Text>
-        <Text style={styles.amountCardValue}>£ {monthlyTarget}</Text>
+        <Text style={styles.amountCardValue}>£{monthlyTarget}</Text>
       </View>
     );
   }

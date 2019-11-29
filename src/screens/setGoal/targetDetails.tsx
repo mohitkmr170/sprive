@@ -3,6 +3,7 @@ import {View, Text, Image} from 'react-native';
 import {LOCALE_STRING} from '../../utils/constants';
 import {localeString} from '../../utils/i18n';
 import {styles} from './styles';
+import {getNumberWithCommas} from '../../utils/helperFunctions';
 
 interface props {
   monthlyOverPayment: number;
@@ -18,6 +19,12 @@ export class TargetDetails extends React.Component<props, state> {
   }
   render() {
     const {monthlyOverPayment, interestSaving} = this.props;
+    const monthlyOverPaymentWithCommas = getNumberWithCommas(
+      String(monthlyOverPayment),
+    );
+    const interestSavingWithCommas = getNumberWithCommas(
+      String(interestSaving),
+    );
     return (
       <View>
         <Text style={styles.detailText}>
@@ -35,7 +42,9 @@ export class TargetDetails extends React.Component<props, state> {
               <Text style={styles.leftText}>
                 {localeString(LOCALE_STRING.SET_GOAL_SCREEN.OVER_PAYMENT)}
               </Text>
-              <Text style={styles.leftDetails}>£ {monthlyOverPayment}</Text>
+              <Text style={styles.leftDetails}>
+                £{monthlyOverPaymentWithCommas}
+              </Text>
             </View>
             <View style={styles.rightContainer}>
               <Text style={styles.leftText}>
@@ -45,7 +54,9 @@ export class TargetDetails extends React.Component<props, state> {
               <Text style={styles.leftText}>
                 {localeString(LOCALE_STRING.SET_GOAL_SCREEN.SAVINGS)}
               </Text>
-              <Text style={styles.leftDetails}>£ {interestSaving}</Text>
+              <Text style={styles.leftDetails}>
+                £{interestSavingWithCommas}
+              </Text>
             </View>
           </View>
         </View>
