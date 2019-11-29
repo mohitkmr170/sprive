@@ -4,11 +4,11 @@ import {COLOR} from '../../utils/colors';
 
 export const graphData = [
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -22,11 +22,11 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -40,11 +40,11 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -58,11 +58,11 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -76,11 +76,11 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {
@@ -94,11 +94,11 @@ export const graphData = [
     monthly_target: 0,
   },
   {
-    emi: {
+    monthlyMortgage: {
       value: 0,
       svg: {
         onPress: () => {},
-        fill: '#D3D6EB',
+        fill: COLOR.STEEL_GRAY,
       },
     },
     overPayment: {

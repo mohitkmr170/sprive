@@ -31,6 +31,7 @@ export const APP_CONSTANTS = {
     'Nov',
     'Dec',
   ],
+  DATE_FORMAT: 'YYYY-MM-DD',
   MONTH_NUMBER: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   LISTENER: {
     DID_FOCUS: 'didFocus',
@@ -49,6 +50,9 @@ export const STYLE_CONSTANTS = {
     WINDOW_WIDTH: Dimensions.get('window').width,
     DEVICE_TYPE_ANDROID: 'Android',
     DEVICE_TYPE_IOS: 'IOS',
+  },
+  elevation: {
+    BASIC: 5,
   },
   margin: {
     EXTRA_HUMUNGOUS: 52,
@@ -131,6 +135,10 @@ export const STYLE_CONSTANTS = {
     },
   },
 };
+export const ICON = {
+  UP: 'ios-arrow-round-up',
+  DOWN: 'ios-arrow-round-down',
+};
 export const ICON_NAME = {
   LEFT_ICON: 'chevrons-left',
   RIGHT_ICON: 'chevrons-right',
@@ -162,6 +170,26 @@ export const DB_KEYS = {
   RESPONSE_DATA: 'response.data',
   CREATED_AT: 'response.data[0].createdAt',
   RESPONSE: 'response',
+  PROJECTED: {
+    INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
+    YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
+    MONTHS_SAVED: 'response.data.projected_data.projected_time_savings.months',
+  },
+  PROJECTED_DATA: {
+    PROJECTED_TIME_YEARS: 'response.data.projected_time_savings.years',
+    PROJECTED_TIME_MONTHS: 'response.data.projected_time_savings.months',
+    INTEREST_SAVING: 'response.data.projected_interest_savings',
+    ESTIMATED_TIME_YEARS: 'response.data.estimated_time_savings.years',
+    ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
+  },
+  ERROR_MESSAGE: 'response.data.message',
+  PAYMENT_HISTORY : {
+    AMOUNT: 'amount',
+    PAYMENT_DATE: 'payment_date',
+    REFERENCE_NUMBER: 'reference_number',
+    ID: 'id',
+    IS_OVERPAYMENT: 'is_overpayment'
+  }
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -215,7 +243,7 @@ export const LOCALE_STRING = {
     LOCALE_STRING_WORKOUT: 'mortgageForm.letUsWorkOut',
     LOCALE_STRING_TAKE_YOUR_BEST: 'mortgageForm.takeYourBest',
     BUTTON_LOCALE_STRING: 'global.calculateNow',
-    INVALID_AMOUNT: 'mortgageForm.inValidAmount',
+    INVALID_AMOUNT: 'validationMessages.inValidAmount',
   },
   VALIDATIONS: {
     IS_REQUIRED: 'validationMessages.required',
@@ -229,6 +257,7 @@ export const LOCALE_STRING = {
     INVALID_EMAIL: 'validationMessages.invalidEmail',
     ALPHA_NUMERIC: 'validationMessages.alphaNumberic',
     YEAR_RANGE: 'validationMessages.yearRange',
+    WHITE_SPACES: 'validationMessages.whiteSpaces',
   },
   SET_GOAL_SCREEN: {
     HOW_QUICKLY: 'setGoalScreen.howQuickly',
@@ -248,6 +277,7 @@ export const LOCALE_STRING = {
     PROJECTED_TIME: 'stackBarGraphComponent.projectedTime',
     SAVING: 'stackBarGraphComponent.saving',
     MONTHS: 'stackBarGraphComponent.months',
+    YEARS: 'stackBarGraphComponent.years',
     PROJECTED_INT: 'stackBarGraphComponent.projectInterested',
   },
   DASHBOARD_SCREEN: {

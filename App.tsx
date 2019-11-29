@@ -1,9 +1,11 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
 import AppNavigator from './src/navigation/appFlow';
+import {setNavigator} from './src/navigation/navigationService';
 interface props {}
 interface state {}
 class App extends React.Component<props, state> {
@@ -15,10 +17,13 @@ class App extends React.Component<props, state> {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <View style={styles.appContainer}>
-            <StatusBar barStyle="dark-content" />
-            <SafeAreaView style={styles.mainContainer}>
-              <AppNavigator />
-            </SafeAreaView>
+            <View style={styles.mainContainer}>
+              <AppNavigator
+                ref={(ref: any) => {
+                  setNavigator(ref);
+                }}
+              />
+            </View>
           </View>
         </PersistGate>
       </Provider>
