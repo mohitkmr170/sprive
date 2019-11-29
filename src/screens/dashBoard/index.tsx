@@ -294,7 +294,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                       ? estimatedMonths +
                         (estimatedMonths === 1 ? ' month' : ' months')
                       : ''}
-                    {!estimatedMonths && !extimatedYears && ''}
+                    {!estimatedMonths && !extimatedYears && '-'}
                   </Text>
                 </Text>
               </View>
