@@ -1,0 +1,15 @@
+export const splashScreen = require('../images/splashScreen.png');
+export const interestBanner = require('../images/Mask_Group_2.png');
+export const dashBoardCard = require('../images/Card_dashboard.png');
+export const report = require('../images/Report.png');
+export const plusIncome = require('../images/Income.png');
+export const minusIncome = require('../images/Income2.png');
+export const menu = require('../images/menu.png');
+export const award = require('../images/award.png');
+export const activity = require('../images/activity.png');
+export const warning = require('../images/warning.png');
+export const correct = require('../images/correct.png');
+export const chatIcon = require('../images/chatIcon.png');
+export const hsbc = require('../images/hsbc.png');
+export const tick = require('../images/tick.png');
+export const hsbcBank = require('../images/hsbcBank.png');
