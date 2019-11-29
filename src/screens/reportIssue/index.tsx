@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TextInput} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import {Header} from '../../components';
+import {Header, GeneralStatusBar} from '../../components';
 import {Dropdown} from 'react-native-material-dropdown';
 import {chatIcon} from '../../assets';
 import {connect} from 'react-redux';
@@ -84,6 +84,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
   render() {
     return (
       <View style={styles.container}>
+        <GeneralStatusBar />
         <Header
           title={localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_AN_ISSUE)}
           rightIconPresent
