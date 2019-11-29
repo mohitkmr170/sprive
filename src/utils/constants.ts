@@ -189,7 +189,11 @@ export const DB_KEYS = {
     ID: 'id',
     IS_OVERPAYMENT: 'is_overpayment'
   },
-  ISSUE_CATEGORY_BUG: 'Issue/Bug'
+  REPORT_ISSUE: {
+    ISSUE_CATEGORY_BUG: 'Issue/Bug',
+    ISSUE_CATEGORY_LABEL_KEY: 'label'
+  }
+
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
