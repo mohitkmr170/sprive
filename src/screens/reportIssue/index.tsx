@@ -92,7 +92,8 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
     */
     if (!_get(setIssueResponse, DB_KEYS.ERROR, true)){
       showSnackBar({}, localeString(LOCALE_STRING.REPORT_ISSUE.BUG_REPORTED));
-      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+      this.props.navigation.goBack()
+      // this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
     }
   };
   render() {
