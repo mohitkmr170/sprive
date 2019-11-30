@@ -177,6 +177,9 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
           )}
           rightIconPresent
           iconName={chatIcon}
+          iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
+          iconStyle={styles.supportIcon}
+          navigation = {this.props.navigation}
           onBackPress={() =>
             reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
               isUserDataChanged: false,
