@@ -169,6 +169,7 @@ export const DB_KEYS = {
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
   CREATED_AT: 'response.data[0].createdAt',
+  RESPONSE: 'response',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
@@ -207,6 +208,7 @@ export const NAVIGATION_SCREEN_NAME = {
   OVERPAYMENT: 'OverPaymentScreen',
   OVERPAYMENT_HISTORY: 'OverpaymentHistoryScreen',
   REPORT_ISSUE: 'ReportIssueScreen',
+  UPDATE_MORTGAGE: 'UpdateMortgageScreen',
 };
 
 export const LOCALE_STRING = {
@@ -335,5 +337,18 @@ export const LOCALE_STRING = {
     CHARACTERS_LIMIT: 'reportIssue.characterLimit',
     CHAR_LEFT: 'reportIssue.chLeft',
     REPORT_ISSUE: 'reportIssue.reportIssue',
+  },
+  UPDATE_MORTGAGE: {
+    UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',
+    INFO: 'updateMortgage.info',
+    UPDATE: 'updateMortgage.update',
+  },
+};
+
+export const FE_FORM_VALUE_CONSTANTS = {
+  MORTGAGE_INPUT: {
+    MORTGAGE_BALANCE: 'mortgageAmount',
+    MORTGAGE_TERM: 'timePeriod',
+    MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
   },
 };

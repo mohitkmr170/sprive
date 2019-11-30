@@ -20,6 +20,7 @@ import {
   OverPayment,
   OverpaymentHistory,
   ReportIssue,
+  UpdateMortgage,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -131,6 +132,8 @@ const AppStackNavigator = createStackNavigator(
     },
     ReportIssueScreen: {
       screen: ReportIssue,
+    UpdateMortgageScreen: {
+      screen: UpdateMortgage,
     },
   },
   {
