@@ -9,12 +9,15 @@ interface props {
   leftIconPresent?: boolean;
   onBackPress: () => void;
   iconName: any;
+  navigation: {
+    navigate: (routeName: string) => void;
+  };
 }
 interface state {}
 
 export class Header extends React.Component<props, state> {
   render() {
-    const {rightIconPresent, iconName, leftIconPresent} = this.props;
+    const {rightIconPresent, iconName, leftIconPresent, iconPath, iconStyle, navigation} = this.props;
     return (
       <View style={styles.mainContainer}>
         {leftIconPresent ? (
@@ -31,7 +34,15 @@ export class Header extends React.Component<props, state> {
         {rightIconPresent && (
           <Text style={styles.middleContainer}>{this.props.title}</Text>
         )}
-        {rightIconPresent && <Image source={iconName} height={40} width={40} />}
+        {rightIconPresent &&
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(iconPath)
+            }
+            style={iconStyle}>
+            <Image source={iconName} height={40} width={40} />
+          </TouchableOpacity>
+          }
       </View>
     );
   }
