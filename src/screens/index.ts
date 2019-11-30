@@ -7,4 +7,5 @@ export * from './dashBoard';
 export * from './setGoal';
 export * from './overPayment';
 export * from './overPaymentHistory';
+export * from './reportIssue';
 export * from './updateMortgage';

@@ -181,7 +181,13 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             <ImageBackground
               source={dashBoardCard}
               style={styles.blueImageBackground}>
-              <TouchableOpacity onPress={() => {}} style={styles.supportIcon}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate(
+                    NAVIGATION_SCREEN_NAME.REPORT_ISSUE,
+                  )
+                }
+                style={styles.supportIcon}>
                 <Image source={report} />
               </TouchableOpacity>
               <Text style={styles.thisMonthText}>

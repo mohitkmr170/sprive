@@ -188,8 +188,12 @@ export const DB_KEYS = {
     PAYMENT_DATE: 'payment_date',
     REFERENCE_NUMBER: 'reference_number',
     ID: 'id',
-    IS_OVERPAYMENT: 'is_overpayment',
+    IS_OVERPAYMENT: 'is_overpayment'
   },
+  REPORT_ISSUE: {
+    ISSUE_CATEGORY_BUG: 'Issue/Bug',
+    ISSUE_CATEGORY_LABEL_KEY: 'label'
+  }
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -203,6 +207,7 @@ export const NAVIGATION_SCREEN_NAME = {
   TAB_NAVIGATOR: 'TabNavigatorScreen',
   OVERPAYMENT: 'OverPaymentScreen',
   OVERPAYMENT_HISTORY: 'OverpaymentHistoryScreen',
+  REPORT_ISSUE: 'ReportIssueScreen',
   UPDATE_MORTGAGE: 'UpdateMortgageScreen',
 };
 
@@ -322,6 +327,16 @@ export const LOCALE_STRING = {
     REFERENCE_CODE: 'overPaymentHistory.refCode',
     ON_TARCK: 'overPaymentHistory.onTrack',
     YEAR: 'overPaymentHistory.year',
+  },
+  REPORT_ISSUE: {
+    PLACEHOLDER: 'reportIssue.placeHolder',
+    REPORT_AN_ISSUE: 'reportIssue.reportAnIssue',
+    HAVE_AN_ISSUE: 'reportIssue.haveAnIssue',
+    BUG_CATEGORY: 'reportIssue.bugCategory',
+    ISSUE: 'reportIssue.issue',
+    CHARACTERS_LIMIT: 'reportIssue.characterLimit',
+    CHAR_LEFT: 'reportIssue.chLeft',
+    REPORT_ISSUE: 'reportIssue.reportIssue',
   },
   UPDATE_MORTGAGE: {
     UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',

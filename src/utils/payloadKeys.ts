@@ -41,4 +41,8 @@ export const PAYLOAD_KEYS: any = {
     TO_DATE: 'to_date',
     CURRENT_DATE: 'current_date',
   },
+  ISSUE: {
+    CATEGORY_ID: 'category_id',
+    DESCRIPTION: 'description',
+  },
 };
