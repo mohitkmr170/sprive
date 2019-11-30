@@ -132,6 +132,7 @@ const AppStackNavigator = createStackNavigator(
     },
     ReportIssueScreen: {
       screen: ReportIssue,
+    },
     UpdateMortgageScreen: {
       screen: UpdateMortgage,
     },

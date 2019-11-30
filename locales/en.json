@@ -131,7 +131,9 @@
     "issue": "Issue",
     "characterLimit": "",
     "chLeft": "characters left",
-    "reportIssue": "Report Issue"
+    "reportIssue": "Report Issue",
+    "bugReported": "Issue reported successfully!"
+    },
   "updateMortgage": {
     "updateMortgage": "Update Mortgage",
     "info": "Information",

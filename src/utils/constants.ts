@@ -192,7 +192,10 @@ export const DB_KEYS = {
   },
   REPORT_ISSUE: {
     ISSUE_CATEGORY_BUG: 'Issue/Bug',
-    ISSUE_CATEGORY_LABEL_KEY: 'label'
+    ISSUE_CATEGORY_BUG_VALUE: 1,
+    ISSUE_CATEGORY_LABEL_KEY: 'label',
+    ISSUE_CATEGORY_ID_KEY: 'id',
+    ISSUE_CATEGORY_VALUE_KEY: 'value',
   }
 };
 export const NAVIGATION_SCREEN_NAME = {
@@ -337,6 +340,7 @@ export const LOCALE_STRING = {
     CHARACTERS_LIMIT: 'reportIssue.characterLimit',
     CHAR_LEFT: 'reportIssue.chLeft',
     REPORT_ISSUE: 'reportIssue.reportIssue',
+    BUG_REPORTED: 'reportIssue.bugReported'
   },
   UPDATE_MORTGAGE: {
     UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',
