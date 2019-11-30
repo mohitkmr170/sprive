@@ -137,6 +137,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
             <TextInput
               multiline={true}
               numberOfLines={10}
+              textAlignVertical="top"
               style={styles.descriptionInput}
               value = {this.state.description}
               placeholder={localeString(LOCALE_STRING.REPORT_ISSUE.PLACEHOLDER)}
