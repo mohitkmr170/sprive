@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import {NavigationActions, StackActions} from 'react-navigation';
 import {DrawerActions} from 'react-navigation-drawer';
+import {NAVIGATION_SCREEN_NAME} from '../utils/constants';
 interface NavigationParams {
   isUserDataChanged: boolean;
 }
@@ -40,6 +41,28 @@ export function reset(routeName: string, params?: NavigationParams = {}) {
       index: 0,
       key: null,
       actions: [NavigationActions.navigate({routeName, params})],
+    });
+    NAVIGATOR_CONFIG.navigator.dispatch(action);
+  }
+}
+
+/**
+ * Function to route along with reset action
+ * @param routeName : string : Navigation screen route name
+ */
+export function resetToTabNavigator(routeName: string) {
+  if (NAVIGATOR_CONFIG.navigator && routeName) {
+    const action = StackActions.reset({
+      index: 0,
+      key: null,
+      actions: [
+        NavigationActions.navigate({
+          routeName: NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+          action: NavigationActions.navigate({
+            routeName,
+          }),
+        }),
+      ],
     });
     NAVIGATOR_CONFIG.navigator.dispatch(action);
   }

@@ -82,7 +82,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
     if (currentBalance)
       //If user has some balance_amount pending, then it will show => x more to go!
       this.setState({
-        amount: String(currentBalance),
+        amount: String(Math.round(currentBalance)),
       });
     //Send user event to GA.
     _gaSetCurrentScreen('OverpaymentScreen');

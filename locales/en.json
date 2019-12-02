@@ -88,7 +88,7 @@
   "dashBoard": {
     "thisMonth": "This Month",
     "overPaymentTarget": "Your overpayment target",
-    "paymentReminder": "Next payment reminder due on Sept 25th",
+    "paymentReminder": "Next payment reminder due on {{month}} 25th",
     "amountLeft": "Amount Left:",
     "income": "Income",
     "spent": "Spent",
@@ -108,7 +108,8 @@
     "tryAgain": "Try Again",
     "brilliant": "Brilliant! At this rate, you could save £{{interestSaved}} in interest, and pay off your mortgage {{timeSaved}} {{month}} earlier",
     "wentWrong": "Something went wrong Please try again",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "mortgageUpdated": "Seems like you updated your Mortgage, please go ahead and re-set your goal to proceed"
   },
   "overPaymentHistory": {
     "overPayment": "Overpayment",
