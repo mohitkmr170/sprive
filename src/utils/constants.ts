@@ -40,6 +40,7 @@ export const APP_CONSTANTS = {
     SMALL: 'small',
     LARGE: 'large',
   },
+  MIN_GOAL_VALUE: 1,
 };
 
 export const STYLE_CONSTANTS = {
