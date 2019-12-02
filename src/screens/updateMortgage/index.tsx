@@ -13,7 +13,7 @@ import {reduxForm, isDirty} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {updateUserMortgage} from '../../store/reducers';
 import {connect} from 'react-redux';
-import {reset} from '../../navigation/navigationService';
+import {resetToTabNavigator} from '../../navigation/navigationService';
 import {
   APP_CONSTANTS,
   LOCALE_STRING,
@@ -110,12 +110,11 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     );
     if (!_get(updateUserMortgageResponse, DB_KEYS.ERROR, true)) {
       this.props.triggerUserDataChange(true);
-      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
+      resetToTabNavigator(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
     }
   };
 
   render() {
-    console.log('Changes in form', this.props.isDirty);
     const {handleSubmit, updateUserMortgageResponse} = this.props;
     return (
       <View style={styles.screenContainer}>
