@@ -136,15 +136,15 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       this.setState({loading: false});
       return;
     }
-    const qParam = {
+    const qParam_monthly_payment_record = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
       [PAYLOAD_KEYS.GRAPH.CURRENT_DATE]: new Date().toISOString(),
     };
     //
-    const qParams = {
+    const qParam_get_user_goal = {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
-    await getUserGoal({}, qParams);
+    await getUserGoal({}, qParam_get_user_goal);
     //
     const {getUserGoalResponse} = this.props;
     if (!_get(getUserGoalResponse, DB_KEYS.RESPONSE_DATA, []).length) {
@@ -164,7 +164,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     if (
       !(!monthlyOverPayment && mortgageTerm === APP_CONSTANTS.MIN_GOAL_VALUE)
     ) {
-      await getMonthlyPaymentRecord({}, qParam);
+      await getMonthlyPaymentRecord({}, qParam_monthly_payment_record);
       const qParamProjectData = {
         user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
       };
