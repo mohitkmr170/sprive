@@ -18,6 +18,7 @@ import {localeString} from '../../utils/i18n';
 import {COLOR} from '../../utils/colors';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {showSnackBar} from '../../utils/helperFunctions';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 // const BUG_CATEGORY = [];
 const DESCRIPTION_MAX_LIMIT = 250;
@@ -45,7 +46,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
     this.state = {
       issue: '',
       description: '',
-      BUG_CATEGORY: []
+      BUG_CATEGORY: [],
     };
   }
   componentDidMount = async () => {
@@ -66,10 +67,18 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
             value: _get(issues[index], 'id', ''),
           });
         });
-        this.setState({BUG_CATEGORY: bug_categories,
-          issue: bug_categories && bug_categories[0] && bug_categories[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY] ? bug_categories[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]: DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE
-        });
+      this.setState({
+        BUG_CATEGORY: bug_categories,
+        issue:
+          bug_categories &&
+          bug_categories[0] &&
+          bug_categories[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
+            ? bug_categories[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
+            : DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE,
+      });
     }
+    //Send user event to GA.
+    _gaSetCurrentScreen('ReportIssueScreen');
   };
   /**
    * Function called on Submit
@@ -81,18 +90,15 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
       [PAYLOAD_KEYS.ISSUE.CATEGORY_ID]: this.state.issue,
       [PAYLOAD_KEYS.ISSUE.DESCRIPTION]: this.state.description,
     };
-    console.log(
-        'ReportIssue::  handleSubmit :: payload -->',
-        payload,
-      );
+    console.log('ReportIssue::  handleSubmit :: payload -->', payload);
     await setIssue(payload);
     const {setIssueResponse} = this.props;
     /*
     TODO : Navigation service to be used here!
     */
-    if (!_get(setIssueResponse, DB_KEYS.ERROR, true)){
+    if (!_get(setIssueResponse, DB_KEYS.ERROR, true)) {
       showSnackBar({}, localeString(LOCALE_STRING.REPORT_ISSUE.BUG_REPORTED));
-      this.props.navigation.goBack()
+      this.props.navigation.goBack();
       // this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
     }
   };
@@ -107,8 +113,9 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
           rightIconPresent
           onBackPress={() => this.props.navigation.goBack()}
         />
-        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}
-            contentContainerStyle={{flexGrow: 1}}>
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.mainContainer}>
             <Text style={styles.titleText}>
               {localeString(LOCALE_STRING.REPORT_ISSUE.HAVE_AN_ISSUE)}
@@ -116,7 +123,15 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
             <Dropdown
               data={BUG_CATEGORY}
               label={localeString(LOCALE_STRING.REPORT_ISSUE.BUG_CATEGORY)}
-              value={BUG_CATEGORY && BUG_CATEGORY[0] &&BUG_CATEGORY[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY] ? BUG_CATEGORY[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]: DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE}
+              value={
+                BUG_CATEGORY &&
+                BUG_CATEGORY[0] &&
+                BUG_CATEGORY[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
+                  ? BUG_CATEGORY[0][
+                      DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY
+                    ]
+                  : DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE
+              }
               animationDuration={0}
               rippleDuration={0}
               labelFontSize={14}
@@ -139,7 +154,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
               numberOfLines={10}
               textAlignVertical="top"
               style={styles.descriptionInput}
-              value = {this.state.description}
+              value={this.state.description}
               placeholder={localeString(LOCALE_STRING.REPORT_ISSUE.PLACEHOLDER)}
               placeholderTextColor={COLOR.PLACEHOLDER}
               maxLength={DESCRIPTION_MAX_LIMIT}

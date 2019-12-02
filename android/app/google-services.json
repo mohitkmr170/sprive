@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "762821429649",
+    "firebase_url": "https://geeky-sprive.firebaseio.com",
+    "project_id": "geeky-sprive",
+    "storage_bucket": "geeky-sprive.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762821429649:android:1b4756f8b8e6a47325b230",
+        "android_client_info": {
+          "package_name": "com.sprive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762821429649-me76miff0lhsvrrki6fa0j2533573089.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdmiQQ5jfp2excd72a422syQNjsIPSoKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762821429649-me76miff0lhsvrrki6fa0j2533573089.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

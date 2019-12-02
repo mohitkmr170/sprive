@@ -15,6 +15,7 @@ import {
   DB_KEYS,
 } from '../../utils/constants';
 import {getNumberWithCommas} from '../../utils/helperFunctions';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 const LIST_ITEM = [
   {
@@ -47,6 +48,11 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     super(props);
     this.state = {};
   }
+
+  componentDidMount = async () => {
+    //Send user event to GA.
+    _gaSetCurrentScreen('SaveInterestScreen');
+  };
 
   handlebackPress = () => {
     this.props.navigation.goBack();

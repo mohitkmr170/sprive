@@ -16,6 +16,7 @@ import {connect} from 'react-redux';
 import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
 import {get as _get} from 'lodash';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 interface props {
   navigation: {
@@ -45,6 +46,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
         this.props.reset(APP_CONSTANTS.MORTGAGE_INPUT_FORM);
       },
     );
+
+    //Send user event to GA.
+    _gaSetCurrentScreen('MortgageEntryScreen');
   }
   // Back Icon Pressed
   handleBackPress = () => {};

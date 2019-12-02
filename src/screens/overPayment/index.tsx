@@ -37,6 +37,7 @@ import {
   getRoundFigure,
 } from '../../utils/helperFunctions';
 import {localeString} from '../../utils/i18n';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 const INC_DEC_OFFSET = 10;
 const EDIT_ICON_NAME = 'pencil';
@@ -83,6 +84,8 @@ class UnconnectedOverPayment extends React.Component<props, state> {
       this.setState({
         amount: String(currentBalance),
       });
+    //Send user event to GA.
+    _gaSetCurrentScreen('OverpaymentScreen');
   };
 
   handleEdit = () => {

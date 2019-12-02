@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {styles} from './styles';
 import {SignUpForm} from './signupForm';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 interface props {
   navigation: {
@@ -16,6 +17,10 @@ export class SignUp extends React.Component<props, state> {
     super(props);
     this.state = {};
   }
+  componentDidMount = async () => {
+    //Send user event to GA.
+    _gaSetCurrentScreen('SignupScreen');
+  };
   render() {
     const {navigation} = this.props;
     return (

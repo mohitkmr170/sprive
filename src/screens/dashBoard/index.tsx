@@ -40,7 +40,9 @@ import {
 import {COLOR} from '../../utils/colors';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {getNumberWithCommas} from '../../utils/helperFunctions';
-import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts'
+import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
+
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 interface NavigationParams {
   isUserDataChanged: boolean;
@@ -59,7 +61,7 @@ interface props {
   getProjectedData: (payload: object, extraPayload: object) => void;
   getProjectedDataResponse: object;
   userDataChangeEvent: object;
-  triggerUserDataChange: (value:boolean) => void;
+  triggerUserDataChange: (value: boolean) => void;
 }
 
 interface state {
@@ -94,13 +96,23 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
         const navParam = cloneDeep(this.props.navigation.state.params);
-        if (!navParam || navParam.isUserDataChanged || this.props.userDataChangeEvent.userDataChanged) {
+        if (
+          !navParam ||
+          navParam.isUserDataChanged ||
+          this.props.userDataChangeEvent.userDataChanged
+        ) {
           this.setToInitialState();
           this.handleInitialMount();
-          this.props.userDataChangeEvent.userDataChanged && this.props.triggerUserDataChange(false);
+          this.props.userDataChangeEvent.userDataChanged &&
+            this.props.triggerUserDataChange(false);
         }
+        //Send user event to GA.
+        _gaSetCurrentScreen('DashboardScreen');
       },
     );
+
+    //Send user event to GA.
+    _gaSetCurrentScreen('DashboardScreen');
   };
 
   handleInitialMount = async () => {
@@ -342,8 +354,7 @@ const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   getProjectedData: (payload, extraPayload) =>
     dispatch(getProjectedData.fetchCall(payload, extraPayload)),
-  triggerUserDataChange: (value) =>
-    dispatch(triggerUserDataChangeEvent(value)),
+  triggerUserDataChange: value => dispatch(triggerUserDataChangeEvent(value)),
 });
 
 export const DashBoard = connect(
