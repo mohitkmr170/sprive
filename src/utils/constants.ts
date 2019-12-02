@@ -318,6 +318,7 @@ export const LOCALE_STRING = {
     BRILLIANT: 'statusOverlay.brilliant',
     WENT_WRONG: 'statusOverlay.wentWrong',
     CANCEL: 'statusOverlay.cancel',
+    MORTGAGE_UPDATED: 'statusOverlay.mortgageUpdated',
   },
   OVER_PAYMENT_HISTORY: {
     OVER_PAYMENT: 'overPaymentHistory.overPayment',

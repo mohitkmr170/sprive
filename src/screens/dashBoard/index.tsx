@@ -132,50 +132,48 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     };
     await getUserMortgageData({}, qParamsInfo);
     const {getUserMortgageDataResponse} = this.props;
-    if (_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
-      const qParam = {
-        [PAYLOAD_KEYS.USER_ID]: _get(
-          getUserInfoResponse,
-          DB_KEYS.DATA_ID,
-          null,
-        ),
-        [PAYLOAD_KEYS.GRAPH.CURRENT_DATE]: new Date().toISOString(),
-      };
-      //
-      const qParams = {
-        [PAYLOAD_KEYS.USER_ID]: userId,
-      };
-      await getUserGoal({}, qParams);
-      //
-      const {getUserGoalResponse} = this.props;
-      if (_get(getUserGoalResponse, 'response.data', []).length) {
-        const mortgageTerm = _get(
-          getUserGoalResponse,
-          DB_KEYS.NEW_MORTGAGE_TERM,
-          null,
-        );
-        const monthlyOverPayment = _get(
-          getUserGoalResponse,
-          DB_KEYS.GOAL_OVERPAYMENT,
-          null,
-        );
-        if (
-          !(
-            !monthlyOverPayment && mortgageTerm === APP_CONSTANTS.MIN_GOAL_VALUE
-          )
-        ) {
-          await getMonthlyPaymentRecord({}, qParam);
-          const qParamProjectData = {
-            user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-          };
-          await getProjectedData({}, qParamProjectData);
-          this.setState({loading: false});
-          navigation.setParams({
-            isUserDataChanged: false,
-          });
-        } else this.setState({loading: false});
-      } else this.setState({loading: false});
+    if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
+      this.setState({loading: false});
+      return;
     }
+    const qParam = {
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.GRAPH.CURRENT_DATE]: new Date().toISOString(),
+    };
+    //
+    const qParams = {
+      [PAYLOAD_KEYS.USER_ID]: userId,
+    };
+    await getUserGoal({}, qParams);
+    //
+    const {getUserGoalResponse} = this.props;
+    if (!_get(getUserGoalResponse, DB_KEYS.RESPONSE_DATA, []).length) {
+      this.setState({loading: false});
+      return;
+    }
+    const mortgageTerm = _get(
+      getUserGoalResponse,
+      DB_KEYS.NEW_MORTGAGE_TERM,
+      null,
+    );
+    const monthlyOverPayment = _get(
+      getUserGoalResponse,
+      DB_KEYS.GOAL_OVERPAYMENT,
+      null,
+    );
+    if (
+      !(!monthlyOverPayment && mortgageTerm === APP_CONSTANTS.MIN_GOAL_VALUE)
+    ) {
+      await getMonthlyPaymentRecord({}, qParam);
+      const qParamProjectData = {
+        user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      };
+      await getProjectedData({}, qParamProjectData);
+      this.setState({loading: false});
+      navigation.setParams({
+        isUserDataChanged: false,
+      });
+    } else this.setState({loading: false});
   };
 
   handleMakeOverPayment = () => {
@@ -395,7 +393,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               mainMessage={localeString(LOCALE_STRING.STATUS_OVERLAY.OH_NO)}
               infoTitle={
                 isUpdatedAndGoalNotSet
-                  ? 'Seems like you updated your Mortgage, please go ahead and set your goal to proceed'
+                  ? localeString(LOCALE_STRING.STATUS_OVERLAY.MORTGAGE_UPDATED)
                   : localeString(LOCALE_STRING.STATUS_OVERLAY.MESSAGE)
               }
             />

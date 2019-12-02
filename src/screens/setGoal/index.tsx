@@ -81,7 +81,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
 
   componentDidMount = async () => {
     // console.log('SetGoal:: componentDidMount:: REACHED');
-    this.handleInitialMount();
+    // this.handleInitialMount();
     this.navFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
