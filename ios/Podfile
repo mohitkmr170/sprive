@@ -41,6 +41,9 @@ target 'Sprive' do
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+  pod 'Firebase/Analytics'
+  pod 'RNFBAnalytics', :path => '../node_modules/@react-native-firebase/analytics'
+  pod 'GoogleIDFASupport', '~> 3.14.0'
 
   target 'SpriveTests' do
     inherit! :search_paths
