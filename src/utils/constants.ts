@@ -40,6 +40,7 @@ export const APP_CONSTANTS = {
     SMALL: 'small',
     LARGE: 'large',
   },
+  MIN_GOAL_VALUE: 1,
 };
 
 export const STYLE_CONSTANTS = {
@@ -317,6 +318,7 @@ export const LOCALE_STRING = {
     BRILLIANT: 'statusOverlay.brilliant',
     WENT_WRONG: 'statusOverlay.wentWrong',
     CANCEL: 'statusOverlay.cancel',
+    MORTGAGE_UPDATED: 'statusOverlay.mortgageUpdated',
   },
   OVER_PAYMENT_HISTORY: {
     OVER_PAYMENT: 'overPaymentHistory.overPayment',
