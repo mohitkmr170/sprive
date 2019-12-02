@@ -122,5 +122,21 @@
     "refCode": "Reference Code",
     "onTrack": "You are on track",
     "year": "Year"
+  },
+  "reportIssue": {
+    "placeHolder": "Describe your issue here",
+    "reportAnIssue": "Report an Issue",
+    "haveAnIssue": "Have an issue you want us to look into?",
+    "bugCategory": "Issue Category",
+    "issue": "Issue",
+    "characterLimit": "",
+    "chLeft": "characters left",
+    "reportIssue": "Report Issue",
+    "bugReported": "Issue reported successfully!"
+    },
+  "updateMortgage": {
+    "updateMortgage": "Update Mortgage",
+    "info": "Information",
+    "update": "Update"
   }
 }
