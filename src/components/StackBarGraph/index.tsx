@@ -28,7 +28,6 @@ import Icons from 'react-native-vector-icons/Feather';
 import {localeString} from '../../utils/i18n';
 import {COLOR} from '../../utils/colors';
 import {graphData} from './helpers';
-console.log('graphDataf', JSON.parse(JSON.stringify(graphData)));
 import {ToolTip} from './toolTip';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {getNumberWithCommas} from '../../utils/helperFunctions';
@@ -55,6 +54,7 @@ interface props {
   currentMonthTarget: any;
   getProjectedData: (payload: object, extraPayload: object) => void;
   getProjectedDataResponse: object;
+  getMonthlyPaymentRecordResponse: object;
 }
 
 interface state {
@@ -90,10 +90,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       month: [],
       currentTarget: {},
       loading: true,
-      activeGraphIndex:
-        currentMonthIndex > 6
-          ? currentMonthIndex - GRAPH_OFFSET
-          : currentMonthIndex,
+      activeGraphIndex: -1,
     };
   }
 
@@ -112,20 +109,17 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
     for (let i = 0; i < graphData.length; i++) {
       currentGraphData[i].monthlyMortgage.svg.onPress = () =>
         this.onStackBarPress(i);
+      currentGraphData[i].overPayment.svg.onPress = () =>
+        this.onStackBarPress(i);
       if (currentGraphData.length - 1 === i) {
-        console.log('currentGraphData', [...currentGraphData]);
-        this.setState(
-          {
-            currentScrollIndex: 1,
-            graphData: currentGraphData,
-          },
-          () => {
-            this.getDataRange();
-            this.getNewGraphData();
-          },
-        );
+        this.setState({
+          currentScrollIndex: 1,
+          graphData: graphData,
+        });
       }
     }
+    this.getDataRange();
+    this.getNewGraphData();
   };
   /**
    * Function that will return date range (4 months before current and 1 month after current Month)
@@ -209,59 +203,69 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       DB_KEYS.RESPONSE_DATA,
       '',
     );
+    let graphMonthIndex = -1;
+    let nextMonthIndex =
+      actualCurrentMonthIndex === 12 ? 1 : actualCurrentMonthIndex + 1;
+    let activeGraphIndex = -1;
     Object.keys(graphDataArray).map((itemYear, indexYear) => {
       let currentKey = itemYear;
       let currentgraphDataArray = graphDataArray[currentKey];
       Object.keys(currentgraphDataArray).map((item, index) => {
+        graphMonthIndex++;
         currentMonthArray.push(
           APP_CONSTANTS.MONTH_NAMES[currentgraphDataArray[item].month - 1],
         );
-        currentGraphData[index].monthlyMortgage.value = Number(
-          currentgraphDataArray[item].mortgage_amount,
-        );
-        currentGraphData[index].monthlyMortgage.svg.fill = COLORS[0];
-        currentGraphData[index].overPayment.value = Number(
+        currentGraphData[graphMonthIndex].monthlyMortgage.value =
+          currentgraphDataArray[item].mortgage_amount;
+        currentGraphData[graphMonthIndex].monthlyMortgage.svg.fill = COLORS[0];
+        currentGraphData[graphMonthIndex].overPayment.value = Number(
           currentgraphDataArray[item].overpayment,
         );
-        currentGraphData[index].overPayment.svg.onPress = () =>
-          this.onStackBarPress(index);
-        currentGraphData[index].monthlyMortgage.svg.onPress = () =>
-          this.onStackBarPress(index);
-        currentGraphData[index].status = currentgraphDataArray[item].status;
-        currentGraphData[index].monthly_target = Number(
+        // currentGraphData[graphMonthIndex].overPayment.svg.onPress = () =>
+        //   this.onStackBarPress(graphMonthIndex);
+        // currentGraphData[graphMonthIndex].monthlyMortgage.svg.onPress = () =>
+        //   this.onStackBarPress(graphMonthIndex);
+        currentGraphData[graphMonthIndex].status =
+          currentgraphDataArray[item].status;
+        currentGraphData[graphMonthIndex].monthly_target = Number(
           currentgraphDataArray[item].monthly_target,
         );
+        if (currentgraphDataArray[item].month === actualCurrentMonthIndex) {
+          activeGraphIndex = graphMonthIndex;
+        }
         if (
-          parseFloat(currentgraphDataArray[item].overpayment) >=
-          parseFloat(currentgraphDataArray[item].monthly_target)
+          Number(currentgraphDataArray[item].overpayment) >=
+          Number(currentgraphDataArray[item].monthly_target)
         )
-          currentGraphData[index].overPayment.svg.fill = COLOR.SLIDER_COLOR;
-        else currentGraphData[index].overPayment.svg.fill = COLOR.DARK_YELLOW;
-
-        if (index === Object.keys(currentgraphDataArray).length - 1) {
-          if (
-            currentgraphDataArray[item].month ===
-            actualCurrentMonthIndex + 1
-          ) {
-            currentGraphData[index].monthlyMortgage.svg.fill = COLOR.STEEL_GRAY;
-            currentGraphData[index].monthly_target = _get(
+          currentGraphData[graphMonthIndex].overPayment.svg.fill =
+            COLOR.SLIDER_COLOR;
+        if (graphMonthIndex === 5) {
+          if (currentgraphDataArray[item].month === nextMonthIndex) {
+            currentGraphData[graphMonthIndex].monthlyMortgage.svg.fill =
+              COLOR.STEEL_GRAY;
+            currentGraphData[graphMonthIndex].monthly_target = _get(
               getMonthlyPaymentRecordResponse,
               DB_KEYS.MONTHLY_TARGET,
               0,
             );
           }
 
-          currentGraphData[index].monthlyMortgage.value = _get(
+          currentGraphData[graphMonthIndex].monthlyMortgage.value = _get(
             getUserMortgageDataResponse,
             DB_KEYS.MORTGAGE_PAYMENT,
             null,
           );
-          this.onStackBarPress(this.state.activeGraphIndex);
-          this.setState({
-            loading: false,
-            graphData: currentGraphData,
-            month: currentMonthArray,
-          });
+          this.setState(
+            {
+              loading: false,
+              graphData: currentGraphData,
+              month: currentMonthArray,
+              activeGraphIndex: activeGraphIndex,
+            },
+            () => {
+              this.onStackBarPress(activeGraphIndex);
+            },
+          );
         }
       });
     });

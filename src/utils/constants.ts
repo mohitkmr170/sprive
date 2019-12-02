@@ -188,7 +188,7 @@ export const DB_KEYS = {
     PAYMENT_DATE: 'payment_date',
     REFERENCE_NUMBER: 'reference_number',
     ID: 'id',
-    IS_OVERPAYMENT: 'is_overpayment'
+    IS_OVERPAYMENT: 'is_overpayment',
   },
   REPORT_ISSUE: {
     ISSUE_CATEGORY_BUG: 'Issue/Bug',
@@ -196,7 +196,7 @@ export const DB_KEYS = {
     ISSUE_CATEGORY_LABEL_KEY: 'label',
     ISSUE_CATEGORY_ID_KEY: 'id',
     ISSUE_CATEGORY_VALUE_KEY: 'value',
-  }
+  },
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -270,6 +270,7 @@ export const LOCALE_STRING = {
   },
   SET_GOAL_SCREEN: {
     TITLE: 'setGoalScreen.title',
+    TITLE_MORTGAGE: 'setGoalScreen.titleMortgage',
     HOW_QUICKLY: 'setGoalScreen.howQuickly',
     SET_TARGET: 'setGoalScreen.setTarget',
     YOU_CAN_ADJUST: 'setGoalScreen.youCanAdjust',
@@ -307,6 +308,7 @@ export const LOCALE_STRING = {
   },
   STATUS_OVERLAY: {
     MESSAGE: 'statusOverlay.message',
+    MESSAGE_MORTGAGE: 'statusOverlay.messageMortgage',
     CONTINUE: 'statusOverlay.continue',
     OH_NO: 'statusOverlay.ohNo',
     PAID: 'statusOverlay.paid',
@@ -340,7 +342,7 @@ export const LOCALE_STRING = {
     CHARACTERS_LIMIT: 'reportIssue.characterLimit',
     CHAR_LEFT: 'reportIssue.chLeft',
     REPORT_ISSUE: 'reportIssue.reportIssue',
-    BUG_REPORTED: 'reportIssue.bugReported'
+    BUG_REPORTED: 'reportIssue.bugReported',
   },
   UPDATE_MORTGAGE: {
     UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',

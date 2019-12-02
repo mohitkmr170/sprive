@@ -15,7 +15,7 @@ class getUserInfoData extends StoreFetchableData {
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));
-          showSnackBar(err);
+          // showSnackBar(err);
         });
   }
 }

@@ -345,6 +345,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       getUserMortgageDataResponse,
       setUserGoalResponse,
       updateUserGoalResponse,
+      getUserGoalResponse,
     } = this.props;
     const {
       mortgageTerm,
@@ -413,6 +414,10 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 titleStyle={styles.buttonTitleStyle}
                 buttonStyle={styles.buttonStyle}
                 onPress={() => this.handleSetGoal()}
+                disabled={
+                  this.state.mortgageTerm ===
+                  _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null)
+                }
                 loading={
                   _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
                   _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
