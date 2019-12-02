@@ -9,12 +9,13 @@ import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
+import {getUserInfo, setUserMortgage} from '../../store/reducers';
 import {
   NAVIGATION_SCREEN_NAME,
   LOCALE_STRING,
   DB_KEYS,
 } from '../../utils/constants';
-import {getNumberWithCommas} from '../../utils/helperFunctions';
+import {getNumberWithCommas, getAuthToken} from '../../utils/helperFunctions';
 
 const LIST_ITEM = [
   {
@@ -38,6 +39,11 @@ interface props {
     goBack: () => void;
   };
   getCumulativeInterestResponse: object;
+  getUserInfo: () => void;
+  getUserInfoResponse: object;
+  reducerResponse: object;
+  setUserMortgage: (payload: object) => void;
+  setUserMortgageResponse: object;
 }
 
 interface state {}
@@ -53,7 +59,44 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   };
 
   handleSaveWithSprive = () => {
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+    const {getUserInfo, reducerResponse} = this.props;
+    getAuthToken()
+      .then(async res => {
+        // await getUserInfo();
+        const {getUserInfoResponse, setUserMortgage} = this.props;
+        if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
+          //set Mortgage
+          const mortgageData = {
+            mortgage_balance: _get(
+              reducerResponse,
+              DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT,
+              '',
+            ).replace(/,/g, ''),
+            mortgage_term: _get(
+              reducerResponse,
+              DB_KEYS.FORM_MORTGAGE_TIMEPERIOD,
+              '',
+            ).replace(/,/g, ''),
+            mortgage_payment: _get(
+              reducerResponse,
+              DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
+              '',
+            ).replace(/,/g, ''),
+            user_id: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
+          };
+          await setUserMortgage(mortgageData);
+          const {setUserMortgageResponse} = this.props;
+          if (_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
+            this.props.navigation.navigate(
+              NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN,
+            );
+          }
+        } else
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+      })
+      .catch(err => {
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+      });
   };
 
   returnItem = (item: object) => {
@@ -125,6 +168,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
           titleStyle={styles.buttonTitleStyle}
           buttonStyle={styles.buttonStyle}
           onPress={() => this.handleSaveWithSprive()}
+          loading={_get(setUserMortgage, DB_KEYS.IS_FETCHING, false)}
         />
       </View>
     );
@@ -133,9 +177,15 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
 
 const mapStateToProps = state => ({
   getCumulativeInterestResponse: state.getCumulativeInterest,
+  getUserInfoResponse: state.getUserInfo.response,
+  reducerResponse: state.form,
+  setUserMortgageResponse: state.setUserMortgage,
 });
 
-const bindActions = () => ({});
+const bindActions = () => ({
+  getUserInfo: () => dispatch(getUserInfo.fetchCall()),
+  setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
+});
 
 export const SaveInterest = connect(
   mapStateToProps,

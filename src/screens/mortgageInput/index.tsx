@@ -39,12 +39,12 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
   }
   componentDidMount() {
-    this.didFocusListener = this.props.navigation.addListener(
-      APP_CONSTANTS.LISTENER.DID_FOCUS,
-      async () => {
-        this.props.reset(APP_CONSTANTS.MORTGAGE_INPUT_FORM);
-      },
-    );
+    // this.didFocusListener = this.props.navigation.addListener(
+    //   APP_CONSTANTS.LISTENER.DID_FOCUS,
+    //   async () => {
+    //     this.props.reset(APP_CONSTANTS.MORTGAGE_INPUT_FORM);
+    //   },
+    // );
   }
   // Back Icon Pressed
   handleBackPress = () => {};
@@ -53,7 +53,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     this.setState({enableButton: false});
   }
   componentWillUnmount() {
-    this.didFocusListener.remove();
+    // this.didFocusListener.remove();
   }
   /**
    *

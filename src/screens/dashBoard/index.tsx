@@ -30,6 +30,7 @@ import {
   getMonthlyPaymentRecord,
   getUserInfo,
   getProjectedData,
+  getUserMortgageData,
 } from '../../store/reducers';
 import {
   NAVIGATION_SCREEN_NAME,
@@ -40,7 +41,7 @@ import {
 import {COLOR} from '../../utils/colors';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {getNumberWithCommas} from '../../utils/helperFunctions';
-import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts'
+import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
 
 interface NavigationParams {
   isUserDataChanged: boolean;
@@ -59,7 +60,9 @@ interface props {
   getProjectedData: (payload: object, extraPayload: object) => void;
   getProjectedDataResponse: object;
   userDataChangeEvent: object;
-  triggerUserDataChange: (value:boolean) => void;
+  triggerUserDataChange: (value: boolean) => void;
+  getUserMortgageDataResponse: object;
+  getUserMortgageData: (payload: object, extraPayload: object) => void;
 }
 
 interface state {
@@ -94,36 +97,56 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
         const navParam = cloneDeep(this.props.navigation.state.params);
-        if (!navParam || navParam.isUserDataChanged || this.props.userDataChangeEvent.userDataChanged) {
+        if (
+          !navParam ||
+          navParam.isUserDataChanged ||
+          this.props.userDataChangeEvent.userDataChanged
+        ) {
           this.setToInitialState();
           this.handleInitialMount();
-          this.props.userDataChangeEvent.userDataChanged && this.props.triggerUserDataChange(false);
+          this.props.userDataChangeEvent.userDataChanged &&
+            this.props.triggerUserDataChange(false);
         }
       },
     );
   };
 
   handleInitialMount = async () => {
-    await this.props.getUserInfo();
+    // await this.props.getUserInfo();
     const {
       getMonthlyPaymentRecord,
       getUserInfoResponse,
       getProjectedData,
       navigation,
+      getUserMortgageData,
     } = this.props;
-    const qParam = {
-      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-      [PAYLOAD_KEYS.GRAPH.CURRENT_DATE]: new Date().toISOString(),
+    const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
+    if (!getUserInfoResponse || !userId)
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+    const qParamsInfo = {
+      [PAYLOAD_KEYS.USER_ID]: userId,
     };
-    await getMonthlyPaymentRecord({}, qParam);
-    const qParamProjectData = {
-      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-    };
-    await getProjectedData({}, qParamProjectData);
-    this.setState({loading: false});
-    navigation.setParams({
-      isUserDataChanged: false,
-    });
+    await getUserMortgageData({}, qParamsInfo);
+    const {getUserMortgageDataResponse} = this.props;
+    if (_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
+      const qParam = {
+        [PAYLOAD_KEYS.USER_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.DATA_ID,
+          null,
+        ),
+        [PAYLOAD_KEYS.GRAPH.CURRENT_DATE]: new Date().toISOString(),
+      };
+      await getMonthlyPaymentRecord({}, qParam);
+      const qParamProjectData = {
+        user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      };
+      await getProjectedData({}, qParamProjectData);
+      this.setState({loading: false});
+      navigation.setParams({
+        isUserDataChanged: false,
+      });
+    }
   };
 
   handleMakeOverPayment = () => {
@@ -141,6 +164,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     const {
       getMonthlyPaymentRecordResponse,
       getProjectedDataResponse,
+      getUserMortgageDataResponse,
     } = this.props;
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
@@ -314,14 +338,33 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           {_get(getMonthlyPaymentRecordResponse, DB_KEYS.ERROR, true) && (
             <StatusOverlay
               icon={correct}
-              firstButtonText="Set Goal"
+              firstButtonText={localeString(
+                LOCALE_STRING.SET_GOAL_SCREEN.TITLE,
+              )}
               handleFirstButton={() =>
                 this.props.navigation.navigate(
                   NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN,
                 )
               }
-              mainMessage="Oh no!"
-              infoTitle="Goal not set, please go ahead and set your goal to see your Dashboard"
+              mainMessage={localeString(LOCALE_STRING.STATUS_OVERLAY.OH_NO)}
+              infoTitle={localeString(LOCALE_STRING.STATUS_OVERLAY.MESSAGE)}
+            />
+          )}
+          {!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null) && (
+            <StatusOverlay
+              icon={correct}
+              firstButtonText={localeString(
+                LOCALE_STRING.SET_GOAL_SCREEN.TITLE_MORTGAGE,
+              )}
+              handleFirstButton={() =>
+                this.props.navigation.navigate(
+                  NAVIGATION_SCREEN_NAME.UPDATE_MORTGAGE,
+                )
+              }
+              mainMessage={localeString(LOCALE_STRING.STATUS_OVERLAY.OH_NO)}
+              infoTitle={localeString(
+                LOCALE_STRING.STATUS_OVERLAY.MESSAGE_MORTGAGE,
+              )}
             />
           )}
         </View>
@@ -334,6 +377,7 @@ const mapStateToProps = state => ({
   getMonthlyPaymentRecordResponse: state.getMonthlyPaymentRecord,
   getProjectedDataResponse: state.getProjectedData,
   userDataChangeEvent: state.userDataChangeReducer,
+  getUserMortgageDataResponse: state.getUserMortgageData,
 });
 
 const bindActions = dispatch => ({
@@ -342,8 +386,9 @@ const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   getProjectedData: (payload, extraPayload) =>
     dispatch(getProjectedData.fetchCall(payload, extraPayload)),
-  triggerUserDataChange: (value) =>
-    dispatch(triggerUserDataChangeEvent(value)),
+  triggerUserDataChange: value => dispatch(triggerUserDataChangeEvent(value)),
+  getUserMortgageData: (payload, extraPayload) =>
+    dispatch(getUserMortgageData.fetchCall(payload, extraPayload)),
 });
 
 export const DashBoard = connect(
