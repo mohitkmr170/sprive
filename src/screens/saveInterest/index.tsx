@@ -68,7 +68,13 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     const {getUserInfo, reducerResponse} = this.props;
     getAuthToken()
       .then(async res => {
-        // await getUserInfo();
+        console.log('handleSaveWithSprive:: getAuthToken::  res-->', res);
+        if(!res){
+          // CASE-: Token Error, Token Not found
+          // HANDLE-: Route to SignUp Screen
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+          return;
+        }
         const {getUserInfoResponse, setUserMortgage} = this.props;
         if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
           //set Mortgage
@@ -93,14 +99,21 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
           await setUserMortgage(mortgageData);
           const {setUserMortgageResponse} = this.props;
           if (_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
+            // CASE-: Token Sucess, Set-User-Mortgage Success
+            // HANDLE-: Route to Set Goal Screen
             this.props.navigation.navigate(
               NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN,
             );
           }
-        } else
+        } else{
+          // CASE-: Token Error, Invalid or expired
+          // HANDLE-: Route to Login Screen
           this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+        }
       })
       .catch(err => {
+        // CASE-: Token Error, KeyChain Corrupted or couldn't be fetched
+        // HANDLE-: Route to SignUp Screen
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
       });
   };
