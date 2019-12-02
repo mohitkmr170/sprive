@@ -31,7 +31,6 @@ const ERC_FACTOR = 0.1;
 interface NavigationParams {
   isUserDataChanged: boolean;
 }
-const MIN_GOAL_VALUE = 1;
 
 interface props {
   navigation: {
@@ -146,10 +145,13 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       let mortgageErc = (currentMortgageAmount / oldMortgageTerm) * ERC_FACTOR;
       let desiredTerm: Number;
       let newGoal;
-      // const desiredTerm = !monthlyOverPayment && mortgageTerm===MIN_GOAL_VALUE ? Math.ceil(oldMortgageTerm / 2) : mortgageTerm;
+      // const desiredTerm = !monthlyOverPayment && mortgageTerm===APP_CONSTANTS.MIN_GOAL_VALUE ? Math.ceil(oldMortgageTerm / 2) : mortgageTerm;
 
       //INTERNAL GOAL RESET CASE
-      if (!monthlyOverPayment && mortgageTerm === MIN_GOAL_VALUE) {
+      if (
+        !monthlyOverPayment &&
+        mortgageTerm === APP_CONSTANTS.MIN_GOAL_VALUE
+      ) {
         desiredTerm = Math.ceil(oldMortgageTerm / 2);
         newGoal = calculateGoal(
           currentMortgageAmount,
