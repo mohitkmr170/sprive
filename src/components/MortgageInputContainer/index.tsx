@@ -11,6 +11,7 @@ import {
   maxLimitMortgage,
   maxLimitMonthlyMortgage,
   yearRange,
+  negativeValidation,
 } from '../../utils/validate';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
@@ -32,7 +33,7 @@ FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT] = {
   ERROR_STATUS: 'MortgageInput.syncErrors.mortgageAmount',
   PLACEHOLDER: '250,000',
   PARAMETER_TEXT: 'in pounds',
-  INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
+  // INFO_TEXT: 'The approximate amount left to pay on your mortgage.',
   CURRENCY_ICON: true,
   VALIDATION_RULE:
     COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(maxLimitMortgage),
@@ -43,8 +44,8 @@ FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD] = {
   ERROR_STATUS: 'MortgageInput.syncErrors.timePeriod',
   PLACEHOLDER: '25',
   PARAMETER_TEXT: 'in years',
-  INFO_TEXT:
-    'The approximate length of time you have left to pay on your mortgage.',
+  // INFO_TEXT:
+  // 'The approximate length of time you have left to pay on your mortgage.',
   CURRENCY_ICON: false,
   VALIDATION_RULE:
     COMMON_VALIDATION_RULE && COMMON_VALIDATION_RULE.concat(yearRange),
@@ -55,11 +56,14 @@ FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT] = {
   ERROR_STATUS: 'MortgageInput.syncErrors.monthlyMortgagePayment',
   PLACEHOLDER: '1,204',
   PARAMETER_TEXT: 'in pounds',
-  INFO_TEXT: 'The amount you are required to pay your lender each month.',
+  // INFO_TEXT: 'The amount you are required to pay your lender each month.',
   CURRENCY_ICON: true,
   VALIDATION_RULE:
     COMMON_VALIDATION_RULE &&
-    COMMON_VALIDATION_RULE.concat(maxLimitMonthlyMortgage),
+    COMMON_VALIDATION_RULE.concat([
+      negativeValidation,
+      maxLimitMonthlyMortgage,
+    ]),
 };
 
 interface props {
@@ -74,30 +78,6 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     this.state = {};
   }
 
-  /**
-   * @param value : string : Validation WRT mortgageAmount & mortgageTer
-   */
-  negativeValidation = (value: string) => {
-    const {reducerResponse} = this.props;
-    const monthlyMortgage = Number(
-      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT, '').replace(
-        /,/g,
-        '',
-      ),
-    );
-    const timePeriod = Number(
-      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, '').replace(
-        /,/g,
-        '',
-      ),
-    );
-    const withoutCommas = value.replace(/,/g, '');
-    const thresholdMonthlyLimit = monthlyMortgage / (timePeriod * 12);
-    return value && thresholdMonthlyLimit > Number(withoutCommas)
-      ? localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.INVALID_AMOUNT)
-      : undefined;
-  };
-
   formatCurrency = (input: string) => {
     if (!input) return;
     else {
@@ -108,6 +88,7 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
   };
 
   renderFieldItem = (item: object) => {
+    const {reducerResponse} = this.props;
     // calculating error status for enable/disable
     let firstFieldErrorStatus = _get(
       this.props.reducerResponse,
@@ -138,8 +119,8 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
       editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
       infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
     };
-    item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
-      item.VALIDATION_RULE.push(this.negativeValidation);
+    // item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
+    //   item.VALIDATION_RULE.push(this.negativeValidation);
     return (
       <View style={{opacity: item.dynamicValue.editable ? 1 : 0.4}}>
         <Field
@@ -163,9 +144,9 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
           validate={item.VALIDATION_RULE}
         />
         {/* Input field Info and Error messages to be decided and added */}
-        {item.dynamicValue.infoVisibility && (
+        {/* {item.dynamicValue.infoVisibility && (
           <Text style={styles.infoText}>{item.INFO_TEXT}</Text>
-        )}
+        )} */}
       </View>
     );
   };

@@ -1,5 +1,9 @@
 import {localeString} from './i18n';
+import {connect} from 'react-redux';
 import {LOCALE_STRING} from './constants';
+import {store} from '../store/configStore';
+import {get as _get} from 'lodash';
+import {DB_KEYS} from './constants';
 
 const MORTGAGE_LIMIT = 10000000,
   MONTHLY_MORTGAGE_LIMIT = 10000;
@@ -103,3 +107,27 @@ export const yearRange = (value: any) =>
   value && value > 0 && value < 35
     ? undefined
     : localeString(LOCALE_STRING.VALIDATIONS.YEAR_RANGE);
+
+/**
+ * @param value : string : Validation WRT mortgageAmount & mortgageTer
+ */
+export const negativeValidation = (value: any) => {
+  const reducerResponse = store.getState().form;
+  const monthlyMortgage = Number(
+    _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT, '').replace(
+      /,/g,
+      '',
+    ),
+  );
+  const timePeriod = Number(
+    _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, '').replace(
+      /,/g,
+      '',
+    ),
+  );
+  const withoutCommas = value.replace(/,/g, '');
+  const thresholdMonthlyLimit = monthlyMortgage / (timePeriod * 12);
+  return value && thresholdMonthlyLimit > Number(withoutCommas)
+    ? localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.INVALID_AMOUNT)
+    : undefined;
+};

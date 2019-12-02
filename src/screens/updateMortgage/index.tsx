@@ -9,10 +9,11 @@ import {
 import {localeString} from '../../utils/i18n';
 import {DB_KEYS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 import {Button} from 'react-native-elements';
-import {reduxForm} from 'redux-form';
+import {reduxForm, isDirty} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {updateUserMortgage} from '../../store/reducers';
 import {connect} from 'react-redux';
+import {reset} from '../../navigation/navigationService';
 import {
   APP_CONSTANTS,
   LOCALE_STRING,
@@ -36,6 +37,7 @@ interface props {
   triggerUserDataChange: (value: boolean) => void;
   updateUserMortgageResponse: object;
   getUserInfoResponse: object;
+  isDirty: boolean;
 }
 
 interface state {
@@ -73,7 +75,7 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
    *
    * @param values : object : object with all form values
    */
-  handlePayNowPress = async (values: object) => {
+  handleUpdateMortgage = async (values: object) => {
     const {
       updateUserMortgage,
       getUserInfoResponse,
@@ -98,7 +100,7 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
       ),
     };
     console.log(
-      'UnconnectedUpdateMortgage:: handlePayNowPress:: payload -->',
+      'UnconnectedUpdateMortgage:: handleUpdateMortgage:: payload -->',
       payload,
     );
     await updateUserMortgage(payload, {
@@ -106,27 +108,17 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     });
     const {updateUserMortgageResponse} = this.props;
     console.log(
-      'UnconnectedUpdateMortgage:: handlePayNowPress:: NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR -->',
+      'UnconnectedUpdateMortgage:: handleUpdateMortgage:: NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR -->',
       NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
     );
     if (!_get(updateUserMortgageResponse, DB_KEYS.ERROR, true)) {
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({
-            routeName: NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-            action: NavigationActions.navigate({
-              routeName: NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN,
-            }),
-          }),
-        ],
-      });
       this.props.triggerUserDataChange(true);
-      this.props.navigation.dispatch(resetAction);
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
     }
   };
 
   render() {
+    console.log('Changes in form', this.props.isDirty);
     const {handleSubmit, updateUserMortgageResponse} = this.props;
     return (
       <View style={styles.screenContainer}>
@@ -164,10 +156,10 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
             </View>
             <Button
               title={localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE)}
-              onPress={handleSubmit(this.handlePayNowPress)}
+              onPress={handleSubmit(this.handleUpdateMortgage)}
               titleStyle={styles.buttonExteriorStyle}
               buttonStyle={styles.buttonInteriorStyle}
-              disabled={!this.state.enableButton}
+              disabled={!this.props.isDirty}
               loading={_get(
                 updateUserMortgageResponse,
                 DB_KEYS.IS_FETCHING,
@@ -185,6 +177,7 @@ export const MortgageUpdateForm = reduxForm({
 })(UnconnectedUpdateMortgage);
 
 const mapStateToProps = state => ({
+  isDirty: isDirty(APP_CONSTANTS.MORTGAGE_INPUT_FORM)(state),
   updateUserMortgageResponse: state.updateUserMortgage,
   getUserMortgageDataResponse: state.getUserMortgageData,
   getUserInfoResponse: state.getUserInfo,

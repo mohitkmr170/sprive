@@ -62,6 +62,7 @@
   },
   "setGoalScreen": {
     "title": "Set Goal",
+    "titleMortgage": "Set Mortgage",
     "howQuickly": "How quickly would you like to be Mortgage free?",
     "setTarget": "Set target in years",
     "youCanAdjust": "You can adjust your goals anytime and no payment will ever leave your account without your approval",
@@ -99,6 +100,7 @@
   },
   "statusOverlay": {
     "message": "Goal not set, please go ahead and set your goal to continue",
+    "messageMortgage" :"Mortgage data not set, please go ahead and set your Mortgage to proceed",
     "continue": "Continue",
     "ohNo": "Oh no!",
     "paid": "Paid towards your mortgage today",

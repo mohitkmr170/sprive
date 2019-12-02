@@ -111,7 +111,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
         await setUserMortgage(mortgageData);
         const {setUserMortgageResponse} = this.props;
         if (!_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
-          await resetAuthToken();
+          // await resetAuthToken();
           navigation.navigate(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
         } else {
           navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
@@ -308,4 +308,7 @@ const bindActions = dispatch => ({
   reset,
 });
 
-export const SignUpForm = connect(mapStateToProps, bindActions)(SignUpScreen);
+export const SignUpForm = connect(
+  mapStateToProps,
+  bindActions,
+)(SignUpScreen);
