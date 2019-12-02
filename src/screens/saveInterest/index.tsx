@@ -91,7 +91,8 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
               NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN,
             );
           }
-        }
+        } else
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
       })
       .catch(err => {
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
