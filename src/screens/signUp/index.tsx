@@ -19,8 +19,10 @@ export class SignUp extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount = async () => {
-    //Send user event to GA.
-    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+    } catch (error) {}
   };
   render() {
     const {navigation} = this.props;

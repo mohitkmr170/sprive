@@ -19,8 +19,10 @@ export class Login extends React.Component<props, state> {
   }
 
   componentDidMount = async () => {
-    //Send user event to GA.
-    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+    } catch (error) {}
   };
 
   render() {

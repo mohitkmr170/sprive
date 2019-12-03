@@ -56,8 +56,10 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   }
 
   componentDidMount = async () => {
-    //Send user event to GA.
-    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN);
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN);
+    } catch (error) {}
   };
 
   handlebackPress = () => {
