@@ -124,6 +124,33 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
       getUserMortgageDataResponse,
       reducerResponse,
     } = this.props;
+    const updateButtonDisabledStatus =
+      Number(
+        _get(
+          reducerResponse,
+          'MortgageInput.values.monthlyMortgagePayment',
+          '',
+        ).replace(/,/g, ''),
+      ) ===
+        _get(
+          getUserMortgageDataResponse,
+          'response.data[0].mortgage_payment',
+          '',
+        ) &&
+      Number(
+        _get(
+          reducerResponse,
+          'MortgageInput.values.mortgageAmount',
+          '',
+        ).replace(/,/g, ''),
+      ) ===
+        _get(
+          getUserMortgageDataResponse,
+          'response.data[0].mortgage_balance',
+          '',
+        ) &&
+      Number(_get(reducerResponse, 'MortgageInput.values.timePeriod', '')) ===
+        _get(getUserMortgageDataResponse, 'response.data[0].mortgage_term', '');
     return (
       <View style={styles.screenContainer}>
         <GeneralStatusBar backgroundColor={COLOR.WHITE} />
@@ -148,47 +175,19 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
               {localeString(LOCALE_STRING.UPDATE_MORTGAGE.INFO)}
             </Text>
             <View style={styles.mortgageFormComponent}>
-              <MortgageInputContainer />
+              <MortgageInputContainer
+                handleSubmitEnd={
+                  !updateButtonDisabledStatus &&
+                  handleSubmit(this.handleUpdateMortgage)
+                }
+              />
             </View>
             <Button
               title={localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE)}
               onPress={handleSubmit(this.handleUpdateMortgage)}
               titleStyle={styles.buttonExteriorStyle}
               buttonStyle={styles.buttonInteriorStyle}
-              disabled={
-                Number(
-                  _get(
-                    reducerResponse,
-                    'MortgageInput.values.monthlyMortgagePayment',
-                    '',
-                  ).replace(/,/g, ''),
-                ) ===
-                  _get(
-                    getUserMortgageDataResponse,
-                    'response.data[0].mortgage_payment',
-                    '',
-                  ) &&
-                Number(
-                  _get(
-                    reducerResponse,
-                    'MortgageInput.values.mortgageAmount',
-                    '',
-                  ).replace(/,/g, ''),
-                ) ===
-                  _get(
-                    getUserMortgageDataResponse,
-                    'response.data[0].mortgage_balance',
-                    '',
-                  ) &&
-                Number(
-                  _get(reducerResponse, 'MortgageInput.values.timePeriod', ''),
-                ) ===
-                  _get(
-                    getUserMortgageDataResponse,
-                    'response.data[0].mortgage_term',
-                    '',
-                  )
-              }
+              disabled={updateButtonDisabledStatus}
               loading={_get(
                 updateUserMortgageResponse,
                 DB_KEYS.IS_FETCHING,
