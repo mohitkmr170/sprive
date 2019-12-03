@@ -1,7 +1,13 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+# use_frameworks!
 target 'Sprive' do
+  pod 'Fabric'
+  pod 'Crashlytics', '~> 3.12.0'
+  pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
+  pod 'Firebase/Analytics'
+
   # Pods for Sprive
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
