@@ -148,6 +148,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 required,
                 noWhiteSpaces,
               ]}
+              onSubmitEditing={handleSubmit(this.handleLoginPress)}
             />
             <TouchableOpacity style={styles.forgotPasswordContainer}>
               <Text style={styles.forgotPassword}>
@@ -187,4 +188,7 @@ const bindActions = dispatch => ({
   getUserInfo: payload => dispatch(getUserInfo.fetchCall(payload)), // requires form name
 });
 
-export const LoginForm = connect(mapStateToProps, bindActions)(LoginScreen);
+export const LoginForm = connect(
+  mapStateToProps,
+  bindActions,
+)(LoginScreen);

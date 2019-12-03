@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import {styles} from './styles';
 import {
   Header,
@@ -126,6 +126,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
             <View style={styles.mortgageFormComponent}>
               <MortgageInputContainer
                 handleCalculateNowPressed={this.handlePayNowVisibility}
+                handleSubmitEnd={handleSubmit(this.handlePayNowPress)}
               />
             </View>
             <Button
