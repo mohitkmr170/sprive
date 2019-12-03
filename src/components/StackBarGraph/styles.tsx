@@ -83,10 +83,10 @@ export const styles = StyleSheet.create({
   },
   numberOfMonthText: {
     color: COLOR.SLIDER_COLOR,
-    fontSize: STYLE_CONSTANTS.font.SIZE.HUGISH,
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
-  monthsText: {fontSize: STYLE_CONSTANTS.font.SIZE.LARGE},
+  monthsText: {fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST},
   bottomRightContainer: {
     flex: 1,
     alignItems: 'center',
