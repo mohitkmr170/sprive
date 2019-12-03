@@ -112,16 +112,13 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           this.props.userDataChangeEvent.userDataChanged &&
             this.props.triggerUserDataChange(false);
         }
-        //Send user event to GA.
-        _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
       },
     );
-
-    //Send user event to GA.
-    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
   };
 
   handleInitialMount = async () => {
+    //Send user event to GA.
+    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
     // await this.props.getUserInfo();
     const {
       getMonthlyPaymentRecord,
