@@ -83,10 +83,10 @@ export const styles = StyleSheet.create({
   },
   numberOfMonthText: {
     color: COLOR.SLIDER_COLOR,
-    fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
-  monthsText: {fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST},
+  monthsText: {fontSize: STYLE_CONSTANTS.font.SIZE.LARGE},
   bottomRightContainer: {
     flex: 1,
     alignItems: 'center',
@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
   },
   projectSavingText: {
     color: COLOR.SLIDER_COLOR,
-    fontSize: STYLE_CONSTANTS.font.SIZE.HUGISH,
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
   rightButton: {alignSelf: 'center'},
