@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import {styles} from './styles';
 import {
   Header,
@@ -16,6 +16,7 @@ import {connect} from 'react-redux';
 import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
 import {get as _get} from 'lodash';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 interface props {
   navigation: {
@@ -45,6 +46,10 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     //     this.props.reset(APP_CONSTANTS.MORTGAGE_INPUT_FORM);
     //   },
     // );
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
+    } catch (error) {}
   }
   // Back Icon Pressed
   handleBackPress = () => {};
@@ -59,9 +64,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
    *
    * @param values : object : object with all form values
    */
-  handlePayNowPress = async (values: object) => {
+  handleSetMortgage = async (values: object) => {
     console.log(
-      'UnconnectedMortgageInput : handlePayNowPress : values =>',
+      'UnconnectedMortgageInput : handleSetMortgage : values =>',
       values,
     );
     const {getCumulativeInterest} = this.props;
@@ -123,13 +128,14 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
             <View style={styles.mortgageFormComponent}>
               <MortgageInputContainer
                 handleCalculateNowPressed={this.handlePayNowVisibility}
+                handleSubmitEnd={handleSubmit(this.handleSetMortgage)}
               />
             </View>
             <Button
               title={localeString(
                 LOCALE_STRING.MORTGAGE_INPUT_DATA.BUTTON_LOCALE_STRING,
               )}
-              onPress={handleSubmit(this.handlePayNowPress)}
+              onPress={handleSubmit(this.handleSetMortgage)}
               titleStyle={styles.buttonExteriorStyle}
               buttonStyle={styles.buttonInteriorStyle}
               disabled={this.state.enableButton}

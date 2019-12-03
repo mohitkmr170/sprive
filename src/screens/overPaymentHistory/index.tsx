@@ -18,6 +18,7 @@ import {reset} from '../../navigation/navigationService';
 import {APP_CONSTANTS} from '../../utils/constants';
 import {PaymentHistoryList} from './paymentHistoryList';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -65,6 +66,10 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
     for (let i = createdYear; i <= CURRENT_YEAR; i++)
       yearRange.push({value: i});
     this.fetchAllHistory();
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.OVERPAYMENT_HISTORY);
+    } catch (error) {}
   };
   componentWillUnmount() {
     yearRange = [];
@@ -179,7 +184,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
           iconName={chatIcon}
           iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
           iconStyle={styles.supportIcon}
-          navigation = {this.props.navigation}
+          navigation={this.props.navigation}
           onBackPress={() =>
             reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
               isUserDataChanged: false,

@@ -37,6 +37,7 @@ import {
   getRoundFigure,
 } from '../../utils/helperFunctions';
 import {localeString} from '../../utils/i18n';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 const INC_DEC_OFFSET = 10;
 const EDIT_ICON_NAME = 'pencil';
@@ -81,8 +82,12 @@ class UnconnectedOverPayment extends React.Component<props, state> {
     if (currentBalance)
       //If user has some balance_amount pending, then it will show => x more to go!
       this.setState({
-        amount: String(currentBalance),
+        amount: String(Math.round(currentBalance)),
       });
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
+    } catch (error) {}
   };
 
   handleEdit = () => {
@@ -183,10 +188,12 @@ class UnconnectedOverPayment extends React.Component<props, state> {
       DB_KEYS.PROJECTED.MONTHS_SAVED,
       0,
     );
-    let currentRemainingBalance = _get(
-      getMonthlyPaymentRecordResponse,
-      DB_KEYS.BALANCE_AMOUNT,
-      null,
+    let currentRemainingBalance = getNumberWithCommas(
+      String(
+        Math.round(
+          _get(getMonthlyPaymentRecordResponse, DB_KEYS.BALANCE_AMOUNT, null),
+        ),
+      ),
     );
     let monthlyTarget = getRoundFigure(
       _get(getMonthlyPaymentRecordResponse, DB_KEYS.MONTHLY_TARGET, null),

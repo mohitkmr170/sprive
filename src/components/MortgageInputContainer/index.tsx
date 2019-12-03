@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import {styles} from './styles';
 import {ReduxFormField} from '../ReduxFormField';
 import {Field, reduxForm} from 'redux-form';
@@ -142,6 +142,10 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
           parameterText={item.PARAMETER_TEXT}
           editIcon={true}
           validate={item.VALIDATION_RULE}
+          onSubmitEditing={
+            item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
+            this.props.handleSubmitEnd
+          }
         />
         {/* Input field Info and Error messages to be decided and added */}
         {/* {item.dynamicValue.infoVisibility && (

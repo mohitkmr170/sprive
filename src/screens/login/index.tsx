@@ -2,6 +2,8 @@ import React from 'react';
 import {View, Text, TextInput} from 'react-native';
 import {styles} from './styles';
 import {LoginForm} from './loginForm';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
+import {NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 
 interface props {
   navigation: {
@@ -15,6 +17,13 @@ export class Login extends React.Component<props, state> {
     super(props);
     this.state = {};
   }
+
+  componentDidMount = async () => {
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+    } catch (error) {}
+  };
 
   render() {
     const {navigation} = this.props;

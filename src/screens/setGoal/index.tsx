@@ -24,6 +24,7 @@ import {calculateGoal} from '../../utils/calculator-scripts';
 import {ErcWarning} from './ercWarning';
 import {TargetDetails} from './targetDetails';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 const SLIDER_START_VALUE = 1;
 const SLIDER_STEP = 1;
@@ -90,6 +91,10 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         this.handleInitialMount();
       },
     );
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
+    } catch (error) {}
   };
 
   handleInitialMount = async () => {
