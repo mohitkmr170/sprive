@@ -113,10 +113,17 @@ export async function resetAuthToken() {
  * @param err : object : Error object of API error
  */
 export function showSnackBar(err: object, nonApiError?: string) {
+  let priorityErrorMessage = '';
+  if (Object.keys(err).length) {
+    let key = Object.keys(_get(err, 'response.data.errors', ''))[0];
+    priorityErrorMessage = _get(err, 'response.data.errors', '')[key];
+  }
   return Snackbar.show({
     title: nonApiError
       ? nonApiError
-      : _get(err, DB_KEYS.ERROR_MESSAGE, APP_CONSTANTS.GENERAL_ERROR),
+      : priorityErrorMessage
+      ? priorityErrorMessage
+      : APP_CONSTANTS.GENERAL_ERROR,
     duration: Snackbar.LENGTH_LONG,
     action: {
       title: 'OK', //For any button title
@@ -133,7 +140,9 @@ export function showSnackBar(err: object, nonApiError?: string) {
  * @param data : number : Number to be converted as per UK Conventions
  */
 export function getNumberWithCommas(data: string) {
-  return data && data.toString()? data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : data;
+  return data && data.toString()
+    ? data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    : data;
 }
 
 /**

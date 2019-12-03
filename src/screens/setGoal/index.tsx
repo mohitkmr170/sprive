@@ -91,8 +91,10 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         this.handleInitialMount();
       },
     );
-    //Send user event to GA.
-    _gaSetCurrentScreen('SetGoalScreen');
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
+    } catch (error) {}
   };
 
   handleInitialMount = async () => {

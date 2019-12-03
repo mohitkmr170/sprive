@@ -77,8 +77,10 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
             : DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE,
       });
     }
-    //Send user event to GA.
-    _gaSetCurrentScreen('ReportIssueScreen');
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.REPORT_ISSUE);
+    } catch (error) {}
   };
   /**
    * Function called on Submit

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {TextInputBox} from '../textInputBox';
+import {TextInputBox} from '../TextInputBox';
 import {Styles} from './styles';
 
 interface props {

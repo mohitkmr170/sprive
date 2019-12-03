@@ -20,11 +20,10 @@ import {
   STYLE_CONSTANTS,
   FE_FORM_VALUE_CONSTANTS,
 } from '../../utils/constants';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys.ts';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {get as _get} from 'lodash';
 import {COLOR} from '../../utils/colors';
-import {NavigationActions, StackActions} from 'react-navigation';
-import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
+import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 interface props {
@@ -38,6 +37,7 @@ interface props {
   updateUserMortgageResponse: object;
   getUserInfoResponse: object;
   isDirty: boolean;
+  reducerResponse: boolean;
 }
 
 interface state {
@@ -56,8 +56,10 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     const {getUserMortgageDataResponse} = this.props;
     if (_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE, null))
       this.setState({enableButton: true});
-    //Send user event to GA.
-    _gaSetCurrentScreen('UpdateMortgageScreen');
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.UPDATE_MORTGAGE);
+    } catch (error) {}
   };
   // Back Icon Pressed
   handleBackPress = () => {
@@ -118,7 +120,29 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
   };
 
   render() {
-    const {handleSubmit, updateUserMortgageResponse} = this.props;
+    const {
+      handleSubmit,
+      updateUserMortgageResponse,
+      getUserMortgageDataResponse,
+      reducerResponse,
+    } = this.props;
+    const updateButtonDisabledStatus =
+      Number(
+        _get(
+          reducerResponse,
+          DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
+          '',
+        ).replace(/,/g, ''),
+      ) === _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_PAYMENT, '') &&
+      Number(
+        _get(
+          reducerResponse,
+          DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT,
+          '',
+        ).replace(/,/g, ''),
+      ) === _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_BALANCE, '') &&
+      Number(_get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, '')) ===
+        _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_TERM, '');
     return (
       <View style={styles.screenContainer}>
         <GeneralStatusBar backgroundColor={COLOR.WHITE} />
@@ -132,14 +156,6 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{flexGrow: 1}}>
-            {/*<View style={styles.mortgageStatusProgressContainer}>
-              <Text style={styles.mortgageTextData}>
-                {localeString(
-                  LOCALE_STRING.MORTGAGE_INPUT_DATA.LOCALE_STRING_MORTGAGE_DATA,
-                )}
-              </Text>
-              <Text style={styles.progressFractionText}>1/4</Text>
-            </View>*/}
             <Text
               style={[
                 styles.mainHeaderText,
@@ -151,14 +167,19 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
               {localeString(LOCALE_STRING.UPDATE_MORTGAGE.INFO)}
             </Text>
             <View style={styles.mortgageFormComponent}>
-              <MortgageInputContainer />
+              <MortgageInputContainer
+                handleSubmitEnd={
+                  !updateButtonDisabledStatus &&
+                  handleSubmit(this.handleUpdateMortgage)
+                }
+              />
             </View>
             <Button
               title={localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE)}
               onPress={handleSubmit(this.handleUpdateMortgage)}
               titleStyle={styles.buttonExteriorStyle}
               buttonStyle={styles.buttonInteriorStyle}
-              disabled={!this.props.isDirty}
+              disabled={updateButtonDisabledStatus}
               loading={_get(
                 updateUserMortgageResponse,
                 DB_KEYS.IS_FETCHING,
@@ -176,6 +197,7 @@ export const MortgageUpdateForm = reduxForm({
 })(UnconnectedUpdateMortgage);
 
 const mapStateToProps = state => ({
+  reducerResponse: state.form,
   isDirty: isDirty(APP_CONSTANTS.MORTGAGE_INPUT_FORM)(state),
   updateUserMortgageResponse: state.updateUserMortgage,
   getUserMortgageDataResponse: state.getUserMortgageData,

@@ -45,6 +45,7 @@ import {getNumberWithCommas} from '../../utils/helperFunctions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
+const CURRENT_MONTH = new Date().getMonth();
 interface NavigationParams {
   isUserDataChanged: boolean;
 }
@@ -111,16 +112,15 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           this.props.userDataChangeEvent.userDataChanged &&
             this.props.triggerUserDataChange(false);
         }
-        //Send user event to GA.
-        _gaSetCurrentScreen('DashboardScreen');
       },
     );
-
-    //Send user event to GA.
-    _gaSetCurrentScreen('DashboardScreen');
   };
 
   handleInitialMount = async () => {
+    try {
+      //Send user event to GA.
+      _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+    } catch (error) {}
     // await this.props.getUserInfo();
     const {
       getMonthlyPaymentRecord,
@@ -225,7 +225,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     const monthlyTargetWithCommas = getNumberWithCommas(
       Math.round(monthlyTarget),
     );
-    const balanceAmountWithCommas = getNumberWithCommas(balanceAmount);
+    const balanceAmountWithCommas = getNumberWithCommas(
+      Math.round(balanceAmount),
+    );
     const estimatedMonths = _get(
       getProjectedDataResponse,
       DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
@@ -291,6 +293,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                     ? `£${balanceAmountWithCommas} more to go!`
                     : localeString(
                         LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
+                        {month: APP_CONSTANTS.MONTH_NAMES[CURRENT_MONTH]},
                       )}
                 </Text>
               )}
