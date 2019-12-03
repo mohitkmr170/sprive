@@ -62,9 +62,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
    *
    * @param values : object : object with all form values
    */
-  handlePayNowPress = async (values: object) => {
+  handleSetMortgage = async (values: object) => {
     console.log(
-      'UnconnectedMortgageInput : handlePayNowPress : values =>',
+      'UnconnectedMortgageInput : handleSetMortgage : values =>',
       values,
     );
     const {getCumulativeInterest} = this.props;
@@ -126,14 +126,14 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
             <View style={styles.mortgageFormComponent}>
               <MortgageInputContainer
                 handleCalculateNowPressed={this.handlePayNowVisibility}
-                handleSubmitEnd={handleSubmit(this.handlePayNowPress)}
+                handleSubmitEnd={handleSubmit(this.handleSetMortgage)}
               />
             </View>
             <Button
               title={localeString(
                 LOCALE_STRING.MORTGAGE_INPUT_DATA.BUTTON_LOCALE_STRING,
               )}
-              onPress={handleSubmit(this.handlePayNowPress)}
+              onPress={handleSubmit(this.handleSetMortgage)}
               titleStyle={styles.buttonExteriorStyle}
               buttonStyle={styles.buttonInteriorStyle}
               disabled={this.state.enableButton}

@@ -110,11 +110,11 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
         };
         await setUserMortgage(mortgageData);
         const {setUserMortgageResponse} = this.props;
-        // if (!_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
+        if (_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
+          navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
+        }
         //   // await resetAuthToken();
         //   navigation.navigate(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
-        // } else {
-        navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
         // }
       }
     }

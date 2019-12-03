@@ -128,29 +128,19 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
       Number(
         _get(
           reducerResponse,
-          'MortgageInput.values.monthlyMortgagePayment',
+          DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
           '',
         ).replace(/,/g, ''),
-      ) ===
-        _get(
-          getUserMortgageDataResponse,
-          'response.data[0].mortgage_payment',
-          '',
-        ) &&
+      ) === _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_PAYMENT, '') &&
       Number(
         _get(
           reducerResponse,
-          'MortgageInput.values.mortgageAmount',
+          DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT,
           '',
         ).replace(/,/g, ''),
-      ) ===
-        _get(
-          getUserMortgageDataResponse,
-          'response.data[0].mortgage_balance',
-          '',
-        ) &&
-      Number(_get(reducerResponse, 'MortgageInput.values.timePeriod', '')) ===
-        _get(getUserMortgageDataResponse, 'response.data[0].mortgage_term', '');
+      ) === _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_BALANCE, '') &&
+      Number(_get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, '')) ===
+        _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_TERM, '');
     return (
       <View style={styles.screenContainer}>
         <GeneralStatusBar backgroundColor={COLOR.WHITE} />
