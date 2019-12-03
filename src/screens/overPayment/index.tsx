@@ -186,10 +186,12 @@ class UnconnectedOverPayment extends React.Component<props, state> {
       DB_KEYS.PROJECTED.MONTHS_SAVED,
       0,
     );
-    let currentRemainingBalance = _get(
-      getMonthlyPaymentRecordResponse,
-      DB_KEYS.BALANCE_AMOUNT,
-      null,
+    let currentRemainingBalance = getNumberWithCommas(
+      String(
+        Math.round(
+          _get(getMonthlyPaymentRecordResponse, DB_KEYS.BALANCE_AMOUNT, null),
+        ),
+      ),
     );
     let monthlyTarget = getRoundFigure(
       _get(getMonthlyPaymentRecordResponse, DB_KEYS.MONTHLY_TARGET, null),
