@@ -57,7 +57,7 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     if (_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE, null))
       this.setState({enableButton: true});
     //Send user event to GA.
-    _gaSetCurrentScreen('UpdateMortgageScreen');
+    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.UPDATE_MORTGAGE);
   };
   // Back Icon Pressed
   handleBackPress = () => {

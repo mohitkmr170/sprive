@@ -47,7 +47,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     //   },
     // );
     //Send user event to GA.
-    _gaSetCurrentScreen('MortgageEntryScreen');
+    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
   }
   // Back Icon Pressed
   handleBackPress = () => {};

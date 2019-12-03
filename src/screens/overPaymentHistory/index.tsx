@@ -67,7 +67,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
       yearRange.push({value: i});
     this.fetchAllHistory();
     //Send user event to GA.
-    _gaSetCurrentScreen('OverpaymentHistoryScreen');
+    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
   };
   componentWillUnmount() {
     yearRange = [];

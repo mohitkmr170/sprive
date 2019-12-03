@@ -78,7 +78,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
       });
     }
     //Send user event to GA.
-    _gaSetCurrentScreen('ReportIssueScreen');
+    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.REPORT_ISSUE);
   };
   /**
    * Function called on Submit

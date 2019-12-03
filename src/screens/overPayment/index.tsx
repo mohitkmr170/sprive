@@ -85,7 +85,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
         amount: String(Math.round(currentBalance)),
       });
     //Send user event to GA.
-    _gaSetCurrentScreen('OverpaymentScreen');
+    _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
   };
 
   handleEdit = () => {
