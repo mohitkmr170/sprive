@@ -1,6 +1,7 @@
 import {signUpUser as getApi} from '../../apiServices';
 import {StoreFetchableData} from './base';
 import {showSnackBar} from '../../utils/helperFunctions';
+import {APP_CONSTANTS} from '../../utils/constants';
 
 class signUpUserData extends StoreFetchableData {
   constructor() {
@@ -15,7 +16,7 @@ class signUpUserData extends StoreFetchableData {
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));
-          showSnackBar(err);
+          showSnackBar(err, '', APP_CONSTANTS.SCREEN_TYPE);
         });
   }
 }
