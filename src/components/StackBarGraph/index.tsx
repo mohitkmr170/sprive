@@ -239,6 +239,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
         )
           currentGraphData[graphMonthIndex].overPayment.svg.fill =
             COLOR.SLIDER_COLOR;
+        else currentGraphData[graphMonthIndex].overPayment.svg.fill = COLORS[1];
         if (graphMonthIndex === 5) {
           if (currentgraphDataArray[item].month === nextMonthIndex) {
             currentGraphData[graphMonthIndex].monthlyMortgage.svg.fill =
