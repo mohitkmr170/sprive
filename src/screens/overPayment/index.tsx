@@ -239,6 +239,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                     maxLength={6}
                     onChangeText={text => this.setState({amount: text})}
                     keyboardType="number-pad"
+                    returnKeyType="done"
                     placeholder="0"
                     placeholderTextColor={COLOR.REDUX_TEXTINPUT_TEXT}>
                     {amountWithCommas}
