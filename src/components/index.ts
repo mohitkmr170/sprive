@@ -6,3 +6,4 @@ export * from './StackBarGraph';
 export * from './StatusOverlay';
 export * from './IncDecCounter';
 export * from './GeneralStatusBar';
+export * from './ServerErrorContainer';
