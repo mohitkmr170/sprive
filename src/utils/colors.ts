@@ -4,6 +4,7 @@
 export const COLOR = {
   WHITE: '#fff',
   BLACK: '#000',
+  RED: 'red',
   GRAY: '#B8B6B6',
   LIGHTER_GRAY: '#E2E2E2',
   REDUX_TEXTINPUT_TEXT: '#666666',

@@ -41,6 +41,7 @@ export const APP_CONSTANTS = {
     LARGE: 'large',
   },
   MIN_GOAL_VALUE: 1,
+  SCREEN_TYPE: 'form',
 };
 
 export const STYLE_CONSTANTS = {
@@ -170,7 +171,14 @@ export const DB_KEYS = {
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
   CREATED_AT: 'response.data[0].createdAt',
+  SNACKBAR_ERRORS: 'response.data.errors',
+  BE_EMAIL_ERROR: 'response.response.data.errors.email',
+  BE_PASSWORD_ERROR: 'response.response.data.errors.password',
   RESPONSE: 'response',
+  MORTGAGE_BALANCE_ERROR: 'response.response.data.errors.mortgage_balance',
+  MORTGAGE_TERM_ERROR: 'response.response.data.errors.mortgage_term',
+  MORTGAGE_PAYMENT_ERROR: 'response.response.data.errors.mortgage_payment',
+  SIGNUP_PASSWORD: 'signup.values.password',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
