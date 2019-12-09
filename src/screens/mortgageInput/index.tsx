@@ -29,6 +29,7 @@ interface props {
 
 interface state {
   enableButton: boolean;
+  serverError: boolean;
 }
 
 export class UnconnectedMortgageInput extends React.Component<props, state> {
@@ -36,6 +37,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     super(props);
     this.state = {
       enableButton: true,
+      serverError: false,
     };
     this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
   }
@@ -51,6 +53,17 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
     } catch (error) {}
   }
+
+  showServerError = () => {
+    this.setState({
+      serverError: true,
+    });
+  };
+  hideServerError = () => {
+    this.setState({
+      serverError: false,
+    });
+  };
   // Back Icon Pressed
   handleBackPress = () => {};
   // Funtion to toggle the visibility of the submit buttons
@@ -91,6 +104,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       this.props.navigation.navigate(
         NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
       );
+    else {
+      this.showServerError();
+    }
   };
   render() {
     const {handleSubmit, getCumulativeInterestResponse} = this.props;
@@ -129,6 +145,10 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
               <MortgageInputContainer
                 handleCalculateNowPressed={this.handlePayNowVisibility}
                 handleSubmitEnd={handleSubmit(this.handleSetMortgage)}
+                serverErrorObject={getCumulativeInterestResponse}
+                serverErrorVisibility={this.state.serverError}
+                showServerError={() => this.showServerError()}
+                hideServerError={() => this.hideServerError()}
               />
             </View>
             <Button
