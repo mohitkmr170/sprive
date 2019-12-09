@@ -112,18 +112,20 @@ export async function resetAuthToken() {
  * Common wrapper function to show Snackbar
  * @param err : object : Error object of API error
  */
-export function showSnackBar(err: object, nonApiError?: string) {
+export function showSnackBar(err: object, nonApiError?: string, type?: string) {
   let priorityErrorMessage = '';
   if (Object.keys(err).length) {
-    let key = Object.keys(_get(err, 'response.data.errors', ''))[0];
-    priorityErrorMessage = _get(err, 'response.data.errors', '')[key];
+    let key = Object.keys(_get(err, DB_KEYS.SNACKBAR_ERRORS, ''))[0];
+    priorityErrorMessage = _get(err, DB_KEYS.SNACKBAR_ERRORS, '')[key];
   }
+
   return Snackbar.show({
     title: nonApiError
       ? nonApiError
-      : priorityErrorMessage
-      ? priorityErrorMessage
-      : APP_CONSTANTS.GENERAL_ERROR,
+      : type === APP_CONSTANTS.SCREEN_TYPE
+      ? _get(err, DB_KEYS.ERROR_MESSAGE, APP_CONSTANTS.GENERAL_ERROR)
+      : _get(err, DB_KEYS.ERROR_MESSAGE, APP_CONSTANTS.GENERAL_ERROR) +
+        priorityErrorMessage,
     duration: Snackbar.LENGTH_LONG,
     action: {
       title: 'OK', //For any button title
