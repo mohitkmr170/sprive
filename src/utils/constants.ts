@@ -188,8 +188,8 @@ export const DB_KEYS = {
     PROJECTED_TIME_YEARS: 'response.data.projected_time_savings.years',
     PROJECTED_TIME_MONTHS: 'response.data.projected_time_savings.months',
     INTEREST_SAVING: 'response.data.projected_interest_savings',
-    ESTIMATED_TIME_YEARS: 'response.data.estimated_time_savings.years',
-    ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
+    ESTIMATED_TIME_YEARS: 'response.data.projected_mortgage_free_in.years',
+    ESTIMATED_TIME_MONTHS: 'response.data.projected_mortgage_free_in.months',
   },
   ERROR_MESSAGE: 'response.data.message',
   PAYMENT_HISTORY: {
