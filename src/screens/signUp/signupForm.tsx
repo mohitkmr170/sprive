@@ -87,8 +87,8 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
       getUserInfo,
     } = this.props;
     const payload = {
-      [PAYLOAD_KEYS.SIGNUP.EMAIL]: values.email,
-      [PAYLOAD_KEYS.SIGNUP.PASSWORD]: values.password,
+      [PAYLOAD_KEYS.SIGNUP.EMAIL]: values.email ? values.email : '',
+      [PAYLOAD_KEYS.SIGNUP.PASSWORD]: values.password ? values.password : '',
     };
     await signUpUser(payload);
     const {signUpUserResponse} = this.props;
@@ -185,6 +185,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
 
   handleSignInPress = () => {
     this.props.reset(APP_CONSTANTS.SIGNUP_FORM);
+    this.hideServerError();
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
   };
 

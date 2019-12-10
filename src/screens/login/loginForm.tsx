@@ -77,8 +77,8 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     const {loginUser, navigation} = this.props;
     const payload = {
       [PAYLOAD_KEYS.LOGIN.STRATEGY]: 'local',
-      [PAYLOAD_KEYS.LOGIN.EMAIL]: values.email,
-      [PAYLOAD_KEYS.LOGIN.PASSWORD]: values.password,
+      [PAYLOAD_KEYS.LOGIN.EMAIL]: values.email ? values.email : '',
+      [PAYLOAD_KEYS.LOGIN.PASSWORD]: values.password ? values.password : '',
     };
     await loginUser(payload);
     const {loginUserResponse, getUserInfo} = this.props;
