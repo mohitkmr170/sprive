@@ -20,7 +20,7 @@ import {
 import {chatIcon, correct, tick} from '../../assets';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
-import {reset} from '../../navigation/navigationService';
+import {reset, navigate} from '../../navigation/navigationService';
 import {
   APP_CONSTANTS,
   LOCALE_STRING,
@@ -213,6 +213,8 @@ class UnconnectedOverPayment extends React.Component<props, state> {
           title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT)}
           rightIconPresent
           iconName={chatIcon}
+          navigation={this.props.navigation}
+          iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
           onBackPress={() =>
             reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
               isUserDataChanged: false,

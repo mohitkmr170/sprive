@@ -12,12 +12,20 @@ interface props {
   navigation: {
     navigate: (routeName: string) => void;
   };
+  iconPath: string;
 }
 interface state {}
 
 export class Header extends React.Component<props, state> {
   render() {
-    const {rightIconPresent, iconName, leftIconPresent, iconPath, iconStyle, navigation} = this.props;
+    const {
+      rightIconPresent,
+      iconName,
+      leftIconPresent,
+      iconPath,
+      iconStyle,
+      navigation,
+    } = this.props;
     return (
       <View style={styles.mainContainer}>
         {leftIconPresent ? (
@@ -34,15 +42,13 @@ export class Header extends React.Component<props, state> {
         {rightIconPresent && (
           <Text style={styles.middleContainer}>{this.props.title}</Text>
         )}
-        {rightIconPresent &&
+        {rightIconPresent && (
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(iconPath)
-            }
+            onPress={() => navigation.navigate(iconPath)}
             style={iconStyle}>
             <Image source={iconName} height={40} width={40} />
           </TouchableOpacity>
-          }
+        )}
       </View>
     );
   }
