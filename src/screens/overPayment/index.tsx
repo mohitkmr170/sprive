@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Keyboard,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
@@ -130,6 +131,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
   };
 
   handlePayNow = async () => {
+    Keyboard.dismiss();
     this.handleAmountValidation()
       .then(async res => {
         if (res) {
