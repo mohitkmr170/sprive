@@ -180,7 +180,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 props={{
                   maxLength: 16,
                   style: styles.emailInput,
-                  returnKeyType: 'done',
+                  returnKeyType: 'go',
                   secureTextEntry: passwordVisibility,
                   autoCapitalize: false,
                   placeholder: 'Password',

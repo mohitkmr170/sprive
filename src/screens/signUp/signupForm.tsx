@@ -259,7 +259,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                       style: styles.emailInput,
                       secureTextEntry: passwordVisibility,
                       autoCapitalize: false,
-                      returnKeyType: 'done',
+                      returnKeyType: 'go',
                       placeholder: 'Password',
                       onChangeText: (password: string) =>
                         this.handlePassword(password),
