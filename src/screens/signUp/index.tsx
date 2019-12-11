@@ -1,9 +1,10 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Platform} from 'react-native';
 import {styles} from './styles';
 import {SignUpForm} from './signupForm';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 import {NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+import KeyboardManager from 'react-native-keyboard-manager';
 
 interface props {
   navigation: {
@@ -19,6 +20,10 @@ export class SignUp extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount = async () => {
+    //For custom Done button
+    if (Platform.OS === 'ios') {
+      KeyboardManager.setEnableAutoToolbar(false);
+    }
     try {
       //Send user event to GA.
       _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);

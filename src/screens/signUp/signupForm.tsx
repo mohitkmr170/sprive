@@ -233,7 +233,6 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                     props={{
                       keyboardType: 'email-address',
                       style: styles.emailInput,
-                      returnKeyType: 'done',
                       autoCapitalize: false,
                       placeholder: 'Email',
                     }}
@@ -260,6 +259,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                       style: styles.emailInput,
                       secureTextEntry: passwordVisibility,
                       autoCapitalize: false,
+                      returnKeyType: 'done',
                       placeholder: 'Password',
                       onChangeText: (password: string) =>
                         this.handlePassword(password),
