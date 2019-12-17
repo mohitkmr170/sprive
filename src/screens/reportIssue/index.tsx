@@ -85,7 +85,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
             : DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE,
         loading: false,
       });
-    }
+    } else this.setState({loading: false});
     try {
       //Send user event to GA.
       _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.REPORT_ISSUE);
@@ -119,6 +119,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
     else
       return (
         <View style={styles.container}>
+          <GeneralStatusBar />
           <Header
             leftIconPresent
             title={localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_AN_ISSUE)}

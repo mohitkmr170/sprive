@@ -176,6 +176,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
     const {year, data} = this.state;
     return (
       <View style={styles.mainContainer}>
+        <GeneralStatusBar />
         <Header
           leftIconPresent
           title={localeString(

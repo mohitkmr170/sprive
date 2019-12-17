@@ -209,6 +209,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
     );
     return (
       <View style={styles.topContainer}>
+        <GeneralStatusBar />
         <Header
           leftIconPresent
           title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT)}

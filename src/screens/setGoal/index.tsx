@@ -89,7 +89,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
         // console.log('SetGoal:: componentDidMount:: DID_FOCUS:: REACHED');
-        StatusBar.setBackgroundColor(COLOR.WHITE, true);
         this.setToInitialState();
         this.handleInitialMount();
       },
@@ -372,6 +371,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
           <LoadingModal loadingText="Loading..." />
         ) : (
           <View style={{flex: 1}}>
+            <GeneralStatusBar />
             <Header
               leftIconPresent={false}
               rightIconPresent

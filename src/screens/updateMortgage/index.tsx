@@ -160,6 +160,7 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
         _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_TERM, '');
     return (
       <View style={styles.screenContainer}>
+        <GeneralStatusBar />
         <Header
           leftIconPresent
           title={localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE_MORTGAGE)}

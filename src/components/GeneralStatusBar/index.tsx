@@ -22,10 +22,7 @@ export class GeneralStatusBar extends React.Component<props, state> {
           height: Platform.OS === 'android' ? 0 : getStatusBarHeight(),
           backgroundColor: backgroundColor ? backgroundColor : COLOR.WHITE,
         }}>
-        <StatusBar
-          barStyle={barStyle ? barStyle : 'dark-content'}
-          backgroundColor={backgroundColor ? backgroundColor : COLOR.WHITE}
-        />
+        <StatusBar barStyle={barStyle ? barStyle : 'dark-content'} />
       </View>
     );
   }
