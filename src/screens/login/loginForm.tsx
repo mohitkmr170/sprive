@@ -1,8 +1,13 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
-import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
+import {
+  Header,
+  ReduxFormField,
+  GeneralStatusBar,
+  ServerErrorContainer,
+} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
@@ -25,7 +30,6 @@ import {
   DB_KEYS,
 } from '../../utils/constants';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -34,9 +38,15 @@ interface props {
   handleSubmit: (values?: {email: string; password: string}) => void;
   getUserInfo: () => void;
   getUserInfoResponse: object;
+  loginUserResponse: object;
+  loginUser: (payload: object) => void;
 }
 interface state {
   passwordVisibility: boolean;
+  serverError: {
+    email: string;
+    password: string;
+  };
 }
 
 class UnConnectedLoginScreen extends React.Component<props, state> {
@@ -44,6 +54,10 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     super(props);
     this.state = {
       passwordVisibility: true,
+      serverError: {
+        email: '',
+        password: '',
+      },
     };
   }
 
@@ -62,8 +76,8 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     const {loginUser, navigation} = this.props;
     const payload = {
       [PAYLOAD_KEYS.LOGIN.STRATEGY]: 'local',
-      [PAYLOAD_KEYS.LOGIN.EMAIL]: values.email,
-      [PAYLOAD_KEYS.LOGIN.PASSWORD]: values.password,
+      [PAYLOAD_KEYS.LOGIN.EMAIL]: values.email ? values.email : '',
+      [PAYLOAD_KEYS.LOGIN.PASSWORD]: values.password ? values.password : '',
     };
     await loginUser(payload);
     const {loginUserResponse, getUserInfo} = this.props;
@@ -84,7 +98,28 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           */
           console.error(err);
         });
+    } else {
+      let currentServerError = this.state.serverError;
+      currentServerError.email = _get(
+        loginUserResponse,
+        DB_KEYS.BE_EMAIL_ERROR,
+        '',
+      );
+      currentServerError.password = _get(
+        loginUserResponse,
+        DB_KEYS.BE_PASSWORD_ERROR,
+        '',
+      );
+      this.setState({
+        serverError: currentServerError,
+      });
     }
+  };
+
+  hideServerError = () => {
+    this.setState({
+      serverError: {},
+    });
   };
 
   handleSignUpPress = () => {
@@ -111,45 +146,69 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
             <Text style={styles.signInText}>
               {localeString(LOCALE_STRING.LOGIN_SCREEN.SIGNIN_TO_ACCOUNT)}
             </Text>
-            <Field
-              name="email"
-              label="Email Address"
-              component={ReduxFormField}
-              props={{
-                keyboardType: 'email-address',
-                style: styles.emailInput,
-                returnKeyType: 'done',
-                autoCapitalize: false,
-                placeholder: 'Email',
-              }}
-              editIcon={true}
-              validate={[email, required]}
-            />
-            <Field
-              name="password"
-              label="Password"
-              editIcon={true}
-              onIconPress={() =>
-                this.setState({passwordVisibility: !passwordVisibility})
-              }
-              component={ReduxFormField}
-              props={{
-                maxLength: 16,
-                style: styles.emailInput,
-                secureTextEntry: passwordVisibility,
-                autoCapitalize: false,
-                placeholder: 'Password',
-              }}
-              editIcon={true}
-              validate={[
-                minLength8,
-                maxLength16,
-                alphaNumeric,
-                required,
-                noWhiteSpaces,
-              ]}
-              onSubmitEditing={handleSubmit(this.handleLoginPress)}
-            />
+            <View>
+              <Field
+                name="email"
+                label="Email Address"
+                component={ReduxFormField}
+                props={{
+                  keyboardType: 'email-address',
+                  style: styles.emailInput,
+                  autoCapitalize: false,
+                  placeholder: 'Email',
+                }}
+                editIcon={true}
+                onFocus={() => this.hideServerError()}
+                validate={[email, required]}
+              />
+              {_get(
+                this.state.serverError,
+                APP_CONSTANTS.ERROR_STATE_VALUES.EMAIL,
+                null,
+              ) ? (
+                <ServerErrorContainer
+                  serverError={this.state.serverError.email}
+                />
+              ) : null}
+            </View>
+            <View>
+              <Field
+                name="password"
+                label="Password"
+                editIcon={true}
+                onIconPress={() =>
+                  this.setState({passwordVisibility: !passwordVisibility})
+                }
+                component={ReduxFormField}
+                props={{
+                  maxLength: 16,
+                  style: styles.emailInput,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                  secureTextEntry: passwordVisibility,
+                  autoCapitalize: false,
+                  placeholder: 'Password',
+                }}
+                editIcon={true}
+                onFocus={() => this.hideServerError()}
+                validate={[
+                  minLength8,
+                  maxLength16,
+                  alphaNumeric,
+                  required,
+                  noWhiteSpaces,
+                ]}
+                onSubmitEditing={handleSubmit(this.handleLoginPress)}
+              />
+              {_get(
+                this.state.serverError,
+                APP_CONSTANTS.ERROR_STATE_VALUES.PASSWORD,
+                null,
+              ) ? (
+                <ServerErrorContainer
+                  serverError={this.state.serverError.password}
+                />
+              ) : null}
+            </View>
             <TouchableOpacity style={styles.forgotPasswordContainer}>
               <Text style={styles.forgotPassword}>
                 {localeString(LOCALE_STRING.LOGIN_SCREEN.FORGOT_PASSWORD)}

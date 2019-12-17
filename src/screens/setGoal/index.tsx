@@ -373,7 +373,9 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
               rightIconPresent
               title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.TITLE)}
             />
-            <ScrollView contentContainerStyle={styles.middleContainer}>
+            <ScrollView
+              contentContainerStyle={styles.middleContainer}
+              showsVerticalScrollIndicator={false}>
               {/* <View style={styles.mortgageStatusProgressContainer}>
                 <Text style={styles.mortgageTextData}>Set Goal</Text>
                 <Text style={styles.progressFractionText}>4/4</Text>

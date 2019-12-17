@@ -3,6 +3,7 @@
  */
 import 'react-native-gesture-handler';
 import {AppRegistry, Platform, NativeModules} from 'react-native';
+import KeyboardManager from 'react-native-keyboard-manager';
 import App from './App';
 import {name as appName} from './app.json';
 if (Platform.OS === 'android') {
@@ -18,6 +19,11 @@ if (Platform.OS === 'android') {
       },
     };
   }
+}
+//For custom Done button over the app
+if (Platform.OS === 'ios') {
+  KeyboardManager.setEnableAutoToolbar(false);
+  KeyboardManager.setShouldShowToolbarPlaceholder(false);
 }
 console.ignoredYellowBox = ['Warning: `-[RCTRootView cancelTouches]`'];
 console.disableYellowBox = true;

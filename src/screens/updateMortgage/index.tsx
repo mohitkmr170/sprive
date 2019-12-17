@@ -42,6 +42,7 @@ interface props {
 
 interface state {
   enableButton: boolean;
+  serverError: boolean;
 }
 
 export class UnconnectedUpdateMortgage extends React.Component<props, state> {
@@ -49,6 +50,7 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     super(props);
     this.state = {
       enableButton: false,
+      serverError: false,
     };
     // this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
   }
@@ -60,6 +62,16 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
       //Send user event to GA.
       _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.UPDATE_MORTGAGE);
     } catch (error) {}
+  };
+  showServerError = () => {
+    this.setState({
+      serverError: true,
+    });
+  };
+  hideServerError = () => {
+    this.setState({
+      serverError: false,
+    });
   };
   // Back Icon Pressed
   handleBackPress = () => {
@@ -116,6 +128,8 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     if (!_get(updateUserMortgageResponse, DB_KEYS.ERROR, true)) {
       this.props.triggerUserDataChange(true);
       resetToTabNavigator(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
+    } else {
+      this.showServerError();
     }
   };
 
@@ -172,6 +186,10 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
                   !updateButtonDisabledStatus &&
                   handleSubmit(this.handleUpdateMortgage)
                 }
+                serverErrorObject={updateUserMortgageResponse}
+                serverErrorVisibility={this.state.serverError}
+                showServerError={() => this.showServerError()}
+                hideServerError={() => this.hideServerError()}
               />
             </View>
             <Button

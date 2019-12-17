@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Keyboard,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
@@ -19,7 +20,7 @@ import {
 import {chatIcon, correct, tick} from '../../assets';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
-import {reset} from '../../navigation/navigationService';
+import {reset, navigate} from '../../navigation/navigationService';
 import {
   APP_CONSTANTS,
   LOCALE_STRING,
@@ -130,6 +131,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
   };
 
   handlePayNow = async () => {
+    Keyboard.dismiss();
     this.handleAmountValidation()
       .then(async res => {
         if (res) {
@@ -211,6 +213,8 @@ class UnconnectedOverPayment extends React.Component<props, state> {
           title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT)}
           rightIconPresent
           iconName={chatIcon}
+          navigation={this.props.navigation}
+          iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
           onBackPress={() =>
             reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
               isUserDataChanged: false,
@@ -239,6 +243,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                     maxLength={6}
                     onChangeText={text => this.setState({amount: text})}
                     keyboardType="number-pad"
+                    returnKeyType={APP_CONSTANTS.KEYBOARD_RETURN_TYPE.DONE}
                     placeholder="0"
                     placeholderTextColor={COLOR.REDUX_TEXTINPUT_TEXT}>
                     {amountWithCommas}

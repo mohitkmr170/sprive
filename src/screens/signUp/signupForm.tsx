@@ -3,7 +3,12 @@ import {View, Alert, Text} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
-import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
+import {
+  Header,
+  ReduxFormField,
+  GeneralStatusBar,
+  ServerErrorContainer,
+} from '../../components';
 import {localeString} from '../../utils/i18n';
 import {Field, reduxForm, reset} from 'redux-form';
 import {connect} from 'react-redux';
@@ -52,6 +57,10 @@ interface props {
 interface state {
   passStrengthMessage: string;
   passwordVisibility: boolean;
+  serverError: {
+    email: string;
+    password: string;
+  };
 }
 
 class UnConnectedSignUpForm extends React.Component<props, state> {
@@ -60,6 +69,10 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     this.state = {
       passStrengthMessage: '',
       passwordVisibility: true,
+      serverError: {
+        email: '',
+        password: '',
+      },
     };
   }
 
@@ -74,8 +87,8 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
       getUserInfo,
     } = this.props;
     const payload = {
-      [PAYLOAD_KEYS.SIGNUP.EMAIL]: values.email,
-      [PAYLOAD_KEYS.SIGNUP.PASSWORD]: values.password,
+      [PAYLOAD_KEYS.SIGNUP.EMAIL]: values.email ? values.email : '',
+      [PAYLOAD_KEYS.SIGNUP.PASSWORD]: values.password ? values.password : '',
     };
     await signUpUser(payload);
     const {signUpUserResponse} = this.props;
@@ -117,7 +130,28 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
         //   navigation.navigate(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
         // }
       }
+    } else {
+      let currentServerError = this.state.serverError;
+      currentServerError.email = _get(
+        signUpUserResponse,
+        DB_KEYS.BE_EMAIL_ERROR,
+        '',
+      );
+      currentServerError.password = _get(
+        signUpUserResponse,
+        DB_KEYS.BE_PASSWORD_ERROR,
+        '',
+      );
+      this.setState({
+        serverError: currentServerError,
+      });
     }
+  };
+
+  hideServerError = () => {
+    this.setState({
+      serverError: {},
+    });
   };
 
   /**
@@ -151,6 +185,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
 
   handleSignInPress = () => {
     this.props.reset(APP_CONSTANTS.SIGNUP_FORM);
+    this.hideServerError();
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
   };
 
@@ -189,49 +224,73 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
             </Text>
             <View style={styles.middleContainer}>
               <View style={{flex: 1}}>
-                <Field
-                  name="email"
-                  label="Email Address"
-                  editIcon={true}
-                  component={ReduxFormField}
-                  props={{
-                    keyboardType: 'email-address',
-                    style: styles.emailInput,
-                    returnKeyType: 'done',
-                    autoCapitalize: false,
-                    placeholder: 'Email',
-                  }}
-                  validate={[email, required]}
-                />
-                <Field
-                  name="password"
-                  label="Password"
-                  editIcon={true}
-                  onIconPress={() =>
-                    this.setState({passwordVisibility: !passwordVisibility})
-                  }
-                  component={ReduxFormField}
-                  props={{
-                    maxLength: 16,
-                    style: styles.emailInput,
-                    secureTextEntry: passwordVisibility,
-                    autoCapitalize: false,
-                    placeholder: 'Password',
-                    onChangeText: (password: string) =>
-                      this.handlePassword(password),
-                  }}
-                  validate={[
-                    minLength8,
-                    maxLength16,
-                    alphaNumeric,
-                    required,
-                    noWhiteSpaces,
-                  ]}
-                  onSubmitEditing={handleSubmit(this.handleSignUpSubmit)}
-                />
+                <View>
+                  <Field
+                    name="email"
+                    label="Email Address"
+                    editIcon={true}
+                    component={ReduxFormField}
+                    props={{
+                      keyboardType: 'email-address',
+                      style: styles.emailInput,
+                      autoCapitalize: false,
+                      placeholder: 'Email',
+                    }}
+                    onFocus={() => this.hideServerError()}
+                    validate={[email, required]}
+                  />
+                  {_get(
+                    this.state.serverError,
+                    APP_CONSTANTS.ERROR_STATE_VALUES.EMAIL,
+                    null,
+                  ) ? (
+                    <ServerErrorContainer
+                      serverError={this.state.serverError.email}
+                    />
+                  ) : null}
+                </View>
+                <View>
+                  <Field
+                    name="password"
+                    label="Password"
+                    editIcon={true}
+                    onIconPress={() =>
+                      this.setState({passwordVisibility: !passwordVisibility})
+                    }
+                    component={ReduxFormField}
+                    props={{
+                      maxLength: 16,
+                      style: styles.emailInput,
+                      secureTextEntry: passwordVisibility,
+                      autoCapitalize: false,
+                      returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                      placeholder: 'Password',
+                      onChangeText: (password: string) =>
+                        this.handlePassword(password),
+                    }}
+                    onFocus={() => this.hideServerError()}
+                    validate={[
+                      minLength8,
+                      maxLength16,
+                      alphaNumeric,
+                      required,
+                      noWhiteSpaces,
+                    ]}
+                    onSubmitEditing={handleSubmit(this.handleSignUpSubmit)}
+                  />
+                  {_get(
+                    this.state.serverError,
+                    APP_CONSTANTS.ERROR_STATE_VALUES.PASSWORD,
+                    null,
+                  ) ? (
+                    <ServerErrorContainer
+                      serverError={this.state.serverError.password}
+                    />
+                  ) : null}
+                </View>
                 {_get(
                   this.props.reducerResponse,
-                  'signup.values.password',
+                  DB_KEYS.SIGNUP_PASSWORD,
                   false,
                 ) && (
                   <View style={styles.passStrengthContainer}>

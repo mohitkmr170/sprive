@@ -41,6 +41,15 @@ export const APP_CONSTANTS = {
     LARGE: 'large',
   },
   MIN_GOAL_VALUE: 1,
+  SCREEN_TYPE_FORM: 'form',
+  KEYBOARD_RETURN_TYPE: {
+    DONE: 'done',
+    GO: 'go',
+  },
+  ERROR_STATE_VALUES: {
+    EMAIL: 'email',
+    PASSWORD: 'password',
+  },
 };
 
 export const STYLE_CONSTANTS = {
@@ -170,7 +179,14 @@ export const DB_KEYS = {
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
   CREATED_AT: 'response.data[0].createdAt',
+  SNACKBAR_ERRORS: 'response.data.errors',
+  BE_EMAIL_ERROR: 'response.response.data.errors.email',
+  BE_PASSWORD_ERROR: 'response.response.data.errors.password',
   RESPONSE: 'response',
+  MORTGAGE_BALANCE_ERROR: 'response.response.data.errors.mortgage_balance',
+  MORTGAGE_TERM_ERROR: 'response.response.data.errors.mortgage_term',
+  MORTGAGE_PAYMENT_ERROR: 'response.response.data.errors.mortgage_payment',
+  SIGNUP_PASSWORD: 'signup.values.password',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
@@ -180,8 +196,8 @@ export const DB_KEYS = {
     PROJECTED_TIME_YEARS: 'response.data.projected_time_savings.years',
     PROJECTED_TIME_MONTHS: 'response.data.projected_time_savings.months',
     INTEREST_SAVING: 'response.data.projected_interest_savings',
-    ESTIMATED_TIME_YEARS: 'response.data.estimated_time_savings.years',
-    ESTIMATED_TIME_MONTHS: 'response.data.estimated_time_savings.months',
+    ESTIMATED_TIME_YEARS: 'response.data.projected_mortgage_free_in.years',
+    ESTIMATED_TIME_MONTHS: 'response.data.projected_mortgage_free_in.months',
   },
   ERROR_MESSAGE: 'response.data.message',
   PAYMENT_HISTORY: {

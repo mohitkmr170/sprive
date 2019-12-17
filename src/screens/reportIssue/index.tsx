@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, Platform} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {Header, GeneralStatusBar} from '../../components';
@@ -7,6 +7,7 @@ import {Dropdown} from 'react-native-material-dropdown';
 import {chatIcon} from '../../assets';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
+import KeyboardManager from 'react-native-keyboard-manager';
 import {getIssueCategories, setIssue} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -48,6 +49,10 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
       description: '',
       BUG_CATEGORY: [],
     };
+    if (Platform.OS === 'ios') {
+      KeyboardManager.setEnableAutoToolbar(true);
+      KeyboardManager.setToolbarDoneBarButtonItemText('Done');
+    }
   }
   componentDidMount = async () => {
     const {getIssueCategories} = this.props;

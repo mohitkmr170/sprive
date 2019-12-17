@@ -50,6 +50,8 @@ target 'Sprive' do
   pod 'Firebase/Analytics'
   pod 'RNFBAnalytics', :path => '../node_modules/@react-native-firebase/analytics'
   pod 'GoogleIDFASupport', '~> 3.14.0'
+  pod 'ReactNativeKeyboardManager', :path => '../node_modules/react-native-keyboard-manager'
+
 
   target 'SpriveTests' do
     inherit! :search_paths

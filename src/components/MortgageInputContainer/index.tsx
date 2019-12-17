@@ -16,6 +16,7 @@ import {
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
 import {getNumberWithCommas} from '../../utils/helperFunctions';
+import {ServerErrorContainer} from '../../components';
 
 const FORM_FIELD_KEY: object = {
   MORTGAGE_AMOUNT: 'mortgageAmount',
@@ -23,7 +24,7 @@ const FORM_FIELD_KEY: object = {
   MONTHLY_MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
 };
 const KEYBOARD_TYPE = 'number-pad';
-const RETURN_KEY = 'done';
+const RETURN_KEY = APP_CONSTANTS.KEYBOARD_RETURN_TYPE.DONE;
 const COMMON_VALIDATION_RULE = [required, numeric];
 // Screen constants for all three fields
 const FIELD_DATA = new Array();
@@ -69,6 +70,9 @@ FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT] = {
 interface props {
   reducerResponse: object;
   handleCalculateNowPressed: () => void;
+  serverErrorObject: object;
+  serverErrorVisibility: boolean;
+  hideServerError: () => void;
 }
 interface state {}
 
@@ -88,7 +92,7 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
   };
 
   renderFieldItem = (item: object) => {
-    const {reducerResponse} = this.props;
+    const {serverErrorObject, serverErrorVisibility} = this.props;
     // calculating error status for enable/disable
     let firstFieldErrorStatus = _get(
       this.props.reducerResponse,
@@ -110,43 +114,52 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
     FIELD_DATA[FORM_FIELD_KEY.MORTGAGE_AMOUNT].dynamicValue = {
       editable: true,
       infoVisibility: true,
+      serverError: _get(serverErrorObject, DB_KEYS.MORTGAGE_BALANCE_ERROR, ''),
     };
     FIELD_DATA[FORM_FIELD_KEY.TIME_PERIOD].dynamicValue = {
       editable: !firstFieldErrorStatus,
       infoVisibility: !firstFieldErrorStatus,
+      serverError: _get(serverErrorObject, DB_KEYS.MORTGAGE_TERM_ERROR, ''),
     };
     FIELD_DATA[FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT].dynamicValue = {
       editable: !firstFieldErrorStatus && !secondFieldErrorStatus,
       infoVisibility: !firstFieldErrorStatus && !secondFieldErrorStatus,
+      serverError: _get(serverErrorObject, DB_KEYS.MORTGAGE_PAYMENT_ERROR, ''),
     };
     // item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
     //   item.VALIDATION_RULE.push(this.negativeValidation);
     return (
       <View style={{opacity: item.dynamicValue.editable ? 1 : 0.4}}>
-        <Field
-          name={item.NAME}
-          label={localeString(item.LOCALE_STRING)}
-          currencyIcon={item.CURRENCY_ICON}
-          component={ReduxFormField}
-          props={{
-            keyboardType: KEYBOARD_TYPE,
-            style: styles.mortgageInputInput,
-            returnKeyType: RETURN_KEY,
-            placeholder: item.PLACEHOLDER,
-            editable: item.dynamicValue.editable,
-            onChangeText:
+        <View>
+          <Field
+            name={item.NAME}
+            label={localeString(item.LOCALE_STRING)}
+            currencyIcon={item.CURRENCY_ICON}
+            component={ReduxFormField}
+            props={{
+              keyboardType: KEYBOARD_TYPE,
+              style: styles.mortgageInputInput,
+              returnKeyType: RETURN_KEY,
+              placeholder: item.PLACEHOLDER,
+              editable: item.dynamicValue.editable,
+              onChangeText:
+                item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
+                this.props.handleCalculateNowPressed,
+            }}
+            format={this.formatCurrency}
+            parameterText={item.PARAMETER_TEXT}
+            editIcon={true}
+            onFocus={this.props.hideServerError}
+            validate={item.VALIDATION_RULE}
+            onSubmitEditing={
               item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
-              this.props.handleCalculateNowPressed,
-          }}
-          format={this.formatCurrency}
-          parameterText={item.PARAMETER_TEXT}
-          editIcon={true}
-          validate={item.VALIDATION_RULE}
-          onSubmitEditing={
-            item.NAME === FORM_FIELD_KEY.MONTHLY_MORTGAGE_PAYMENT &&
-            this.props.handleSubmitEnd
-          }
-        />
+              this.props.handleSubmitEnd
+            }
+          />
+          {item.dynamicValue.serverError && serverErrorVisibility ? (
+            <ServerErrorContainer serverError={item.dynamicValue.serverError} />
+          ) : null}
+        </View>
         {/* Input field Info and Error messages to be decided and added */}
         {/* {item.dynamicValue.infoVisibility && (
           <Text style={styles.infoText}>{item.INFO_TEXT}</Text>
