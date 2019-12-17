@@ -338,7 +338,9 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
             <Text style={styles.switchToSignUpText}>
               {localeString(LOCALE_STRING.SIGNUP_FORM.ACCOUNT_EXIST)}
               {''}
-              <Text onPress={() => this.handleSignInPress()}>
+              <Text
+                onPress={() => this.handleSignInPress()}
+                style={{fontWeight: 'bold'}}>
                 {' '}
                 {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
               </Text>

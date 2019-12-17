@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Platform} from 'react-native';
+import {View, Platform, StatusBar} from 'react-native';
 import {styles} from './styles';
 import {SignUpForm} from './signupForm';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 import {NAVIGATION_SCREEN_NAME} from '../../utils/constants';
 import KeyboardManager from 'react-native-keyboard-manager';
+import {COLOR} from '../../utils/colors';
 
 interface props {
   navigation: {
@@ -20,6 +21,7 @@ export class SignUp extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount = async () => {
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
     //For custom Done button
     if (Platform.OS === 'ios') {
       KeyboardManager.setEnableAutoToolbar(false);

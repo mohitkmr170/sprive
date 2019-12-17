@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Keyboard,
+  StatusBar,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
@@ -74,6 +75,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
   }
 
   componentDidMount = async () => {
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
     const {getMonthlyPaymentRecordResponse, getUserInfoResponse} = this.props;
     const currentBalance = _get(
       getMonthlyPaymentRecordResponse,
@@ -207,7 +209,6 @@ class UnconnectedOverPayment extends React.Component<props, state> {
     );
     return (
       <View style={styles.topContainer}>
-        <GeneralStatusBar />
         <Header
           leftIconPresent
           title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT)}

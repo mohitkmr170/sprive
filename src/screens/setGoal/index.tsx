@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {Header, LoadingModal, GeneralStatusBar} from '../../components';
@@ -67,6 +67,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       ercLimit: 0,
       ercLimitCrossed: false,
     };
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
 
   setToInitialState = () => {
@@ -83,10 +84,12 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
   componentDidMount = async () => {
     // console.log('SetGoal:: componentDidMount:: REACHED');
     // this.handleInitialMount();
+    // StatusBar.setBackgroundColor(COLOR.WHITE, true);
     this.navFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
         // console.log('SetGoal:: componentDidMount:: DID_FOCUS:: REACHED');
+        StatusBar.setBackgroundColor(COLOR.WHITE, true);
         this.setToInitialState();
         this.handleInitialMount();
       },
@@ -204,6 +207,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       // ADD MODE
       this.goalUpdate();
     }
+    StatusBar.setBackgroundColor(COLOR.WHITE, false);
   };
 
   /**
@@ -348,6 +352,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
   };
 
   render() {
+    console.log('Inside Goal Render');
     const {
       getUserMortgageDataResponse,
       setUserGoalResponse,
@@ -367,7 +372,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
           <LoadingModal loadingText="Loading..." />
         ) : (
           <View style={{flex: 1}}>
-            <GeneralStatusBar />
             <Header
               leftIconPresent={false}
               rightIconPresent

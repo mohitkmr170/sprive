@@ -6,6 +6,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
@@ -86,6 +87,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         : props.navigation.state.params.isUserDataChanged,
       isPaymentComplete: false,
     };
+    StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
   }
 
   setToInitialState = () => {
@@ -111,6 +113,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           this.handleInitialMount();
           this.props.userDataChangeEvent.userDataChanged &&
             this.props.triggerUserDataChange(false);
+        } else {
+          StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
         }
       },
     );
@@ -180,6 +184,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         isUserDataChanged: false,
       });
     } else this.setState({loading: false});
+    StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
   };
 
   handleMakeOverPayment = () => {
@@ -194,6 +199,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   }
 
   render() {
+    console.log('Inside Dashboard Render');
     const {
       getMonthlyPaymentRecordResponse,
       getProjectedDataResponse,
@@ -245,10 +251,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           <ScrollView
             contentContainerStyle={styles.middleContainer}
             showsVerticalScrollIndicator={false}>
-            <GeneralStatusBar
-              backgroundColor={COLOR.DARK_BLUE}
-              barStyle="light-content"
-            />
             <ImageBackground
               source={dashBoardCard}
               style={styles.blueImageBackground}>

@@ -44,7 +44,8 @@ export class TextInputBox extends React.Component<props, state> {
           </View>
           {editIcon && (
             <TouchableOpacity
-              onPress={onIconPress || null}
+              onPress={onIconPress}
+              disabled={!onIconPress}
               hitSlop={APP_CONSTANTS.HIT_SLOP}>
               {parameterText ? (
                 <Text style={textInputBoxStyle.parameterText}>

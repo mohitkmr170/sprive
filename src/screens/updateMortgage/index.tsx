@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StatusBar} from 'react-native';
 import {styles} from './styles';
 import {
   Header,
@@ -55,6 +55,7 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
     // this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
   }
   componentDidMount = () => {
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
     const {getUserMortgageDataResponse} = this.props;
     if (_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE, null))
       this.setState({enableButton: true});
@@ -159,7 +160,6 @@ export class UnconnectedUpdateMortgage extends React.Component<props, state> {
         _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_TERM, '');
     return (
       <View style={styles.screenContainer}>
-        <GeneralStatusBar backgroundColor={COLOR.WHITE} />
         <Header
           leftIconPresent
           title={localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE_MORTGAGE)}
