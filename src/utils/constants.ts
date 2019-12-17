@@ -41,7 +41,15 @@ export const APP_CONSTANTS = {
     LARGE: 'large',
   },
   MIN_GOAL_VALUE: 1,
-  SCREEN_TYPE: 'form',
+  SCREEN_TYPE_FORM: 'form',
+  KEYBOARD_RETURN_TYPE: {
+    DONE: 'done',
+    GO: 'go',
+  },
+  ERROR_STATE_VALUES: {
+    EMAIL: 'email',
+    PASSWORD: 'password',
+  },
 };
 
 export const STYLE_CONSTANTS = {

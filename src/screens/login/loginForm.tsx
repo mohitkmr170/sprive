@@ -30,7 +30,6 @@ import {
   DB_KEYS,
 } from '../../utils/constants';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -162,7 +161,11 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 onFocus={() => this.hideServerError()}
                 validate={[email, required]}
               />
-              {_get(this.state.serverError, 'email', null) ? (
+              {_get(
+                this.state.serverError,
+                APP_CONSTANTS.ERROR_STATE_VALUES.EMAIL,
+                null,
+              ) ? (
                 <ServerErrorContainer
                   serverError={this.state.serverError.email}
                 />
@@ -180,7 +183,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 props={{
                   maxLength: 16,
                   style: styles.emailInput,
-                  returnKeyType: 'go',
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
                   secureTextEntry: passwordVisibility,
                   autoCapitalize: false,
                   placeholder: 'Password',
@@ -196,7 +199,11 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 ]}
                 onSubmitEditing={handleSubmit(this.handleLoginPress)}
               />
-              {_get(this.state.serverError, 'password', null) ? (
+              {_get(
+                this.state.serverError,
+                APP_CONSTANTS.ERROR_STATE_VALUES.PASSWORD,
+                null,
+              ) ? (
                 <ServerErrorContainer
                   serverError={this.state.serverError.password}
                 />

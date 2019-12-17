@@ -239,7 +239,11 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                     onFocus={() => this.hideServerError()}
                     validate={[email, required]}
                   />
-                  {_get(this.state.serverError, 'email', null) ? (
+                  {_get(
+                    this.state.serverError,
+                    APP_CONSTANTS.ERROR_STATE_VALUES.EMAIL,
+                    null,
+                  ) ? (
                     <ServerErrorContainer
                       serverError={this.state.serverError.email}
                     />
@@ -259,7 +263,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                       style: styles.emailInput,
                       secureTextEntry: passwordVisibility,
                       autoCapitalize: false,
-                      returnKeyType: 'go',
+                      returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
                       placeholder: 'Password',
                       onChangeText: (password: string) =>
                         this.handlePassword(password),
@@ -274,7 +278,11 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                     ]}
                     onSubmitEditing={handleSubmit(this.handleSignUpSubmit)}
                   />
-                  {_get(this.state.serverError, 'password', null) ? (
+                  {_get(
+                    this.state.serverError,
+                    APP_CONSTANTS.ERROR_STATE_VALUES.PASSWORD,
+                    null,
+                  ) ? (
                     <ServerErrorContainer
                       serverError={this.state.serverError.password}
                     />

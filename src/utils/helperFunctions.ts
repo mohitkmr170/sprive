@@ -122,7 +122,7 @@ export function showSnackBar(err: object, nonApiError?: string, type?: string) {
   return Snackbar.show({
     title: nonApiError
       ? nonApiError
-      : type === APP_CONSTANTS.SCREEN_TYPE
+      : type === APP_CONSTANTS.SCREEN_TYPE_FORM
       ? _get(err, DB_KEYS.ERROR_MESSAGE, APP_CONSTANTS.GENERAL_ERROR)
       : _get(err, DB_KEYS.ERROR_MESSAGE, APP_CONSTANTS.GENERAL_ERROR) +
         priorityErrorMessage,

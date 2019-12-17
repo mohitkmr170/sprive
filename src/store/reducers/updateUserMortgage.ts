@@ -16,7 +16,7 @@ class updateUserMortgageData extends StoreFetchableData {
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));
-          showSnackBar(err, '', APP_CONSTANTS.SCREEN_TYPE);
+          showSnackBar(err, '', APP_CONSTANTS.SCREEN_TYPE_FORM);
         });
   }
 }

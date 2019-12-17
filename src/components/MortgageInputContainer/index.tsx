@@ -24,7 +24,7 @@ const FORM_FIELD_KEY: object = {
   MONTHLY_MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
 };
 const KEYBOARD_TYPE = 'number-pad';
-const RETURN_KEY = 'done';
+const RETURN_KEY = APP_CONSTANTS.KEYBOARD_RETURN_TYPE.DONE;
 const COMMON_VALIDATION_RULE = [required, numeric];
 // Screen constants for all three fields
 const FIELD_DATA = new Array();
