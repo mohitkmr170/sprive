@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList, ActivityIndicator} from 'react-native';
+import {View, Text, FlatList, ActivityIndicator, StatusBar} from 'react-native';
 import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
 import {
@@ -19,6 +19,7 @@ import {APP_CONSTANTS} from '../../utils/constants';
 import {PaymentHistoryList} from './paymentHistoryList';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
+import {COLOR} from '../../utils/colors';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -57,6 +58,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
     };
   }
   componentDidMount = async () => {
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
     const {getUserGoalResponse} = this.props;
     let createdYear = Moment(
       _get(getUserGoalResponse, DB_KEYS.CREATED_AT, null),

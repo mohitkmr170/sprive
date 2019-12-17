@@ -224,7 +224,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           />
           <Text style={styles.switchToSignUpText}>
             {localeString(LOCALE_STRING.LOGIN_SCREEN.DONT_HAVE_ACCOUNT)}{' '}
-            <Text onPress={() => this.handleSignUpPress()}>
+            <Text
+              onPress={() => this.handleSignUpPress()}
+              style={{fontWeight: 'bold'}}>
               {localeString(LOCALE_STRING.LOGIN_SCREEN.SIGNUP)}
             </Text>
           </Text>

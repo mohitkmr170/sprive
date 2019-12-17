@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, TextInput, Platform} from 'react-native';
+import {View, Text, TextInput, Platform, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import {Header, GeneralStatusBar} from '../../components';
+import {Header, GeneralStatusBar, LoadingModal} from '../../components';
 import {Dropdown} from 'react-native-material-dropdown';
 import {chatIcon} from '../../assets';
 import {connect} from 'react-redux';
@@ -39,6 +39,7 @@ interface state {
   issue: string;
   description: string;
   BUG_CATEGORY: Array;
+  loading: boolean;
 }
 
 export class UnconnectedReportIssue extends React.Component<props, state> {
@@ -48,6 +49,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
       issue: '',
       description: '',
       BUG_CATEGORY: [],
+      loading: true,
     };
     if (Platform.OS === 'ios') {
       KeyboardManager.setEnableAutoToolbar(true);
@@ -55,6 +57,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
     }
   }
   componentDidMount = async () => {
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
     const {getIssueCategories} = this.props;
     await getIssueCategories();
     const {getIssueCategoriesResponse} = this.props;
@@ -80,8 +83,9 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
           bug_categories[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
             ? bug_categories[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
             : DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE,
+        loading: false,
       });
-    }
+    } else this.setState({loading: false});
     try {
       //Send user event to GA.
       _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.REPORT_ISSUE);
@@ -111,77 +115,81 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
   };
   render() {
     const {BUG_CATEGORY} = this.state;
-    return (
-      <View style={styles.container}>
-        <GeneralStatusBar />
-        <Header
-          leftIconPresent
-          title={localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_AN_ISSUE)}
-          rightIconPresent
-          onBackPress={() => this.props.navigation.goBack()}
-        />
-        <KeyboardAwareScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{flexGrow: 1}}>
-          <View style={styles.mainContainer}>
-            <Text style={styles.titleText}>
-              {localeString(LOCALE_STRING.REPORT_ISSUE.HAVE_AN_ISSUE)}
-            </Text>
-            <Dropdown
-              data={BUG_CATEGORY}
-              label={localeString(LOCALE_STRING.REPORT_ISSUE.BUG_CATEGORY)}
-              value={
-                BUG_CATEGORY &&
-                BUG_CATEGORY[0] &&
-                BUG_CATEGORY[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
-                  ? BUG_CATEGORY[0][
-                      DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY
-                    ]
-                  : DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE
-              }
-              animationDuration={0}
-              rippleDuration={0}
-              labelFontSize={14}
-              baseColor={COLOR.VOILET}
-              containerStyle={styles.dropDownContainer}
-              itemTextStyle={styles.dropDownItemText}
-              inputContainerStyle={styles.internalStyle}
-              onChangeText={selectedValue =>
-                this.setState({issue: selectedValue})
-              }
-            />
-            <Text style={styles.descriptionTitle}>
-              {localeString(LOCALE_STRING.REPORT_ISSUE.ISSUE)}{' '}
-              <Text style={styles.descriptionTextFaded}>
-                {localeString(LOCALE_STRING.REPORT_ISSUE.CHARACTERS_LIMIT)}
-              </Text>
-            </Text>
-            <TextInput
-              multiline={true}
-              numberOfLines={10}
-              textAlignVertical="top"
-              style={styles.descriptionInput}
-              value={this.state.description}
-              placeholder={localeString(LOCALE_STRING.REPORT_ISSUE.PLACEHOLDER)}
-              placeholderTextColor={COLOR.PLACEHOLDER}
-              maxLength={DESCRIPTION_MAX_LIMIT}
-              onChangeText={text => this.setState({description: text})}
-            />
-            <Text style={styles.descriptionWarning}>
-              {DESCRIPTION_MAX_LIMIT - this.state.description.length}{' '}
-              {localeString(LOCALE_STRING.REPORT_ISSUE.CHAR_LEFT)}
-            </Text>
-          </View>
-          <Button
-            title={localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_ISSUE)}
-            titleStyle={styles.buttonTitle}
-            disabled={!(this.state.description && this.state.issue)}
-            buttonStyle={styles.button}
-            onPress={() => this.handleSubmit()}
+    if (this.state.loading) return <LoadingModal loadingText="Loading..." />;
+    else
+      return (
+        <View style={styles.container}>
+          <GeneralStatusBar />
+          <Header
+            leftIconPresent
+            title={localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_AN_ISSUE)}
+            rightIconPresent
+            onBackPress={() => this.props.navigation.goBack()}
           />
-        </KeyboardAwareScrollView>
-      </View>
-    );
+          <KeyboardAwareScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1}}>
+            <View style={styles.mainContainer}>
+              <Text style={styles.titleText}>
+                {localeString(LOCALE_STRING.REPORT_ISSUE.HAVE_AN_ISSUE)}
+              </Text>
+              <Dropdown
+                data={BUG_CATEGORY}
+                label={localeString(LOCALE_STRING.REPORT_ISSUE.BUG_CATEGORY)}
+                value={
+                  BUG_CATEGORY &&
+                  BUG_CATEGORY[0] &&
+                  BUG_CATEGORY[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
+                    ? BUG_CATEGORY[0][
+                        DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY
+                      ]
+                    : DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE
+                }
+                animationDuration={0}
+                rippleDuration={0}
+                labelFontSize={14}
+                baseColor={COLOR.VOILET}
+                containerStyle={styles.dropDownContainer}
+                itemTextStyle={styles.dropDownItemText}
+                inputContainerStyle={styles.internalStyle}
+                onChangeText={selectedValue =>
+                  this.setState({issue: selectedValue})
+                }
+              />
+              <Text style={styles.descriptionTitle}>
+                {localeString(LOCALE_STRING.REPORT_ISSUE.ISSUE)}{' '}
+                <Text style={styles.descriptionTextFaded}>
+                  {localeString(LOCALE_STRING.REPORT_ISSUE.CHARACTERS_LIMIT)}
+                </Text>
+              </Text>
+              <TextInput
+                multiline={true}
+                numberOfLines={10}
+                textAlignVertical="top"
+                style={styles.descriptionInput}
+                value={this.state.description}
+                placeholder={localeString(
+                  LOCALE_STRING.REPORT_ISSUE.PLACEHOLDER,
+                )}
+                placeholderTextColor={COLOR.PLACEHOLDER}
+                maxLength={DESCRIPTION_MAX_LIMIT}
+                onChangeText={text => this.setState({description: text})}
+              />
+              <Text style={styles.descriptionWarning}>
+                {DESCRIPTION_MAX_LIMIT - this.state.description.length}{' '}
+                {localeString(LOCALE_STRING.REPORT_ISSUE.CHAR_LEFT)}
+              </Text>
+            </View>
+            <Button
+              title={localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_ISSUE)}
+              titleStyle={styles.buttonTitle}
+              disabled={!(this.state.description && this.state.issue)}
+              buttonStyle={styles.button}
+              onPress={() => this.handleSubmit()}
+            />
+          </KeyboardAwareScrollView>
+        </View>
+      );
   }
 }
 

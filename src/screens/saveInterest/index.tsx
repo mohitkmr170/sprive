@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ImageBackground, FlatList} from 'react-native';
+import {View, Text, ImageBackground, FlatList, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
@@ -17,6 +17,7 @@ import {
 } from '../../utils/constants';
 import {getNumberWithCommas, getAuthToken} from '../../utils/helperFunctions';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
+import {COLOR} from '../../utils/colors';
 
 const LIST_ITEM = [
   {
@@ -56,6 +57,7 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   }
 
   componentDidMount = async () => {
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
     try {
       //Send user event to GA.
       _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN);
