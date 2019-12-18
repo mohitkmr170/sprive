@@ -319,7 +319,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                 ? localeString(LOCALE_STRING.STATUS_OVERLAY.BRILLIANT, {
                     interestSaved: interesetSavingWithCommas,
                     timeSaved: savedYears ? savedYears + ` ${YEARS}` : '',
-                    month: savedMonths ? savedMonths + ` ${MONTHS}` : '',
+                    month: savedMonths ? ' ' + savedMonths + ` ${MONTHS}` : '',
                   })
                 : localeString(LOCALE_STRING.STATUS_OVERLAY.WENT_WRONG)
             }
