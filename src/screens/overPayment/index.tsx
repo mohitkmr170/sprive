@@ -167,7 +167,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
   handleDecPress = () => {
     let currentAmount = this.state.amount.replace(/,/g, '');
     let updatedAmount = Number(currentAmount) - INC_DEC_OFFSET;
-    if (updatedAmount > OVERPAYMENT_MIN_CAP)
+    if (updatedAmount >= OVERPAYMENT_MIN_CAP)
       this.setState({
         amount: String(updatedAmount),
       });
