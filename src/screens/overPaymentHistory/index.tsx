@@ -197,6 +197,7 @@ class UnconnectedOverpaymentHistory extends React.Component<props, state> {
           <Dropdown
             animationDuration={0}
             data={yearRange}
+            rippleDuration={0}
             label={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.YEAR)}
             value={year}
             onChangeText={newYear => this.handleYearChange(newYear)}

@@ -167,7 +167,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
   handleDecPress = () => {
     let currentAmount = this.state.amount.replace(/,/g, '');
     let updatedAmount = Number(currentAmount) - INC_DEC_OFFSET;
-    if (updatedAmount > OVERPAYMENT_MIN_CAP)
+    if (updatedAmount >= OVERPAYMENT_MIN_CAP)
       this.setState({
         amount: String(updatedAmount),
       });
@@ -319,7 +319,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                 ? localeString(LOCALE_STRING.STATUS_OVERLAY.BRILLIANT, {
                     interestSaved: interesetSavingWithCommas,
                     timeSaved: savedYears ? savedYears + ` ${YEARS}` : '',
-                    month: savedMonths ? savedMonths + ` ${MONTHS}` : '',
+                    month: savedMonths ? ' ' + savedMonths + ` ${MONTHS}` : '',
                   })
                 : localeString(LOCALE_STRING.STATUS_OVERLAY.WENT_WRONG)
             }

@@ -106,7 +106,7 @@
     "paid": "Paid towards your mortgage today",
     "next": "Done",
     "tryAgain": "Try Again",
-    "brilliant": "Brilliant! At this rate, you could save £{{interestSaved}} in interest, and pay off your mortgage {{timeSaved}} {{month}} earlier",
+    "brilliant": "Brilliant! At this rate, you could save £{{interestSaved}} in interest, and pay off your mortgage {{timeSaved}}{{month}} earlier",
     "wentWrong": "Something went wrong Please try again",
     "cancel": "Cancel",
     "mortgageUpdated": "Seems like you updated your Mortgage, please go ahead and re-set your goal to proceed"
