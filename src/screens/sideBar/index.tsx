@@ -25,7 +25,6 @@ import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 
 interface props {
   navigation: {
@@ -108,7 +107,6 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       });
   };
   render() {
-    console.log('Scalling factor =>', 200, moderateScale(200));
     const {getUserInfoResponse} = this.props;
     let currentUserMain = _get(
       getUserInfoResponse,
