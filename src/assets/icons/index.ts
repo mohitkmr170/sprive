@@ -1,3 +1,11 @@
 export const iBack = require('../icons/arrow-left.png');
 export const iEmail = require('../icons/at_the_rate.png');
 export const iLock = require('../icons/padlock.png');
+export const iNotification = require('../icons/001-bell.png');
+export const iPound = require('../icons/005-pound-sterling.png');
+export const iSettings = require('../icons/003-settings.png');
+export const iSupport = require('../icons/002-help.png');
+export const iAvatar = require('../icons/004-avatar.png');
+export const iUpdate = require('../icons/005-update.png');
+export const iRight = require('../icons/arrow-right.png');
+export const iLogOut = require('../icons/logout.png');
