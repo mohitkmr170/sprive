@@ -25,6 +25,7 @@ import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {COLOR} from '../../utils/colors';
 
 interface props {
   navigation: {
@@ -34,9 +35,8 @@ interface props {
   getUserInfoResponse: object;
 }
 
-const LIGHT_OPACITY_BLACK = 'rgba(0, 0, 0, 0.3)';
 const CLOSE_ICON_NAME = 'close';
-const CURRENT_USER_LOCATION = 'Bangalore, India';
+const CURRENT_USER_LOCATION = 'London, UK';
 interface state {}
 
 export class UnconnectedSideBar extends React.Component<props, state> {
@@ -161,7 +161,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                   <Icon
                     name={CLOSE_ICON_NAME}
                     size={STYLE_CONSTANTS.padding.LARGEST}
-                    color={LIGHT_OPACITY_BLACK}
+                    color={COLOR.MEDUIM_OPACITY_BLACK}
                   />
                 </TouchableOpacity>
               </View>
