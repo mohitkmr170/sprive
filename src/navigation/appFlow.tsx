@@ -21,6 +21,7 @@ import {
   OverpaymentHistory,
   ReportIssue,
   UpdateMortgage,
+  IntroCarousel,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -83,6 +84,9 @@ const TabNavigator = createBottomTabNavigator(
 
 const AuthStackNavigator = createStackNavigator(
   {
+    IntroCarouselScreen: {
+      screen: IntroCarousel,
+    },
     LoginScreen: {
       screen: Login,
     },
@@ -97,7 +101,7 @@ const AuthStackNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'MortgageInputScreen',
+    initialRouteName: 'IntroCarouselScreen',
     headerMode: 'none',
     /**
      * For custom transition navigation

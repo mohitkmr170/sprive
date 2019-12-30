@@ -143,6 +143,9 @@ export const STYLE_CONSTANTS = {
       HEAVIER: 2, // heavier:1.5,
       HEAVIEST: 3, // heaviest:3,
     },
+    BORDER_RADIUS: {
+      TINY: 5,
+    },
   },
 };
 export const ICON = {
@@ -244,11 +247,19 @@ export const LOCALE_STRING = {
     SIGNUP_BUTTON: 'signUp.singUpButton',
     REG_AND_SEC: 'signUp.regAndSec',
     SETUP_ACCOUNT: 'signUp.setupAccc',
+    SIGNUP_FREE: 'signUp.signUpForFree',
+    ALREADY_REGISTERED: 'signUp.alreadyRegistered',
     BY_CLICKING: 'signUp.byClickingText',
     TERMS_AND_CONDITION: 'signUp.T&C',
     AND_OUR: 'signUp.andOur',
     PRIVACY_POLICY: 'signUp.privacyPolicy',
     ACCOUNT_EXIST: 'signUp.accountAlreadyExist',
+    FIRST_TITLE: 'signUp.firstTitle',
+    FIRST_SUB_TITLE: 'signUp.firstSubTitle',
+    SECOND_TITLE: 'signUp.secondTitle',
+    SECOND_SUB_TITLE: 'signUp.secondSubTitle',
+    THIRD_TITLE: 'signUp.thirdTitle',
+    THIRD_SUB_TITLE: 'signUp.thirdSubTitle',
   },
   SHOW_INTEREST_SCREEN: {
     SAVE_INTEREST: 'mortgageForm.mortgageData',
