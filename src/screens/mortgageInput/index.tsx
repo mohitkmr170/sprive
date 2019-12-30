@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Alert} from 'react-native';
+import {View, Text, Alert, StatusBar} from 'react-native';
 import {styles} from './styles';
 import {
   Header,
@@ -17,6 +17,7 @@ import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
 import {get as _get} from 'lodash';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
+import {COLOR} from '../../utils/colors';
 
 interface props {
   navigation: {
@@ -40,6 +41,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       serverError: false,
     };
     this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
+    StatusBar.setBackgroundColor(COLOR.WHITE);
   }
   componentDidMount() {
     // this.didFocusListener = this.props.navigation.addListener(
