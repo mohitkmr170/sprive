@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Alert} from 'react-native';
+import {View, Text, Alert, StatusBar} from 'react-native';
 import {styles} from './styles';
 import {
   Header,
@@ -39,6 +39,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       enableButton: true,
       serverError: false,
     };
+    StatusBar.setHidden(false, 'fade');
     this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
   }
   componentDidMount() {
@@ -71,6 +72,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     this.setState({enableButton: false});
   }
   componentWillUnmount() {
+    StatusBar.setHidden(true, 'fade');
     // this.didFocusListener.remove();
   }
   /**
