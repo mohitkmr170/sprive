@@ -1,4 +1,9 @@
 {
+  "splashScreen": {
+    "title": "Mortgage Free,",
+    "subTitle": "Faster",
+    "info": "Sprive Limited is an appointed representative of ABCDE Limited which is authorised and regulated by the Financial Conduct Authority"
+  },
   "login": {
     "loginButton": "Login",
     "signIn": "Sign in",
