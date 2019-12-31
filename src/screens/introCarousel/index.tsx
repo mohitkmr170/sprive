@@ -11,6 +11,7 @@ import {
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
 import {firstCarousel, secondCarousel, thirdCarousel} from '../../assets';
+import {verticalScale} from 'react-native-size-matters/extend';
 
 interface props {
   navigation: {
@@ -42,7 +43,7 @@ const SAMPLE_DAYA_CAROUSEL = [
   INITIAL_ACTIVE_INDEX = 0,
   INACTIVE_DOT_OPACITY = 0.5,
   INACTIVE_DOT_SCALE = 0.6,
-  CAROUSEL_IMAGE_PERCENT = 0.6;
+  CAROUSEL_IMAGE_PERCENT = 459;
 
 export class IntroCarousel extends React.Component<props, state> {
   constructor(props: props) {
@@ -53,7 +54,7 @@ export class IntroCarousel extends React.Component<props, state> {
     };
   }
   componentDidMount() {
-    StatusBar.setHidden(true, 'fade');
+    // StatusBar.setHidden(true, 'fade');
   }
   pagination = () => {
     const {entries, activeSlide} = this.state;
@@ -77,8 +78,8 @@ export class IntroCarousel extends React.Component<props, state> {
           resizeMethod="auto"
           resizeMode="stretch"
           style={{
-            height:
-              STYLE_CONSTANTS.device.SCREEN_HEIGHT * CAROUSEL_IMAGE_PERCENT,
+            height: verticalScale(CAROUSEL_IMAGE_PERCENT),
+            width: '100%',
           }}
         />
         <View style={styles.carouselTextContainer}>

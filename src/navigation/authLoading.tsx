@@ -65,8 +65,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       const {getUserInfoResponse} = this.props;
       if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
         this.props.navigation.navigate(APP_STACK);
-      } else
-        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+      } else this.props.navigation.navigate('IntroCarouselScreen');
     }
   }
   render() {
