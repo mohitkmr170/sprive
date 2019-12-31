@@ -141,5 +141,14 @@
     "updateMortgage": "Update Mortgage",
     "info": "Information",
     "update": "Update"
+  },
+  "sideBar": {
+    "notifications": "Notifications",
+    "overPaymentHistory": "Overpayment History",
+    "settings": "Settings",
+    "support": "Support",
+    "inviteFriends": "Invite Friends",
+    "updatePassword": "Update Password",
+    "logOut": "Log out"
   }
 }
