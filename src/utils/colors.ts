@@ -47,4 +47,6 @@ export const COLOR = {
   COUNTER_BG_COLOR: '#4E5AAF',
   LIGHT_OPACITY_BLACK: 'rgba(0,0,0,0.5)',
   LIGHTER_VOILET: '#4D56B1',
+  BLACK_OPACITY_TEN: 'rgba(0, 0, 0, 0.1)',
+  MEDUIM_OPACITY_BLACK: 'rgba(0, 0, 0, 0.3)',
 };

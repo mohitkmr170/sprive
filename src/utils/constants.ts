@@ -372,6 +372,15 @@ export const LOCALE_STRING = {
     INFO: 'updateMortgage.info',
     UPDATE: 'updateMortgage.update',
   },
+  SIDE_BAR: {
+    NOTIFICATION: 'sideBar.notifications',
+    OVER_PAYMENT_HISTORY: 'sideBar.overPaymentHistory',
+    SETTINGS: 'sideBar.settings',
+    SUPPORT: 'sideBar.support',
+    INVITE_FRIENDS: 'sideBar.inviteFriends',
+    UPDATE_PASSWORD: 'sideBar.updatePassword',
+    LOG_OUT: 'sideBar.logOut',
+  },
 };
 
 export const FE_FORM_VALUE_CONSTANTS = {
