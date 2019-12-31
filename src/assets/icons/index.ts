@@ -1,6 +1,7 @@
 export const iBack = require('../icons/arrow-left.png');
 export const iEmail = require('../icons/at_the_rate.png');
 export const iLock = require('../icons/padlock.png');
+export const iSprive = require('../icons/Sprive-Full-Mark.png');
 export const iNotification = require('../icons/001-bell.png');
 export const iPound = require('../icons/005-pound-sterling.png');
 export const iSettings = require('../icons/003-settings.png');

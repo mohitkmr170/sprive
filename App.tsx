@@ -4,6 +4,7 @@ import {StyleSheet, View, Text, Platform} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
+import splashScreen from 'react-native-splash-screen';
 import AppNavigator from './src/navigation/appFlow';
 import {setNavigator} from './src/navigation/navigationService';
 interface props {}
@@ -32,6 +33,9 @@ class App extends React.Component<props, state> {
     //     props = oldProps;
     //   }
     // };
+  }
+  componentDidMount() {
+    splashScreen.hide();
   }
   render() {
     return (

@@ -232,6 +232,11 @@ export const NAVIGATION_SCREEN_NAME = {
 };
 
 export const LOCALE_STRING = {
+  SPLASH_SCREEN: {
+    TITLE: 'splashScreen.title',
+    SUB_TITLE: 'splashScreen.subTitle',
+    INFO: 'splashScreen.info',
+  },
   LOGIN_SCREEN: {
     LOGIN_BUTTON: 'login.loginButton',
     SIGNIN_TO_ACCOUNT: 'login.signInToAccount',
