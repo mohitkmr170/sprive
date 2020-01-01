@@ -7,6 +7,7 @@ import {
   STYLE_CONSTANTS,
   LOCALE_STRING,
   NAVIGATION_SCREEN_NAME,
+  DB_KEYS,
 } from '../../utils/constants';
 import {get as _get} from 'lodash';
 import {localeString} from '../../utils/i18n';
@@ -19,11 +20,11 @@ interface props {
   };
 }
 interface state {
-  entries: any;
+  entries: object;
   activeSlide: number;
 }
 
-const SAMPLE_DAYA_CAROUSEL = [
+const SAMPLE_DATA_CAROUSEL = [
     {
       image: firstCarousel,
       title: localeString(LOCALE_STRING.SIGNUP_FORM.FIRST_TITLE),
@@ -49,7 +50,7 @@ export class IntroCarousel extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
-      entries: SAMPLE_DAYA_CAROUSEL,
+      entries: SAMPLE_DATA_CAROUSEL,
       activeSlide: INITIAL_ACTIVE_INDEX,
     };
   }
@@ -71,18 +72,20 @@ export class IntroCarousel extends React.Component<props, state> {
     return (
       <View>
         <Image
-          source={_get(item, 'item.image', '')}
-          resizeMethod="auto"
-          resizeMode="stretch"
+          source={_get(item, DB_KEYS.INTRO_CAROUSEL.IMAGE, '')}
+          resizeMethod={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.AUTO}
+          resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.STRETCH}
           style={{
             height: verticalScale(CAROUSEL_IMAGE_PERCENT),
-            width: '100%',
+            width: STYLE_CONSTANTS.device.MAX_WIDTH,
           }}
         />
         <View style={styles.carouselTextContainer}>
-          <Text style={styles.titleText}>{_get(item, 'item.title', '')}</Text>
+          <Text style={styles.titleText}>
+            {_get(item, DB_KEYS.INTRO_CAROUSEL.TITLE, '')}
+          </Text>
           <Text style={styles.subTitleText}>
-            {_get(item, 'item.subTitle', '')}
+            {_get(item, DB_KEYS.INTRO_CAROUSEL.SUB_TITLE, '')}
           </Text>
         </View>
       </View>

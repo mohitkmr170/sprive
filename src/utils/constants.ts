@@ -60,6 +60,7 @@ export const STYLE_CONSTANTS = {
     WINDOW_WIDTH: Dimensions.get('window').width,
     DEVICE_TYPE_ANDROID: 'Android',
     DEVICE_TYPE_IOS: 'IOS',
+    MAX_WIDTH: '100%',
   },
   elevation: {
     BASIC: 5,
@@ -147,6 +148,10 @@ export const STYLE_CONSTANTS = {
       TINY: 5,
     },
   },
+  IMAGE_RESIZE_CONFIG: {
+    AUTO: 'auto',
+    STRETCH: 'stretch',
+  },
 };
 export const ICON = {
   UP: 'ios-arrow-round-up',
@@ -202,6 +207,11 @@ export const DB_KEYS = {
     ESTIMATED_TIME_YEARS: 'response.data.projected_mortgage_free_in.years',
     ESTIMATED_TIME_MONTHS: 'response.data.projected_mortgage_free_in.months',
   },
+  INTRO_CAROUSEL: {
+    IMAGE: 'item.image',
+    TITLE: 'item.title',
+    SUB_TITLE: 'item.subTitle',
+  },
   ERROR_MESSAGE: 'response.data.message',
   PAYMENT_HISTORY: {
     AMOUNT: 'amount',
@@ -232,6 +242,7 @@ export const NAVIGATION_SCREEN_NAME = {
   OVERPAYMENT_HISTORY: 'OverpaymentHistoryScreen',
   REPORT_ISSUE: 'ReportIssueScreen',
   UPDATE_MORTGAGE: 'UpdateMortgageScreen',
+  INTRO_CAROUSEL: 'IntroCarouselScreen',
 };
 
 export const LOCALE_STRING = {

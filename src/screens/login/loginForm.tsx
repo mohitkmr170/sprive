@@ -123,9 +123,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   handleSignUpPress = () => {
-    this.props.navigation.navigate(
-      NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN,
-    );
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.INTRO_CAROUSEL);
   };
 
   render() {
