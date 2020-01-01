@@ -40,6 +40,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       enableButton: true,
       serverError: false,
     };
+    StatusBar.setHidden(false, 'fade');
     this.handlePayNowVisibility = this.handlePayNowVisibility.bind(this);
     StatusBar.setBackgroundColor(COLOR.WHITE);
   }

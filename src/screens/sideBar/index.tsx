@@ -108,7 +108,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
   };
   render() {
     const {getUserInfoResponse} = this.props;
-    let currentUserMain = _get(
+    let currentUserMail = _get(
       getUserInfoResponse,
       DB_KEYS.CURRENT_USER_EMAIL,
       '',
@@ -118,7 +118,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
         <View style={styles.innerMainContainer}>
           <View style={styles.centerContainer}>
             <View style={styles.profileContainer}>
-              <Text style={styles.userNameText}>{currentUserMain}</Text>
+              <Text style={styles.userNameText}>{currentUserMail}</Text>
               <Text style={styles.userLocationText}>
                 {CURRENT_USER_LOCATION}
               </Text>

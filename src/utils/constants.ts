@@ -60,6 +60,7 @@ export const STYLE_CONSTANTS = {
     WINDOW_WIDTH: Dimensions.get('window').width,
     DEVICE_TYPE_ANDROID: 'Android',
     DEVICE_TYPE_IOS: 'IOS',
+    MAX_WIDTH: '100%',
   },
   elevation: {
     BASIC: 5,
@@ -143,6 +144,13 @@ export const STYLE_CONSTANTS = {
       HEAVIER: 2, // heavier:1.5,
       HEAVIEST: 3, // heaviest:3,
     },
+    BORDER_RADIUS: {
+      TINY: 5,
+    },
+  },
+  IMAGE_RESIZE_CONFIG: {
+    AUTO: 'auto',
+    STRETCH: 'stretch',
   },
 };
 export const ICON = {
@@ -199,6 +207,11 @@ export const DB_KEYS = {
     ESTIMATED_TIME_YEARS: 'response.data.projected_mortgage_free_in.years',
     ESTIMATED_TIME_MONTHS: 'response.data.projected_mortgage_free_in.months',
   },
+  INTRO_CAROUSEL: {
+    IMAGE: 'item.image',
+    TITLE: 'item.title',
+    SUB_TITLE: 'item.subTitle',
+  },
   ERROR_MESSAGE: 'response.data.message',
   PAYMENT_HISTORY: {
     AMOUNT: 'amount',
@@ -229,6 +242,7 @@ export const NAVIGATION_SCREEN_NAME = {
   OVERPAYMENT_HISTORY: 'OverpaymentHistoryScreen',
   REPORT_ISSUE: 'ReportIssueScreen',
   UPDATE_MORTGAGE: 'UpdateMortgageScreen',
+  INTRO_CAROUSEL: 'IntroCarouselScreen',
 };
 
 export const LOCALE_STRING = {
@@ -249,11 +263,19 @@ export const LOCALE_STRING = {
     SIGNUP_BUTTON: 'signUp.singUpButton',
     REG_AND_SEC: 'signUp.regAndSec',
     SETUP_ACCOUNT: 'signUp.setupAccc',
+    SIGNUP_FREE: 'signUp.signUpForFree',
+    ALREADY_REGISTERED: 'signUp.alreadyRegistered',
     BY_CLICKING: 'signUp.byClickingText',
     TERMS_AND_CONDITION: 'signUp.T&C',
     AND_OUR: 'signUp.andOur',
     PRIVACY_POLICY: 'signUp.privacyPolicy',
     ACCOUNT_EXIST: 'signUp.accountAlreadyExist',
+    FIRST_TITLE: 'signUp.firstTitle',
+    FIRST_SUB_TITLE: 'signUp.firstSubTitle',
+    SECOND_TITLE: 'signUp.secondTitle',
+    SECOND_SUB_TITLE: 'signUp.secondSubTitle',
+    THIRD_TITLE: 'signUp.thirdTitle',
+    THIRD_SUB_TITLE: 'signUp.thirdSubTitle',
   },
   SHOW_INTEREST_SCREEN: {
     SAVE_INTEREST: 'mortgageForm.mortgageData',
