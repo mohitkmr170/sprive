@@ -1,12 +1,29 @@
 import React from 'react';
-import {ImageBackground, StyleSheet, AsyncStorage} from 'react-native';
-import {splashScreen} from '../assets';
+import {
+  View,
+  ImageBackground,
+  StyleSheet,
+  AsyncStorage,
+  Image,
+  Platform,
+  Text,
+  StatusBar,
+} from 'react-native';
+import {splashScreen, iSprive} from '../assets';
 import {getAuthToken} from '../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import {getUserInfo} from '../store/reducers';
 import {connect} from 'react-redux';
-import {DB_KEYS, NAVIGATION_SCREEN_NAME} from '../utils/constants';
+import {
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
+  STYLE_CONSTANTS,
+  LOCALE_STRING,
+} from '../utils/constants';
 import {resetAuthToken} from '../utils/helperFunctions';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
+import {COLOR} from '../../src/utils/colors';
+import {localeString} from '../utils/i18n';
 
 const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
@@ -29,6 +46,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount() {
+    StatusBar.setHidden(true);
     AsyncStorage.getItem(LAUNCH_STATUS).then(async value => {
       if (!value) {
         AsyncStorage.setItem(LAUNCH_STATUS, FIRST_LAUNCH);
@@ -52,12 +70,17 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       }
     });
   }
+  componentWillUnmount() {
+    StatusBar.setHidden(false);
+  }
 
   // Auth check, based on which navigation to auth/app stack is decided
 
   async authCheck(authToken: string) {
     // Token does not exist locally
-    if (!authToken) this.props.navigation.navigate(AUTH_STACK);
+    if (!authToken) {
+      this.props.navigation.navigate(AUTH_STACK);
+    }
     // Token exists
     else {
       const {getUserInfo} = this.props;
@@ -65,8 +88,9 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       const {getUserInfoResponse} = this.props;
       if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
         this.props.navigation.navigate(APP_STACK);
-      } else
+      } else {
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+      }
     }
   }
   render() {
@@ -74,8 +98,20 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       <ImageBackground
         source={splashScreen}
         resizeMode="stretch"
-        style={styles.mainContainer}
-      />
+        style={styles.mainContainer}>
+        <Image source={iSprive} />
+        <View>
+          <Text style={styles.titleText}>
+            {localeString(LOCALE_STRING.SPLASH_SCREEN.TITLE)}
+          </Text>
+          <Text style={styles.titleText}>
+            {localeString(LOCALE_STRING.SPLASH_SCREEN.SUB_TITLE)}
+          </Text>
+        </View>
+        <Text style={styles.infoText}>
+          {localeString(LOCALE_STRING.SPLASH_SCREEN.INFO)}
+        </Text>
+      </ImageBackground>
     );
   }
 }
@@ -83,8 +119,28 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop:
+      Platform.OS === 'ios'
+        ? getStatusBarHeight() + 3 * STYLE_CONSTANTS.padding.LARGEST
+        : 3 * STYLE_CONSTANTS.padding.LARGEST,
+    paddingHorizontal:
+      STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.SMALLEST,
+    justifyContent: 'space-between',
+    paddingBottom: 3 * STYLE_CONSTANTS.padding.LARGEST,
+  },
+  titleText: {
+    fontSize: 2 * STYLE_CONSTANTS.font.SIZE.LARGEST,
+    lineHeight:
+      STYLE_CONSTANTS.font.LINEHEIGHT.HUGER +
+      STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    color: COLOR.WHITE,
+    fontWeight: 'bold',
+  },
+  infoText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
+    color: COLOR.WHITE,
+    textAlign: 'center',
   },
 });
 

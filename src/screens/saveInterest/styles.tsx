@@ -26,10 +26,7 @@ export const styles = StyleSheet.create({
     marginLeft: STYLE_CONSTANTS.margin.SMALLISH,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
-  imageBackgoundStyle: {
-    width: '100%',
-    marginTop: STYLE_CONSTANTS.margin.LARGEST,
-  },
+  imageBackgoundStyle: {height: '60%', width: '100%', marginTop: 4},
   imageStyle: {borderRadius: 8},
   cardContainer: {
     paddingRight: STYLE_CONSTANTS.padding.LARGER,
@@ -39,23 +36,23 @@ export const styles = StyleSheet.create({
   cardText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
-    color: COLOR.WHITE,
-    flexWrap: 'wrap',
-    marginBottom: STYLE_CONSTANTS.margin.SMALL,
+    color: COLOR.VOILET,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    marginTop: STYLE_CONSTANTS.margin.NORMAL,
   },
   cardInterestText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST_HUMONGOUS,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGEST_HUMONGOUS,
-    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
-    color: COLOR.WHITE,
-    flexWrap: 'wrap',
-  },
-  saveMoneyText: {
-    marginTop: STYLE_CONSTANTS.margin.HUMONGOUS,
-    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
-    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    marginTop: STYLE_CONSTANTS.margin.SMALL,
+  },
+  saveMoneyText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    color: COLOR.VOILET,
+    marginTop: STYLE_CONSTANTS.margin.NORMAL,
+    opacity: 0.7,
   },
   firstContainerHeaderText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,

@@ -235,6 +235,11 @@ export const NAVIGATION_SCREEN_NAME = {
 };
 
 export const LOCALE_STRING = {
+  SPLASH_SCREEN: {
+    TITLE: 'splashScreen.title',
+    SUB_TITLE: 'splashScreen.subTitle',
+    INFO: 'splashScreen.info',
+  },
   LOGIN_SCREEN: {
     LOGIN_BUTTON: 'login.loginButton',
     SIGNIN_TO_ACCOUNT: 'login.signInToAccount',
@@ -377,6 +382,15 @@ export const LOCALE_STRING = {
     UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',
     INFO: 'updateMortgage.info',
     UPDATE: 'updateMortgage.update',
+  },
+  SIDE_BAR: {
+    NOTIFICATION: 'sideBar.notifications',
+    OVER_PAYMENT_HISTORY: 'sideBar.overPaymentHistory',
+    SETTINGS: 'sideBar.settings',
+    SUPPORT: 'sideBar.support',
+    INVITE_FRIENDS: 'sideBar.inviteFriends',
+    UPDATE_PASSWORD: 'sideBar.updatePassword',
+    LOG_OUT: 'sideBar.logOut',
   },
 };
 

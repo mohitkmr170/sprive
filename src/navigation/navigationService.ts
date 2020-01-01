@@ -76,3 +76,11 @@ export function openDrawer() {
     NAVIGATOR_CONFIG.navigator.dispatch(DrawerActions.openDrawer());
   }
 }
+/**
+ * Function to close drawer
+ */
+export function closeDrawer() {
+  if (NAVIGATOR_CONFIG.navigator) {
+    NAVIGATOR_CONFIG.navigator.dispatch(DrawerActions.closeDrawer());
+  }
+}

@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, Text, ImageBackground, FlatList, StatusBar} from 'react-native';
+import {View, Text, StatusBar, Image} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
-import {Bullets} from './bullets';
 import {connect} from 'react-redux';
 import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
@@ -18,22 +17,6 @@ import {
 import {getNumberWithCommas, getAuthToken} from '../../utils/helperFunctions';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 import {COLOR} from '../../utils/colors';
-
-const LIST_ITEM = [
-  {
-    HEADER: localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.FIRST_HEADER),
-    SUB_LIST_ITEMS: [
-      localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.FIRST_ITEM),
-    ],
-  },
-  {
-    HEADER: localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_HEADER),
-    SUB_LIST_ITEMS: [
-      localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_LIST_ONE),
-      localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SECOND_LIST_TWO),
-    ],
-  },
-];
 
 interface props {
   navigation: {
@@ -122,25 +105,6 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
   };
 
-  returnItem = (item: object) => {
-    return (
-      <View style={{marginTop: 16}}>
-        <Text style={styles.firstContainerHeaderText}>{item.HEADER}</Text>
-        {item.SUB_LIST_ITEMS.length &&
-          item.SUB_LIST_ITEMS.map((subItem: string) => {
-            return (
-              <View style={styles.listItemsContainer}>
-                <View style={styles.bulletContainer}>
-                  <Bullets />
-                </View>
-                <Text style={styles.firstContainerListItemText}>{subItem}</Text>
-              </View>
-            );
-          })}
-      </View>
-    );
-  };
-
   render() {
     const {getCumulativeInterestResponse} = this.props;
     let cumulativeInterest = Math.ceil(
@@ -153,36 +117,16 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.topContainer}>
-          {/* <View style={styles.mortgageStatusProgressContainer}>
-            <Text style={styles.mortgageTextData}>
-              {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SAVE_INTEREST)}
-            </Text> */}
-          {/* Need to be modified, for now progress number is contant */}
-          {/* <Text style={styles.progressFractionText}>1/4</Text>
-          </View> */}
-          <ImageBackground
-            source={interestBanner}
-            style={styles.imageBackgoundStyle}
-            imageStyle={styles.imageStyle}>
-            <View style={styles.cardContainer}>
-              <Text style={styles.cardText}>
-                {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.CARD_TEXT)}
-              </Text>
-              {/* Need to be modified, for now it's contant */}
-              <Text style={styles.cardInterestText}>
-                £{getNumberWithCommas(String(cumulativeInterest))}
-              </Text>
-            </View>
-          </ImageBackground>
+          <Image source={interestBanner} style={styles.imageBackgoundStyle} />
+          <Text style={styles.cardText}>
+            {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.CARD_TEXT)}
+          </Text>
+          <Text style={styles.cardInterestText}>
+            £{getNumberWithCommas(String(cumulativeInterest))}
+          </Text>
           <Text style={styles.saveMoneyText}>
             {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.SAVE_MONEY)}
           </Text>
-          <FlatList
-            data={LIST_ITEM}
-            extraData={this.props}
-            keyExtractor={index => index.toString()}
-            renderItem={({item, index}) => this.returnItem(item)}
-          />
         </KeyboardAwareScrollView>
         <Button
           title={localeString(
