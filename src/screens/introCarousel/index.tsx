@@ -53,9 +53,6 @@ export class IntroCarousel extends React.Component<props, state> {
       activeSlide: INITIAL_ACTIVE_INDEX,
     };
   }
-  componentDidMount() {
-    // StatusBar.setHidden(true, 'fade');
-  }
   pagination = () => {
     const {entries, activeSlide} = this.state;
     return (

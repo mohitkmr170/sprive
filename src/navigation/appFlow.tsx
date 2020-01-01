@@ -158,7 +158,7 @@ const AppStackWithDrawer = createDrawerNavigator(
     contentComponent: SideBar,
     drawerPosition: 'right',
     statusBarAnimation: 'slide',
-    drawerWidth: '70%',
+    drawerWidth: '75%',
   },
 );
 

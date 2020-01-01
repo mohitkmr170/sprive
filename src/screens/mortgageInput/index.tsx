@@ -74,7 +74,6 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     this.setState({enableButton: false});
   }
   componentWillUnmount() {
-    StatusBar.setHidden(true, 'fade');
     // this.didFocusListener.remove();
   }
   /**

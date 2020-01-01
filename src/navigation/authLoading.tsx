@@ -46,7 +46,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount() {
-    StatusBar.setHidden(true);
+    StatusBar.setHidden(true, 'fade');
     AsyncStorage.getItem(LAUNCH_STATUS).then(async value => {
       if (!value) {
         AsyncStorage.setItem(LAUNCH_STATUS, FIRST_LAUNCH);
@@ -69,9 +69,6 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
           });
       }
     });
-  }
-  componentWillUnmount() {
-    StatusBar.setHidden(false);
   }
 
   // Auth check, based on which navigation to auth/app stack is decided
