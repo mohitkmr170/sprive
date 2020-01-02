@@ -22,6 +22,7 @@ import {COLOR} from '../../utils/colors';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
+    goBack: () => void;
   };
   getCumulativeInterest: (payload: object) => void;
   getCumulativeInterestResponse: () => void;
@@ -68,7 +69,9 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     });
   };
   // Back Icon Pressed
-  handleBackPress = () => {};
+  handleBackPress = () => {
+    this.props.navigation.goBack();
+  };
   // Funtion to toggle the visibility of the submit buttons
   handlePayNowVisibility() {
     this.setState({enableButton: false});
@@ -117,7 +120,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       <View style={styles.screenContainer}>
         <GeneralStatusBar />
         <Header
-          leftIconPresent={false}
+          leftIconPresent={true}
           rightIconPresent
           title={localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.TITLE)}
           onBackPress={() => this.handleBackPress()}

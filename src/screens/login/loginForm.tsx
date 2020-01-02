@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, StatusBar} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
 import {
@@ -123,6 +123,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   handleSignUpPress = () => {
+    StatusBar.setHidden(true, 'fade');
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.INTRO_CAROUSEL);
   };
 
