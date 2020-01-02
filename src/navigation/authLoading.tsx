@@ -54,6 +54,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
         resetAuthToken()
           .then(res =>
             setTimeout(() => {
+              StatusBar.setHidden(false, 'fade');
               this.props.navigation.navigate(AUTH_STACK);
             }, APP_LOAD_TIME),
           )
@@ -77,6 +78,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
   async authCheck(authToken: string) {
     // Token does not exist locally
     if (!authToken) {
+      StatusBar.setHidden(false, 'fade');
       this.props.navigation.navigate(AUTH_STACK);
     }
     // Token exists
