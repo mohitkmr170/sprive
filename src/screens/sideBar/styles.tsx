@@ -74,5 +74,6 @@ export const styles = StyleSheet.create({
     fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.NORMAL),
     lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH),
     paddingLeft: verticalScale(STYLE_CONSTANTS.padding.SMALL),
+    alignSelf: 'center',
   },
 });
