@@ -146,7 +146,12 @@ export const STYLE_CONSTANTS = {
     },
     BORDER_RADIUS: {
       TINY: 5,
+      SMALLER: 8,
     },
+  },
+  SPLASH_DIMENSION: {
+    height: 74,
+    width: 222,
   },
   IMAGE_RESIZE_CONFIG: {
     AUTO: 'auto',

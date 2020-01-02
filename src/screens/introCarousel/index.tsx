@@ -24,6 +24,8 @@ interface state {
   activeSlide: number;
 }
 
+const CAROUSEL_AUTO_SCROLL_INTERVAL = 3000;
+
 const SAMPLE_DATA_CAROUSEL = [
     {
       image: firstCarousel,
@@ -110,6 +112,9 @@ export class IntroCarousel extends React.Component<props, state> {
               sliderWidth={STYLE_CONSTANTS.device.SCREEN_WIDTH}
               itemWidth={STYLE_CONSTANTS.device.SCREEN_WIDTH}
               onSnapToItem={index => this.setState({activeSlide: index})}
+              autoplay={true}
+              loop={true}
+              autoplayInterval={CAROUSEL_AUTO_SCROLL_INTERVAL}
             />
             {this.pagination()}
           </View>

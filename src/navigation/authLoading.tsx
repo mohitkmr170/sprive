@@ -24,6 +24,7 @@ import {resetAuthToken} from '../utils/helperFunctions';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {COLOR} from '../../src/utils/colors';
 import {localeString} from '../utils/i18n';
+import {verticalScale, moderateScale} from 'react-native-size-matters/extend';
 
 const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
@@ -84,8 +85,10 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       await getUserInfo();
       const {getUserInfoResponse} = this.props;
       if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
+        StatusBar.setHidden(false, 'fade');
         this.props.navigation.navigate(APP_STACK);
       } else {
+        StatusBar.setHidden(false, 'fade');
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
       }
     }
@@ -96,7 +99,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
         source={splashScreen}
         resizeMode="stretch"
         style={styles.mainContainer}>
-        <Image source={iSprive} />
+        <Image source={iSprive} style={styles.logo} resizeMode="contain" />
         <View>
           <Text style={styles.titleText}>
             {localeString(LOCALE_STRING.SPLASH_SCREEN.TITLE)}
@@ -118,18 +121,21 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop:
       Platform.OS === 'ios'
-        ? getStatusBarHeight() + 3 * STYLE_CONSTANTS.padding.LARGEST
-        : 3 * STYLE_CONSTANTS.padding.LARGEST,
+        ? verticalScale(getStatusBarHeight()) +
+          3 * verticalScale(STYLE_CONSTANTS.padding.LARGEST)
+        : 3 * verticalScale(STYLE_CONSTANTS.padding.LARGEST),
     paddingHorizontal:
-      STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.SMALLEST,
+      verticalScale(STYLE_CONSTANTS.padding.HUGE) +
+      verticalScale(STYLE_CONSTANTS.padding.SMALLEST),
     justifyContent: 'space-between',
-    paddingBottom: 3 * STYLE_CONSTANTS.padding.LARGEST,
+    paddingBottom: 3 * verticalScale(STYLE_CONSTANTS.padding.LARGEST),
   },
   titleText: {
-    fontSize: 2 * STYLE_CONSTANTS.font.SIZE.LARGEST,
+    fontSize:
+      STYLE_CONSTANTS.font.SIZE.LARGEST + STYLE_CONSTANTS.font.SIZE.TINY,
     lineHeight:
       STYLE_CONSTANTS.font.LINEHEIGHT.HUGER +
-      STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+      STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     color: COLOR.WHITE,
     fontWeight: 'bold',
   },
@@ -138,6 +144,10 @@ const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
     color: COLOR.WHITE,
     textAlign: 'center',
+  },
+  logo: {
+    height: verticalScale(STYLE_CONSTANTS.SPLASH_DIMENSION.height),
+    width: moderateScale(STYLE_CONSTANTS.SPLASH_DIMENSION.width),
   },
 });
 

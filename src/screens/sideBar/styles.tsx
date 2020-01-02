@@ -56,6 +56,7 @@ export const styles = StyleSheet.create({
     color: COLOR.BLACK,
     opacity: 0.7,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    alignSelf: 'center',
   },
   logOutContainer: {
     flexDirection: 'row',
