@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Alert, Text} from 'react-native';
+import {View, Alert, Text, StatusBar} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
@@ -168,6 +168,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
   }
 
   handleBackPress = () => {
+    StatusBar.setHidden(false, 'fade');
     this.props.navigation.goBack();
   };
 
