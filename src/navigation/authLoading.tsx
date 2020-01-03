@@ -134,22 +134,22 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize:
-      STYLE_CONSTANTS.font.SIZE.LARGEST + STYLE_CONSTANTS.font.SIZE.TINY,
+      verticalScale(STYLE_CONSTANTS.font.SIZE.LARGEST) + verticalScale(STYLE_CONSTANTS.font.SIZE.TINY),
     lineHeight:
-      STYLE_CONSTANTS.font.LINEHEIGHT.HUGER +
-      STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+      verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGER) +
+      verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH),
     color: COLOR.WHITE,
     fontWeight: 'bold',
   },
   infoText: {
-    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
-    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
+    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.SMALL),
+    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH),
     color: COLOR.WHITE,
     textAlign: 'center',
   },
   logo: {
     height: verticalScale(STYLE_CONSTANTS.SPLASH_DIMENSION.height),
-    width: moderateScale(STYLE_CONSTANTS.SPLASH_DIMENSION.width),
+    width: verticalScale(STYLE_CONSTANTS.SPLASH_DIMENSION.width),
   },
 });
 
