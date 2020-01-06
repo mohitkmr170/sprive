@@ -163,5 +163,12 @@
     "inviteFriends": "Invite Friends",
     "updatePassword": "Update Password",
     "logOut": "Log out"
+  },
+  "emailVerification": {
+    "emailSentAgain": "Email sent again",
+    "checkEmail": "Please check your e-mail",
+    "emailSent": "We sent an email to john.doe@mail.com \n Click the link to verify your account",
+    "openEmailApp": "Open e-mail app",
+    "resendVerification": "Resend verification"
   }
 }

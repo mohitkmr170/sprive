@@ -408,6 +408,13 @@ export const LOCALE_STRING = {
     UPDATE_PASSWORD: 'sideBar.updatePassword',
     LOG_OUT: 'sideBar.logOut',
   },
+  EMAIL_VERIFICATION: {
+    EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',
+    CHECK_EMAIL: 'emailVerification.checkEmail',
+    EMAIL_SENT: 'emailVerification.emailSent',
+    OPEN_EMAIL_APP: 'emailVerification.openEmailApp',
+    RESEND_VERIFICATION: 'emailVerification.resendVerification',
+  },
 };
 
 export const FE_FORM_VALUE_CONSTANTS = {
