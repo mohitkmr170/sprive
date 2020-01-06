@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
@@ -55,6 +55,9 @@ export class IntroCarousel extends React.Component<props, state> {
       entries: SAMPLE_DATA_CAROUSEL,
       activeSlide: INITIAL_ACTIVE_INDEX,
     };
+  }
+  componentDidMount() {
+    StatusBar.setHidden(false, 'fade');
   }
   pagination = () => {
     const {entries, activeSlide} = this.state;

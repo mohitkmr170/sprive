@@ -78,7 +78,6 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
   async authCheck(authToken: string) {
     // Token does not exist locally
     if (!authToken) {
-      StatusBar.setHidden(false, 'fade');
       this.props.navigation.navigate(AUTH_STACK);
     }
     // Token exists
@@ -134,7 +133,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize:
-      verticalScale(STYLE_CONSTANTS.font.SIZE.LARGEST) + verticalScale(STYLE_CONSTANTS.font.SIZE.TINY),
+      verticalScale(STYLE_CONSTANTS.font.SIZE.LARGEST) +
+      verticalScale(STYLE_CONSTANTS.font.SIZE.TINY),
     lineHeight:
       verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGER) +
       verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH),
