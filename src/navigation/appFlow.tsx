@@ -22,6 +22,7 @@ import {
   ReportIssue,
   UpdateMortgage,
   IntroCarousel,
+  CheckEmail,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -98,6 +99,9 @@ const AuthStackNavigator = createStackNavigator(
     },
     SaveInterestScreen: {
       screen: SaveInterest,
+    },
+    CheckEmailScreen: {
+      screen: CheckEmail,
     },
   },
   {

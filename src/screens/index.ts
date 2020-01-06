@@ -10,3 +10,4 @@ export * from './overPaymentHistory';
 export * from './reportIssue';
 export * from './updateMortgage';
 export * from './introCarousel';
+export * from './checkEmail';
