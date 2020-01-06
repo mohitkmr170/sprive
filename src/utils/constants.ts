@@ -248,6 +248,7 @@ export const NAVIGATION_SCREEN_NAME = {
   REPORT_ISSUE: 'ReportIssueScreen',
   UPDATE_MORTGAGE: 'UpdateMortgageScreen',
   INTRO_CAROUSEL: 'IntroCarouselScreen',
+  CHECK_EMAIL: 'CheckEmailScreen',
 };
 
 export const LOCALE_STRING = {

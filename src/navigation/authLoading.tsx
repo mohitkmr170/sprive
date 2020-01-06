@@ -8,6 +8,7 @@ import {
   Platform,
   Text,
   StatusBar,
+  Linking,
 } from 'react-native';
 import {splashScreen, iSprive} from '../assets';
 import {getAuthToken} from '../utils/helperFunctions';
@@ -46,8 +47,27 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     super(props);
     this.state = {};
   }
-  componentDidMount() {
-    StatusBar.setHidden(true, 'fade');
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenUrl);
+  }
+  handleOpenUrl = (event: any) => {
+    this.navigate(event.url);
+  };
+  /**
+   * FUnction to split and extract navigation route and params
+   * @param : url : complete deeplink URL
+   */
+  navigate = (url: any) => {
+    // const {navigate} = this.props.navigation;
+    const route = url.replace(/.*?:\/\//g, '');
+    const id = route.match(/\/([^\/]+)\/?$/)[1];
+    const routeName = route.split('/')[0];
+    const deepLinkToken = id.replace('?verification_token=', '');
+    if (routeName === 'sprive') {
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+    }
+  };
+  authFlowCheck = () => {
     AsyncStorage.getItem(LAUNCH_STATUS).then(async value => {
       if (!value) {
         AsyncStorage.setItem(LAUNCH_STATUS, FIRST_LAUNCH);
@@ -71,6 +91,33 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
           });
       }
     });
+  };
+  componentDidMount() {
+    StatusBar.setHidden(true, 'fade');
+    let isDeepLink = false;
+    if (Platform.OS === 'android') {
+      Linking.getInitialURL().then(url => {
+        isDeepLink = true;
+        if (url) {
+          setTimeout(() => {
+            this.navigate(url);
+          }, APP_LOAD_TIME);
+        } else this.authFlowCheck();
+      });
+    } else {
+      console.log('Inside IOS');
+      Linking.addEventListener('url', event => {
+        isDeepLink = true;
+        console.log('aksjdbaksd', event.url, isDeepLink);
+        if (event.url) {
+          setTimeout(() => {
+            this.handleOpenUrl(event);
+          }, APP_LOAD_TIME);
+        } else this.authFlowCheck();
+      });
+    }
+    console.log('aksdhjgasd', isDeepLink);
+    if (!isDeepLink) this.authFlowCheck();
   }
 
   // Auth check, based on which navigation to auth/app stack is decided
@@ -87,8 +134,16 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       await getUserInfo();
       const {getUserInfoResponse} = this.props;
       if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
+        /*
+        TODO : Below condition should be reviewed later
+        */
         StatusBar.setHidden(false, 'fade');
-        this.props.navigation.navigate(APP_STACK);
+        console.log('getUserInfoResponse12312', getUserInfoResponse);
+        if (!_get(getUserInfoResponse, 'data.is_verified', true)) {
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+        } else {
+          this.props.navigation.navigate(APP_STACK);
+        }
       } else {
         StatusBar.setHidden(false, 'fade');
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
@@ -134,7 +189,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize:
-      verticalScale(STYLE_CONSTANTS.font.SIZE.LARGEST) + verticalScale(STYLE_CONSTANTS.font.SIZE.TINY),
+      verticalScale(STYLE_CONSTANTS.font.SIZE.LARGEST) +
+      verticalScale(STYLE_CONSTANTS.font.SIZE.TINY),
     lineHeight:
       verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGER) +
       verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH),

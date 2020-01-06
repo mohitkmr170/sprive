@@ -1,13 +1,20 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {StyleSheet, View, Text, Platform} from 'react-native';
+import {StyleSheet, View, Text, Platform, Linking} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
 import splashScreen from 'react-native-splash-screen';
 import AppNavigator from './src/navigation/appFlow';
 import {setNavigator} from './src/navigation/navigationService';
-interface props {}
+import {NAVIGATION_SCREEN_NAME} from './src/utils/constants';
+import {navigate} from './src/navigation/navigationService';
+
+interface props {
+  navigation: {
+    navigate: (routeName: string) => void;
+  };
+}
 interface state {}
 class App extends React.Component<props, state> {
   constructor(props: props) {
@@ -37,6 +44,7 @@ class App extends React.Component<props, state> {
   componentDidMount() {
     splashScreen.hide();
   }
+
   render() {
     return (
       <Provider store={store}>
