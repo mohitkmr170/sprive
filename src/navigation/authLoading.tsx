@@ -21,6 +21,7 @@ import {
   STYLE_CONSTANTS,
   LOCALE_STRING,
 } from '../utils/constants';
+import {reset} from '../navigation/navigationService';
 import {resetAuthToken} from '../utils/helperFunctions';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {COLOR} from '../../src/utils/colors';
@@ -62,9 +63,10 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     const route = url.replace(/.*?:\/\//g, '');
     const id = route.match(/\/([^\/]+)\/?$/)[1];
     const routeName = route.split('/')[0];
-    const deepLinkToken = id.replace('?verification_token=', '');
+    const deepLinkToken = url.split('=')[1];
     if (routeName === 'sprive') {
-      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+      //change it to sprive later
+      reset('CheckEmailScreen', deepLinkToken);
     }
   };
   authFlowCheck = () => {
@@ -99,24 +101,17 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       Linking.getInitialURL().then(url => {
         isDeepLink = true;
         if (url) {
-          setTimeout(() => {
-            this.navigate(url);
-          }, APP_LOAD_TIME);
+          this.navigate(url);
         } else this.authFlowCheck();
       });
     } else {
-      console.log('Inside IOS');
       Linking.addEventListener('url', event => {
         isDeepLink = true;
-        console.log('aksjdbaksd', event.url, isDeepLink);
         if (event.url) {
-          setTimeout(() => {
-            this.handleOpenUrl(event);
-          }, APP_LOAD_TIME);
+          this.handleOpenUrl(event);
         } else this.authFlowCheck();
       });
     }
-    console.log('aksdhjgasd', isDeepLink);
     if (!isDeepLink) this.authFlowCheck();
   }
 
