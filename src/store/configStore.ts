@@ -1,9 +1,9 @@
 import thunkMiddleware from 'redux-thunk';
-import {persistStore, persistReducer} from 'redux-persist';
+import {persistStore, persistReducer, REHYDRATE} from 'redux-persist';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {mapValues} from 'lodash';
 import logger from 'redux-logger';
-import {reducer as formReducer} from 'redux-form';
+import {reducer as formReducer, formValues} from 'redux-form';
 import * as reducers from './reducers';
 import storage from 'redux-persist/lib/storage';
 import {applicationReducer} from './appReducers/addUserDetails';
@@ -29,7 +29,7 @@ const rootReducer = (
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: [], // Names of reducers which will be persisted.
+  whitelist: ['form'], // Names of reducers which will be persisted.
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
