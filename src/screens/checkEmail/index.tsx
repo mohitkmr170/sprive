@@ -20,6 +20,7 @@ import {
 } from '../../utils/constants';
 import {openInbox} from 'react-native-email-link';
 import {get as _get} from 'lodash';
+import {getAuthToken} from '../../utils/helperFunctions';
 
 interface props {
   navigation: {
@@ -95,7 +96,8 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
     }
   };
   async componentDidMount() {
-    let verificationToken = _get(this.props.navigation, 'state.params', null);
+    let verificationToken = _get(this.props.navigation, 'state.params', null)
+      .deepLinkToken;
     console.log('componentDidMount : verificationToken ==>', verificationToken);
     if (verificationToken) {
       const {verifyEmail} = this.props;
@@ -105,7 +107,7 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
       };
       await verifyEmail(payload);
       const {verifyEmailResponse} = this.props;
-      if (_get(verifyEmailResponse, 'response.status', false)) {
+      if (!_get(verifyEmailResponse, 'error', false)) {
         console.log(
           'componentDidMount : verifyEmailResponse ==>',
           verifyEmailResponse,
@@ -113,6 +115,19 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
         this.completeVerification();
       } else {
         this.setState({isVerifyApicalled: true});
+        getAuthToken()
+          .then(res => {
+            if (res === 'FALSE TOKEN') {
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.LOGIN_SCREEN,
+              );
+            } else {
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+              );
+            }
+          })
+          .catch(() => {});
       }
     }
   }
