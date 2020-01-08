@@ -12,10 +12,17 @@ import {
   resendEmail,
 } from '../../store/reducers';
 import {localeString} from '../../utils/i18n';
-import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
+import {
+  APP_CONSTANTS,
+  LOCALE_STRING,
+  DB_KEYS,
+  STYLE_CONSTANTS,
+} from '../../utils/constants';
 import {openInbox} from 'react-native-email-link';
 import {get as _get} from 'lodash';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
+const INTENT_BUTTON_RESET_TIME = 1000;
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -35,6 +42,7 @@ interface state {
   isEmailResent: boolean;
   loading: boolean;
   isVerifyApicalled: boolean;
+  isEmailButtonClicked: boolean;
 }
 
 export class UnconnectedCheckEmail extends React.Component<props, state> {
@@ -44,6 +52,7 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
       isEmailResent: false,
       loading: false,
       isVerifyApicalled: false,
+      isEmailButtonClicked: false,
     };
   }
 
@@ -56,13 +65,17 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
   };
   handleOpenEmailApp = () => {
     openInbox({
-      title: 'Email Clients found on your device',
+      title: localeString(LOCALE_STRING.SIGNUP_FORM.EMAIL_CLIENTS),
     });
   };
   handleResendVerification = async () => {
     const {resendEmail, getUserInfoResponse} = this.props;
     const payload = {
-      email: _get(getUserInfoResponse, 'response.data.email', null),
+      [PAYLOAD_KEYS.SIGNUP.EMAIL]: _get(
+        getUserInfoResponse,
+        DB_KEYS.CURRENT_USER_EMAIL,
+        null,
+      ),
     };
     await resendEmail(payload);
     this.setState({
@@ -70,9 +83,12 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
     });
   };
   render() {
-    const {isEmailResent} = this.state;
-    const {verifyEmailResponse, getUserInfoResponse} = this.props;
-    let isVerified = _get(verifyEmailResponse, 'error', false);
+    const {isEmailResent, isEmailButtonClicked} = this.state;
+    const {
+      verifyEmailResponse,
+      getUserInfoResponse,
+      resendEmailResponse,
+    } = this.props;
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
@@ -81,7 +97,7 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
           <Image
             source={emaiSent}
             style={styles.imageView}
-            resizeMode="contain"
+            resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
           />
           <View style={styles.textContainer}>
             <Text style={styles.pleaseCheckText}>
@@ -95,7 +111,7 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
               {localeString(LOCALE_STRING.EMAIL_VERIFICATION.EMAIL_SENT, {
                 currentEmail: _get(
                   getUserInfoResponse,
-                  'response.data.email',
+                  DB_KEYS.CURRENT_USER_EMAIL,
                   null,
                 ),
               })}
@@ -108,11 +124,19 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
               LOCALE_STRING.EMAIL_VERIFICATION.OPEN_EMAIL_APP,
             )}
             titleStyle={styles.buttonTextStyle}
-            onPress={() => this.handleOpenEmailApp()}
+            onPress={() => {
+              this.setState({isEmailButtonClicked: true}, () => {
+                this.handleOpenEmailApp();
+              });
+              setTimeout(() => {
+                this.setState({isEmailButtonClicked: false});
+              }, INTENT_BUTTON_RESET_TIME);
+            }}
             buttonStyle={styles.buttonStyle}
             loading={
-              _get(verifyEmailResponse, 'isFetching', '') ||
-              _get(resendEmailResponse, 'isFetching', '')
+              isEmailButtonClicked ||
+              _get(verifyEmailResponse, DB_KEYS.IS_FETCHING, '') ||
+              _get(resendEmailResponse, DB_KEYS.IS_FETCHING, '')
             }
           />
           <TouchableOpacity

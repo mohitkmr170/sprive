@@ -6,7 +6,11 @@ import {
   StatusOverlay,
   LoadingModal,
 } from '../../components';
-import {DB_KEYS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+import {
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
+  LOCALE_STRING,
+} from '../../utils/constants';
 import {get as _get} from 'lodash';
 import {iVerify} from '../../assets';
 import {connect} from 'react-redux';
@@ -17,6 +21,8 @@ import {
   resendEmail,
 } from '../../store/reducers';
 import {getAuthToken} from '../../utils/helperFunctions';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+import {localeString} from '../../utils/i18n';
 
 interface props {
   navigation: {
@@ -53,17 +59,17 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
       // navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
     } else {
       const mortgageData = {
-        mortgage_balance: _get(
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_BALANCE]: _get(
           reducerResponse,
           DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT,
           '',
         ).replace(/,/g, ''),
-        mortgage_term: _get(
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_TERM]: _get(
           reducerResponse,
           DB_KEYS.FORM_MORTGAGE_TIMEPERIOD,
           '',
         ).replace(/,/g, ''),
-        mortgage_payment: _get(
+        [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_PAYMENT]: _get(
           reducerResponse,
           DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
           '',
@@ -83,18 +89,20 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
   async componentDidMount() {
     const {getUserInfo} = this.props;
     await getUserInfo();
-    let verificationToken = _get(this.props.navigation, 'state.params', null)
-      .deepLinkToken;
+    let verificationToken = _get(
+      this.props.navigation,
+      DB_KEYS.NAVIGATION_PARAMS,
+      null,
+    ).deepLinkToken;
     console.log('componentDidMount : verificationToken ==>', verificationToken);
     if (verificationToken) {
       const {verifyEmail} = this.props;
-      this.setState({loading: true});
       const payload = {
-        verification_token: verificationToken,
+        [PAYLOAD_KEYS.SIGNUP.VERIFICATION_TOKEN]: verificationToken,
       };
       await verifyEmail(payload);
       const {verifyEmailResponse} = this.props;
-      if (!_get(verifyEmailResponse, 'error', false)) {
+      if (!_get(verifyEmailResponse, DB_KEYS.ERROR, false)) {
         console.log(
           'componentDidMount : verifyEmailResponse ==>',
           verifyEmailResponse,
@@ -121,33 +129,49 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
   render() {
     const {isVerifyApicalled} = this.state;
     const {verifyEmailResponse, navigation} = this.props;
-    let isVerified = _get(verifyEmailResponse, 'error', false);
+    let isVerified = _get(verifyEmailResponse, DB_KEYS.ERROR, false);
     if (!isVerifyApicalled) return <LoadingModal loadingText="Verifying..." />;
     else
       return (
         <View style={{flex: 1}}>
           <GeneralStatusBar />
-          <Header leftIconPresent onBackPress={() => {}} title="Verification" />
+          <Header
+            leftIconPresent
+            onBackPress={() => {}}
+            title={localeString(LOCALE_STRING.EMAIL_VERIFICATION.VERIFICATION)}
+          />
           {isVerifyApicalled && !isVerified && (
             <StatusOverlay
               icon={iVerify}
-              firstButtonText="Okay"
+              firstButtonText={localeString(
+                LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
+              )}
               handleFirstButton={() =>
                 navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN)
               }
-              mainMessage="Success! Account Verified"
-              infoTitle="Please create a secure PIN for the account"
+              mainMessage={localeString(
+                LOCALE_STRING.EMAIL_VERIFICATION.SUCCESS_TITLE,
+              )}
+              infoTitle={localeString(
+                LOCALE_STRING.EMAIL_VERIFICATION.SUCCESS_MESSAGE,
+              )}
             />
           )}
           {isVerified && isVerifyApicalled && (
             <StatusOverlay
               icon={iVerify}
-              firstButtonText="Okay"
+              firstButtonText={localeString(
+                LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
+              )}
               handleFirstButton={() =>
                 this.setState({isVerifyApicalled: false})
               }
-              mainMessage="Account verification failed"
-              infoTitle="Please"
+              mainMessage={localeString(
+                LOCALE_STRING.EMAIL_VERIFICATION.FAIL_TITLE,
+              )}
+              infoTitle={localeString(
+                LOCALE_STRING.EMAIL_VERIFICATION.FAIL_MESSAGE,
+              )}
             />
           )}
         </View>

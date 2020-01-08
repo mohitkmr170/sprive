@@ -156,6 +156,7 @@ export const STYLE_CONSTANTS = {
   IMAGE_RESIZE_CONFIG: {
     AUTO: 'auto',
     STRETCH: 'stretch',
+    CONTAIN: 'contain',
   },
 };
 export const ICON = {
@@ -167,6 +168,7 @@ export const ICON_NAME = {
   RIGHT_ICON: 'chevrons-right',
 };
 export const DB_KEYS = {
+  NAVIGATION_PARAMS: 'state.params',
   ACCESS_TOKEN: 'response.accessToken',
   IS_FETCHING: 'isFetching',
   META_TOTAL: 'response.meta.total',
@@ -282,6 +284,7 @@ export const LOCALE_STRING = {
     SECOND_SUB_TITLE: 'signUp.secondSubTitle',
     THIRD_TITLE: 'signUp.thirdTitle',
     THIRD_SUB_TITLE: 'signUp.thirdSubTitle',
+    EMAIL_CLIENTS: 'signUp.emailClients',
   },
   SHOW_INTEREST_SCREEN: {
     SAVE_INTEREST: 'mortgageForm.mortgageData',
@@ -415,6 +418,12 @@ export const LOCALE_STRING = {
     EMAIL_SENT: 'emailVerification.emailSent',
     OPEN_EMAIL_APP: 'emailVerification.openEmailApp',
     RESEND_VERIFICATION: 'emailVerification.resendVerification',
+    VERIFICATION: 'emailVerification.verification',
+    SUCCESS_TITLE: 'emailVerification.successTitle',
+    SUCCESS_MESSAGE: 'emailVerification.successMessage',
+    FAIL_TITLE: 'emailVerification.failTitle',
+    FAIL_MESSAGE: 'emailVerification.failMessage',
+    OKAY: 'emailVerification.okay',
   },
 };
 

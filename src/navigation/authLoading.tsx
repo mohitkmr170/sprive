@@ -95,7 +95,6 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     });
   };
   componentDidMount() {
-    console.log('here1');
     StatusBar.setHidden(true, 'fade');
     let isDeepLink = false;
     Linking.addEventListener('url', event => {
@@ -129,7 +128,6 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
         TODO : Below condition should be reviewed later
         */
         StatusBar.setHidden(false, 'fade');
-        console.log('getUserInfoResponse12312', getUserInfoResponse);
         if (!_get(getUserInfoResponse, 'data.is_verified', true)) {
           this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
         } else {
