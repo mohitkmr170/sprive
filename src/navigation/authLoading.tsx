@@ -9,7 +9,6 @@ import {
   Text,
   StatusBar,
   Linking,
-  Alert,
 } from 'react-native';
 import {splashScreen, iSprive} from '../assets';
 import {getAuthToken} from '../utils/helperFunctions';
@@ -22,12 +21,11 @@ import {
   STYLE_CONSTANTS,
   LOCALE_STRING,
 } from '../utils/constants';
-import {reset} from '../navigation/navigationService';
 import {resetAuthToken} from '../utils/helperFunctions';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {COLOR} from '../../src/utils/colors';
 import {localeString} from '../utils/i18n';
-import {verticalScale, moderateScale} from 'react-native-size-matters/extend';
+import {verticalScale} from 'react-native-size-matters/extend';
 
 const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
@@ -66,12 +64,9 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     const routeName = route.split('/')[0];
     const deepLinkToken = url.split('=')[1];
     if (routeName === 'sprive') {
-      console.log('here5', deepLinkToken, routeName);
-      //can have navigate of navigationServices
-      reset(NAVIGATION_SCREEN_NAME.CHECK_EMAIL, deepLinkToken);
-      //change it to sprive later
-      // console.log('here6');
-      // reset(NAVIGATION_SCREEN_NAME.CHECK_EMAIL, deepLinkToken);
+      navigate('DeepLinkLandingScreen', {
+        deepLinkToken: deepLinkToken,
+      });
     }
   };
   authFlowCheck = () => {
@@ -103,28 +98,17 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     console.log('here1');
     StatusBar.setHidden(true, 'fade');
     let isDeepLink = false;
-    // if (Platform.OS === 'android') {
-    //   console.log('here2');
-    //   Linking.getInitialURL().then(url => {
-    //     isDeepLink = true;
-    //     if (url) {
-    //       this.navigate(url);
-    //     } else this.authFlowCheck();
-    //   });
-    // } else {
-    console.log('here3');
     Linking.addEventListener('url', event => {
       if (event.url) {
         isDeepLink = true;
         this.handleOpenUrl(event);
-      } else this.authFlowCheck();
+      } else {
+        this.authFlowCheck();
+      }
     });
-    !isDeepLink && this.authFlowCheck();
-    // }
-    // if (!isDeepLink) {
-    //   console.log('here4');
-    //   this.authFlowCheck();
-    // }
+    if (!isDeepLink) {
+      this.authFlowCheck();
+    }
   }
 
   // Auth check, based on which navigation to auth/app stack is decided

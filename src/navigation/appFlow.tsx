@@ -23,6 +23,7 @@ import {
   UpdateMortgage,
   IntroCarousel,
   CheckEmail,
+  DeepLinkLanding,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -166,6 +167,18 @@ const AppStackWithDrawer = createDrawerNavigator(
   },
 );
 
+const DeepLinkStack = createStackNavigator(
+  {
+    DeepLinkLandingScreen: {
+      screen: DeepLinkLanding,
+    },
+  },
+  {
+    initialRouteName: 'DeepLinkLandingScreen',
+    headerMode: 'none',
+  },
+);
+
 /**
  * Switch navigator to switch between AppStack and AuthStack based on Auth status
  */
@@ -174,6 +187,7 @@ const AppNavigator = createSwitchNavigator({
   AuthLoading: AuthLoading,
   App: AppStackWithDrawer,
   Auth: AuthStackNavigator,
+  DeepLink: DeepLinkStack,
 });
 
 /**

@@ -11,3 +11,4 @@ export * from './reportIssue';
 export * from './updateMortgage';
 export * from './introCarousel';
 export * from './checkEmail';
+export * from './deepLinkLanding';

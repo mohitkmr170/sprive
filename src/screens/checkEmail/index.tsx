@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity, Linking} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {Button} from 'react-native-elements';
-import {GeneralStatusBar, Header, StatusOverlay} from '../../components';
-import {emaiSent, iVerify} from '../../assets';
+import {GeneralStatusBar, Header} from '../../components';
+import {emaiSent} from '../../assets';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import {
@@ -12,15 +12,9 @@ import {
   resendEmail,
 } from '../../store/reducers';
 import {localeString} from '../../utils/i18n';
-import {
-  APP_CONSTANTS,
-  LOCALE_STRING,
-  DB_KEYS,
-  NAVIGATION_SCREEN_NAME,
-} from '../../utils/constants';
+import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
 import {openInbox} from 'react-native-email-link';
 import {get as _get} from 'lodash';
-import {getAuthToken} from '../../utils/helperFunctions';
 
 interface props {
   navigation: {
@@ -52,115 +46,32 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
       isVerifyApicalled: false,
     };
   }
-  completeVerification = async () => {
-    const {
-      navigation,
-      getUserInfo,
-      reducerResponse,
-      setUserMortgage,
-    } = this.props;
-    // getUserInfo API call
-    await getUserInfo();
-    const {getUserInfoResponse} = this.props;
-    if (_get(getUserInfoResponse, DB_KEYS.ERROR, null)) {
-      this.setState({isVerifyApicalled: true});
-      // navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
-    } else {
-      const mortgageData = {
-        mortgage_balance: _get(
-          reducerResponse,
-          DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT,
-          '',
-        ).replace(/,/g, ''),
-        mortgage_term: _get(
-          reducerResponse,
-          DB_KEYS.FORM_MORTGAGE_TIMEPERIOD,
-          '',
-        ).replace(/,/g, ''),
-        mortgage_payment: _get(
-          reducerResponse,
-          DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
-          '',
-        ).replace(/,/g, ''),
-        user_id: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
-      };
-      await setUserMortgage(mortgageData);
-      const {setUserMortgageResponse} = this.props;
-      if (_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
-        this.setState({isVerifyApicalled: true});
-        // navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
-      }
-      //   // await resetAuthToken();
-      //   navigation.navigate(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
-      // }
-    }
-  };
+
   async componentDidMount() {
     const {getUserInfo} = this.props;
     await getUserInfo();
-    let verificationToken = _get(this.props.navigation, 'state.params', null);
-    // .deepLinkToken;
-    console.log('componentDidMount : verificationToken ==>', verificationToken);
-    if (verificationToken) {
-      const {verifyEmail} = this.props;
-      this.setState({loading: true});
-      const payload = {
-        verification_token: verificationToken,
-      };
-      await verifyEmail(payload);
-      const {verifyEmailResponse} = this.props;
-      if (!_get(verifyEmailResponse, 'error', false)) {
-        console.log(
-          'componentDidMount : verifyEmailResponse ==>',
-          verifyEmailResponse,
-        );
-        this.completeVerification();
-      } else {
-        this.setState({isVerifyApicalled: true});
-        getAuthToken()
-          .then(res => {
-            if (res === 'FALSE TOKEN') {
-              this.props.navigation.navigate(
-                NAVIGATION_SCREEN_NAME.LOGIN_SCREEN,
-              );
-            } else {
-              this.props.navigation.navigate(
-                NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-              );
-            }
-          })
-          .catch(() => {});
-      }
-    }
   }
   handleBackPress = () => {
     this.props.navigation.goBack();
   };
   handleOpenEmailApp = () => {
-    // Linking.openURL('mailto:');
     openInbox({
       title: 'Email Clients found on your device',
     });
   };
   handleResendVerification = async () => {
-    const {reducerResponse, resendEmail, getUserInfoResponse} = this.props;
+    const {resendEmail, getUserInfoResponse} = this.props;
     const payload = {
       email: _get(getUserInfoResponse, 'response.data.email', null),
     };
     await resendEmail(payload);
-    const {resendEmailResponse} = this.props;
     this.setState({
       isEmailResent: true,
     });
   };
   render() {
-    const {isEmailResent, loading, isVerifyApicalled} = this.state;
-    const {
-      verifyEmailResponse,
-      navigation,
-      resendEmailResponse,
-      getUserInfoResponse,
-    } = this.props;
+    const {isEmailResent} = this.state;
+    const {verifyEmailResponse, getUserInfoResponse} = this.props;
     let isVerified = _get(verifyEmailResponse, 'error', false);
     return (
       <View style={styles.mainContainer}>
@@ -215,26 +126,6 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
             </Text>
           </TouchableOpacity>
         </View>
-        {isVerifyApicalled && !isVerified && (
-          <StatusOverlay
-            icon={iVerify}
-            firstButtonText="Okay"
-            handleFirstButton={() =>
-              navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN)
-            }
-            mainMessage="Success! Account Verified"
-            infoTitle="Please create a secure PIN for the account"
-          />
-        )}
-        {isVerified && isVerifyApicalled && (
-          <StatusOverlay
-            icon={iVerify}
-            firstButtonText="Okay"
-            handleFirstButton={() => this.setState({isVerifyApicalled: false})}
-            mainMessage="Account verification failed"
-            infoTitle="Please"
-          />
-        )}
       </View>
     );
   }

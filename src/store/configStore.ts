@@ -3,17 +3,20 @@ import {persistStore, persistReducer, REHYDRATE} from 'redux-persist';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {mapValues} from 'lodash';
 import logger from 'redux-logger';
-import {reducer as formReducer, formValues} from 'redux-form';
+import {reducer as formReducer} from 'redux-form';
+import {LOGOUT_USER} from './actions/actions';
 import * as reducers from './reducers';
 import storage from 'redux-persist/lib/storage';
 import {applicationReducer} from './appReducers/addUserDetails';
 import {userDataChangeReducer} from './appReducers/triggerUserDataChange.reducer';
+import {logoutUser} from '../store/appReducers/logoutUser';
 
 const appReducers = {
   ...mapValues(reducers, 'reducers'),
   form: formReducer,
   applicationReducer,
   userDataChangeReducer,
+  logoutUser,
 };
 
 const appReducer = combineReducers(appReducers);
@@ -23,6 +26,16 @@ const rootReducer = (
     type: '';
   },
 ) => {
+  console.log('kknddvfbjk');
+  if (action.type === LOGOUT_USER) {
+    console.log(state, 'reduxState');
+    Object.keys(state).map(key => {
+      if (key === 'form') {
+        state[key] = null;
+      }
+    });
+  }
+
   return appReducer(state, action);
 };
 
