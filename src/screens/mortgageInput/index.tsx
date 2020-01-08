@@ -106,7 +106,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
       DB_KEYS.TOTAL_INTEREST,
       false,
     );
-    if (cumulativeInterest)
+    if (cumulativeInterest >= 0)
       this.props.navigation.navigate(
         NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
       );

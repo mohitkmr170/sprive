@@ -25,6 +25,10 @@ export const styles = StyleSheet.create({
     marginBottom: verticalScale(STYLE_CONSTANTS.margin.NORMAL),
     marginHorizontal: verticalScale(STYLE_CONSTANTS.margin.HUGISH),
   },
+  paginationContainer: {
+    position: 'absolute',
+    bottom: 2 * verticalScale(STYLE_CONSTANTS.padding.LARGEST),
+  },
   dotStyle: {
     width: verticalScale(STYLE_CONSTANTS.margin.SMALLISH),
     height: verticalScale(STYLE_CONSTANTS.margin.SMALLISH),
