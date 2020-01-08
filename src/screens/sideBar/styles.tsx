@@ -15,6 +15,10 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: verticalScale(STYLE_CONSTANTS.padding.SMALL),
     backgroundColor: COLOR.WHITE,
   },
+  iconStyle: {
+    height: STYLE_CONSTANTS.padding.LARGEST,
+    width: STYLE_CONSTANTS.padding.LARGEST,
+  },
   centerContainer: {flex: 1},
   profileContainer: {
     paddingVertical:

@@ -323,13 +323,12 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                 <Text
                   onPress={() => this.handleTermAndConditionClick()}
                   style={styles.decoratedText}>
-                  {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}{' '}
-                </Text>
-                {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}
+                  {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}
+                </Text>{' '}
+                {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}{' '}
                 <Text
                   onPress={() => this.handlePrivacyPolicyClick()}
                   style={styles.decoratedText}>
-                  {' '}
                   {localeString(LOCALE_STRING.SIGNUP_FORM.PRIVACY_POLICY)}
                 </Text>
               </Text>

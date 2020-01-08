@@ -56,6 +56,9 @@ export class IntroCarousel extends React.Component<props, state> {
       activeSlide: INITIAL_ACTIVE_INDEX,
     };
   }
+  componentDidMount() {
+    StatusBar.setHidden(false, 'fade');
+  }
   pagination = () => {
     const {entries, activeSlide} = this.state;
     return (
@@ -72,7 +75,7 @@ export class IntroCarousel extends React.Component<props, state> {
   };
   renderItem = (item: object) => {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <Image
           source={_get(item, DB_KEYS.INTRO_CAROUSEL.IMAGE, '')}
           resizeMethod={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.AUTO}
@@ -105,7 +108,7 @@ export class IntroCarousel extends React.Component<props, state> {
     return (
       <View style={styles.mainView}>
         <View style={styles.mainContainer}>
-          <View>
+          <View style={{flex: 1}}>
             <Carousel
               data={this.state.entries}
               renderItem={this.renderItem}
@@ -116,8 +119,8 @@ export class IntroCarousel extends React.Component<props, state> {
               loop={true}
               autoplayInterval={CAROUSEL_AUTO_SCROLL_INTERVAL}
             />
-            {this.pagination()}
           </View>
+          <View style={styles.paginationContainer}>{this.pagination()}</View>
         </View>
         <Button
           title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_FREE)}

@@ -134,9 +134,9 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                     style={styles.sideBarDataListContainer}>
                     <View style={styles.iconTextContainer}>
                       <Image
+                        resizeMode="center"
+                        style={styles.iconStyle}
                         source={item.icon}
-                        height={STYLE_CONSTANTS.padding.LARGEST}
-                        width={STYLE_CONSTANTS.padding.LARGEST}
                       />
                       <Text key={index} style={styles.titleText}>
                         {item.title}
