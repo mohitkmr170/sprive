@@ -137,6 +137,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
           <GeneralStatusBar />
           <Header
             leftIconPresent
+            rightIconPresent
             onBackPress={() => {}}
             title={localeString(LOCALE_STRING.EMAIL_VERIFICATION.VERIFICATION)}
           />
