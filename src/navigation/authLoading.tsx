@@ -68,9 +68,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     if (routeName === 'sprive') {
       console.log('here5', deepLinkToken, routeName);
       //can have navigate of navigationServices
-      navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL, {
-        deepLinkToken,
-      });
+      reset(NAVIGATION_SCREEN_NAME.CHECK_EMAIL, deepLinkToken);
       //change it to sprive later
       // console.log('here6');
       // reset(NAVIGATION_SCREEN_NAME.CHECK_EMAIL, deepLinkToken);
@@ -105,24 +103,24 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     console.log('here1');
     StatusBar.setHidden(true, 'fade');
     let isDeepLink = false;
-    if (Platform.OS === 'android') {
-      console.log('here2');
-      Linking.getInitialURL().then(url => {
+    // if (Platform.OS === 'android') {
+    //   console.log('here2');
+    //   Linking.getInitialURL().then(url => {
+    //     isDeepLink = true;
+    //     if (url) {
+    //       this.navigate(url);
+    //     } else this.authFlowCheck();
+    //   });
+    // } else {
+    console.log('here3');
+    Linking.addEventListener('url', event => {
+      if (event.url) {
         isDeepLink = true;
-        if (url) {
-          this.navigate(url);
-        } else this.authFlowCheck();
-      });
-    } else {
-      console.log('here3');
-      Linking.addEventListener('url', event => {
-        if (event.url) {
-          isDeepLink = true;
-          this.handleOpenUrl(event);
-        } else this.authFlowCheck();
-      });
-      !isDeepLink && this.authFlowCheck();
-    }
+        this.handleOpenUrl(event);
+      } else this.authFlowCheck();
+    });
+    !isDeepLink && this.authFlowCheck();
+    // }
     // if (!isDeepLink) {
     //   console.log('here4');
     //   this.authFlowCheck();

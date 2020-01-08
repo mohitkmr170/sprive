@@ -96,8 +96,10 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
     }
   };
   async componentDidMount() {
-    let verificationToken = _get(this.props.navigation, 'state.params', null)
-      .deepLinkToken;
+    const {getUserInfo} = this.props;
+    await getUserInfo();
+    let verificationToken = _get(this.props.navigation, 'state.params', null);
+    // .deepLinkToken;
     console.log('componentDidMount : verificationToken ==>', verificationToken);
     if (verificationToken) {
       const {verifyEmail} = this.props;
@@ -137,13 +139,13 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
   handleOpenEmailApp = () => {
     // Linking.openURL('mailto:');
     openInbox({
-      title: 'asdas',
+      title: 'Email Clients found on your device',
     });
   };
   handleResendVerification = async () => {
-    const {reducerResponse, resendEmail} = this.props;
+    const {reducerResponse, resendEmail, getUserInfoResponse} = this.props;
     const payload = {
-      email: _get(reducerResponse, 'signup.values.email', ''),
+      email: _get(getUserInfoResponse, 'response.data.email', null),
     };
     await resendEmail(payload);
     const {resendEmailResponse} = this.props;
@@ -153,7 +155,12 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
   };
   render() {
     const {isEmailResent, loading, isVerifyApicalled} = this.state;
-    const {verifyEmailResponse, navigation, resendEmailResponse} = this.props;
+    const {
+      verifyEmailResponse,
+      navigation,
+      resendEmailResponse,
+      getUserInfoResponse,
+    } = this.props;
     let isVerified = _get(verifyEmailResponse, 'error', false);
     return (
       <View style={styles.mainContainer}>
@@ -174,7 +181,13 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
                 : localeString(LOCALE_STRING.EMAIL_VERIFICATION.CHECK_EMAIL)}
             </Text>
             <Text style={styles.emailSentText}>
-              {localeString(LOCALE_STRING.EMAIL_VERIFICATION.EMAIL_SENT)}
+              {localeString(LOCALE_STRING.EMAIL_VERIFICATION.EMAIL_SENT, {
+                currentEmail: _get(
+                  getUserInfoResponse,
+                  'response.data.email',
+                  null,
+                ),
+              })}
             </Text>
           </View>
         </View>
