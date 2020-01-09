@@ -11,7 +11,7 @@ import {
   Linking,
 } from 'react-native';
 import {splashScreen, iSprive} from '../assets';
-import {getAuthToken} from '../utils/helperFunctions';
+import {getAuthToken, showSnackBar} from '../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import {getUserInfo} from '../store/reducers';
 import {connect} from 'react-redux';
@@ -67,6 +67,8 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       navigate('DeepLinkLandingScreen', {
         deepLinkToken: deepLinkToken,
       });
+    } else {
+      showSnackBar({}, 'Issue with Deeplink');
     }
   };
   authFlowCheck = () => {

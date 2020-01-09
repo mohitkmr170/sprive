@@ -169,13 +169,14 @@
     "okay": "Okay",
     "verification": "Verification",
     "successTitle": "Success! Account Verified",
-    "successMessage": "Please create a secure PIN for the account",
+    "successMessage": "You are successfully registered, press okay to proceed",
     "failTitle": "Account verification failed",
     "failMessage": "Please SignUp again to Continue",
     "emailSentAgain": "Email sent again",
     "checkEmail": "Please check your e-mail",
     "emailSent": "We sent an email to {{currentEmail}} \n Click the link to verify your account",
     "openEmailApp": "Open e-mail app",
-    "resendVerification": "Resend verification"
+    "resendVerification": "Resend verification",
+    "alreadyVerified": "Requested email is already verified."
   }
 }

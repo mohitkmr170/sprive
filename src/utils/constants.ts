@@ -202,6 +202,7 @@ export const DB_KEYS = {
   MORTGAGE_TERM_ERROR: 'response.response.data.errors.mortgage_term',
   MORTGAGE_PAYMENT_ERROR: 'response.response.data.errors.mortgage_payment',
   SIGNUP_PASSWORD: 'signup.values.password',
+  VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
@@ -424,6 +425,7 @@ export const LOCALE_STRING = {
     FAIL_TITLE: 'emailVerification.failTitle',
     FAIL_MESSAGE: 'emailVerification.failMessage',
     OKAY: 'emailVerification.okay',
+    ALREADY_VERIFIED: 'emailVerification.alreadyVerified',
   },
 };
 

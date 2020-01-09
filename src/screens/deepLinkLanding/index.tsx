@@ -10,6 +10,7 @@ import {
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
   LOCALE_STRING,
+  APP_CONSTANTS,
 } from '../../utils/constants';
 import {get as _get} from 'lodash';
 import {iVerify} from '../../assets';
@@ -94,7 +95,10 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
       DB_KEYS.NAVIGATION_PARAMS,
       null,
     ).deepLinkToken;
-    console.log('componentDidMount : verificationToken ==>', verificationToken);
+    console.log(
+      'componentDidMount : verificationToken ==>',
+      'verificationToken',
+    );
     if (verificationToken) {
       const {verifyEmail} = this.props;
       const payload = {
@@ -109,20 +113,27 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
         );
         this.completeVerification();
       } else {
-        this.setState({isVerifyApicalled: true});
-        getAuthToken()
-          .then(res => {
-            if (res === 'FALSE TOKEN') {
-              this.props.navigation.navigate(
-                NAVIGATION_SCREEN_NAME.LOGIN_SCREEN,
-              );
-            } else {
-              this.props.navigation.navigate(
-                NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-              );
-            }
-          })
-          .catch(() => {});
+        if (
+          _get(verifyEmailResponse, DB_KEYS.VERIFICATION_ERROR_MESSAGE, '') ===
+          localeString(LOCALE_STRING.EMAIL_VERIFICATION.ALREADY_VERIFIED)
+        ) {
+          getAuthToken()
+            .then(res => {
+              if (res === APP_CONSTANTS.FALSE_TOKEN) {
+                this.props.navigation.navigate(
+                  NAVIGATION_SCREEN_NAME.LOGIN_SCREEN,
+                );
+              } else {
+                this.props.navigation.navigate(
+                  NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+                );
+              }
+            })
+            .catch(() => {});
+        } else {
+          this.setState({isVerifyApicalled: true});
+        }
+        // this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
       }
     }
   }
@@ -130,6 +141,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
     const {isVerifyApicalled} = this.state;
     const {verifyEmailResponse, navigation} = this.props;
     let isVerified = _get(verifyEmailResponse, DB_KEYS.ERROR, false);
+    console.log('Inside deeplink', isVerified);
     if (!isVerifyApicalled) return <LoadingModal loadingText="Verifying..." />;
     else
       return (
@@ -164,14 +176,19 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
               firstButtonText={localeString(
                 LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
               )}
-              handleFirstButton={() =>
-                this.setState({isVerifyApicalled: false})
-              }
+              handleFirstButton={() => {
+                this.setState({isVerifyApicalled: false});
+                this.props.navigation.navigate(
+                  NAVIGATION_SCREEN_NAME.CHECK_EMAIL,
+                );
+              }}
               mainMessage={localeString(
                 LOCALE_STRING.EMAIL_VERIFICATION.FAIL_TITLE,
               )}
-              infoTitle={localeString(
-                LOCALE_STRING.EMAIL_VERIFICATION.FAIL_MESSAGE,
+              infoTitle={_get(
+                verifyEmailResponse,
+                DB_KEYS.VERIFICATION_ERROR_MESSAGE,
+                APP_CONSTANTS.GENERAL_ERROR,
               )}
             />
           )}
