@@ -13,7 +13,7 @@ import {
   APP_CONSTANTS,
 } from '../../utils/constants';
 import {get as _get} from 'lodash';
-import {iVerify} from '../../assets';
+import {iVerify, iFail} from '../../assets';
 import {connect} from 'react-redux';
 import {
   verifyEmail,
@@ -172,7 +172,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
           )}
           {isVerified && isVerifyApicalled && (
             <StatusOverlay
-              icon={iVerify}
+              icon={iFail}
               firstButtonText={localeString(
                 LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
               )}
