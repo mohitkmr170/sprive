@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+@import Firebase;
 #import "AppDelegate.h"
 
 #import <React/RCTBridge.h>
@@ -12,8 +13,6 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import "RNSplashScreen.h"
-
-@import Firebase;
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -37,22 +36,6 @@
   return YES;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-  return [RCTLinkingManager application:application openURL:url
-                      sourceApplication:sourceApplication annotation:annotation];
-}
-
-// Only if your app is using [Universal Links](https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/AppSearch/UniversalLinks.html).
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
- restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
-{
- return [RCTLinkingManager application:application
-                  continueUserActivity:userActivity
-                    restorationHandler:restorationHandler];
-}
-
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
@@ -60,6 +43,60 @@
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  BOOL handled = NO;
+  FIRDynamicLink *dynamicLink = [[FIRDynamicLinks dynamicLinks]   
+      dynamicLinkFromCustomSchemeURL:url];
+    if (dynamicLink) {
+      if (dynamicLink.url) {
+        handled = [RCTLinkingManager application:app
+          openURL:dynamicLink.url options:options];
+          // || [[RNFirebaseLinks instance] application:application 
+          // openURL:dynamicLink.url options:options];
+        }
+    }
+  if(!handled) {
+    handled = [RCTLinkingManager application:app openURL:url
+        options:options];
+  }
+  return handled;
+  // return [RCTLinkingManager application:app openURL:url options:options];
+}
+//*********************Dynamic Linking Section********************
+- (BOOL)application:(UIApplication *)application
+continueUserActivity:(nonnull NSUserActivity *)userActivity
+ restorationHandler:
+#if defined(__IPHONE_12_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_12_0)
+(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> *_Nullable))restorationHandler {
+#else
+    (nonnull void (^)(NSArray *_Nullable))restorationHandler {
+#endif  // __IPHONE_12_0
+  BOOL handled = [[FIRDynamicLinks dynamicLinks] handleUniversalLink:userActivity.webpageURL
+                                                          completion:^(FIRDynamicLink * _Nullable dynamicLink,
+                                                                       NSError * _Nullable error) {
+                                                            // ...
+                                                          }];
+  return handled;
+  // BOOL handled = [[FIRDynamicLinks dynamicLinks]
+  //     handleUniversalLink:userActivity.webpageURL
+  //     completion:^(FIRDynamicLink * _Nullable dynamicLink,
+  //     NSError * _Nullable error) {
+  //   if (!error) {
+  //     [RCTLinkingManager application:application
+  //           openURL:dynamicLink.url options:nil];
+  //     // [[RNFirebaseLinks instance] application:application 
+  //     //       openURL:dynamicLink.url options:nil];
+  //    }
+  // }];
+  // if(!handled) {
+  // handled = [RCTLinkingManager application:application 
+  //      continueUserActivity:userActivity 
+  //      restorationHandler:restorationHandler];
+  // }
+  // return handled;
 }
 
 @end

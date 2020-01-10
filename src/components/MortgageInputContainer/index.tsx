@@ -182,6 +182,7 @@ class UnconnectedMortgageInputContainer extends React.Component<props, state> {
 }
 export const MortgageInputContainerForm = reduxForm({
   form: APP_CONSTANTS.MORTGAGE_INPUT_FORM,
+  destroyOnUnmount: false,
 })(UnconnectedMortgageInputContainer);
 
 const mapStateToProps = (state: object) => ({

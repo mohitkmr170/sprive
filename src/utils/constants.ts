@@ -156,6 +156,7 @@ export const STYLE_CONSTANTS = {
   IMAGE_RESIZE_CONFIG: {
     AUTO: 'auto',
     STRETCH: 'stretch',
+    CONTAIN: 'contain',
   },
 };
 export const ICON = {
@@ -167,6 +168,7 @@ export const ICON_NAME = {
   RIGHT_ICON: 'chevrons-right',
 };
 export const DB_KEYS = {
+  NAVIGATION_PARAMS: 'state.params',
   ACCESS_TOKEN: 'response.accessToken',
   IS_FETCHING: 'isFetching',
   META_TOTAL: 'response.meta.total',
@@ -200,6 +202,7 @@ export const DB_KEYS = {
   MORTGAGE_TERM_ERROR: 'response.response.data.errors.mortgage_term',
   MORTGAGE_PAYMENT_ERROR: 'response.response.data.errors.mortgage_payment',
   SIGNUP_PASSWORD: 'signup.values.password',
+  VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
@@ -248,6 +251,7 @@ export const NAVIGATION_SCREEN_NAME = {
   REPORT_ISSUE: 'ReportIssueScreen',
   UPDATE_MORTGAGE: 'UpdateMortgageScreen',
   INTRO_CAROUSEL: 'IntroCarouselScreen',
+  CHECK_EMAIL: 'CheckEmailScreen',
 };
 
 export const LOCALE_STRING = {
@@ -281,6 +285,7 @@ export const LOCALE_STRING = {
     SECOND_SUB_TITLE: 'signUp.secondSubTitle',
     THIRD_TITLE: 'signUp.thirdTitle',
     THIRD_SUB_TITLE: 'signUp.thirdSubTitle',
+    EMAIL_CLIENTS: 'signUp.emailClients',
   },
   SHOW_INTEREST_SCREEN: {
     SAVE_INTEREST: 'mortgageForm.mortgageData',
@@ -407,6 +412,20 @@ export const LOCALE_STRING = {
     INVITE_FRIENDS: 'sideBar.inviteFriends',
     UPDATE_PASSWORD: 'sideBar.updatePassword',
     LOG_OUT: 'sideBar.logOut',
+  },
+  EMAIL_VERIFICATION: {
+    EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',
+    CHECK_EMAIL: 'emailVerification.checkEmail',
+    EMAIL_SENT: 'emailVerification.emailSent',
+    OPEN_EMAIL_APP: 'emailVerification.openEmailApp',
+    RESEND_VERIFICATION: 'emailVerification.resendVerification',
+    VERIFICATION: 'emailVerification.verification',
+    SUCCESS_TITLE: 'emailVerification.successTitle',
+    SUCCESS_MESSAGE: 'emailVerification.successMessage',
+    FAIL_TITLE: 'emailVerification.failTitle',
+    FAIL_MESSAGE: 'emailVerification.failMessage',
+    OKAY: 'emailVerification.okay',
+    ALREADY_VERIFIED: 'emailVerification.alreadyVerified',
   },
 };
 

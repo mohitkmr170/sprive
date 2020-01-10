@@ -23,14 +23,33 @@
 		<key>CFBundleURLTypes</key>
 		<array>
 			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLName</key>
+				<string>com.geekyants.services.Sprive</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>spriveapp</string>
+					<string>sprivenew.page.link</string>
 				</array>
 			</dict>
 		</array>
 		<key>CFBundleVersion</key>
 		<string>$(CURRENT_PROJECT_VERSION)</string>
+		<key>FirebaseDynamicLinksCustomDomains</key>
+		<array>
+			<string>https://sprivenew.page.link</string>
+		</array>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>message</string>
+			<string>readdle-spark</string>
+			<string>airmail</string>
+			<string>ms-outlook</string>
+			<string>googlegmail</string>
+			<string>inbox-gmail</string>
+			<string>ymail</string>
+			<string>superhuman</string>
+		</array>
 		<key>LSRequiresIPhoneOS</key>
 		<true />
 		<key>NSAppTransportSecurity</key>

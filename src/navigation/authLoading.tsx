@@ -8,9 +8,10 @@ import {
   Platform,
   Text,
   StatusBar,
+  Linking,
 } from 'react-native';
 import {splashScreen, iSprive} from '../assets';
-import {getAuthToken} from '../utils/helperFunctions';
+import {getAuthToken, showSnackBar} from '../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import {getUserInfo} from '../store/reducers';
 import {connect} from 'react-redux';
@@ -24,7 +25,8 @@ import {resetAuthToken} from '../utils/helperFunctions';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {COLOR} from '../../src/utils/colors';
 import {localeString} from '../utils/i18n';
-import {verticalScale, moderateScale} from 'react-native-size-matters/extend';
+import {verticalScale} from 'react-native-size-matters/extend';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
@@ -33,10 +35,10 @@ const APP_STACK = 'App';
 const APP_LOAD_TIME = 2000;
 interface props {
   navigation: {
-    navigate: (firstParam: any) => void;
-    getUserInfo: () => void;
-    getUserInfoResponse: object;
+    navigate: (firstParam: any, navigationParams?: object) => void;
   };
+  getUserInfo: () => void;
+  getUserInfoResponse: object;
 }
 
 interface state {}
@@ -46,8 +48,29 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     super(props);
     this.state = {};
   }
-  componentDidMount() {
-    StatusBar.setHidden(true, 'fade');
+  handleOpenUrl = (event: any) => {
+    this.navigate(event);
+  };
+  /**
+   * FUnction to split and extract navigation route and params
+   * @param : url : complete deeplink URL
+   */
+  navigate = (url: any) => {
+    console.log('inside deeplink', url);
+    const {navigate} = this.props.navigation;
+    // const route = url.replace(/.*?:\/\//g, '');
+    // const id = route.match(/\/([^\/]+)\/?$/)[1];
+    // const routeName = route.split('/')[0];
+    const deepLinkToken = url.split('=')[1];
+    // if (routeName === 'sprive') {
+    navigate('DeepLinkLandingScreen', {
+      deepLinkToken: deepLinkToken,
+    });
+    // } else {
+    //   showSnackBar({}, 'Issue with Deeplink');
+    // }
+  };
+  authFlowCheck = () => {
     AsyncStorage.getItem(LAUNCH_STATUS).then(async value => {
       if (!value) {
         AsyncStorage.setItem(LAUNCH_STATUS, FIRST_LAUNCH);
@@ -71,6 +94,95 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
           });
       }
     });
+  };
+  // async test() {
+  //   // let deeplinkURL = '';
+  //   const initialLink = await dynamicLinks().getInitialLink();
+  //   // deeplinkURL = initialLink;
+  //   // let continuousLink = "";
+  //   console.log('initialLink::', initialLink);
+  //   dynamicLinks().onLink((link: any) => {
+  //     // Handle dynamic link inside your own application
+  //     console.log('nested block::', link);
+  //     // continuousLink = link
+  //     // deeplinkURL = link;
+  //   });
+  //   // deeplinkURL = (initialLink)?initialLink:(continuousLink)?continuousLink:'';
+  //   // if (deeplinkURL) {
+  //   //   this.handleOpenUrl(deeplinkURL);
+  //   // } else this.authFlowCheck();
+  // }
+
+  // async getDeeplinkUrl() {
+  //   let deeplinkUrl: string = '';
+  //   const initialLink: any = await dynamicLinks().getInitialLink();
+  //   console.log('initialLink:::', initialLink);
+  //   let continuousLink: any = null;
+  //   dynamicLinks().onLink((link: any) => {
+  //     continuousLink = link;
+  //   });
+  //   console.log('continuousLink:::', continuousLink);
+  //   deeplinkUrl = initialLink.url
+  //     ? initialLink.url
+  //     : continuousLink.url
+  //     ? continuousLink.url
+  //     : null;
+  //   return deeplinkUrl;
+  // }
+
+  getDeeplinkUrl() {
+    return new Promise(async (resolve: any, reject: any) => {
+      console.log('geekybaba:::::');
+
+      let deeplinkUrl: string = '';
+      const initialLink: any = await dynamicLinks().getInitialLink();
+      if (initialLink && initialLink.url) return resolve(initialLink.url);
+
+      dynamicLinks().onLink((link: any) => {
+        console.log('dynamicLinks::::', link);
+
+        if (link && link.url) return resolve(link.url);
+      });
+      return resolve(null);
+    });
+  }
+
+  async test() {
+    const initialLink = await dynamicLinks().getInitialLink();
+    console.log('initialLink::', initialLink);
+    if (_get(initialLink, 'url', null)) this.handleOpenUrl(initialLink.url);
+    else {
+      console.log('here1');
+      dynamicLinks().onLink((link: any) => {
+        console.log('nested block::', link);
+        this.handleOpenUrl(link.url);
+      });
+    }
+  }
+
+  async componentDidMount() {
+    StatusBar.setHidden(true, 'fade');
+    this.authFlowCheck();
+    // console.log('this.test():::::::', this.test());
+    // let deeplinkUrl = await this.getDeeplinkUrl();
+    // console.log('deeplinkURL ::: ', deeplinkUrl);
+    // if (deeplinkUrl) this.handleOpenUrl(deeplinkUrl);
+    // else {
+    //   console.log('inside appflow');
+    //   this.authFlowCheck();
+    // }
+    // Linking.addEventListener('url', event => {
+    //   console.log('akjsbdasd1', event);
+    //   if (event.url) {
+    //     // isDeepLink = true;
+    //     this.handleOpenUrl(event);
+    //   } else {
+    //     this.authFlowCheck();
+    //   }
+    // });
+    // if (!isDeepLink) {
+    //   this.authFlowCheck();
+    // }
   }
 
   // Auth check, based on which navigation to auth/app stack is decided
@@ -86,8 +198,15 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       await getUserInfo();
       const {getUserInfoResponse} = this.props;
       if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
+        /*
+        TODO : Below condition should be reviewed later
+        */
         StatusBar.setHidden(false, 'fade');
-        this.props.navigation.navigate(APP_STACK);
+        if (!_get(getUserInfoResponse, 'data.is_verified', true)) {
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+        } else {
+          this.props.navigation.navigate(APP_STACK);
+        }
       } else {
         StatusBar.setHidden(false, 'fade');
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);

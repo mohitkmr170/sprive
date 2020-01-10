@@ -1,4 +1,5 @@
 import {actionTypes} from '../actionTypes';
+export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const addUserDetails = (userDetails: {
   userName: string;
@@ -10,3 +11,7 @@ export const addUserDetails = (userDetails: {
     payload: userDetails,
   };
 };
+
+export const logoutUser = () => ({
+  type: LOGOUT_USER,
+});

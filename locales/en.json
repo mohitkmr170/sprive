@@ -37,7 +37,8 @@
     "T&C": "Terms & Conditions",
     "andOur": "and our",
     "privacyPolicy": "Privacy Policy",
-    "accountAlreadyExist": "Already have an account?"
+    "accountAlreadyExist": "Already have an account?",
+    "emailClients": "Email Clients found on your device"
   },
   "mortgageForm": {
     "title": "Your Mortgage",
@@ -163,5 +164,19 @@
     "inviteFriends": "Invite Friends",
     "updatePassword": "Update Password",
     "logOut": "Log out"
+  },
+  "emailVerification": {
+    "okay": "Okay",
+    "verification": "Verification",
+    "successTitle": "Success! Account Verified",
+    "successMessage": "You are successfully registered, press okay to proceed",
+    "failTitle": "Account verification failed",
+    "failMessage": "Please SignUp again to Continue",
+    "emailSentAgain": "Email sent again",
+    "checkEmail": "Please check your e-mail",
+    "emailSent": "We sent an email to {{currentEmail}} \n Click the link to verify your account",
+    "openEmailApp": "Open e-mail app",
+    "resendVerification": "Resend verification",
+    "alreadyVerified": "Requested email is already verified."
   }
 }
