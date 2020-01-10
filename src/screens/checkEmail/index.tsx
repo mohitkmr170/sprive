@@ -21,11 +21,12 @@ import {
 import {openInbox} from 'react-native-email-link';
 import {get as _get} from 'lodash';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 const INTENT_BUTTON_RESET_TIME = 1000;
 interface props {
   navigation: {
-    navigate: (routeName: string) => void;
+    navigate: (routeName: string, navigationParam?: object) => void;
     goBack: () => void;
   };
   verifyEmail: (payload: object) => void;
@@ -57,8 +58,20 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
   }
 
   async componentDidMount() {
-    const {getUserInfo} = this.props;
+    const {getUserInfo, navigation} = this.props;
     await getUserInfo();
+    this.onDynamicLinkUnsubscribe = dynamicLinks().onLink(link => {
+      const queryString = require('query-string');
+      const parsed = queryString.parse(link.url);
+      const deepLinkToken = parsed.verification_token;
+      console.log('LINK:::', deepLinkToken, parsed);
+      navigation.navigate('DeepLinkLandingScreen', {
+        deepLinkToken: deepLinkToken,
+      });
+    });
+  }
+  componentWillUnmount() {
+    this.onDynamicLinkUnsubscribe();
   }
   handleBackPress = () => {
     this.props.navigation.goBack();
