@@ -21,10 +21,11 @@ import {
   getUserInfo,
   resendEmail,
 } from '../../store/reducers';
-import {getAuthToken} from '../../utils/helperFunctions';
+import {getAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {localeString} from '../../utils/i18n';
 
+const VERIFYING_LOADING = 'Verifying...';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -57,7 +58,6 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
     const {getUserInfoResponse} = this.props;
     if (_get(getUserInfoResponse, DB_KEYS.ERROR, null)) {
       this.setState({isVerifyApicalled: true});
-      // navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
     } else {
       const mortgageData = {
         [PAYLOAD_KEYS.MORTGAGE_INPUT.MORTGAGE_BALANCE]: _get(
@@ -82,9 +82,8 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
       if (_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
         this.setState({isVerifyApicalled: true});
       }
-      //   // await resetAuthToken();
+      //   await resetAuthToken();
       //   navigation.navigate(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
-      // }
     }
   };
   async componentDidMount() {
@@ -129,11 +128,10 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
                 );
               }
             })
-            .catch(() => {});
+            .catch(err => showSnackBar({}, err));
         } else {
           this.setState({isVerifyApicalled: true});
         }
-        // this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
       }
     }
   }
@@ -141,8 +139,8 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
     const {isVerifyApicalled} = this.state;
     const {verifyEmailResponse, navigation} = this.props;
     let isVerified = _get(verifyEmailResponse, DB_KEYS.ERROR, false);
-    console.log('Inside deeplink', isVerified);
-    if (!isVerifyApicalled) return <LoadingModal loadingText="Verifying..." />;
+    if (!isVerifyApicalled)
+      return <LoadingModal loadingText={VERIFYING_LOADING} />;
     else
       return (
         <View style={{flex: 1}}>

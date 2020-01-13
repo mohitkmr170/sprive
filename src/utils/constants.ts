@@ -169,6 +169,7 @@ export const ICON_NAME = {
 };
 export const DB_KEYS = {
   NAVIGATION_PARAMS: 'state.params',
+  ACCESS_DATA_TOKEN: 'response.data.accessToken',
   ACCESS_TOKEN: 'response.accessToken',
   IS_FETCHING: 'isFetching',
   META_TOTAL: 'response.meta.total',
@@ -235,6 +236,9 @@ export const DB_KEYS = {
     ISSUE_CATEGORY_ID_KEY: 'id',
     ISSUE_CATEGORY_VALUE_KEY: 'value',
   },
+  VERIFICATION_FLOW: {
+    IS_VERIFIED: 'data.is_verified',
+  },
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -252,6 +256,7 @@ export const NAVIGATION_SCREEN_NAME = {
   UPDATE_MORTGAGE: 'UpdateMortgageScreen',
   INTRO_CAROUSEL: 'IntroCarouselScreen',
   CHECK_EMAIL: 'CheckEmailScreen',
+  DEEPLINK_SCREEN: 'DeepLinkLandingScreen',
 };
 
 export const LOCALE_STRING = {

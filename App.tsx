@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {StyleSheet, View, Text, Platform, Linking, Alert} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
@@ -9,6 +9,7 @@ import AppNavigator from './src/navigation/appFlow';
 import {setNavigator} from './src/navigation/navigationService';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {navigate} from './src/navigation/navigationService';
+import {NAVIGATION_SCREEN_NAME} from './src/utils/constants';
 
 interface props {
   navigation: {
@@ -42,16 +43,29 @@ class App extends React.Component<props, state> {
     // };
   }
   componentDidMount() {
+    /**
+     * Hide native layer splash screen
+     */
     splashScreen.hide();
-    this.onDynamicLinkUnsubscribe = dynamicLinks().onLink(link => {
-      var url = require('url');
-      const parsed = url.parse(link.url, true).query;
-      const deepLinkToken = parsed.verification_token;
-      console.log('LINK:::', deepLinkToken, parsed, link);
-      navigate('DeepLinkLandingScreen', {
-        deepLinkToken: deepLinkToken,
-      });
-    });
+    /**
+     * Listener for Firebase Dynamic links
+     */
+    this.onDynamicLinkUnsubscribe = dynamicLinks().onLink(
+      (link: {url: string}) => {
+        var url = require('url');
+        const parsed = url.parse(link.url, true).query;
+        const deepLinkToken = parsed.verification_token;
+        console.log(
+          'componentDidMount : onDynamicLinkUnsubscribe : LINK ::: =>',
+          deepLinkToken,
+          parsed,
+          link,
+        );
+        navigate(NAVIGATION_SCREEN_NAME.DEEPLINK_SCREEN, {
+          deepLinkToken: deepLinkToken,
+        });
+      },
+    );
   }
   componentWillUnmount() {
     this.onDynamicLinkUnsubscribe();

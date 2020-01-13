@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {Button} from 'react-native-elements';
 import {GeneralStatusBar, Header} from '../../components';
-import {emaiSent} from '../../assets';
+import {emailSent} from '../../assets';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import {
@@ -41,7 +41,6 @@ interface props {
 interface state {
   isEmailResent: boolean;
   loading: boolean;
-  isVerifyApicalled: boolean;
   isEmailButtonClicked: boolean;
 }
 
@@ -51,13 +50,12 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
     this.state = {
       isEmailResent: false,
       loading: false,
-      isVerifyApicalled: false,
       isEmailButtonClicked: false,
     };
   }
 
   async componentDidMount() {
-    const {getUserInfo, navigation} = this.props;
+    const {getUserInfo} = this.props;
     await getUserInfo();
   }
   handleBackPress = () => {
@@ -95,7 +93,7 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
         <Header leftIconPresent onBackPress={() => this.handleBackPress()} />
         <View style={styles.middleContainer}>
           <Image
-            source={emaiSent}
+            source={emailSent}
             style={styles.imageView}
             resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
           />

@@ -16,5 +16,5 @@ export const hsbcBank = require('../images/hsbcBank.png');
 export const firstCarousel = require('../images/sprive-revamped-illustration.png');
 export const secondCarousel = require('../images/sprive-illustration-3.png');
 export const thirdCarousel = require('../images/sprive-illustration-2.png');
-export const emaiSent = require('../images/emailsent.png');
+export const emailSent = require('../images/emailsent.png');
 export const spriveLoading = require('../images/spriveLoading.gif');

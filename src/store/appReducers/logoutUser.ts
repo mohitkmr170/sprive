@@ -8,7 +8,6 @@ const initialState = {
 };
 
 export const logoutUser = (state = initialState, action: any) => {
-  console.log('insideLogoutReducer');
   switch (action.type) {
     case LOGOUT_USER:
       return {

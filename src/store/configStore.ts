@@ -26,9 +26,7 @@ const rootReducer = (
     type: '';
   },
 ) => {
-  console.log('kknddvfbjk');
   if (action.type === LOGOUT_USER) {
-    console.log(state, 'reduxState');
     Object.keys(state).map(key => {
       if (key === 'form') {
         state[key] = null;
