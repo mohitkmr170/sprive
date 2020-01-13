@@ -61,10 +61,10 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
     const {getUserInfo, navigation} = this.props;
     await getUserInfo();
     this.onDynamicLinkUnsubscribe = dynamicLinks().onLink(link => {
-      const queryString = require('query-string');
-      const parsed = queryString.parse(link.url);
+      var url = require('url');
+      const parsed = url.parse(link.url, true).query;
       const deepLinkToken = parsed.verification_token;
-      console.log('LINK:::', deepLinkToken, parsed);
+      console.log('LINK:::', deepLinkToken, parsed, link);
       navigation.navigate('DeepLinkLandingScreen', {
         deepLinkToken: deepLinkToken,
       });
