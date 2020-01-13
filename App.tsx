@@ -7,6 +7,8 @@ import {store, persistor} from './src/store/configStore';
 import splashScreen from 'react-native-splash-screen';
 import AppNavigator from './src/navigation/appFlow';
 import {setNavigator} from './src/navigation/navigationService';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import {navigate} from './src/navigation/navigationService';
 
 interface props {
   navigation: {
@@ -41,6 +43,18 @@ class App extends React.Component<props, state> {
   }
   componentDidMount() {
     splashScreen.hide();
+    this.onDynamicLinkUnsubscribe = dynamicLinks().onLink(link => {
+      var url = require('url');
+      const parsed = url.parse(link.url, true).query;
+      const deepLinkToken = parsed.verification_token;
+      console.log('LINK:::', deepLinkToken, parsed, link);
+      navigate('DeepLinkLandingScreen', {
+        deepLinkToken: deepLinkToken,
+      });
+    });
+  }
+  componentWillUnmount() {
+    this.onDynamicLinkUnsubscribe();
   }
   render() {
     return (
