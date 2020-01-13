@@ -13,32 +13,57 @@ import {
 import {splashScreen, iSprive} from '../assets';
 import {getAuthToken, showSnackBar} from '../utils/helperFunctions';
 import {get as _get} from 'lodash';
-import {getUserInfo} from '../store/reducers';
+import {
+  getUserInfo,
+  getMonthlyPaymentRecord,
+  getProjectedData,
+  getUserMortgageData,
+  getUserGoal,
+} from '../store/reducers';
 import {connect} from 'react-redux';
 import {
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
   STYLE_CONSTANTS,
   LOCALE_STRING,
+  APP_CONSTANTS,
 } from '../utils/constants';
+import {PAYLOAD_KEYS} from '../utils/payloadKeys';
 import {resetAuthToken} from '../utils/helperFunctions';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {COLOR} from '../../src/utils/colors';
 import {localeString} from '../utils/i18n';
 import {verticalScale} from 'react-native-size-matters/extend';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
+import {reset} from '../navigation/navigationService';
 
 const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
 const AUTH_STACK = 'Auth';
 const APP_STACK = 'App';
 const APP_LOAD_TIME = 2000;
+
+// interface NavigationParams {
+//   isUserDataChanged: boolean;
+// }
 interface props {
   navigation: {
     navigate: (firstParam: any, navigationParams?: object) => void;
+    // setParams: (params: NavigationParams) => void;
   };
   getUserInfo: () => void;
   getUserInfoResponse: object;
+  getUserInfoResponses: (payload: object, extraPayload: object) => void;
+  getMonthlyPaymentRecord: (payload: object, extraPayload: object) => void;
+  getMonthlyPaymentRecordResponse: object;
+  getProjectedData: (payload: object, extraPayload: object) => void;
+  getProjectedDataResponse: object;
+  userDataChangeEvent: object;
+  triggerUserDataChange: (value: boolean) => void;
+  getUserMortgageDataResponse: object;
+  getUserMortgageData: (payload: object, extraPayload: object) => void;
+  getUserGoal: (payload: object, extraPayload: object) => void;
+  getUserGoalResponse: object;
 }
 
 interface state {}
@@ -185,6 +210,83 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     // }
   }
 
+  preApiCalls = async () => {
+    const {
+      getMonthlyPaymentRecord,
+      getUserInfoResponses,
+      getProjectedData,
+      navigation,
+      getUserMortgageData,
+      getUserGoal,
+    } = this.props;
+    const userId = _get(getUserInfoResponses, DB_KEYS.DATA_ID, null);
+    console.log('here1', userId);
+    if (!getUserInfoResponses || !userId)
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+    const qParamsInfo = {
+      [PAYLOAD_KEYS.USER_ID]: userId,
+    };
+    console.log('here2', qParamsInfo);
+    await getUserMortgageData({}, qParamsInfo);
+    const {getUserMortgageDataResponse} = this.props;
+    if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
+      console.log('here3');
+      reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+        isUserDataChanged: true,
+      });
+      return;
+    }
+    console.log('here4');
+    const qParam_monthly_payment_record = {
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponses, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.GRAPH.CURRENT_DATE]: new Date().toISOString(),
+    };
+    //
+    const qParam_get_user_goal = {
+      [PAYLOAD_KEYS.USER_ID]: userId,
+    };
+    await getUserGoal({}, qParam_get_user_goal);
+    //
+    const {getUserGoalResponse} = this.props;
+    if (!_get(getUserGoalResponse, DB_KEYS.RESPONSE_DATA, []).length) {
+      console.log('here5');
+      reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+        isUserDataChanged: true,
+      });
+      return;
+    }
+    console.log('here6');
+    const mortgageTerm = _get(
+      getUserGoalResponse,
+      DB_KEYS.NEW_MORTGAGE_TERM,
+      null,
+    );
+    const monthlyOverPayment = _get(
+      getUserGoalResponse,
+      DB_KEYS.GOAL_OVERPAYMENT,
+      null,
+    );
+    if (
+      !(!monthlyOverPayment && mortgageTerm === APP_CONSTANTS.MIN_GOAL_VALUE)
+    ) {
+      console.log('here7');
+      await getMonthlyPaymentRecord({}, qParam_monthly_payment_record);
+      const qParamProjectData = {
+        user_id: _get(getUserInfoResponses, DB_KEYS.DATA_ID, null),
+      };
+      await getProjectedData({}, qParamProjectData);
+      reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+        isUserDataChanged: false,
+      });
+      // navigation.setParams({
+      //   isUserDataChanged: false,
+      // });
+    } else
+      reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+        isUserDataChanged: true,
+      });
+  };
+
   // Auth check, based on which navigation to auth/app stack is decided
 
   async authCheck(authToken: string) {
@@ -205,7 +307,10 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
         if (!_get(getUserInfoResponse, 'data.is_verified', true)) {
           this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
         } else {
-          this.props.navigation.navigate(APP_STACK);
+          this.preApiCalls();
+          // if (!this.state.loading) {
+          // }
+          // this.props.navigation.navigate(APP_STACK);
         }
       } else {
         StatusBar.setHidden(false, 'fade');
@@ -274,10 +379,25 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo.response,
+  getUserInfoResponses: state.getUserInfo,
+  getMonthlyPaymentRecordResponse: state.getMonthlyPaymentRecord,
+  getProjectedDataResponse: state.getProjectedData,
+  userDataChangeEvent: state.userDataChangeReducer,
+  getUserMortgageDataResponse: state.getUserMortgageData,
+  getUserGoalResponse: state.getUserGoal,
 });
 
 const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
+  getMonthlyPaymentRecord: (payload, extraPayload) =>
+    dispatch(getMonthlyPaymentRecord.fetchCall(payload, extraPayload)),
+  getProjectedData: (payload, extraPayload) =>
+    dispatch(getProjectedData.fetchCall(payload, extraPayload)),
+  triggerUserDataChange: value => dispatch(triggerUserDataChangeEvent(value)),
+  getUserMortgageData: (payload, extraPayload) =>
+    dispatch(getUserMortgageData.fetchCall(payload, extraPayload)),
+  getUserGoal: (payload, extraPayload) =>
+    dispatch(getUserGoal.fetchCall(payload, extraPayload)),
 });
 
 export const AuthLoading = connect(
