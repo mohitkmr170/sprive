@@ -24,6 +24,10 @@ import {
   IntroCarousel,
   CheckEmail,
   DeepLinkLanding,
+  AccountBlocked,
+  ForgotPassword,
+  ResetPassword,
+  PasswordCheckMail,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -103,6 +107,21 @@ const AuthStackNavigator = createStackNavigator(
     },
     CheckEmailScreen: {
       screen: CheckEmail,
+    },
+    AccountBlockedScreen: {
+      screen: AccountBlocked,
+      navigationOptions: {
+        gesturesEnabled: false, //This is to disable back gesture handler
+      },
+    },
+    ForgotPasswordScreen: {
+      screen: ForgotPassword,
+    },
+    ResetPasswordScreen: {
+      screen: ResetPassword,
+    },
+    PasswordCheckMailScreen: {
+      screen: PasswordCheckMail,
     },
   },
   {

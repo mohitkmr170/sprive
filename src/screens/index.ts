@@ -12,3 +12,7 @@ export * from './updateMortgage';
 export * from './introCarousel';
 export * from './checkEmail';
 export * from './deepLinkLanding';
+export * from './accountBlocked';
+export * from './forgotPassword';
+export * from './resetPassword';
+export * from './ForgotPasswordMail';

@@ -14,6 +14,8 @@ export const APP_CONSTANTS = {
   LOGIN_FORM: 'logIn',
   SIGNUP_FORM: 'signup',
   MORTGAGE_INPUT_FORM: 'MortgageInput',
+  FORGOT_PASSWORD_FORM: 'forgotPassword',
+  RESET_PASSWORD_FORM: 'resetPassword',
   GENERAL_ERROR: 'Something went wrong!',
   LOG_OUT: 'Logged Out!',
   FALSE_TOKEN: 'FALSE TOKEN',
@@ -50,6 +52,7 @@ export const APP_CONSTANTS = {
     EMAIL: 'email',
     PASSWORD: 'password',
   },
+  HARD_BACK_PRESS: 'hardwareBackPress',
 };
 
 export const STYLE_CONSTANTS = {
@@ -239,6 +242,7 @@ export const DB_KEYS = {
   VERIFICATION_FLOW: {
     IS_VERIFIED: 'data.is_verified',
   },
+  FORGOT_PASSWORD_EMAIL: 'forgotPassword.values.email',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -257,6 +261,10 @@ export const NAVIGATION_SCREEN_NAME = {
   INTRO_CAROUSEL: 'IntroCarouselScreen',
   CHECK_EMAIL: 'CheckEmailScreen',
   DEEPLINK_SCREEN: 'DeepLinkLandingScreen',
+  ACCOUNT_BLOCKED: 'AccountBlockedScreen',
+  FORGOT_PASSWORD: 'ForgotPasswordScreen',
+  RESET_PASSWORD: 'ResetPasswordScreen',
+  FORGOT_PASSWORD_MAIL: 'PasswordCheckMailScreen',
 };
 
 export const LOCALE_STRING = {
@@ -431,6 +439,30 @@ export const LOCALE_STRING = {
     FAIL_MESSAGE: 'emailVerification.failMessage',
     OKAY: 'emailVerification.okay',
     ALREADY_VERIFIED: 'emailVerification.alreadyVerified',
+  },
+  ACCOUNT_LOCKED: {
+    ACCOUNT_LOCKED: 'accountLocked.accountLocked',
+    CASE_VERIFICATION: 'accountLocked.caseVerification',
+    CONTACT_ADMIN: 'accountLocked.contactAdmin',
+  },
+  FORGOT_PASSWORD: {
+    FORGOT_PASSWORD: 'forgotPassword.forgotPassword',
+    ENTER_EMAIL: 'forgotPassword.enterEmail',
+    SEND_LINK: 'forgotPassword.linkSent',
+    SMALL_EMAIL: 'global.e-mail',
+    LARGE_EMAIL: 'global.email',
+    NO_MAIL_RECEIVED: 'forgotPassword.noMailReceived',
+    MAGIN_LINK_FIRST_PART: 'forgotPassword.magicLinkFirstPart',
+    MAGIN_LINK_SECOND_PART: 'forgotPassword.magicLinkSecondPart',
+  },
+  RESET_PASSWORD: {
+    RESET_PASSWORD: 'resetPassword.resetPassword',
+    PASSWORD: 'resetPassword.password',
+    NEW_PASSWORD: 'resetPassword.newPassword',
+    PLACEHOLDER_PASSWORD: 'resetPassword.placeHolderPassword',
+    CONFIRM_PASSWORD: 'resetPassword.confirmPassword',
+    RETYPE_PASSWORD: 'resetPassword.retypePassword',
+    CONFIRM: 'resetPassword.confirm',
   },
 };
 

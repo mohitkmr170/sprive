@@ -14,6 +14,7 @@
   "global": {
     "backButton": "Back",
     "email": "Email",
+    "e-mail": "email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "calculateNow": "Calculate Now",
@@ -178,5 +179,27 @@
     "openEmailApp": "Open e-mail app",
     "resendVerification": "Resend verification",
     "alreadyVerified": "Requested email is already verified."
+  },
+  "accountLocked": {
+    "accountLocked": "Account Locked",
+    "caseVerification": "We detected more than 10 unsuccessful attempts to verify your email address",
+    "contactAdmin": "Contact Admin"
+  },
+  "forgotPassword": {
+    "forgotPassword": "Forgot Password",
+    "enterEmail": "Enter your Email Address",
+    "linkSent": "Send Link",
+    "noMailReceived": "I didn’t receive an email",
+    "magicLinkFirstPart": "A magic link to reset the password has been sent to ",
+    "magicLinkSecondPart": ". Please click the link to reset the password"
+  },
+  "resetPassword": {
+    "resetPassword": "Reset Password",
+    "password": "password",
+     "newPassword": "New Password",
+     "placeHolderPassword": "Password",
+     "confirmPassword": "confirmPassword",
+     "retypePassword": "Re-type Password",
+     "confirm": "Confirm"
   }
 }
