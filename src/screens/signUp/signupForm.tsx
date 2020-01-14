@@ -224,6 +224,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                   <Field
                     name="password"
                     label="Password"
+                    password={true}
                     editIcon={true}
                     onIconPress={() =>
                       this.setState({passwordVisibility: !passwordVisibility})

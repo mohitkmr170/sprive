@@ -126,6 +126,10 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.INTRO_CAROUSEL);
   };
 
+  handleForgotPassword = () => {
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.FORGOT_PASSWORD);
+  };
+
   render() {
     const {passwordVisibility} = this.state;
     const {handleSubmit, loginUserResponse} = this.props;
@@ -173,6 +177,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
               <Field
                 name="password"
                 label="Password"
+                password={true}
                 editIcon={true}
                 onIconPress={() =>
                   this.setState({passwordVisibility: !passwordVisibility})
@@ -207,7 +212,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 />
               ) : null}
             </View>
-            <TouchableOpacity style={styles.forgotPasswordContainer}>
+            <TouchableOpacity
+              style={styles.forgotPasswordContainer}
+              onPress={() => this.handleForgotPassword()}>
               <Text style={styles.forgotPassword}>
                 {localeString(LOCALE_STRING.LOGIN_SCREEN.FORGOT_PASSWORD)}
               </Text>
