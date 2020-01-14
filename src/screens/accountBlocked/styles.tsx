@@ -6,7 +6,7 @@ import {verticalScale} from 'react-native-size-matters/extend';
 export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    marginBottom: 80,
+    marginBottom: 4 * verticalScale(STYLE_CONSTANTS.margin.LARGEST),
   },
   middleContainer: {
     flex: 1,
