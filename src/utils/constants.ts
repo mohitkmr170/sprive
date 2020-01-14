@@ -241,6 +241,7 @@ export const DB_KEYS = {
   },
   VERIFICATION_FLOW: {
     IS_VERIFIED: 'data.is_verified',
+    DATA_OF_IS_VERIFIED: 'response.data.is_verified',
   },
   FORGOT_PASSWORD_EMAIL: 'forgotPassword.values.email',
 };

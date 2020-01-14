@@ -56,7 +56,14 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
     // getUserInfo API call
     await getUserInfo();
     const {getUserInfoResponse} = this.props;
-    if (_get(getUserInfoResponse, DB_KEYS.ERROR, null)) {
+    if (
+      _get(getUserInfoResponse, DB_KEYS.ERROR, null) ||
+      !_get(
+        getUserInfoResponse,
+        DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
+        true,
+      )
+    ) {
       this.setState({isVerifyApicalled: true});
     } else {
       const mortgageData = {
@@ -137,8 +144,14 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
   }
   render() {
     const {isVerifyApicalled} = this.state;
-    const {verifyEmailResponse, navigation} = this.props;
-    let isVerified = _get(verifyEmailResponse, DB_KEYS.ERROR, false);
+    const {verifyEmailResponse, navigation, getUserInfoResponse} = this.props;
+    let isNotVerified =
+      _get(verifyEmailResponse, DB_KEYS.ERROR, false) ||
+      !_get(
+        getUserInfoResponse,
+        DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
+        true,
+      );
     if (!isVerifyApicalled)
       return <LoadingModal loadingText={VERIFYING_LOADING} />;
     else
@@ -151,7 +164,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
             onBackPress={() => {}}
             title={localeString(LOCALE_STRING.EMAIL_VERIFICATION.VERIFICATION)}
           />
-          {isVerifyApicalled && !isVerified && (
+          {isVerifyApicalled && !isNotVerified && (
             <StatusOverlay
               icon={iVerify}
               firstButtonText={localeString(
@@ -168,7 +181,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
               )}
             />
           )}
-          {isVerified && isVerifyApicalled && (
+          {isNotVerified && isVerifyApicalled && (
             <StatusOverlay
               icon={iFail}
               firstButtonText={localeString(

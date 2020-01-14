@@ -17,6 +17,7 @@ import {
   LOCALE_STRING,
   DB_KEYS,
   STYLE_CONSTANTS,
+  NAVIGATION_SCREEN_NAME,
 } from '../../utils/constants';
 import {openInbox} from 'react-native-email-link';
 import {get as _get} from 'lodash';
@@ -76,9 +77,12 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
       ),
     };
     await resendEmail(payload);
-    this.setState({
-      isEmailResent: true,
-    });
+    const {resendEmailResponse} = this.props;
+    _get(resendEmailResponse, 'response.response.data.is_blocked', false) //Same Key to be added in BE
+      ? this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED)
+      : this.setState({
+          isEmailResent: true,
+        });
   };
   render() {
     const {isEmailResent, isEmailButtonClicked} = this.state;
