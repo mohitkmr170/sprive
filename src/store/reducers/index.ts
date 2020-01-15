@@ -17,3 +17,5 @@ export * from './updateUserMortgage';
 export * from './getProjectedData';
 export * from './verifyEmail';
 export * from './resendEmail';
+export * from './resetPasswordLink';
+export * from './resetPassword';
