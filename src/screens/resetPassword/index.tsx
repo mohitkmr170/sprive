@@ -34,6 +34,7 @@ import {
   alphaNumeric,
   required,
   noWhiteSpaces,
+  emailMatching,
 } from '../../utils/validate';
 import {localeString} from '../../utils/i18n';
 import {
@@ -237,13 +238,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                   ),
                 }}
                 editIcon={true}
-                validate={[
-                  minLength8,
-                  maxLength16,
-                  alphaNumeric,
-                  required,
-                  noWhiteSpaces,
-                ]}
+                validate={[emailMatching]}
                 onSubmitEditing={handleSubmit(this.handleSubmition)}
               />
             </View>

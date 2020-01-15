@@ -356,6 +356,7 @@ export const LOCALE_STRING = {
     ALPHA_NUMERIC: 'validationMessages.alphaNumberic',
     YEAR_RANGE: 'validationMessages.yearRange',
     WHITE_SPACES: 'validationMessages.whiteSpaces',
+    PASSWORD_NOT_MATCHED: 'validationMessages.passwordNotMatched',
   },
   SET_GOAL_SCREEN: {
     TITLE: 'setGoalScreen.title',
