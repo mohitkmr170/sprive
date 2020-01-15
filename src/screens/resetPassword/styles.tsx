@@ -19,6 +19,22 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
     color: COLOR.VOILET,
   },
+  passStrengthContainer: {
+    flexDirection: 'row',
+    marginRight: STYLE_CONSTANTS.margin.LARGEST,
+    paddingBottom: STYLE_CONSTANTS.margin.NORMAL,
+  },
+  passStrengthInnerContainer: {
+    flex: 1,
+    marginRight: STYLE_CONSTANTS.margin.SMALL,
+    alignSelf: 'center',
+  },
+  passStrengthText: {
+    color: COLOR.VOILET,
+    opacity: 0.5,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+  },
   buttonStyle: {
     backgroundColor: COLOR.PRIMARY,
     marginHorizontal: verticalScale(STYLE_CONSTANTS.margin.HUGISH),

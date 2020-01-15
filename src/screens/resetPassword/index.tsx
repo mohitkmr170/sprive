@@ -11,14 +11,21 @@ import {iFail} from '../../assets';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
+import * as Progress from 'react-native-progress';
 import {
   APP_CONSTANTS,
   LOCALE_STRING,
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
+  STYLE_CONSTANTS,
 } from '../../utils/constants';
+import {COLOR} from '../../utils/colors';
 import {get as _get} from 'lodash';
-import {resetPassword, getUserInfo} from '../../store/reducers';
+import {
+  resetPassword,
+  getUserInfo,
+  reducerResponse,
+} from '../../store/reducers';
 import {reset} from '../../navigation/navigationService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -29,7 +36,12 @@ import {
   noWhiteSpaces,
 } from '../../utils/validate';
 import {localeString} from '../../utils/i18n';
-import {showSnackBar, getAuthToken} from '../../utils/helperFunctions';
+import {
+  showSnackBar,
+  getAuthToken,
+  checkPassMessagePercentage,
+  getPasswordStrength,
+} from '../../utils/helperFunctions';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
@@ -42,9 +54,11 @@ interface props {
   resetPasswordResponse: object;
   getUserInfo: () => void;
   getUserInfoResponse: object;
+  reducerResponse: object;
 }
 interface state {
   passwordVisibility: boolean;
+  passStrengthMessage: string;
   passwordResetDeeplinkKeyIssue: boolean;
 }
 
@@ -53,8 +67,22 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
     super(props);
     this.state = {
       passwordVisibility: true,
+      passStrengthMessage: '',
       passwordResetDeeplinkKeyIssue: false,
     };
+  }
+
+  /**
+   * Funtion to get the strength of password
+   * @param password : string : password to get strength
+   */
+  handlePassword(password: string) {
+    getPasswordStrength(password)
+      .then(res => {
+        console.log('handlePassword : res =>', res);
+        this.setState({passStrengthMessage: res});
+      })
+      .catch(err => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
   }
 
   handleSubmition = async (values: object) => {
@@ -117,6 +145,9 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
   render() {
     const {handleSubmit, resetPasswordResponse} = this.props;
     const {passwordVisibility} = this.state;
+    let passMessagePercentage = checkPassMessagePercentage(
+      this.state.passStrengthMessage,
+    );
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
@@ -150,6 +181,8 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                   placeholder: localeString(
                     LOCALE_STRING.RESET_PASSWORD.PLACEHOLDER_PASSWORD,
                   ),
+                  onChangeText: (password: string) =>
+                    this.handlePassword(password),
                 }}
                 validate={[
                   minLength8,
@@ -159,6 +192,27 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                   noWhiteSpaces,
                 ]}
               />
+              {_get(
+                this.props.reducerResponse,
+                DB_KEYS.RESET_PASSWORD_FORM,
+                false,
+              ) && (
+                <View style={styles.passStrengthContainer}>
+                  <View style={styles.passStrengthInnerContainer}>
+                    <Progress.Bar
+                      progress={passMessagePercentage}
+                      color={COLOR.LIGHT_GREEN}
+                      height={STYLE_CONSTANTS.margin.SMALLER}
+                      width={null}
+                      unfilledColor={COLOR.LIGHT_GRAY}
+                      borderWidth={0}
+                    />
+                  </View>
+                  <Text style={styles.passStrengthText}>
+                    {this.state.passStrengthMessage}
+                  </Text>
+                </View>
+              )}
               <Field
                 name={localeString(
                   LOCALE_STRING.RESET_PASSWORD.CONFIRM_PASSWORD,
@@ -229,10 +283,11 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
   }
 }
 export const ResetPasswordForm = reduxForm({
-  form: 'resetPassword',
+  form: DB_KEYS.FORM.RESET_PASSWORD,
   destroyOnUnmount: true,
 })(UnconnectedResetPassword);
 const mapStateToProps = state => ({
+  reducerResponse: state.form,
   resetPasswordResponse: state.resetPassword,
   getUserInfoResponse: state.getUserInfo,
 });

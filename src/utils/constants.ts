@@ -257,6 +257,10 @@ export const DB_KEYS = {
     CONFIRM_PASSWORD: 'confirmPassword',
   },
   LOGIN_EMAIL: 'form.logIn.values.email',
+  RESET_PASSWORD_FORM: 'resetPassword.values.password',
+  FORM: {
+    RESET_PASSWORD: 'resetPassword',
+  },
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
