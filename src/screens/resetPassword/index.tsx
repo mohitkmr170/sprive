@@ -1,12 +1,25 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {Button} from 'react-native-elements';
-import {GeneralStatusBar, Header, ReduxFormField} from '../../components';
+import {
+  GeneralStatusBar,
+  Header,
+  ReduxFormField,
+  StatusOverlay,
+} from '../../components';
+import {iFail} from '../../assets';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
-import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
+import {
+  APP_CONSTANTS,
+  LOCALE_STRING,
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
+} from '../../utils/constants';
 import {get as _get} from 'lodash';
+import {resetPassword, getUserInfo} from '../../store/reducers';
+import {reset} from '../../navigation/navigationService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   minLength8,
@@ -16,6 +29,7 @@ import {
   noWhiteSpaces,
 } from '../../utils/validate';
 import {localeString} from '../../utils/i18n';
+import {showSnackBar, getAuthToken} from '../../utils/helperFunctions';
 
 interface props {
   navigation: {
@@ -23,9 +37,14 @@ interface props {
     goBack: () => void;
   };
   handleSubmit: (values?: {email: string; password: string}) => void;
+  resetPassword: (payload: object) => void;
+  resetPasswordResponse: object;
+  getUserInfo: () => void;
+  getUserInfoResponse: object;
 }
 interface state {
   passwordVisibility: boolean;
+  passwordResetDeeplinkKeyIssue: boolean;
 }
 
 export class UnconnectedResetPassword extends React.Component<props, state> {
@@ -33,14 +52,65 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
     super(props);
     this.state = {
       passwordVisibility: true,
+      passwordResetDeeplinkKeyIssue: false,
     };
   }
 
-  handleSubmition = () => {};
+  handleSubmition = async (values: object) => {
+    if (
+      _get(values, DB_KEYS.RESET_PASSWORD.PASSWORD, '') ===
+      _get(values, DB_KEYS.RESET_PASSWORD.CONFIRM_PASSWORD, '')
+    ) {
+      const passwordResetKey = _get(
+        this.props.navigation,
+        DB_KEYS.NAVIGATION_PARAMS,
+        null,
+      ).deepLinkToken;
+      const {resetPassword} = this.props;
+      const payload = {
+        password_reset_key: passwordResetKey,
+        new_password: _get(values, DB_KEYS.RESET_PASSWORD.PASSWORD, ''),
+      };
+      await resetPassword(payload);
+      const {resetPasswordResponse} = this.props;
+      if (!_get(resetPasswordResponse, DB_KEYS.ERROR, true)) {
+        showSnackBar(
+          {},
+          _get(resetPasswordResponse, DB_KEYS.RESPONSE_MESSAGE, ''),
+        );
+        reset(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+      } else {
+        this.setState({passwordResetDeeplinkKeyIssue: true});
+      }
+    } else
+      showSnackBar(
+        {},
+        localeString(LOCALE_STRING.RESET_PASSWORD.PASSWORD_NOT_MATCHED),
+      );
+  };
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    getAuthToken()
+      .then(async res => {
+        if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
+          const {getUserInfo} = this.props;
+          await getUserInfo();
+          const {getUserInfoResponse} = this.props;
+          if (!_get(getUserInfoResponse, DB_KEYS.ERROR, false)) {
+            showSnackBar(
+              {},
+              localeString(LOCALE_STRING.RESET_PASSWORD.RESET_FROM_APP),
+            );
+            this.props.navigation.navigate(
+              NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+            );
+          }
+        }
+      })
+      .catch(err => {});
+  }
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, resetPasswordResponse} = this.props;
     const {passwordVisibility} = this.state;
     return (
       <View style={styles.mainContainer}>
@@ -76,8 +146,6 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                     LOCALE_STRING.RESET_PASSWORD.PLACEHOLDER_PASSWORD,
                   ),
                 }}
-                // editIcon={true}
-                // onFocus={() => this.hideServerError()}
                 validate={[
                   minLength8,
                   maxLength16,
@@ -85,7 +153,6 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                   required,
                   noWhiteSpaces,
                 ]}
-                // onSubmitEditing={handleSubmit(this.handleLoginPress)}
               />
               <Field
                 name={localeString(
@@ -111,7 +178,6 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                   ),
                 }}
                 editIcon={true}
-                // onFocus={() => this.hideServerError()}
                 validate={[
                   minLength8,
                   maxLength16,
@@ -119,7 +185,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                   required,
                   noWhiteSpaces,
                 ]}
-                // onSubmitEditing={handleSubmit(this.handleLoginPress)}
+                onSubmitEditing={handleSubmit(this.handleSubmition)}
               />
             </View>
           </View>
@@ -129,9 +195,30 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
               titleStyle={styles.buttonTextStyle}
               onPress={handleSubmit(this.handleSubmition)}
               buttonStyle={styles.buttonStyle}
+              loading={_get(resetPasswordResponse, DB_KEYS.IS_FETCHING, false)}
             />
           </View>
         </KeyboardAwareScrollView>
+        {this.state.passwordResetDeeplinkKeyIssue && (
+          <StatusOverlay
+            icon={iFail}
+            firstButtonText={localeString(
+              LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
+            )}
+            handleFirstButton={() => {
+              this.setState({passwordResetDeeplinkKeyIssue: false});
+              reset(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+            }}
+            mainMessage={localeString(
+              LOCALE_STRING.RESET_PASSWORD.PASSWORD_RESET_FAILED,
+            )}
+            infoTitle={_get(
+              resetPasswordResponse,
+              DB_KEYS.VERIFICATION_ERROR_MESSAGE,
+              APP_CONSTANTS.GENERAL_ERROR,
+            )}
+          />
+        )}
       </View>
     );
   }
@@ -140,9 +227,15 @@ export const ResetPasswordForm = reduxForm({
   form: 'resetPassword',
   destroyOnUnmount: true,
 })(UnconnectedResetPassword);
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  resetPasswordResponse: state.resetPassword,
+  getUserInfoResponse: state.getUserInfo,
+});
 
-const bindActions = dispatch => ({});
+const bindActions = dispatch => ({
+  getUserInfo: () => dispatch(getUserInfo.fetchCall()),
+  resetPassword: payload => dispatch(resetPassword.fetchCall(payload)),
+});
 
 export const ResetPassword = connect(
   mapStateToProps,
