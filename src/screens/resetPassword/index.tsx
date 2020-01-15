@@ -30,6 +30,7 @@ import {
 } from '../../utils/validate';
 import {localeString} from '../../utils/i18n';
 import {showSnackBar, getAuthToken} from '../../utils/helperFunctions';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -68,8 +69,12 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
       ).deepLinkToken;
       const {resetPassword} = this.props;
       const payload = {
-        password_reset_key: passwordResetKey,
-        new_password: _get(values, DB_KEYS.RESET_PASSWORD.PASSWORD, ''),
+        [PAYLOAD_KEYS.RESET_PASSWORD.PASSWORD_RESET_KEY]: passwordResetKey,
+        [PAYLOAD_KEYS.RESET_PASSWORD.NEW_PASSWORD]: _get(
+          values,
+          DB_KEYS.RESET_PASSWORD.PASSWORD,
+          '',
+        ),
       };
       await resetPassword(payload);
       const {resetPasswordResponse} = this.props;

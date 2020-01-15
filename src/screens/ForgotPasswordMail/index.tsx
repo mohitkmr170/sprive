@@ -10,6 +10,7 @@ import {resetPasswordLink} from '../../store/reducers';
 import {openInbox} from 'react-native-email-link';
 import {get as _get} from 'lodash';
 import {showSnackBar} from '../../utils/helperFunctions';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 interface props {
   navigation: {
     navigate: (routeName: string, navigationParam?: object) => void;
@@ -42,7 +43,11 @@ export class UnconnectedPasswordCheckMail extends React.Component<
   handleResendPasswordLink = async () => {
     const {resetPasswordLink, reducerResponse} = this.props;
     const payload = {
-      email: _get(reducerResponse, DB_KEYS.FORGOT_PASSWORD_EMAIL, ''),
+      [PAYLOAD_KEYS.SIGNUP.EMAIL]: _get(
+        reducerResponse,
+        DB_KEYS.FORGOT_PASSWORD_EMAIL,
+        '',
+      ),
     };
     await resetPasswordLink(payload);
     const {resetPasswordLinkResponse} = this.props;

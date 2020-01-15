@@ -16,6 +16,7 @@ import {
 import {get as _get} from 'lodash';
 import {email, required} from '../../utils/validate';
 import {localeString} from '../../utils/i18n';
+import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {
@@ -41,7 +42,11 @@ export class UnconnectedForgotPassword extends React.Component<props, state> {
     console.log('handleLinkSent : values : =>', values);
     const {resetPasswordLink} = this.props;
     const payload = {
-      email: _get(values, APP_CONSTANTS.ERROR_STATE_VALUES.EMAIL, ''),
+      [PAYLOAD_KEYS.SIGNUP.EMAIL]: _get(
+        values,
+        APP_CONSTANTS.ERROR_STATE_VALUES.EMAIL,
+        '',
+      ),
     };
     await resetPasswordLink(payload);
     const {resetPasswordLinkResponse} = this.props;

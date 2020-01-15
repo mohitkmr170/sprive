@@ -46,4 +46,8 @@ export const PAYLOAD_KEYS: any = {
     CATEGORY_ID: 'category_id',
     DESCRIPTION: 'description',
   },
+  RESET_PASSWORD: {
+    PASSWORD_RESET_KEY: 'password_reset_key',
+    NEW_PASSWORD: 'new_password',
+  },
 };
