@@ -255,12 +255,15 @@ export const DB_KEYS = {
   RESET_PASSWORD: {
     PASSWORD: 'password',
     CONFIRM_PASSWORD: 'confirmPassword',
+    BLOCKED_TYPE: 'navigation.state.params.blockedType',
+    PASSWORD_RESET: 'password_reset',
   },
   LOGIN_EMAIL: 'form.logIn.values.email',
   RESET_PASSWORD_FORM: 'resetPassword.values.password',
   FORM: {
     RESET_PASSWORD: 'resetPassword',
   },
+  IS_BLOCKED: 'response.data.is_blocked',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -463,6 +466,7 @@ export const LOCALE_STRING = {
   ACCOUNT_LOCKED: {
     ACCOUNT_LOCKED: 'accountLocked.accountLocked',
     CASE_VERIFICATION: 'accountLocked.caseVerification',
+    CASE_RESET_PASSWORD: 'accountLocked.casePasswordReset',
     CONTACT_ADMIN: 'accountLocked.contactAdmin',
   },
   FORGOT_PASSWORD: {

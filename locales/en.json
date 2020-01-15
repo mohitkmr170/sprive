@@ -185,6 +185,7 @@
   "accountLocked": {
     "accountLocked": "Account Locked",
     "caseVerification": "We detected more than 10 unsuccessful attempts to verify your email address",
+    "casePasswordReset": "We detected more than 10 unsuccessful attempts to reset your password",
     "contactAdmin": "Contact Admin"
   },
   "forgotPassword": {

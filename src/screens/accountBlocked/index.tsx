@@ -10,6 +10,7 @@ import {
   STYLE_CONSTANTS,
   APP_CONSTANTS,
   LOCALE_STRING,
+  DB_KEYS,
 } from '../../utils/constants';
 import {get as _get} from 'lodash';
 
@@ -25,15 +26,27 @@ interface props {
     goBack: () => void;
   };
 }
-interface state {}
+interface state {
+  isBlockedFromPasswordReset: boolean;
+}
 
 export class UnconnectedAccountBlocked extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isBlockedFromPasswordReset: false,
+    };
   }
 
   async componentDidMount() {
+    const blockedType = _get(
+      this.props,
+      DB_KEYS.RESET_PASSWORD.BLOCKED_TYPE,
+      '',
+    );
+    if (blockedType === DB_KEYS.RESET_PASSWORD.PASSWORD_RESET) {
+      this.setState({isBlockedFromPasswordReset: true});
+    }
     BackHandler.addEventListener(
       APP_CONSTANTS.HARD_BACK_PRESS,
       this.handleBackButton,
@@ -71,7 +84,9 @@ export class UnconnectedAccountBlocked extends React.Component<props, state> {
               {localeString(LOCALE_STRING.ACCOUNT_LOCKED.ACCOUNT_LOCKED)}
             </Text>
             <Text style={styles.emailSentText}>
-              {localeString(LOCALE_STRING.ACCOUNT_LOCKED.CASE_VERIFICATION)}
+              {this.state.isBlockedFromPasswordReset
+                ? localeString(LOCALE_STRING.ACCOUNT_LOCKED.CASE_RESET_PASSWORD)
+                : localeString(LOCALE_STRING.ACCOUNT_LOCKED.CASE_VERIFICATION)}
             </Text>
           </View>
         </View>
