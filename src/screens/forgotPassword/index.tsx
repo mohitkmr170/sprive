@@ -4,12 +4,14 @@ import {Button} from 'react-native-elements';
 import {GeneralStatusBar, Header, ReduxFormField} from '../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {styles} from './styles';
+import {resetPasswordLink, getUserInfo} from '../../store/reducers';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {
   NAVIGATION_SCREEN_NAME,
   APP_CONSTANTS,
   LOCALE_STRING,
+  DB_KEYS,
 } from '../../utils/constants';
 import {get as _get} from 'lodash';
 import {email, required} from '../../utils/validate';
@@ -21,6 +23,11 @@ interface props {
     goBack: () => void;
   };
   handleSubmit: (values?: {email: string; password: string}) => void;
+  getUserInfo: () => void;
+  resetPasswordLink: (payload: object) => void;
+  getUserInfoResponse: object;
+  resetPasswordLinkResponse: object;
+  reducerResponse: object;
 }
 interface state {}
 
@@ -32,14 +39,23 @@ export class UnconnectedForgotPassword extends React.Component<props, state> {
 
   handleLinkSent = async (values: {email: string; password: string}) => {
     console.log('handleLinkSent : values : =>', values);
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.FORGOT_PASSWORD_MAIL);
+    const {resetPasswordLink} = this.props;
+    const payload = {
+      email: _get(values, APP_CONSTANTS.ERROR_STATE_VALUES.EMAIL, ''),
+    };
+    await resetPasswordLink(payload);
+    const {resetPasswordLinkResponse} = this.props;
+    if (!_get(resetPasswordLinkResponse, DB_KEYS.ERROR, true))
+      this.props.navigation.navigate(
+        NAVIGATION_SCREEN_NAME.FORGOT_PASSWORD_MAIL,
+      );
   };
   handleBackPress = () => {
     this.props.navigation.goBack();
   };
   async componentDidMount() {}
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, resetPasswordLinkResponse} = this.props;
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
@@ -48,7 +64,9 @@ export class UnconnectedForgotPassword extends React.Component<props, state> {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{flex: 1}}>
           <View style={styles.middleContainer}>
-            <Text style={styles.forgotPassText}>Forgot Password</Text>
+            <Text style={styles.forgotPassText}>
+              {localeString(LOCALE_STRING.FORGOT_PASSWORD.FORGOT_PASSWORD)}
+            </Text>
             <View style={styles.mainView}>
               <Field
                 name={localeString(LOCALE_STRING.FORGOT_PASSWORD.SMALL_EMAIL)}
@@ -65,7 +83,6 @@ export class UnconnectedForgotPassword extends React.Component<props, state> {
                 }}
                 editIcon={true}
                 onSubmitEditing={handleSubmit(this.handleLinkSent)}
-                // onFocus={() => this.hideServerError()}
                 validate={[email, required]}
               />
             </View>
@@ -76,6 +93,11 @@ export class UnconnectedForgotPassword extends React.Component<props, state> {
               titleStyle={styles.buttonTextStyle}
               onPress={handleSubmit(this.handleLinkSent)}
               buttonStyle={styles.buttonStyle}
+              loading={_get(
+                resetPasswordLinkResponse,
+                DB_KEYS.IS_FETCHING,
+                false,
+              )}
             />
           </View>
         </KeyboardAwareScrollView>
@@ -86,9 +108,19 @@ export class UnconnectedForgotPassword extends React.Component<props, state> {
 export const ForgotPasswordForm = reduxForm({
   form: APP_CONSTANTS.FORGOT_PASSWORD_FORM,
 })(UnconnectedForgotPassword);
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  initialValues: {
+    email: _get(state, DB_KEYS.LOGIN_EMAIL, ''),
+  },
+  reducerResponse: state.form,
+  getUserInfoResponse: state.getUserInfo,
+  resetPasswordLinkResponse: state.resetPasswordLink,
+});
 
-const bindActions = dispatch => ({});
+const bindActions = dispatch => ({
+  getUserInfo: () => dispatch(getUserInfo.fetchCall()),
+  resetPasswordLink: payload => dispatch(resetPasswordLink.fetchCall(payload)),
+});
 
 export const ForgotPassword = connect(
   mapStateToProps,
