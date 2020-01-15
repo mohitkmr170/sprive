@@ -86,6 +86,10 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
       };
       await setUserMortgage(mortgageData);
       const {setUserMortgageResponse} = this.props;
+      if (_get(setUserMortgageResponse, DB_KEYS.ERROR, false)) {
+        this.setState({isVerifyApicalled: true});
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL); //If Mortgage data is not found!(Case when user signIn's from another device with has no Mortgage data set), Need to be discussed
+      }
       if (_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
         this.setState({isVerifyApicalled: true});
       }

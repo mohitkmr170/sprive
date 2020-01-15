@@ -440,6 +440,7 @@ export const LOCALE_STRING = {
     FAIL_MESSAGE: 'emailVerification.failMessage',
     OKAY: 'emailVerification.okay',
     ALREADY_VERIFIED: 'emailVerification.alreadyVerified',
+    USER_NOT_VERIFIED: 'emailVerification.userNotVerified',
   },
   ACCOUNT_LOCKED: {
     ACCOUNT_LOCKED: 'accountLocked.accountLocked',

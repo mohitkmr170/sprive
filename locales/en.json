@@ -178,7 +178,8 @@
     "emailSent": "We sent an email to {{currentEmail}} \n Click the link to verify your account",
     "openEmailApp": "Open e-mail app",
     "resendVerification": "Resend verification",
-    "alreadyVerified": "Requested email is already verified."
+    "alreadyVerified": "Requested email is already verified.",
+    "userNotVerified": "User not verified, please verify your email to proceed!"
   },
   "accountLocked": {
     "accountLocked": "Account Locked",

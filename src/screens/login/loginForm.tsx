@@ -13,7 +13,7 @@ import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {loginUser, getUserInfo} from '../../store/reducers';
 import {get as _get} from 'lodash';
-import {setAuthToken} from '../../utils/helperFunctions';
+import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   email,
@@ -89,8 +89,22 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
         .then(async response => {
           await getUserInfo();
           const {getUserInfoResponse} = this.props;
-          if (!_get(getUserInfoResponse, 'error', null))
+          if (
+            !_get(getUserInfoResponse, 'error', null) &&
+            _get(
+              getUserInfoResponse,
+              DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
+              true,
+            )
+          )
             navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+          else {
+            showSnackBar(
+              {},
+              localeString(LOCALE_STRING.EMAIL_VERIFICATION.USER_NOT_VERIFIED),
+            );
+            navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL); //Mortgage not available to verify, need to add some condition based on discussion!s
+          }
         })
         .catch(err => {
           /*
