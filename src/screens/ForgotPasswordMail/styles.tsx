@@ -22,8 +22,11 @@ export const styles = StyleSheet.create({
     fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.LARGE),
     lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGER),
     paddingTop: verticalScale(STYLE_CONSTANTS.margin.LARGEST),
-    opacity: 0.5,
+    color: COLOR.HALF_VOILET,
+  },
+  currEmailText: {
     color: COLOR.VOILET,
+    fontStyle: 'italic',
   },
   buttonStyle: {
     backgroundColor: COLOR.PRIMARY,
