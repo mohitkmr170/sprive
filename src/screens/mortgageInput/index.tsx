@@ -18,6 +18,7 @@ import {get as _get} from 'lodash';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 import {COLOR} from '../../utils/colors';
+import {showSnackBar} from '../../utils/helperFunctions';
 
 interface props {
   navigation: {
@@ -101,17 +102,25 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     };
     await getCumulativeInterest(payload);
     const {getCumulativeInterestResponse} = this.props;
-    const cumulativeInterest = _get(
-      getCumulativeInterestResponse,
-      DB_KEYS.TOTAL_INTEREST,
-      false,
-    );
-    if (cumulativeInterest >= 0)
-      this.props.navigation.navigate(
-        NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
-      );
-    else {
+    //Condition check for negative Interest
+    if (_get(getCumulativeInterestResponse, DB_KEYS.ERROR, false))
       this.showServerError();
+    else {
+      const cumulativeInterest = _get(
+        getCumulativeInterestResponse,
+        DB_KEYS.TOTAL_INTEREST,
+        false,
+      );
+      if (cumulativeInterest >= 0)
+        this.props.navigation.navigate(
+          NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
+        );
+      else {
+        showSnackBar(
+          {},
+          localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.NEGATIVE_INTEREST),
+        );
+      }
     }
   };
   render() {

@@ -311,6 +311,7 @@ export const LOCALE_STRING = {
     SECOND_LIST_ONE: 'saveInterest.secondListOne',
     SECOND_LIST_TWO: 'saveInterest.secondListTwo',
     SAVE_BUTTON_TEXT: 'saveInterest.buttonText',
+    NEGATIVE_INTEREST: 'saveInterest.negativeInterest',
   },
   LOADING: 'Loading',
   INVALID_AMOUNT: 'global.invalidAmount',
