@@ -158,7 +158,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
         />
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{flex: 1}}>
+          contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.middleContainer}>
             <Text style={styles.resetPasswordText}>
               {localeString(LOCALE_STRING.RESET_PASSWORD.RESET_PASSWORD)}
@@ -243,7 +243,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
               />
             </View>
           </View>
-          <View>
+          <View style={styles.buttonView}>
             <Button
               title={localeString(LOCALE_STRING.RESET_PASSWORD.CONFIRM)}
               titleStyle={styles.buttonTextStyle}
