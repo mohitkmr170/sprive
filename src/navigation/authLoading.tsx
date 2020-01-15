@@ -186,7 +186,15 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
             true,
           )
         ) {
-          navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+          if (
+            _get(
+              getUserInfoResponse,
+              DB_KEYS.VERIFICATION_FLOW.IS_BLOCKED,
+              true,
+            )
+          ) {
+            navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED);
+          } else navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
         } else {
           this.preApiCalls();
         }
