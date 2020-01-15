@@ -171,6 +171,7 @@ export const ICON_NAME = {
   RIGHT_ICON: 'chevrons-right',
 };
 export const DB_KEYS = {
+  RESPONSE_MESSAGE: 'response.message',
   NAVIGATION_PARAMS: 'state.params',
   ACCESS_DATA_TOKEN: 'response.data.accessToken',
   ACCESS_TOKEN: 'response.accessToken',
@@ -245,6 +246,17 @@ export const DB_KEYS = {
     DATA_OF_IS_VERIFIED: 'response.data.is_verified',
   },
   FORGOT_PASSWORD_EMAIL: 'forgotPassword.values.email',
+  DEEPLINK_CONFIGS: {
+    VERIFICATION_TOKEN: 'verification_token',
+    PASSWORD_RESET_TOKEN: 'password_reset_key',
+    FORGOT_PASSWORD: 'forgot_password',
+    SCREEN: 'screen',
+  },
+  RESET_PASSWORD: {
+    PASSWORD: 'password',
+    CONFIRM_PASSWORD: 'confirmPassword',
+  },
+  LOGIN_EMAIL: 'form.logIn.values.email',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -458,6 +470,7 @@ export const LOCALE_STRING = {
     NO_MAIL_RECEIVED: 'forgotPassword.noMailReceived',
     MAGIN_LINK_FIRST_PART: 'forgotPassword.magicLinkFirstPart',
     MAGIN_LINK_SECOND_PART: 'forgotPassword.magicLinkSecondPart',
+    MAGIN_LINK_SENT_AGAIN: 'forgotPassword.maginLinkSentAgain',
   },
   RESET_PASSWORD: {
     RESET_PASSWORD: 'resetPassword.resetPassword',
@@ -467,6 +480,9 @@ export const LOCALE_STRING = {
     CONFIRM_PASSWORD: 'resetPassword.confirmPassword',
     RETYPE_PASSWORD: 'resetPassword.retypePassword',
     CONFIRM: 'resetPassword.confirm',
+    PASSWORD_NOT_MATCHED: 'resetPassword.passwordNotMatched',
+    RESET_FROM_APP: 'resetPassword.resetFromApp',
+    PASSWORD_RESET_FAILED: 'resetPassword.fail',
   },
 };
 

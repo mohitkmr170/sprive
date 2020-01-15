@@ -193,7 +193,8 @@
     "linkSent": "Send Link",
     "noMailReceived": "I didn’t receive an email",
     "magicLinkFirstPart": "A magic link to reset the password has been sent to ",
-    "magicLinkSecondPart": ". Please click the link to reset the password"
+    "magicLinkSecondPart": ". Please click the link to reset the password",
+    "maginLinkSentAgain": "Password reset email sent again!",
   },
   "resetPassword": {
     "resetPassword": "Reset Password",
@@ -202,6 +203,9 @@
      "placeHolderPassword": "Password",
      "confirmPassword": "confirmPassword",
      "retypePassword": "Re-type Password",
-     "confirm": "Confirm"
+     "confirm": "Confirm",
+     "passwordNotMatched": "Password did not match!",
+     "resetFromApp": "Please reset your password in the App!",
+     "fail": "Password reset Failed!"
   }
 }

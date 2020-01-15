@@ -9,7 +9,8 @@ import AppNavigator from './src/navigation/appFlow';
 import {setNavigator} from './src/navigation/navigationService';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {navigate} from './src/navigation/navigationService';
-import {NAVIGATION_SCREEN_NAME} from './src/utils/constants';
+import {NAVIGATION_SCREEN_NAME, DB_KEYS} from './src/utils/constants';
+import {get as _get} from 'lodash';
 
 interface props {
   navigation: {
@@ -54,16 +55,36 @@ class App extends React.Component<props, state> {
       (link: {url: string}) => {
         var url = require('url');
         const parsed = url.parse(link.url, true).query;
-        const deepLinkToken = parsed.verification_token;
+        const verificationToken = _get(
+          parsed,
+          DB_KEYS.DEEPLINK_CONFIGS.VERIFICATION_TOKEN,
+          '',
+        );
+        const resetPasswordToken = _get(
+          parsed,
+          DB_KEYS.DEEPLINK_CONFIGS.PASSWORD_RESET_TOKEN,
+          '',
+        );
         console.log(
           'componentDidMount : onDynamicLinkUnsubscribe : LINK ::: =>',
-          deepLinkToken,
+          verificationToken,
+          resetPasswordToken,
           parsed,
           link,
         );
-        navigate(NAVIGATION_SCREEN_NAME.DEEPLINK_SCREEN, {
-          deepLinkToken: deepLinkToken,
-        });
+        navigate(
+          _get(parsed, DB_KEYS.DEEPLINK_CONFIGS.SCREEN, '') ===
+            DB_KEYS.DEEPLINK_CONFIGS.FORGOT_PASSWORD
+            ? NAVIGATION_SCREEN_NAME.RESET_PASSWORD
+            : NAVIGATION_SCREEN_NAME.DEEPLINK_SCREEN,
+          {
+            deepLinkToken:
+              _get(parsed, DB_KEYS.DEEPLINK_CONFIGS.SCREEN, '') ===
+              DB_KEYS.DEEPLINK_CONFIGS.FORGOT_PASSWORD
+                ? resetPasswordToken
+                : verificationToken,
+          },
+        );
       },
     );
   }
