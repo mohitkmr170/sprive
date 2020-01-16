@@ -66,7 +66,7 @@ export class StoreFetchableData {
           resolve(response);
         })
         .catch((err: any) => {
-          reject(err);
+          if (that.name === 'getUserInfo') return reject(err);
           getAuthToken().then(res => {
             if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
               if (
@@ -87,6 +87,8 @@ export class StoreFetchableData {
               }
             }
           });
+
+          return reject(err);
         });
     });
   }
