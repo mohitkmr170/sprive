@@ -64,7 +64,7 @@ export class StoreFetchableData {
         .catch((err: any) => {
           reject(err);
           if (
-            _get(err, DB_KEYS.USER_INFO_CLASS_NAME, null) ===
+            _get(err, DB_KEYS.USER_INFO_NAME, null) ===
             APP_CONSTANTS.NOT_AUTHENTICATED_CLASS_NAME
           ) {
             store.dispatch(logoutUser());

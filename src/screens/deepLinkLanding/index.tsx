@@ -123,25 +123,29 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
         );
         this.completeVerification();
       } else {
-        // if (
-        //   _get(verifyEmailResponse, DB_KEYS.VERIFICATION_ERROR_MESSAGE, '') ===
-        //   localeString(LOCALE_STRING.EMAIL_VERIFICATION.ALREADY_VERIFIED)
-        // ) {
-        const {getUserInfo} = this.props;
-        await getUserInfo();
-        const {getUserInfoResponse} = this.props;
         if (
-          _get(
-            getUserInfoResponse,
-            DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
-            false,
-          )
+          _get(verifyEmailResponse, DB_KEYS.VERIFICATION_ERROR_MESSAGE, '') ===
+          localeString(LOCALE_STRING.EMAIL_VERIFICATION.ALREADY_VERIFIED)
         ) {
-          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+          const {getUserInfo} = this.props;
+          await getUserInfo();
+          const {getUserInfoResponse} = this.props;
+          if (
+            _get(
+              getUserInfoResponse,
+              DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
+              false,
+            )
+          ) {
+            this.props.navigation.navigate(
+              NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+            );
+          } else {
+            this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+          }
         } else {
-          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+          this.setState({isVerifyApicalled: true});
         }
-        this.setState({isVerifyApicalled: true});
         // getAuthToken()
         //   .then(res => {
         //     if (res === APP_CONSTANTS.FALSE_TOKEN) {
