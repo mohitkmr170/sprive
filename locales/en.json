@@ -207,7 +207,7 @@
      "confirmPassword": "confirmPassword",
      "retypePassword": "Re-type Password",
      "confirm": "Confirm",
-     "passwordNotMatched": "Password did not match!",
+     "passwordNotMatched": "Password does not match!",
      "resetFromApp": "Please reset your password in the App!",
      "fail": "Password reset Failed!"
   }

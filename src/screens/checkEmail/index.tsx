@@ -78,7 +78,7 @@ export class UnconnectedCheckEmail extends React.Component<props, state> {
     };
     await resendEmail(payload);
     const {resendEmailResponse} = this.props;
-    _get(resendEmailResponse, 'response.response.data.errors.is_blocked', false) //Same Key to be added in BE, hence to be moved to DB_KEYS
+    _get(resendEmailResponse, DB_KEYS.USER_INFO_RESPONSE_IS_BLOCKED, false)
       ? this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED)
       : this.setState({
           isEmailResent: true,
