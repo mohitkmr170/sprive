@@ -83,7 +83,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
         console.log('handlePassword : res =>', res);
         this.setState({passStrengthMessage: res});
       })
-      .catch(err => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
+      .catch(err => console.log(err));
   }
 
   handleSubmition = async (values: object) => {
