@@ -8,7 +8,11 @@ import {
   APP_CONSTANTS,
   DB_KEYS,
 } from '../../utils/constants';
-import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
+import {
+  setAuthToken,
+  showSnackBar,
+  getAuthToken,
+} from '../../utils/helperFunctions';
 export class StoreFetchableData {
   constructor(name: any, apiService: any) {
     this.name = name;
@@ -63,22 +67,26 @@ export class StoreFetchableData {
         })
         .catch((err: any) => {
           reject(err);
-          if (
-            _get(err, DB_KEYS.USER_INFO_NAME, null) ===
-            APP_CONSTANTS.NOT_AUTHENTICATED_CLASS_NAME
-          ) {
-            store.dispatch(logoutUser());
-            setAuthToken(
-              APP_CONSTANTS.FALSE_TOKEN,
-              _get(store.getState(), DB_KEYS.USER_INFO_EMAIL, ''),
-            )
-              .then(response => {
-                navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
-              })
-              .catch(error => {
-                showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
-              });
-          }
+          getAuthToken().then(res => {
+            if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
+              if (
+                _get(err, DB_KEYS.USER_INFO_NAME, null) ===
+                APP_CONSTANTS.NOT_AUTHENTICATED_CLASS_NAME
+              ) {
+                store.dispatch(logoutUser());
+                setAuthToken(
+                  APP_CONSTANTS.FALSE_TOKEN,
+                  _get(store.getState(), DB_KEYS.USER_INFO_EMAIL, ''),
+                )
+                  .then(response => {
+                    navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+                  })
+                  .catch(error => {
+                    showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
+                  });
+              }
+            }
+          });
         });
     });
   }
