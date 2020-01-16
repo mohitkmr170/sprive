@@ -1,5 +1,14 @@
 import {createAction, handleActions} from 'redux-actions';
-
+import {get as _get} from 'lodash';
+import {logoutUser} from '../actions/actions';
+import {store} from '../configStore';
+import {navigate} from '../../navigation/navigationService';
+import {
+  NAVIGATION_SCREEN_NAME,
+  APP_CONSTANTS,
+  DB_KEYS,
+} from '../../utils/constants';
+import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
 export class StoreFetchableData {
   constructor(name: any, apiService: any) {
     this.name = name;
@@ -52,7 +61,25 @@ export class StoreFetchableData {
         .then((response: any) => {
           resolve(response);
         })
-        .catch((err: any) => reject(err));
+        .catch((err: any) => {
+          reject(err);
+          if (
+            _get(err, DB_KEYS.USER_INFO_CLASS_NAME, null) ===
+            APP_CONSTANTS.NOT_AUTHENTICATED_CLASS_NAME
+          ) {
+            store.dispatch(logoutUser());
+            setAuthToken(
+              APP_CONSTANTS.FALSE_TOKEN,
+              _get(store.getState(), DB_KEYS.USER_INFO_EMAIL, ''),
+            )
+              .then(response => {
+                navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+              })
+              .catch(error => {
+                showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
+              });
+          }
+        });
     });
   }
 }

@@ -18,6 +18,7 @@ export const APP_CONSTANTS = {
   RESET_PASSWORD_FORM: 'resetPassword',
   GENERAL_ERROR: 'Something went wrong!',
   LOG_OUT: 'Logged Out!',
+  NOT_AUTHENTICATED_CLASS_NAME: 'not-authenticated',
   FALSE_TOKEN: 'FALSE TOKEN',
   MONTH_NAMES: [
     'Jan',
@@ -171,6 +172,8 @@ export const ICON_NAME = {
   RIGHT_ICON: 'chevrons-right',
 };
 export const DB_KEYS = {
+  USER_INFO_CLASS_NAME: 'response.data.className',
+  USER_INFO_EMAIL: 'getUserInfo.response.data.email',
   RESPONSE_MESSAGE: 'response.message',
   NAVIGATION_PARAMS: 'state.params',
   ACCESS_DATA_TOKEN: 'response.data.accessToken',
