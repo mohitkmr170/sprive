@@ -67,7 +67,7 @@ export class UnconnectedForgotPassword extends React.Component<props, state> {
         <Header leftIconPresent onBackPress={() => this.handleBackPress()} />
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{flex: 1}}>
+          contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.middleContainer}>
             <Text style={styles.forgotPassText}>
               {localeString(LOCALE_STRING.FORGOT_PASSWORD.FORGOT_PASSWORD)}
@@ -92,7 +92,7 @@ export class UnconnectedForgotPassword extends React.Component<props, state> {
               />
             </View>
           </View>
-          <View>
+          <View style={styles.buttonView}>
             <Button
               title={localeString(LOCALE_STRING.FORGOT_PASSWORD.SEND_LINK)}
               titleStyle={styles.buttonTextStyle}

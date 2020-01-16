@@ -197,7 +197,7 @@
     "noMailReceived": "I didn’t receive an email",
     "magicLinkFirstPart": "A magic link to reset the password has been sent to ",
     "magicLinkSecondPart": ". Please click the link to reset the password",
-    "maginLinkSentAgain": "Password reset email sent again!",
+    "magicLinkSentAgain": "Password reset email sent again!",
   },
   "resetPassword": {
     "resetPassword": "Reset Password",

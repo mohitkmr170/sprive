@@ -6,7 +6,6 @@ import {verticalScale} from 'react-native-size-matters/extend';
 export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    marginBottom: 2 * verticalScale(STYLE_CONSTANTS.margin.HUGER),
   },
   middleContainer: {
     flex: 1,
@@ -32,6 +31,9 @@ export const styles = StyleSheet.create({
     lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH),
     paddingVertical: verticalScale(STYLE_CONSTANTS.margin.NORMAL),
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+  },
+  buttonView: {
+    marginBottom: 2 * verticalScale(STYLE_CONSTANTS.margin.HUGER),
   },
   emailInput: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,

@@ -54,7 +54,7 @@ export class UnconnectedPasswordCheckMail extends React.Component<
     if (!_get(resetPasswordLinkResponse, DB_KEYS.ERROR, true)) {
       showSnackBar(
         {},
-        localeString(LOCALE_STRING.FORGOT_PASSWORD.MAGIN_LINK_SENT_AGAIN),
+        localeString(LOCALE_STRING.FORGOT_PASSWORD.MAGIC_LINK_SENT_AGAIN),
       );
     }
   };
@@ -74,9 +74,9 @@ export class UnconnectedPasswordCheckMail extends React.Component<
             {localeString(LOCALE_STRING.FORGOT_PASSWORD.FORGOT_PASSWORD)}
           </Text>
           <Text style={styles.pleaseCheckText}>
-            {localeString(LOCALE_STRING.FORGOT_PASSWORD.MAGIN_LINK_FIRST_PART)}
+            {localeString(LOCALE_STRING.FORGOT_PASSWORD.MAGIC_LINK_FIRST_PART)}
             <Text style={styles.currEmailText}>{currentUserMail}</Text>
-            {localeString(LOCALE_STRING.FORGOT_PASSWORD.MAGIN_LINK_SECOND_PART)}
+            {localeString(LOCALE_STRING.FORGOT_PASSWORD.MAGIC_LINK_SECOND_PART)}
           </Text>
         </View>
         <View>

@@ -483,9 +483,9 @@ export const LOCALE_STRING = {
     SMALL_EMAIL: 'global.e-mail',
     LARGE_EMAIL: 'global.email',
     NO_MAIL_RECEIVED: 'forgotPassword.noMailReceived',
-    MAGIN_LINK_FIRST_PART: 'forgotPassword.magicLinkFirstPart',
-    MAGIN_LINK_SECOND_PART: 'forgotPassword.magicLinkSecondPart',
-    MAGIN_LINK_SENT_AGAIN: 'forgotPassword.maginLinkSentAgain',
+    MAGIC_LINK_FIRST_PART: 'forgotPassword.magicLinkFirstPart',
+    MAGIC_LINK_SECOND_PART: 'forgotPassword.magicLinkSecondPart',
+    MAGIC_LINK_SENT_AGAIN: 'forgotPassword.magicLinkSentAgain',
   },
   RESET_PASSWORD: {
     RESET_PASSWORD: 'resetPassword.resetPassword',

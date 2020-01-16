@@ -56,4 +56,13 @@ export const styles = StyleSheet.create({
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     width: '95%',
   },
+  overLay: {
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: COLOR.TRANSPARENT_BLACK,
+  },
 });

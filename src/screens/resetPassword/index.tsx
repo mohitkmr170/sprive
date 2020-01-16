@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
 import {
   GeneralStatusBar,
@@ -61,6 +61,8 @@ interface state {
   passwordVisibility: boolean;
   passStrengthMessage: string;
   passwordResetDeeplinkKeyIssue: boolean;
+  confirmPasswordVisibility: boolean;
+  deeplinkLoading: boolean;
 }
 
 export class UnconnectedResetPassword extends React.Component<props, state> {
@@ -68,8 +70,10 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
     super(props);
     this.state = {
       passwordVisibility: true,
+      confirmPasswordVisibility: true,
       passStrengthMessage: '',
       passwordResetDeeplinkKeyIssue: false,
+      deeplinkLoading: false,
     };
   }
 
@@ -124,6 +128,8 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
   };
 
   async componentDidMount() {
+    StatusBar.setBackgroundColor(COLOR.TRANSPARENT_BLACK, true);
+    this.setState({deeplinkLoading: true});
     getAuthToken()
       .then(async res => {
         if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
@@ -135,6 +141,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
               {},
               localeString(LOCALE_STRING.RESET_PASSWORD.RESET_FROM_APP),
             );
+            this.setState({deeplinkLoading: false});
             this.props.navigation.navigate(
               NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
             );
@@ -145,7 +152,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
   }
   render() {
     const {handleSubmit, resetPasswordResponse} = this.props;
-    const {passwordVisibility} = this.state;
+    const {passwordVisibility, confirmPasswordVisibility} = this.state;
     let passMessagePercentage = checkPassMessagePercentage(
       this.state.passStrengthMessage,
     );
@@ -224,14 +231,16 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                 password={true}
                 editIcon={true}
                 onIconPress={() =>
-                  this.setState({passwordVisibility: !passwordVisibility})
+                  this.setState({
+                    confirmPasswordVisibility: !confirmPasswordVisibility,
+                  })
                 }
                 component={ReduxFormField}
                 props={{
                   maxLength: 16,
                   style: styles.emailInput,
                   returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-                  secureTextEntry: passwordVisibility,
+                  secureTextEntry: confirmPasswordVisibility,
                   autoCapitalize: false,
                   placeholder: localeString(
                     LOCALE_STRING.RESET_PASSWORD.PLACEHOLDER_PASSWORD,
@@ -273,6 +282,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
             )}
           />
         )}
+        {this.state.deeplinkLoading && <View style={styles.overLay} />}
       </View>
     );
   }

@@ -28,6 +28,7 @@ interface props {
   getCumulativeInterest: (payload: object) => void;
   getCumulativeInterestResponse: () => void;
   handleSubmit: (firstParam: (values: object) => void) => void;
+  reducerResponse: object;
 }
 
 interface state {
@@ -47,6 +48,14 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     StatusBar.setBackgroundColor(COLOR.WHITE);
   }
   componentDidMount() {
+    const {reducerResponse} = this.props;
+    const isButtonDisabled =
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT, null) &&
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, null) &&
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT, null)
+        ? true
+        : false;
+    this.setState({enableButton: !isButtonDisabled});
     // this.didFocusListener = this.props.navigation.addListener(
     //   APP_CONSTANTS.LISTENER.DID_FOCUS,
     //   async () => {
@@ -124,7 +133,11 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     }
   };
   render() {
-    const {handleSubmit, getCumulativeInterestResponse} = this.props;
+    const {
+      handleSubmit,
+      getCumulativeInterestResponse,
+      reducerResponse,
+    } = this.props;
     return (
       <View style={styles.screenContainer}>
         <GeneralStatusBar />
