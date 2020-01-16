@@ -108,12 +108,22 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     //     // HANDLE-: Route to SignUp Screen
     //   });
     getAuthToken()
-      .then(res => {
+      .then(async res => {
+        const {getUserInfo} = this.props;
         /*
         NOTES : This condition is added to handle concurrent device login for unverified user
         */
+
+        console.log('AUTH_TOKE_IN_SAVE_INTEREST :::', res);
         if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
-          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+          await getUserInfo();
+          const {getUserInfoResponse} = this.props;
+          if (!_get(getUserInfoResponse, DB_KEYS.ERROR, true))
+            this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+          else
+            this.props.navigation.navigate(
+              NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN,
+            );
         } else
           this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
       })
@@ -159,12 +169,12 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
 
 const mapStateToProps = state => ({
   getCumulativeInterestResponse: state.getCumulativeInterest,
-  getUserInfoResponse: state.getUserInfo.response,
+  getUserInfoResponse: state.getUserInfo,
   reducerResponse: state.form,
   setUserMortgageResponse: state.setUserMortgage,
 });
 
-const bindActions = () => ({
+const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
 });
