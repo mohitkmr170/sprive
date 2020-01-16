@@ -244,6 +244,7 @@ export const DB_KEYS = {
     IS_VERIFIED: 'data.is_verified',
     IS_BLOCKED: 'data.is_blocked',
     DATA_OF_IS_VERIFIED: 'response.data.is_verified',
+    GET_USERO_INFO_ISBLOCKED: 'getUserInfo.response.data.is_blocked',
   },
   FORGOT_PASSWORD_EMAIL: 'forgotPassword.values.email',
   DEEPLINK_CONFIGS: {
@@ -301,6 +302,7 @@ export const LOCALE_STRING = {
     DONT_HAVE_ACCOUNT: 'login.dontHaveAccount',
     SIGNUP: 'signUp.signUpText',
     LOGIN_SIGNIN: 'login.signIn',
+    MORTGAGE_NOT_FOUND: 'login.mortgageNotFound',
   },
   SIGNUP_FORM: {
     SIGNUP_BUTTON: 'signUp.singUpButton',

@@ -9,7 +9,8 @@
     "signIn": "Sign in",
     "signInToAccount": "Sign in to your account",
     "forgotPassword": "Forgot Password?",
-    "dontHaveAccount": "Don’t have an account?"
+    "dontHaveAccount": "Don’t have an account?",
+    "mortgageNotFound": "Mortgage data not found, please set it to proceed!"
   },
   "global": {
     "backButton": "Back",

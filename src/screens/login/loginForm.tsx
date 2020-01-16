@@ -40,6 +40,7 @@ interface props {
   getUserInfoResponse: object;
   loginUserResponse: object;
   loginUser: (payload: object) => void;
+  reducerResponse: object;
 }
 interface state {
   passwordVisibility: boolean;
@@ -90,7 +91,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           await getUserInfo();
           const {getUserInfoResponse} = this.props;
           if (
-            !_get(getUserInfoResponse, 'error', null) &&
+            !_get(getUserInfoResponse, DB_KEYS.ERROR, null) &&
             _get(
               getUserInfoResponse,
               DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
@@ -99,11 +100,34 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           )
             navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
           else {
-            showSnackBar(
-              {},
-              localeString(LOCALE_STRING.EMAIL_VERIFICATION.USER_NOT_VERIFIED),
-            );
-            navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL); //Mortgage not available to verify, need to add some condition based on discussion!s
+            const {reducerResponse} = this.props;
+            if (
+              _get(
+                reducerResponse,
+                DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT,
+                null,
+              ) &&
+              _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, null) &&
+              _get(
+                reducerResponse,
+                DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
+                null,
+              )
+            ) {
+              showSnackBar(
+                {},
+                localeString(
+                  LOCALE_STRING.EMAIL_VERIFICATION.USER_NOT_VERIFIED,
+                ),
+              );
+              navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL); //Mortgage not available to verify, need to add some condition based on discussion!s
+            } else {
+              showSnackBar(
+                {},
+                localeString(LOCALE_STRING.LOGIN_SCREEN.MORTGAGE_NOT_FOUND),
+              );
+              navigation.navigate(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
+            }
           }
         })
         .catch(err => {
@@ -261,6 +285,7 @@ export const LoginScreen = reduxForm({
 const mapStateToProps = state => ({
   loginUserResponse: state.loginUser,
   getUserInfoResponse: state.getUserInfo,
+  reducerResponse: state.form,
 });
 
 const bindActions = dispatch => ({

@@ -123,26 +123,40 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
         );
         this.completeVerification();
       } else {
+        // if (
+        //   _get(verifyEmailResponse, DB_KEYS.VERIFICATION_ERROR_MESSAGE, '') ===
+        //   localeString(LOCALE_STRING.EMAIL_VERIFICATION.ALREADY_VERIFIED)
+        // ) {
+        const {getUserInfo} = this.props;
+        await getUserInfo();
+        const {getUserInfoResponse} = this.props;
         if (
-          _get(verifyEmailResponse, DB_KEYS.VERIFICATION_ERROR_MESSAGE, '') ===
-          localeString(LOCALE_STRING.EMAIL_VERIFICATION.ALREADY_VERIFIED)
+          _get(
+            getUserInfoResponse,
+            DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
+            false,
+          )
         ) {
-          getAuthToken()
-            .then(res => {
-              if (res === APP_CONSTANTS.FALSE_TOKEN) {
-                this.props.navigation.navigate(
-                  NAVIGATION_SCREEN_NAME.LOGIN_SCREEN,
-                );
-              } else {
-                this.props.navigation.navigate(
-                  NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-                );
-              }
-            })
-            .catch(err => showSnackBar({}, err));
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
         } else {
-          this.setState({isVerifyApicalled: true});
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
         }
+        this.setState({isVerifyApicalled: true});
+        // getAuthToken()
+        //   .then(res => {
+        //     if (res === APP_CONSTANTS.FALSE_TOKEN) {
+        //       this.props.navigation.navigate(
+        //         NAVIGATION_SCREEN_NAME.LOGIN_SCREEN,
+        //       );
+        //     } else {
+        //       this.props.navigation.navigate(
+        //         NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+        //       );
+        //     }
+        //   })
+        //   .catch(err => showSnackBar({}, err));
+        // } else {
+        // }
       }
     }
   }

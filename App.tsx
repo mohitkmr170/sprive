@@ -56,7 +56,7 @@ class App extends React.Component<props, state> {
         await store.dispatch(getUserInfo.fetchCall());
         const isBlocked = _get(
           store.getState(),
-          'getUserInfo.response.data.is_blocked',
+          DB_KEYS.VERIFICATION_FLOW.GET_USERO_INFO_ISBLOCKED,
           false,
         );
         if (!isBlocked) {
