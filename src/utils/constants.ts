@@ -263,7 +263,7 @@ export const DB_KEYS = {
   FORM: {
     RESET_PASSWORD: 'resetPassword',
   },
-  IS_BLOCKED: 'response.data.is_blocked',
+  IS_BLOCKED: 'response.data.errors.is_blocked',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',

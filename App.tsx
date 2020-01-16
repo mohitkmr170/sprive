@@ -9,9 +9,9 @@ import AppNavigator from './src/navigation/appFlow';
 import {setNavigator} from './src/navigation/navigationService';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {navigate} from './src/navigation/navigationService';
+import {getUserInfo} from './src/store/reducers';
 import {NAVIGATION_SCREEN_NAME, DB_KEYS} from './src/utils/constants';
 import {get as _get} from 'lodash';
-
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -43,7 +43,7 @@ class App extends React.Component<props, state> {
     //   }
     // };
   }
-  componentDidMount() {
+  async componentDidMount() {
     /**
      * Hide native layer splash screen
      */
@@ -52,39 +52,47 @@ class App extends React.Component<props, state> {
      * Listener for Firebase Dynamic links
      */
     this.onDynamicLinkUnsubscribe = dynamicLinks().onLink(
-      (link: {url: string}) => {
-        var url = require('url');
-        const parsed = url.parse(link.url, true).query;
-        const verificationToken = _get(
-          parsed,
-          DB_KEYS.DEEPLINK_CONFIGS.VERIFICATION_TOKEN,
-          '',
+      async (link: {url: string}) => {
+        await store.dispatch(getUserInfo.fetchCall());
+        const isBlocked = _get(
+          store.getState(),
+          'getUserInfo.response.data.is_blocked',
+          false,
         );
-        const resetPasswordToken = _get(
-          parsed,
-          DB_KEYS.DEEPLINK_CONFIGS.PASSWORD_RESET_TOKEN,
-          '',
-        );
-        console.log(
-          'componentDidMount : onDynamicLinkUnsubscribe : LINK ::: =>',
-          verificationToken,
-          resetPasswordToken,
-          parsed,
-          link,
-        );
-        navigate(
-          _get(parsed, DB_KEYS.DEEPLINK_CONFIGS.SCREEN, '') ===
-            DB_KEYS.DEEPLINK_CONFIGS.FORGOT_PASSWORD
-            ? NAVIGATION_SCREEN_NAME.RESET_PASSWORD
-            : NAVIGATION_SCREEN_NAME.DEEPLINK_SCREEN,
-          {
-            deepLinkToken:
-              _get(parsed, DB_KEYS.DEEPLINK_CONFIGS.SCREEN, '') ===
+        if (!isBlocked) {
+          var url = require('url');
+          const parsed = url.parse(link.url, true).query;
+          const verificationToken = _get(
+            parsed,
+            DB_KEYS.DEEPLINK_CONFIGS.VERIFICATION_TOKEN,
+            '',
+          );
+          const resetPasswordToken = _get(
+            parsed,
+            DB_KEYS.DEEPLINK_CONFIGS.PASSWORD_RESET_TOKEN,
+            '',
+          );
+          console.log(
+            'componentDidMount : onDynamicLinkUnsubscribe : LINK ::: =>',
+            verificationToken,
+            resetPasswordToken,
+            parsed,
+            link,
+          );
+          navigate(
+            _get(parsed, DB_KEYS.DEEPLINK_CONFIGS.SCREEN, '') ===
               DB_KEYS.DEEPLINK_CONFIGS.FORGOT_PASSWORD
-                ? resetPasswordToken
-                : verificationToken,
-          },
-        );
+              ? NAVIGATION_SCREEN_NAME.RESET_PASSWORD
+              : NAVIGATION_SCREEN_NAME.DEEPLINK_SCREEN,
+            {
+              deepLinkToken:
+                _get(parsed, DB_KEYS.DEEPLINK_CONFIGS.SCREEN, '') ===
+                DB_KEYS.DEEPLINK_CONFIGS.FORGOT_PASSWORD
+                  ? resetPasswordToken
+                  : verificationToken,
+            },
+          );
+        }
       },
     );
   }
