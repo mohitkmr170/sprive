@@ -17,5 +17,9 @@ export default {
     ISSUE_CATEGORY: '/issue-category',
     ISSUES: '/issues',
     GET_PROJECTED_DATA: '/projected-data',
+    VERIFY_EMAIL: '/verify-email',
+    RESEND_EMAIL: '/send-verification-link',
+    RESET_PASSWORD_LINK: '/send-reset-password-link',
+    RESET_PASSWORD: '/reset-password',
   },
 };

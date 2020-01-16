@@ -13,8 +13,13 @@ import {
   NAVIGATION_SCREEN_NAME,
   LOCALE_STRING,
   DB_KEYS,
+  APP_CONSTANTS,
 } from '../../utils/constants';
-import {getNumberWithCommas, getAuthToken} from '../../utils/helperFunctions';
+import {
+  getNumberWithCommas,
+  getAuthToken,
+  showSnackBar,
+} from '../../utils/helperFunctions';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 import {COLOR} from '../../utils/colors';
 
@@ -102,7 +107,17 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     //     // CASE-: Token Error, KeyChain Corrupted or couldn't be fetched
     //     // HANDLE-: Route to SignUp Screen
     //   });
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+    getAuthToken()
+      .then(res => {
+        /*
+        NOTES : This condition is added to handle concurrent device login for unverified user
+        */
+        if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+        } else
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+      })
+      .catch(err => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
   };
 
   render() {

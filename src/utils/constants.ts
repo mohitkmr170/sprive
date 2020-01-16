@@ -14,8 +14,11 @@ export const APP_CONSTANTS = {
   LOGIN_FORM: 'logIn',
   SIGNUP_FORM: 'signup',
   MORTGAGE_INPUT_FORM: 'MortgageInput',
+  FORGOT_PASSWORD_FORM: 'forgotPassword',
+  RESET_PASSWORD_FORM: 'resetPassword',
   GENERAL_ERROR: 'Something went wrong!',
   LOG_OUT: 'Logged Out!',
+  NOT_AUTHENTICATED_CLASS_NAME: 'NotAuthenticated',
   FALSE_TOKEN: 'FALSE TOKEN',
   MONTH_NAMES: [
     'Jan',
@@ -50,6 +53,7 @@ export const APP_CONSTANTS = {
     EMAIL: 'email',
     PASSWORD: 'password',
   },
+  HARD_BACK_PRESS: 'hardwareBackPress',
 };
 
 export const STYLE_CONSTANTS = {
@@ -156,6 +160,7 @@ export const STYLE_CONSTANTS = {
   IMAGE_RESIZE_CONFIG: {
     AUTO: 'auto',
     STRETCH: 'stretch',
+    CONTAIN: 'contain',
   },
 };
 export const ICON = {
@@ -167,6 +172,11 @@ export const ICON_NAME = {
   RIGHT_ICON: 'chevrons-right',
 };
 export const DB_KEYS = {
+  USER_INFO_NAME: 'response.data.name',
+  USER_INFO_EMAIL: 'getUserInfo.response.data.email',
+  RESPONSE_MESSAGE: 'response.message',
+  NAVIGATION_PARAMS: 'state.params',
+  ACCESS_DATA_TOKEN: 'response.data.accessToken',
   ACCESS_TOKEN: 'response.accessToken',
   IS_FETCHING: 'isFetching',
   META_TOTAL: 'response.meta.total',
@@ -200,6 +210,7 @@ export const DB_KEYS = {
   MORTGAGE_TERM_ERROR: 'response.response.data.errors.mortgage_term',
   MORTGAGE_PAYMENT_ERROR: 'response.response.data.errors.mortgage_payment',
   SIGNUP_PASSWORD: 'signup.values.password',
+  VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
@@ -232,6 +243,32 @@ export const DB_KEYS = {
     ISSUE_CATEGORY_ID_KEY: 'id',
     ISSUE_CATEGORY_VALUE_KEY: 'value',
   },
+  VERIFICATION_FLOW: {
+    IS_VERIFIED: 'data.is_verified',
+    IS_BLOCKED: 'data.is_blocked',
+    DATA_OF_IS_VERIFIED: 'response.data.is_verified',
+    GET_USERO_INFO_ISBLOCKED: 'getUserInfo.response.data.is_blocked',
+  },
+  FORGOT_PASSWORD_EMAIL: 'forgotPassword.values.email',
+  DEEPLINK_CONFIGS: {
+    VERIFICATION_TOKEN: 'verification_token',
+    PASSWORD_RESET_TOKEN: 'password_reset_key',
+    FORGOT_PASSWORD: 'forgot_password',
+    SCREEN: 'screen',
+  },
+  RESET_PASSWORD: {
+    PASSWORD: 'password',
+    CONFIRM_PASSWORD: 'confirmPassword',
+    BLOCKED_TYPE: 'navigation.state.params.blockedType',
+    PASSWORD_RESET: 'password_reset',
+  },
+  LOGIN_EMAIL: 'form.logIn.values.email',
+  RESET_PASSWORD_FORM: 'resetPassword.values.password',
+  FORM: {
+    RESET_PASSWORD: 'resetPassword',
+  },
+  IS_BLOCKED: 'response.data.errors.is_blocked',
+  USER_INFO_RESPONSE_IS_BLOCKED: 'response.response.data.errors.is_blocked',
 };
 export const NAVIGATION_SCREEN_NAME = {
   AUTH_STACK: 'Auth',
@@ -248,6 +285,12 @@ export const NAVIGATION_SCREEN_NAME = {
   REPORT_ISSUE: 'ReportIssueScreen',
   UPDATE_MORTGAGE: 'UpdateMortgageScreen',
   INTRO_CAROUSEL: 'IntroCarouselScreen',
+  CHECK_EMAIL: 'CheckEmailScreen',
+  DEEPLINK_SCREEN: 'DeepLinkLandingScreen',
+  ACCOUNT_BLOCKED: 'AccountBlockedScreen',
+  FORGOT_PASSWORD: 'ForgotPasswordScreen',
+  RESET_PASSWORD: 'ResetPasswordScreen',
+  FORGOT_PASSWORD_MAIL: 'PasswordCheckMailScreen',
 };
 
 export const LOCALE_STRING = {
@@ -263,6 +306,7 @@ export const LOCALE_STRING = {
     DONT_HAVE_ACCOUNT: 'login.dontHaveAccount',
     SIGNUP: 'signUp.signUpText',
     LOGIN_SIGNIN: 'login.signIn',
+    MORTGAGE_NOT_FOUND: 'login.mortgageNotFound',
   },
   SIGNUP_FORM: {
     SIGNUP_BUTTON: 'signUp.singUpButton',
@@ -281,6 +325,7 @@ export const LOCALE_STRING = {
     SECOND_SUB_TITLE: 'signUp.secondSubTitle',
     THIRD_TITLE: 'signUp.thirdTitle',
     THIRD_SUB_TITLE: 'signUp.thirdSubTitle',
+    EMAIL_CLIENTS: 'signUp.emailClients',
   },
   SHOW_INTEREST_SCREEN: {
     SAVE_INTEREST: 'mortgageForm.mortgageData',
@@ -292,6 +337,7 @@ export const LOCALE_STRING = {
     SECOND_LIST_ONE: 'saveInterest.secondListOne',
     SECOND_LIST_TWO: 'saveInterest.secondListTwo',
     SAVE_BUTTON_TEXT: 'saveInterest.buttonText',
+    NEGATIVE_INTEREST: 'saveInterest.negativeInterest',
   },
   LOADING: 'Loading',
   INVALID_AMOUNT: 'global.invalidAmount',
@@ -316,6 +362,7 @@ export const LOCALE_STRING = {
     ALPHA_NUMERIC: 'validationMessages.alphaNumberic',
     YEAR_RANGE: 'validationMessages.yearRange',
     WHITE_SPACES: 'validationMessages.whiteSpaces',
+    PASSWORD_NOT_MATCHED: 'validationMessages.passwordNotMatched',
   },
   SET_GOAL_SCREEN: {
     TITLE: 'setGoalScreen.title',
@@ -407,6 +454,51 @@ export const LOCALE_STRING = {
     INVITE_FRIENDS: 'sideBar.inviteFriends',
     UPDATE_PASSWORD: 'sideBar.updatePassword',
     LOG_OUT: 'sideBar.logOut',
+  },
+  EMAIL_VERIFICATION: {
+    EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',
+    CHECK_EMAIL: 'emailVerification.checkEmail',
+    EMAIL_SENT: 'emailVerification.emailSent',
+    OPEN_EMAIL_APP: 'emailVerification.openEmailApp',
+    RESEND_VERIFICATION: 'emailVerification.resendVerification',
+    VERIFICATION: 'emailVerification.verification',
+    SUCCESS_TITLE: 'emailVerification.successTitle',
+    SUCCESS_MESSAGE: 'emailVerification.successMessage',
+    FAIL_TITLE: 'emailVerification.failTitle',
+    FAIL_MESSAGE: 'emailVerification.failMessage',
+    OKAY: 'emailVerification.okay',
+    ALREADY_VERIFIED: 'emailVerification.alreadyVerified',
+    USER_NOT_VERIFIED: 'emailVerification.userNotVerified',
+    DEEPLINK_ISSUE: 'emailVerification.wrongWithDeeplink',
+  },
+  ACCOUNT_LOCKED: {
+    ACCOUNT_LOCKED: 'accountLocked.accountLocked',
+    CASE_VERIFICATION: 'accountLocked.caseVerification',
+    CASE_RESET_PASSWORD: 'accountLocked.casePasswordReset',
+    CONTACT_ADMIN: 'accountLocked.contactAdmin',
+  },
+  FORGOT_PASSWORD: {
+    FORGOT_PASSWORD: 'forgotPassword.forgotPassword',
+    ENTER_EMAIL: 'forgotPassword.enterEmail',
+    SEND_LINK: 'forgotPassword.linkSent',
+    SMALL_EMAIL: 'global.e-mail',
+    LARGE_EMAIL: 'global.email',
+    NO_MAIL_RECEIVED: 'forgotPassword.noMailReceived',
+    MAGIC_LINK_FIRST_PART: 'forgotPassword.magicLinkFirstPart',
+    MAGIC_LINK_SECOND_PART: 'forgotPassword.magicLinkSecondPart',
+    MAGIC_LINK_SENT_AGAIN: 'forgotPassword.magicLinkSentAgain',
+  },
+  RESET_PASSWORD: {
+    RESET_PASSWORD: 'resetPassword.resetPassword',
+    PASSWORD: 'resetPassword.password',
+    NEW_PASSWORD: 'resetPassword.newPassword',
+    PLACEHOLDER_PASSWORD: 'resetPassword.placeHolderPassword',
+    CONFIRM_PASSWORD: 'resetPassword.confirmPassword',
+    RETYPE_PASSWORD: 'resetPassword.retypePassword',
+    CONFIRM: 'resetPassword.confirm',
+    PASSWORD_NOT_MATCHED: 'resetPassword.passwordNotMatched',
+    RESET_FROM_APP: 'resetPassword.resetFromApp',
+    PASSWORD_RESET_FAILED: 'resetPassword.fail',
   },
 };
 

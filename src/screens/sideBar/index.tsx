@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
 import {GeneralStatusBar} from '../../components';
+import {logoutUser} from '../../store/actions/actions';
 import {
   NAVIGATION_SCREEN_NAME,
   APP_CONSTANTS,
@@ -33,6 +34,7 @@ interface props {
     goBack: () => void;
   };
   getUserInfoResponse: object;
+  logoutUserAction: () => void;
 }
 
 const CLOSE_ICON_NAME = 'close';
@@ -92,7 +94,8 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       isDisabled: true,
     },
   ];
-  handleLogOut = () => {
+  handleLogOut = async () => {
+    this.props.logoutUserAction();
     const {getUserInfoResponse} = this.props;
     setAuthToken(
       APP_CONSTANTS.FALSE_TOKEN,
@@ -177,7 +180,9 @@ const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
 });
 
-const bindActions = () => ({});
+const bindActions = dispatch => ({
+  logoutUserAction: () => dispatch(logoutUser()),
+});
 
 export const SideBar = connect(
   mapStateToProps,

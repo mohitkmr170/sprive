@@ -37,6 +37,7 @@ export const textInputBoxStyle = StyleSheet.create({
   inputTypeIcon: {
     marginTop: STYLE_CONSTANTS.margin.SMALL,
     marginRight: STYLE_CONSTANTS.margin.SMALLISH,
+    top: STYLE_CONSTANTS.margin.SMALLEST,
   },
   parameterText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,

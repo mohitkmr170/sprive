@@ -22,6 +22,12 @@ import {
   ReportIssue,
   UpdateMortgage,
   IntroCarousel,
+  CheckEmail,
+  DeepLinkLanding,
+  AccountBlocked,
+  ForgotPassword,
+  ResetPassword,
+  PasswordCheckMail,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -99,6 +105,24 @@ const AuthStackNavigator = createStackNavigator(
     SaveInterestScreen: {
       screen: SaveInterest,
     },
+    CheckEmailScreen: {
+      screen: CheckEmail,
+    },
+    AccountBlockedScreen: {
+      screen: AccountBlocked,
+      navigationOptions: {
+        gesturesEnabled: false, //This is to disable back gesture handler
+      },
+    },
+    ForgotPasswordScreen: {
+      screen: ForgotPassword,
+    },
+    ResetPasswordScreen: {
+      screen: ResetPassword,
+    },
+    PasswordCheckMailScreen: {
+      screen: PasswordCheckMail,
+    },
   },
   {
     initialRouteName: 'IntroCarouselScreen',
@@ -162,6 +186,18 @@ const AppStackWithDrawer = createDrawerNavigator(
   },
 );
 
+const DeepLinkStack = createStackNavigator(
+  {
+    DeepLinkLandingScreen: {
+      screen: DeepLinkLanding,
+    },
+  },
+  {
+    initialRouteName: 'DeepLinkLandingScreen',
+    headerMode: 'none',
+  },
+);
+
 /**
  * Switch navigator to switch between AppStack and AuthStack based on Auth status
  */
@@ -170,6 +206,7 @@ const AppNavigator = createSwitchNavigator({
   AuthLoading: AuthLoading,
   App: AppStackWithDrawer,
   Auth: AuthStackNavigator,
+  DeepLink: DeepLinkStack,
 });
 
 /**

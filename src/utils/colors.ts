@@ -49,4 +49,5 @@ export const COLOR = {
   LIGHTER_VOILET: '#4D56B1',
   BLACK_OPACITY_TEN: 'rgba(0, 0, 0, 0.1)',
   MEDUIM_OPACITY_BLACK: 'rgba(0, 0, 0, 0.3)',
+  HALF_VOILET: 'rgba(9, 36, 94, 0.5)',
 };

@@ -131,3 +131,17 @@ export const negativeValidation = (value: any) => {
     ? localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.INVALID_AMOUNT)
     : undefined;
 };
+/**
+ * @param value : string : Validation for email matching
+ */
+export const emailMatching = (value: any) => {
+  const reducerResponse = store.getState().form;
+  const previousPassword = _get(
+    reducerResponse,
+    DB_KEYS.RESET_PASSWORD_FORM,
+    '',
+  );
+  return value && previousPassword !== value
+    ? localeString(LOCALE_STRING.VALIDATIONS.PASSWORD_NOT_MATCHED)
+    : undefined;
+};

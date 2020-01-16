@@ -22,6 +22,7 @@ export const PAYLOAD_KEYS: any = {
   SIGNUP: {
     EMAIL: 'email',
     PASSWORD: 'password',
+    VERIFICATION_TOKEN: 'verification_token',
   },
   MORTGAGE_INPUT: {
     MORTGAGE_ID: 'mortgage_id',
@@ -44,5 +45,9 @@ export const PAYLOAD_KEYS: any = {
   ISSUE: {
     CATEGORY_ID: 'category_id',
     DESCRIPTION: 'description',
+  },
+  RESET_PASSWORD: {
+    PASSWORD_RESET_KEY: 'password_reset_key',
+    NEW_PASSWORD: 'new_password',
   },
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
-import {iEmail, iLock} from '../../assets';
+import {iEmail, iEye} from '../../assets';
 import {textInputBoxStyle} from './styles';
 import {STYLE_CONSTANTS, APP_CONSTANTS} from '../../utils/constants';
 
@@ -13,6 +13,7 @@ interface props {
   editIcon: boolean;
   currencyIcon: boolean;
   parameterText: string;
+  password: boolean;
 }
 interface state {}
 
@@ -25,6 +26,7 @@ export class TextInputBox extends React.Component<props, state> {
       onIconPress,
       currencyIcon,
       parameterText,
+      password,
     } = this.props;
 
     return (
@@ -53,7 +55,7 @@ export class TextInputBox extends React.Component<props, state> {
                 </Text>
               ) : (
                 <Image
-                  source={label === 'Password' ? iLock : iEmail}
+                  source={password ? iEye : iEmail}
                   height={14}
                   width={14}
                   style={textInputBoxStyle.inputTypeIcon}
