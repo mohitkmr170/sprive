@@ -469,6 +469,7 @@ export const LOCALE_STRING = {
     OKAY: 'emailVerification.okay',
     ALREADY_VERIFIED: 'emailVerification.alreadyVerified',
     USER_NOT_VERIFIED: 'emailVerification.userNotVerified',
+    DEEPLINK_ISSUE: 'emailVerification.wrongWithDeeplink',
   },
   ACCOUNT_LOCKED: {
     ACCOUNT_LOCKED: 'accountLocked.accountLocked',

@@ -146,7 +146,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
               NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
             );
           }
-        }
+        } else this.setState({deeplinkLoading: false});
       })
       .catch(err => {});
   }

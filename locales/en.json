@@ -182,7 +182,8 @@
     "openEmailApp": "Open e-mail app",
     "resendVerification": "Resend verification",
     "alreadyVerified": "Requested email is already verified.",
-    "userNotVerified": "User not verified, please verify your email to proceed!"
+    "userNotVerified": "User not verified, please verify your email to proceed!",
+    "wrongWithDeeplink": "Something went wrong with deeplink!"
   },
   "accountLocked": {
     "accountLocked": "Account Locked",

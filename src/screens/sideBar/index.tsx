@@ -34,6 +34,7 @@ interface props {
     goBack: () => void;
   };
   getUserInfoResponse: object;
+  logoutUserAction: () => void;
 }
 
 const CLOSE_ICON_NAME = 'close';

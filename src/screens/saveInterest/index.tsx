@@ -109,6 +109,9 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     //   });
     getAuthToken()
       .then(res => {
+        /*
+        NOTES : This condition is added to handle concurrent device login for unverified user
+        */
         if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
           this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
         } else

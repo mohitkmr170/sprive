@@ -21,6 +21,7 @@ import {
   getUserInfo,
   resendEmail,
 } from '../../store/reducers';
+import {logoutUser} from '../../store/actions/actions';
 import {getAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {localeString} from '../../utils/i18n';
@@ -40,6 +41,7 @@ interface props {
   getUserInfo: () => void;
   getUserInfoResponse: object;
   reducerResponse: object;
+  logoutUserAction: () => void;
 }
 interface state {
   isVerifyApicalled: boolean;
@@ -91,6 +93,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL); //If Mortgage data is not found!(Case when user signIn's from another device with has no Mortgage data set), Need to be discussed
       }
       if (_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
+        this.props.logoutUserAction();
         this.setState({isVerifyApicalled: true});
       }
       //   await resetAuthToken();
@@ -98,8 +101,6 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
     }
   };
   async componentDidMount() {
-    const {getUserInfo} = this.props;
-    await getUserInfo();
     let verificationToken = _get(
       this.props.navigation,
       DB_KEYS.NAVIGATION_PARAMS,
@@ -146,22 +147,35 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
         } else {
           this.setState({isVerifyApicalled: true});
         }
-        // getAuthToken()
-        //   .then(res => {
-        //     if (res === APP_CONSTANTS.FALSE_TOKEN) {
-        //       this.props.navigation.navigate(
-        //         NAVIGATION_SCREEN_NAME.LOGIN_SCREEN,
-        //       );
-        //     } else {
-        //       this.props.navigation.navigate(
-        //         NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-        //       );
-        //     }
-        //   })
-        //   .catch(err => showSnackBar({}, err));
-        // } else {
-        // }
+        /*
+        NOTES : This code block is to be kept for further refernce
+        getAuthToken()
+          .then(res => {
+            if (res === APP_CONSTANTS.FALSE_TOKEN) {
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.LOGIN_SCREEN,
+              );
+            } else {
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+              );
+            }
+          })
+          .catch(err => showSnackBar({}, err));
+        } else {
+        }
+        */
       }
+    } else {
+      /*
+      TODO : Number of getUserInfo API calls to be rechecked
+      */
+      const {getUserInfo} = this.props;
+      await getUserInfo();
+      showSnackBar(
+        {},
+        localeString(LOCALE_STRING.EMAIL_VERIFICATION.DEEPLINK_ISSUE),
+      );
     }
   }
   render() {
@@ -243,6 +257,7 @@ const bindActions = dispatch => ({
   resendEmail: payload => dispatch(resendEmail.fetchCall(payload)),
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
+  logoutUserAction: () => dispatch(logoutUser()),
 });
 
 export const DeepLinkLanding = connect(
