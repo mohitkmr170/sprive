@@ -1,10 +1,10 @@
-import {getProjectedData as getApi} from '../../apiServices';
-import {StoreFetchableData} from './base';
-import {showSnackBar} from '../../utils/helperFunctions';
+import {getUserGoal as getApi} from '../../../apiServices';
+import {StoreFetchableData} from '../base';
+import {showSnackBar} from '../../../utils/helperFunctions';
 
-class getProjectedDataData extends StoreFetchableData {
+class getUserGoalData extends StoreFetchableData {
   constructor() {
-    super('getProjectedData', getApi);
+    super('getUserGoal', getApi);
   }
   fetchCall(data: any, moreData: any) {
     return dispatch =>
@@ -15,9 +15,9 @@ class getProjectedDataData extends StoreFetchableData {
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));
-          showSnackBar(err);
+          // showSnackBar(err);
         });
   }
 }
 
-export var getProjectedData = new getProjectedDataData();
+export var getUserGoal = new getUserGoalData();

@@ -1,11 +1,11 @@
-import {resendEmail as getApi} from '../../apiServices';
-import {StoreFetchableData} from './base';
-import {showSnackBar} from '../../utils/helperFunctions';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {loginUser as getApi} from '../../../apiServices';
+import {StoreFetchableData} from '../base';
+import {showSnackBar} from '../../../utils/helperFunctions';
+import {APP_CONSTANTS} from '../../../utils/constants';
 
-class resendEmailData extends StoreFetchableData {
+class loginUserData extends StoreFetchableData {
   constructor() {
-    super('resendEmail', getApi);
+    super('loginUser', getApi);
   }
   fetchCall(data: any) {
     return dispatch =>
@@ -21,4 +21,4 @@ class resendEmailData extends StoreFetchableData {
   }
 }
 
-export var resendEmail = new resendEmailData();
+export var loginUser = new loginUserData();

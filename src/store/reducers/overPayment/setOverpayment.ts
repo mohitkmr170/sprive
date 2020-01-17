@@ -1,10 +1,10 @@
-import {setIssue as getApi} from '../../apiServices';
-import {StoreFetchableData} from './base';
-import {showSnackBar} from '../../utils/helperFunctions';
+import {setOverpayment as getApi} from '../../../apiServices';
+import {StoreFetchableData} from '../base';
+import {showSnackBar} from '../../../utils/helperFunctions';
 
-class setIssueData extends StoreFetchableData {
+class setOverpaymentData extends StoreFetchableData {
   constructor() {
-    super('setIssue', getApi);
+    super('setOverpayment', getApi);
   }
   fetchCall(data: any) {
     return dispatch =>
@@ -20,4 +20,4 @@ class setIssueData extends StoreFetchableData {
   }
 }
 
-export var setIssue = new setIssueData();
+export var setOverpayment = new setOverpaymentData();

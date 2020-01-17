@@ -1,10 +1,10 @@
-import {setUserMortgage as getApi} from '../../apiServices';
-import {StoreFetchableData} from './base';
-import {showSnackBar} from '../../utils/helperFunctions';
+import {setIssue as getApi} from '../../../apiServices';
+import {StoreFetchableData} from '../base';
+import {showSnackBar} from '../../../utils/helperFunctions';
 
-class setUserMortgageData extends StoreFetchableData {
+class setIssueData extends StoreFetchableData {
   constructor() {
-    super('setUserMortgage', getApi);
+    super('setIssue', getApi);
   }
   fetchCall(data: any) {
     return dispatch =>
@@ -20,4 +20,4 @@ class setUserMortgageData extends StoreFetchableData {
   }
 }
 
-export var setUserMortgage = new setUserMortgageData();
+export var setIssue = new setIssueData();

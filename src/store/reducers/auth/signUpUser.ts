@@ -1,11 +1,11 @@
-import {loginUser as getApi} from '../../apiServices';
-import {StoreFetchableData} from './base';
-import {showSnackBar} from '../../utils/helperFunctions';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {signUpUser as getApi} from '../../../apiServices';
+import {StoreFetchableData} from '../base';
+import {showSnackBar} from '../../../utils/helperFunctions';
+import {APP_CONSTANTS} from '../../../utils/constants';
 
-class loginUserData extends StoreFetchableData {
+class signUpUserData extends StoreFetchableData {
   constructor() {
-    super('loginUser', getApi);
+    super('signUpUser', getApi);
   }
   fetchCall(data: any) {
     return dispatch =>
@@ -21,4 +21,4 @@ class loginUserData extends StoreFetchableData {
   }
 }
 
-export var loginUser = new loginUserData();
+export var signUpUser = new signUpUserData();

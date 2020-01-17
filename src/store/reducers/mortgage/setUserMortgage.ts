@@ -1,10 +1,10 @@
-import {setUserGoal as getApi} from '../../apiServices';
-import {StoreFetchableData} from './base';
-import {showSnackBar} from '../../utils/helperFunctions';
+import {setUserMortgage as getApi} from '../../../apiServices';
+import {StoreFetchableData} from '../base';
+import {showSnackBar} from '../../../utils/helperFunctions';
 
-class setUserGoalData extends StoreFetchableData {
+class setUserMortgageData extends StoreFetchableData {
   constructor() {
-    super('setUserGoal', getApi);
+    super('setUserMortgage', getApi);
   }
   fetchCall(data: any) {
     return dispatch =>
@@ -20,4 +20,4 @@ class setUserGoalData extends StoreFetchableData {
   }
 }
 
-export var setUserGoal = new setUserGoalData();
+export var setUserMortgage = new setUserMortgageData();

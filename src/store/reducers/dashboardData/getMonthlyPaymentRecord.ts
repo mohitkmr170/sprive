@@ -1,10 +1,10 @@
-import {getIssueCategories as getApi} from '../../apiServices';
-import {StoreFetchableData} from './base';
-import {showSnackBar} from '../../utils/helperFunctions';
+import {getMonthlyPaymentRecord as getApi} from '../../../apiServices';
+import {StoreFetchableData} from '../base';
+import {showSnackBar} from '../../../utils/helperFunctions';
 
-class getIssueCategoriesData extends StoreFetchableData {
+class getMonthlyPaymentRecordData extends StoreFetchableData {
   constructor() {
-    super('getIssueCategories', getApi);
+    super('getMonthlyPaymentRecord', getApi);
   }
   fetchCall(data: any, moreData: any) {
     return dispatch =>
@@ -20,4 +20,4 @@ class getIssueCategoriesData extends StoreFetchableData {
   }
 }
 
-export var getIssueCategories = new getIssueCategoriesData();
+export var getMonthlyPaymentRecord = new getMonthlyPaymentRecordData();

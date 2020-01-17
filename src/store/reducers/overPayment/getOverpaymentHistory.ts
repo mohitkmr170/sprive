@@ -1,6 +1,6 @@
-import {getOverpaymentHistory as getApi} from '../../apiServices';
-import {StoreFetchableData} from './base';
-import {showSnackBar} from '../../utils/helperFunctions';
+import {getOverpaymentHistory as getApi} from '../../../apiServices';
+import {StoreFetchableData} from '../base';
+import {showSnackBar} from '../../../utils/helperFunctions';
 
 class getOverpaymentHistoryData extends StoreFetchableData {
   constructor() {
