@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
 import {iBack} from '../../assets';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {APP_CONSTANTS} from '../../utils';
 interface props {
   title: String;
   rightIconPresent: boolean;

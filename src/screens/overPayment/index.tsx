@@ -19,27 +19,25 @@ import {
   GeneralStatusBar,
 } from '../../components';
 import {chatIcon, correct, tick} from '../../assets';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
-import {reset, navigate} from '../../navigation/navigationService';
+import {reset} from '../../navigation/navigationService';
 import {
+  _gaSetCurrentScreen,
+  localeString,
+  getNumberWithCommas,
+  showSnackBar,
+  getRoundFigure,
   APP_CONSTANTS,
   LOCALE_STRING,
   STYLE_CONSTANTS,
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
-} from '../../utils/constants';
+  PAYLOAD_KEYS,
+  COLOR,
+} from '../../utils';
 import {get as _get} from 'lodash';
 import {AmountContainer} from './amountContainer';
 import {CardDetails} from './cardDetails';
-import {COLOR} from '../../utils/colors';
-import {
-  getNumberWithCommas,
-  showSnackBar,
-  getRoundFigure,
-} from '../../utils/helperFunctions';
-import {localeString} from '../../utils/i18n';
-import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 const INC_DEC_OFFSET = 10;
 const EDIT_ICON_NAME = 'pencil';

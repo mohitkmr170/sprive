@@ -13,37 +13,29 @@ import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import * as Progress from 'react-native-progress';
 import {
-  APP_CONSTANTS,
-  LOCALE_STRING,
-  DB_KEYS,
-  NAVIGATION_SCREEN_NAME,
-  STYLE_CONSTANTS,
-} from '../../utils/constants';
-import {COLOR} from '../../utils/colors';
-import {get as _get} from 'lodash';
-import {
-  resetPassword,
-  getUserInfo,
-  reducerResponse,
-} from '../../store/reducers';
-import {reset} from '../../navigation/navigationService';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {
   minLength8,
   maxLength16,
   alphaNumeric,
   required,
   noWhiteSpaces,
   emailMatching,
-} from '../../utils/validate';
-import {localeString} from '../../utils/i18n';
-import {
+  localeString,
   showSnackBar,
   getAuthToken,
   checkPassMessagePercentage,
   getPasswordStrength,
-} from '../../utils/helperFunctions';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+  APP_CONSTANTS,
+  LOCALE_STRING,
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
+  STYLE_CONSTANTS,
+  COLOR,
+  PAYLOAD_KEYS,
+} from '../../utils';
+import {get as _get} from 'lodash';
+import {resetPassword, getUserInfo} from '../../store/reducers';
+import {reset} from '../../navigation/navigationService';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 interface props {
   navigation: {

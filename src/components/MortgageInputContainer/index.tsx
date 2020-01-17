@@ -3,7 +3,6 @@ import {View, Text, Alert} from 'react-native';
 import {styles} from './styles';
 import {ReduxFormField} from '../ReduxFormField';
 import {Field, reduxForm} from 'redux-form';
-import {APP_CONSTANTS, DB_KEYS, LOCALE_STRING} from '../../utils/constants';
 import {connect} from 'react-redux';
 import {
   required,
@@ -12,10 +11,12 @@ import {
   maxLimitMonthlyMortgage,
   yearRange,
   negativeValidation,
-} from '../../utils/validate';
+  localeString,
+  getNumberWithCommas,
+  APP_CONSTANTS,
+  DB_KEYS,
+} from '../../utils';
 import {get as _get} from 'lodash';
-import {localeString} from '../../utils/i18n';
-import {getNumberWithCommas} from '../../utils/helperFunctions';
 import {ServerErrorContainer} from '../../components';
 
 const FORM_FIELD_KEY: object = {

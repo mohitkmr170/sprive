@@ -11,17 +11,17 @@ import {
   getUserInfo,
   resendEmail,
 } from '../../store/reducers';
-import {localeString} from '../../utils/i18n';
 import {
+  localeString,
+  PAYLOAD_KEYS,
   APP_CONSTANTS,
   LOCALE_STRING,
   DB_KEYS,
   STYLE_CONSTANTS,
   NAVIGATION_SCREEN_NAME,
-} from '../../utils/constants';
+} from '../../utils';
 import {openInbox} from 'react-native-email-link';
 import {get as _get} from 'lodash';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 const INTENT_BUTTON_RESET_TIME = 1000;
 interface props {

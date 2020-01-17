@@ -2,8 +2,7 @@ import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {styles} from './styles';
 import {hsbc} from '../../assets';
-import {localeString} from '../../utils/i18n';
-import {LOCALE_STRING} from '../../utils/constants';
+import {localeString, LOCALE_STRING} from '../../utils';
 
 interface props {}
 interface state {}

@@ -4,15 +4,13 @@ import {logoutUser} from '../actions/actions';
 import {store} from '../configStore';
 import {navigate} from '../../navigation/navigationService';
 import {
-  NAVIGATION_SCREEN_NAME,
-  APP_CONSTANTS,
-  DB_KEYS,
-} from '../../utils/constants';
-import {
   setAuthToken,
   showSnackBar,
   getAuthToken,
-} from '../../utils/helperFunctions';
+  NAVIGATION_SCREEN_NAME,
+  APP_CONSTANTS,
+  DB_KEYS,
+} from '../../utils';
 export class StoreFetchableData {
   constructor(name: any, apiService: any) {
     this.name = name;

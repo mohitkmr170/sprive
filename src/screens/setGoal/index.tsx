@@ -4,7 +4,17 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {Header, LoadingModal, GeneralStatusBar} from '../../components';
 import Slider from '@react-native-community/slider';
-import {localeString} from '../../utils/i18n';
+import {
+  _gaSetCurrentScreen,
+  localeString,
+  calculateGoal,
+  LOCALE_STRING,
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
+  APP_CONSTANTS,
+  COLOR,
+  PAYLOAD_KEYS,
+} from '../../utils';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import {
@@ -13,18 +23,8 @@ import {
   getUserGoal,
   updateUserGoal,
 } from '../../store/reducers';
-import {
-  LOCALE_STRING,
-  DB_KEYS,
-  NAVIGATION_SCREEN_NAME,
-  APP_CONSTANTS,
-} from '../../utils/constants';
-import {COLOR} from '../../utils/colors';
-import {calculateGoal} from '../../utils/calculator-scripts';
 import {ErcWarning} from './ercWarning';
 import {TargetDetails} from './targetDetails';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 const SLIDER_START_VALUE = 1;
 const SLIDER_STEP = 1;

@@ -1,6 +1,6 @@
 import {setUserGoal as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar} from '../../../utils/helperFunctions';
+import {showSnackBar} from '../../../utils';
 
 class setUserGoalData extends StoreFetchableData {
   constructor() {

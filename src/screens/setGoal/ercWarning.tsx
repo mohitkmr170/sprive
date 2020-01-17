@@ -1,11 +1,9 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
-import {LOCALE_STRING} from '../../utils/constants';
-import {COLOR} from '../../utils/colors';
+import {localeString, LOCALE_STRING, COLOR} from '../../utils';
 import {warning} from '../../assets';
 import * as Animatable from 'react-native-animatable';
 import {styles} from './styles';
-import {localeString} from '../../utils/i18n';
 
 export class ErcWarning extends React.Component {
   render() {

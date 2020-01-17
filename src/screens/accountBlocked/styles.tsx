@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {STYLE_CONSTANTS} from '../../utils/constants';
-import {COLOR} from '../../utils/colors';
+import {COLOR, STYLE_CONSTANTS} from '../../utils';
 import {verticalScale} from 'react-native-size-matters/extend';
 
 export const styles = StyleSheet.create({

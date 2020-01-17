@@ -1,4 +1,4 @@
-import {COLOR} from '../../utils/colors';
+import {COLOR} from '../../utils';
 
 //Intial Sample graph data
 

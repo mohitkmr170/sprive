@@ -4,22 +4,21 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {Header, GeneralStatusBar, LoadingModal} from '../../components';
 import {Dropdown} from 'react-native-material-dropdown';
-import {chatIcon} from '../../assets';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import KeyboardManager from 'react-native-keyboard-manager';
 import {getIssueCategories, setIssue} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
+  _gaSetCurrentScreen,
+  showSnackBar,
+  localeString,
   NAVIGATION_SCREEN_NAME,
   DB_KEYS,
   LOCALE_STRING,
-} from '../../utils/constants';
-import {localeString} from '../../utils/i18n';
-import {COLOR} from '../../utils/colors';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-import {showSnackBar} from '../../utils/helperFunctions';
-import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
+  PAYLOAD_KEYS,
+  COLOR,
+} from '../../utils';
 
 // const BUG_CATEGORY = [];
 const DESCRIPTION_MAX_LIMIT = 250;

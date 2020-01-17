@@ -1,11 +1,11 @@
 import {resetPasswordLink as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar} from '../../../utils/helperFunctions';
 import {
+  showSnackBar,
   APP_CONSTANTS,
   NAVIGATION_SCREEN_NAME,
   DB_KEYS,
-} from '../../../utils/constants';
+} from '../../../utils';
 import {navigate} from '../../../navigation/navigationService';
 import {get as _get} from 'lodash';
 

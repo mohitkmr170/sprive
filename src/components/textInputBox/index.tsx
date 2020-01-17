@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 import {iEmail, iEye} from '../../assets';
 import {textInputBoxStyle} from './styles';
-import {STYLE_CONSTANTS, APP_CONSTANTS} from '../../utils/constants';
+import {APP_CONSTANTS} from '../../utils';
 
 interface props {
   label: string;

@@ -7,11 +7,15 @@ import {
   LoadingModal,
 } from '../../components';
 import {
+  localeString,
+  getAuthToken,
+  showSnackBar,
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
   LOCALE_STRING,
   APP_CONSTANTS,
-} from '../../utils/constants';
+  PAYLOAD_KEYS,
+} from '../../utils';
 import {get as _get} from 'lodash';
 import {iVerify, iFail} from '../../assets';
 import {connect} from 'react-redux';
@@ -22,9 +26,6 @@ import {
   resendEmail,
 } from '../../store/reducers';
 import {logoutUser} from '../../store/actions/actions';
-import {getAuthToken, showSnackBar} from '../../utils/helperFunctions';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-import {localeString} from '../../utils/i18n';
 
 const VERIFYING_LOADING = 'Verifying...';
 interface props {

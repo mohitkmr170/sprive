@@ -1,7 +1,6 @@
 import {verifyEmail as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar} from '../../../utils/helperFunctions';
-import {APP_CONSTANTS} from '../../../utils/constants';
+import {showSnackBar, APP_CONSTANTS} from '../../../utils';
 
 class verifyEmailData extends StoreFetchableData {
   constructor() {

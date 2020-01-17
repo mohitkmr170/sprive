@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {APP_CONSTANTS, STYLE_CONSTANTS} from '../../utils/constants';
-import {COLOR} from '../../utils/colors';
+import {APP_CONSTANTS, STYLE_CONSTANTS, COLOR} from '../../utils';
 
 export const styles = StyleSheet.create({
   mainTopContainer: {marginBottom: STYLE_CONSTANTS.margin.LARGER},

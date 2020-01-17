@@ -1,6 +1,6 @@
 import {getMonthlyPaymentRecord as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar} from '../../../utils/helperFunctions';
+import {showSnackBar} from '../../../utils';
 
 class getMonthlyPaymentRecordData extends StoreFetchableData {
   constructor() {

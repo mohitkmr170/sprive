@@ -1,6 +1,6 @@
 import {getUserMortgageData as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar} from '../../../utils/helperFunctions';
+import {showSnackBar} from '../../../utils';
 
 class getUserMortgageDataData extends StoreFetchableData {
   constructor() {

@@ -3,11 +3,15 @@ import {View, Text, FlatList, ActivityIndicator, StatusBar} from 'react-native';
 import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
 import {
+  _gaSetCurrentScreen,
+  localeString,
   LOCALE_STRING,
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
-} from '../../utils/constants';
-import {localeString} from '../../utils/i18n';
+  APP_CONSTANTS,
+  PAYLOAD_KEYS,
+  COLOR,
+} from '../../utils';
 import {chatIcon} from '../../assets';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
@@ -15,11 +19,7 @@ import {getOverpaymentHistory, getUserGoal} from '../../store/reducers';
 import {Dropdown} from 'react-native-material-dropdown';
 import Moment from 'moment';
 import {reset} from '../../navigation/navigationService';
-import {APP_CONSTANTS} from '../../utils/constants';
 import {PaymentHistoryList} from './paymentHistoryList';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
-import {COLOR} from '../../utils/colors';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;

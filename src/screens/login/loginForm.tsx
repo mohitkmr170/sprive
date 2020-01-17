@@ -8,28 +8,27 @@ import {
   GeneralStatusBar,
   ServerErrorContainer,
 } from '../../components';
-import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {loginUser, getUserInfo} from '../../store/reducers';
 import {get as _get} from 'lodash';
-import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
+  setAuthToken,
+  showSnackBar,
+  localeString,
   email,
   minLength8,
   maxLength16,
   required,
   alphaNumeric,
   noWhiteSpaces,
-} from '../../utils/validate';
-import {
   APP_CONSTANTS,
   NAVIGATION_SCREEN_NAME,
   LOCALE_STRING,
   DB_KEYS,
-} from '../../utils/constants';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+  PAYLOAD_KEYS,
+} from '../../utils';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;

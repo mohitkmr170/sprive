@@ -1,8 +1,7 @@
 import React from 'react';
 import {View, StatusBar, Platform} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {COLOR} from '../../utils/colors';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {COLOR} from '../../utils';
 
 interface props {
   backgroundColor: string;

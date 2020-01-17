@@ -1,6 +1,6 @@
 import {setOverpayment as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar} from '../../../utils/helperFunctions';
+import {showSnackBar} from '../../../utils';
 
 class setOverpaymentData extends StoreFetchableData {
   constructor() {

@@ -4,24 +4,22 @@ import {Button} from 'react-native-elements';
 import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
 import {connect} from 'react-redux';
-import {localeString} from '../../utils/i18n';
-import {get as _get} from 'lodash';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {interestBanner} from '../../assets';
-import {getUserInfo, setUserMortgage} from '../../store/reducers';
 import {
+  localeString,
+  getNumberWithCommas,
+  getAuthToken,
+  _gaSetCurrentScreen,
+  showSnackBar,
   NAVIGATION_SCREEN_NAME,
   LOCALE_STRING,
   DB_KEYS,
   APP_CONSTANTS,
-} from '../../utils/constants';
-import {
-  getNumberWithCommas,
-  getAuthToken,
-  showSnackBar,
-} from '../../utils/helperFunctions';
-import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
-import {COLOR} from '../../utils/colors';
+  COLOR,
+} from '../../utils';
+import {get as _get} from 'lodash';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {interestBanner} from '../../assets';
+import {getUserInfo, setUserMortgage} from '../../store/reducers';
 
 interface props {
   navigation: {

@@ -8,15 +8,16 @@ import {resetPasswordLink, getUserInfo} from '../../store/reducers';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {
+  email,
+  required,
+  localeString,
   NAVIGATION_SCREEN_NAME,
   APP_CONSTANTS,
   LOCALE_STRING,
   DB_KEYS,
-} from '../../utils/constants';
+  PAYLOAD_KEYS,
+} from '../../utils';
 import {get as _get} from 'lodash';
-import {email, required} from '../../utils/validate';
-import {localeString} from '../../utils/i18n';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 
 interface props {
   navigation: {

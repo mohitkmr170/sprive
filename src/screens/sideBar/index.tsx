@@ -2,15 +2,18 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
-import {GeneralStatusBar} from '../../components';
 import {logoutUser} from '../../store/actions/actions';
 import {
+  localeString,
+  setAuthToken,
+  showSnackBar,
   NAVIGATION_SCREEN_NAME,
   APP_CONSTANTS,
   DB_KEYS,
   LOCALE_STRING,
   STYLE_CONSTANTS,
-} from '../../utils/constants';
+  COLOR,
+} from '../../utils';
 import {
   iNotification,
   iAvatar,
@@ -22,11 +25,8 @@ import {
   iLogOut,
 } from '../../assets';
 import {closeDrawer} from '../../navigation/navigationService';
-import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
-import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {COLOR} from '../../utils/colors';
 
 interface props {
   navigation: {
