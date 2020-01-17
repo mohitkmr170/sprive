@@ -1,5 +1,5 @@
-import apiConstants from '../../config/apiConstants';
-import {getRequest} from './requestServices';
+import apiConstants from '../../../config/apiConstants';
+import {getRequest} from '../requestServices';
 
 const endPoint = apiConstants.API_END_POINTS.OVERPAYMENT;
 /**

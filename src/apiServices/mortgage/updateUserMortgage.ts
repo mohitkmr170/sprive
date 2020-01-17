@@ -1,5 +1,5 @@
-import apiConstants from '../../config/apiConstants';
-import {putRequest} from './requestServices';
+import apiConstants from '../../../config/apiConstants';
+import {putRequest} from '../requestServices';
 
 const endPoint = apiConstants.API_END_POINTS.USER_MORTGAGE;
 

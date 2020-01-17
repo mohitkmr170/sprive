@@ -1,5 +1,5 @@
-import apiConstants from '../../config/apiConstants';
-import {patchRequest} from './requestServices';
+import apiConstants from '../../../config/apiConstants';
+import {patchRequest} from '../requestServices';
 
 const endPoint = apiConstants.API_END_POINTS.GOAL;
 

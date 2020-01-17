@@ -1,5 +1,5 @@
-import apiConstants from '../../config/apiConstants';
-import {getRequest} from './requestServices';
+import apiConstants from '../../../config/apiConstants';
+import {getRequest} from '../requestServices';
 import {get as _get} from 'lodash';
 
 const endPoint = apiConstants.API_END_POINTS.ISSUE_CATEGORY;

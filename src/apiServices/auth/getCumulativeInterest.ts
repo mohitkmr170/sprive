@@ -1,5 +1,5 @@
-import apiConstants from '../../config/apiConstants';
-import {postRequest} from './requestServices';
+import apiConstants from '../../../config/apiConstants';
+import {postRequest} from '../requestServices';
 
 /**
  * Get cumulative interest based on input Mortgage

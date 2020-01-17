@@ -1,5 +1,5 @@
-import apiConstants from '../../config/apiConstants';
-import {postRequest} from './requestServices';
+import apiConstants from '../../../config/apiConstants';
+import {postRequest} from '../requestServices';
 
 const endPoint = apiConstants.API_END_POINTS.RESET_PASSWORD_LINK;
 /**
