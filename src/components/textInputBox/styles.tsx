@@ -34,10 +34,13 @@ export const textInputBoxStyle = StyleSheet.create({
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   inputTypeIcon: {
-    marginTop: STYLE_CONSTANTS.margin.SMALL,
     marginRight: STYLE_CONSTANTS.margin.SMALLISH,
-    top: STYLE_CONSTANTS.margin.SMALLEST,
   },
+  iconContainer: {
+    justifyContent: 'center',
+    flex: 1,
+  },
+  textInputContainer: {flex: 1, justifyContent: 'center'},
   parameterText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGER,
