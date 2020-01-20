@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 import {iEmail, iEye} from '../../assets';
 import {textInputBoxStyle} from './styles';
-import {STYLE_CONSTANTS, APP_CONSTANTS} from '../../utils/constants';
+import {APP_CONSTANTS} from '../../utils/constants';
 
 interface props {
   label: string;
@@ -41,7 +41,7 @@ export class TextInputBox extends React.Component<props, state> {
               <Text style={textInputBoxStyle.currencyIcon}>£</Text>
             )}
           </View>
-          <View style={{flex: 1, justifyContent: 'center'}}>
+          <View style={textInputBoxStyle.textInputContainer}>
             <TextInput style={textInputBoxStyle.inputBox} {...this.props} />
           </View>
           {editIcon && (
@@ -54,12 +54,12 @@ export class TextInputBox extends React.Component<props, state> {
                   {parameterText}
                 </Text>
               ) : (
-                <Image
-                  source={password ? iEye : iEmail}
-                  height={14}
-                  width={14}
-                  style={textInputBoxStyle.inputTypeIcon}
-                />
+                <View style={textInputBoxStyle.iconContainer}>
+                  <Image
+                    source={password ? iEye : iEmail}
+                    style={textInputBoxStyle.inputTypeIcon}
+                  />
+                </View>
               )}
             </TouchableOpacity>
           )}
