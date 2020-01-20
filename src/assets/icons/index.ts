@@ -13,3 +13,5 @@ export const iLogOut = require('../icons/logout.png');
 export const iVerify = require('../icons/emailVerified.png');
 export const iFail = require('../icons/errorState.png');
 export const iEye = require('../icons/eye.png');
+export const iPasswordView = require('../icons/passwordView.svg');
+export const iPasswordLock = require('../icons/passwordLock.svg');

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
-import {iEmail, iEye} from '../../assets';
+import {iEmail, iEye, iPasswordLock, iLock} from '../../assets';
+import Icon from 'react-native-vector-icons/Feather';
 import {textInputBoxStyle} from './styles';
 import {APP_CONSTANTS} from '../../utils/constants';
 
@@ -14,6 +15,8 @@ interface props {
   currencyIcon: boolean;
   parameterText: string;
   password: boolean;
+  value: string;
+  secureTextEntry: boolean;
 }
 interface state {}
 
@@ -27,8 +30,9 @@ export class TextInputBox extends React.Component<props, state> {
       currencyIcon,
       parameterText,
       password,
+      value,
+      secureTextEntry,
     } = this.props;
-
     return (
       <View>
         {label && <Text style={[textInputBoxStyle.labelText]}>{label}</Text>}
@@ -47,7 +51,7 @@ export class TextInputBox extends React.Component<props, state> {
           {editIcon && (
             <TouchableOpacity
               onPress={onIconPress}
-              disabled={!onIconPress}
+              disabled={!(onIconPress && value)}
               hitSlop={APP_CONSTANTS.HIT_SLOP}>
               {parameterText ? (
                 <Text style={textInputBoxStyle.parameterText}>
@@ -55,10 +59,25 @@ export class TextInputBox extends React.Component<props, state> {
                 </Text>
               ) : (
                 <View style={textInputBoxStyle.iconContainer}>
-                  <Image
-                    source={password ? iEye : iEmail}
-                    style={textInputBoxStyle.inputTypeIcon}
-                  />
+                  {password ? (
+                    !value ? (
+                      <Image
+                        source={iLock}
+                        style={textInputBoxStyle.inputTypeIcon}
+                      />
+                    ) : (
+                      <Icon
+                        name={secureTextEntry ? 'eye-off' : 'eye'}
+                        size={14}
+                        style={textInputBoxStyle.inputTypeIcon}
+                      />
+                    )
+                  ) : (
+                    <Image
+                      source={iEmail}
+                      style={textInputBoxStyle.inputTypeIcon}
+                    />
+                  )}
                 </View>
               )}
             </TouchableOpacity>
