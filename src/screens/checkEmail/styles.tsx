@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import {STYLE_CONSTANTS, COLOR} from '../../utils';
-import {verticalScale} from 'react-native-size-matters/extend';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -8,48 +7,48 @@ export const styles = StyleSheet.create({
   },
   middleContainer: {
     flex: 1,
-    marginHorizontal: verticalScale(STYLE_CONSTANTS.margin.HUGISH),
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
   },
   imageView: {
-    marginHorizontal: verticalScale(STYLE_CONSTANTS.margin.LARGEST),
-    marginTop: verticalScale(STYLE_CONSTANTS.margin.HUGER),
-    height: 10 * verticalScale(STYLE_CONSTANTS.margin.HUGISH),
+    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
+    marginTop: STYLE_CONSTANTS.margin.HUGER,
+    height: 10 * STYLE_CONSTANTS.margin.HUGISH,
   },
   textContainer: {
-    marginHorizontal: verticalScale(STYLE_CONSTANTS.margin.SMALL),
+    marginHorizontal: STYLE_CONSTANTS.margin.SMALL,
   },
   pleaseCheckText: {
-    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.HUGE),
-    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST),
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
     color: COLOR.VOILET,
     textAlign: 'center',
   },
   emailSentText: {
-    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.NORMAL),
-    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH),
-    marginTop: verticalScale(STYLE_CONSTANTS.margin.SMALL),
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    marginTop: STYLE_CONSTANTS.margin.SMALL,
     color: COLOR.VOILET,
     textAlign: 'center',
   },
   buttonStyle: {
     backgroundColor: COLOR.PRIMARY,
-    marginHorizontal: verticalScale(STYLE_CONSTANTS.margin.HUGISH),
-    borderRadius: 2 * verticalScale(STYLE_CONSTANTS.margin.LARGEST),
-    marginBottom: verticalScale(STYLE_CONSTANTS.margin.NORMAL),
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
+    borderRadius: 2 * STYLE_CONSTANTS.margin.LARGEST,
+    marginBottom: STYLE_CONSTANTS.margin.NORMAL,
   },
   buttonTextStyle: {
-    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.LARGE),
-    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH),
-    paddingVertical: verticalScale(STYLE_CONSTANTS.margin.NORMAL),
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    paddingVertical: STYLE_CONSTANTS.margin.NORMAL,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   resendTouchContainer: {
-    marginBottom: 2 * verticalScale(STYLE_CONSTANTS.margin.LARGE),
+    marginBottom: 2 * STYLE_CONSTANTS.margin.LARGE,
     alignItems: 'center',
   },
   resentText: {
-    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.LARGE),
-    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGE),
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
     opacity: 0.5,
     color: COLOR.VOILET,
   },

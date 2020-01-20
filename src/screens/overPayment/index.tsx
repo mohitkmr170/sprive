@@ -221,7 +221,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
             })
           }
         />
-        <ScrollView contentContainerStyle={styles.mainContainer}>
+        <View style={styles.mainContainer}>
           <View
             style={{
               flex: 1,
@@ -295,7 +295,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
               {localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.BASIC_INFO)}
             </Text>
           </View>
-        </ScrollView>
+        </View>
         <Button
           title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.PAY_NOW)}
           onPress={() => this.handlePayNow()}

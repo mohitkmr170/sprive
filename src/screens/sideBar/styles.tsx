@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import {COLOR, STYLE_CONSTANTS} from '../../utils';
-import {verticalScale} from 'react-native-size-matters/extend';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -9,9 +8,9 @@ export const styles = StyleSheet.create({
   },
   innerMainContainer: {
     flex: 1,
-    paddingVertical: verticalScale(STYLE_CONSTANTS.margin.LARGEST),
-    borderBottomLeftRadius: verticalScale(STYLE_CONSTANTS.padding.SMALL),
-    borderTopLeftRadius: verticalScale(STYLE_CONSTANTS.padding.SMALL),
+    paddingVertical: STYLE_CONSTANTS.margin.LARGEST,
+    borderBottomLeftRadius: STYLE_CONSTANTS.padding.SMALL,
+    borderTopLeftRadius: STYLE_CONSTANTS.padding.SMALL,
     backgroundColor: COLOR.WHITE,
   },
   iconStyle: {
@@ -21,41 +20,39 @@ export const styles = StyleSheet.create({
   centerContainer: {flex: 1},
   profileContainer: {
     paddingVertical:
-      verticalScale(STYLE_CONSTANTS.padding.HUGE) +
-      verticalScale(STYLE_CONSTANTS.padding.NORMAL),
-    paddingRight: 2 * verticalScale(STYLE_CONSTANTS.padding.HUGE),
+      STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.NORMAL,
+    paddingRight: 2 * STYLE_CONSTANTS.padding.HUGE,
     paddingLeft:
-      verticalScale(STYLE_CONSTANTS.padding.HUGE) +
-      verticalScale(STYLE_CONSTANTS.padding.SMALLEST),
+      STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.SMALLEST,
     borderBottomColor: COLOR.BLACK_OPACITY_TEN,
     borderBottomWidth: 1,
   },
   userNameText: {
-    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.HUGE),
-    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGE),
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   userLocationText: {
-    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.SMALL),
-    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH),
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
     color: COLOR.VOILET,
   },
   sideBarDataListContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: verticalScale(STYLE_CONSTANTS.padding.LARGEST),
-    paddingLeft: verticalScale(STYLE_CONSTANTS.padding.HUGE),
-    paddingRight: verticalScale(STYLE_CONSTANTS.padding.HUGE),
+    paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
+    paddingLeft: STYLE_CONSTANTS.padding.HUGE,
+    paddingRight: STYLE_CONSTANTS.padding.HUGE,
     borderBottomColor: COLOR.BLACK_OPACITY_TEN,
     borderBottomWidth: 1,
     justifyContent: 'space-between',
   },
   iconTextContainer: {flexDirection: 'row'},
   titleText: {
-    paddingLeft: verticalScale(STYLE_CONSTANTS.padding.SMALL),
-    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.NORMAL),
-    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH),
+    paddingLeft: STYLE_CONSTANTS.padding.SMALL,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
     color: COLOR.BLACK,
     opacity: 0.7,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
@@ -64,19 +61,19 @@ export const styles = StyleSheet.create({
   logOutContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: verticalScale(STYLE_CONSTANTS.padding.LARGEST),
+    paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
     borderTopColor: COLOR.BLACK_OPACITY_TEN,
     borderTopWidth: 1,
-    paddingLeft: verticalScale(STYLE_CONSTANTS.padding.HUGE),
-    paddingRight: verticalScale(STYLE_CONSTANTS.padding.HUGE),
+    paddingLeft: STYLE_CONSTANTS.padding.HUGE,
+    paddingRight: STYLE_CONSTANTS.padding.HUGE,
   },
   logOutTouch: {flexDirection: 'row', flex: 1},
   logOutText: {
     color: COLOR.BLACK,
     opacity: 0.3,
-    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.NORMAL),
-    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH),
-    paddingLeft: verticalScale(STYLE_CONSTANTS.padding.SMALL),
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
+    paddingLeft: STYLE_CONSTANTS.padding.SMALL,
     alignSelf: 'center',
   },
 });

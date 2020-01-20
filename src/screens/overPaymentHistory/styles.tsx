@@ -21,16 +21,16 @@ export const styles = StyleSheet.create({
   },
   loadingContainer: {
     position: 'relative',
-    paddingVertical: 20,
-    marginTop: 10,
-    marginBottom: 10,
+    paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
+    marginTop: STYLE_CONSTANTS.margin.SMALLISH,
+    marginBottom: STYLE_CONSTANTS.margin.SMALLISH,
   },
   monthYearText: {
     color: COLOR.VOILET,
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '600',
-    marginTop: 24,
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    marginTop: STYLE_CONSTANTS.margin.LARGER,
   },
   cardContainer: {
     marginTop: STYLE_CONSTANTS.margin.LARGEST,
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
   paymentTypeContainer: {
     paddingHorizontal: STYLE_CONSTANTS.padding.SMALLISH,
     paddingVertical: 2,
-    borderRadius: 14,
+    borderRadius: STYLE_CONSTANTS.padding.BELOW_NORMAL,
   },
   paymentTypeText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,

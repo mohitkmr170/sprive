@@ -13,7 +13,7 @@ export const textInputBoxStyle = StyleSheet.create({
     marginLeft: STYLE_CONSTANTS.margin.SMALLEST,
   },
   inputBox: {
-    height: 40,
+    height: STYLE_CONSTANTS.margin.HUMONGOUS,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
   },

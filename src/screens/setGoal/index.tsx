@@ -377,9 +377,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
               rightIconPresent
               title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.TITLE)}
             />
-            <ScrollView
-              contentContainerStyle={styles.middleContainer}
-              showsVerticalScrollIndicator={false}>
+            <View style={styles.middleContainer}>
               {/* <View style={styles.mortgageStatusProgressContainer}>
                 <Text style={styles.mortgageTextData}>Set Goal</Text>
                 <Text style={styles.progressFractionText}>4/4</Text>
@@ -422,21 +420,21 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 monthlyOverPayment={monthlyOverPayment}
                 interestSaving={interestSaving}
               />
-              <Button
-                title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
-                titleStyle={styles.buttonTitleStyle}
-                buttonStyle={styles.buttonStyle}
-                onPress={() => this.handleSetGoal()}
-                disabled={
-                  this.state.mortgageTerm ===
-                  _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null)
-                }
-                loading={
-                  _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
-                  _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
-                }
-              />
-            </ScrollView>
+            </View>
+            <Button
+              title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
+              titleStyle={styles.buttonTitleStyle}
+              buttonStyle={styles.buttonStyle}
+              onPress={() => this.handleSetGoal()}
+              disabled={
+                this.state.mortgageTerm ===
+                _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null)
+              }
+              loading={
+                _get(updateUserGoalResponse, DB_KEYS.IS_FETCHING, false) ||
+                _get(setUserGoalResponse, DB_KEYS.IS_FETCHING, false)
+              }
+            />
           </View>
         )}
         {ercLimitCrossed && (
