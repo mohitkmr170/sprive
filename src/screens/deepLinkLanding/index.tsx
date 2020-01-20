@@ -178,6 +178,15 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
       );
     }
   }
+  handleFailPress = async () => {
+    const {getUserInfo} = this.props;
+    getUserInfo();
+    this.setState({isVerifyApicalled: false});
+    const {getUserInfoResponse} = this.props;
+    if (_get(getUserInfoResponse, DB_KEYS.ERROR)) {
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+    } else this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+  };
   render() {
     const {isVerifyApicalled} = this.state;
     const {verifyEmailResponse, navigation, getUserInfoResponse} = this.props;
@@ -223,12 +232,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
               firstButtonText={localeString(
                 LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
               )}
-              handleFirstButton={() => {
-                this.setState({isVerifyApicalled: false});
-                this.props.navigation.navigate(
-                  NAVIGATION_SCREEN_NAME.CHECK_EMAIL,
-                );
-              }}
+              handleFirstButton={() => this.handleFailPress()}
               mainMessage={localeString(
                 LOCALE_STRING.EMAIL_VERIFICATION.FAIL_TITLE,
               )}
