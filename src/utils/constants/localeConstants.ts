@@ -205,4 +205,14 @@ export const LOCALE_STRING = {
     RESET_FROM_APP: 'resetPassword.resetFromApp',
     PASSWORD_RESET_FAILED: 'resetPassword.fail',
   },
+  UPDATE_PASSWORD: {
+    UPDATE_PASSWORD: 'updatePassword.updatePassword',
+    EXISTING_PASSWORD: 'updatePassword.existingPassword',
+    NEW_PASSWORD: 'updatePassword.newPassword',
+    NEW_PASSWORD_WITHOUT_SPACE: 'updatePassword.newPasswordWithourSpace',
+    RETYPE_PASSWORD: 'updatePassword.retypePassword',
+    UPDATE: 'updatePassword.update',
+    UPDATE_SUCCESS: 'updatePassword.updateSuccess',
+    UPDATE_FAIL: 'updatePassword.updateFail',
+  },
 };

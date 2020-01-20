@@ -211,5 +211,15 @@
      "passwordNotMatched": "Password does not match!",
      "resetFromApp": "Please reset your password in the App!",
      "fail": "Password reset Failed!"
+  },
+  "updatePassword": {
+    "updatePassword": "Update Password",
+    "existingPassword": "Confirm Existing Password",
+    "newPassword": "New Password",
+    "newPasswordWithourSpace": "newPassword",
+    "retypePassword": "Re-type Password",
+    "update": "Update",
+    "updateSuccess": "Password updated successfully",
+    "updateFail": "Update password failed"
   }
 }
