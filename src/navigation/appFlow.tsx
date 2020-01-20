@@ -28,6 +28,7 @@ import {
   ForgotPassword,
   ResetPassword,
   PasswordCheckMail,
+  UpdatePassword,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -163,6 +164,9 @@ const AppStackNavigator = createStackNavigator(
     },
     UpdateMortgageScreen: {
       screen: UpdateMortgage,
+    },
+    UpdatePasswordScreen: {
+      screen: UpdatePassword,
     },
   },
   {

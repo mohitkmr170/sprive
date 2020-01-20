@@ -65,7 +65,8 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.UPDATE_PASSWORD),
       icon: iUpdate,
-      action: () => {},
+      action: () =>
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.UPDATE_PASSWORD),
       isDisabled: false,
     },
     {
