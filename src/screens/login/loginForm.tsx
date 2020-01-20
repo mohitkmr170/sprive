@@ -13,7 +13,7 @@ import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {loginUser, getUserInfo} from '../../store/reducers';
 import {get as _get} from 'lodash';
-import {setAuthToken} from '../../utils/helperFunctions';
+import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   email,
@@ -40,6 +40,7 @@ interface props {
   getUserInfoResponse: object;
   loginUserResponse: object;
   loginUser: (payload: object) => void;
+  reducerResponse: object;
 }
 interface state {
   passwordVisibility: boolean;
@@ -68,30 +69,65 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     this.props.navigation.goBack();
   };
 
+  preLoginCheck = async () => {
+    const {getUserInfo, navigation} = this.props;
+    await getUserInfo();
+    const {getUserInfoResponse} = this.props;
+    if (!_get(getUserInfoResponse, DB_KEYS.ERROR, null)) {
+      if (
+        _get(
+          getUserInfoResponse,
+          DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
+          true,
+        )
+      )
+        navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+      else {
+        const {reducerResponse} = this.props;
+        if (
+          _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT, null) &&
+          _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, null) &&
+          _get(
+            reducerResponse,
+            DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
+            null,
+          )
+        ) {
+          showSnackBar(
+            {},
+            localeString(LOCALE_STRING.EMAIL_VERIFICATION.USER_NOT_VERIFIED),
+          );
+          navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL); //Mortgage not available to verify, need to add some condition based on discussion!s
+        } else {
+          showSnackBar(
+            {},
+            localeString(LOCALE_STRING.LOGIN_SCREEN.MORTGAGE_NOT_FOUND),
+          );
+          navigation.navigate(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
+        }
+      }
+    }
+  };
+
   handleLoginPress = async (values: {email: string; password: string}) => {
     console.log(
       'handleLoginPress : check value entered in Fields, values.email =>',
       values.email,
     );
-    const {loginUser, navigation} = this.props;
+    const {loginUser} = this.props;
     const payload = {
       [PAYLOAD_KEYS.LOGIN.STRATEGY]: 'local',
       [PAYLOAD_KEYS.LOGIN.EMAIL]: values.email ? values.email : '',
       [PAYLOAD_KEYS.LOGIN.PASSWORD]: values.password ? values.password : '',
     };
     await loginUser(payload);
-    const {loginUserResponse, getUserInfo} = this.props;
+    const {loginUserResponse} = this.props;
     if (_get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null)) {
       setAuthToken(
         _get(loginUserResponse, DB_KEYS.ACCESS_TOKEN, null),
         values.email,
       )
-        .then(async response => {
-          await getUserInfo();
-          const {getUserInfoResponse} = this.props;
-          if (!_get(getUserInfoResponse, 'error', null))
-            navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
-        })
+        .then(async response => this.preLoginCheck())
         .catch(err => {
           /*
           TODO : Snackbar to be added
@@ -124,6 +160,10 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
 
   handleSignUpPress = () => {
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.INTRO_CAROUSEL);
+  };
+
+  handleForgotPassword = () => {
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.FORGOT_PASSWORD);
   };
 
   render() {
@@ -173,6 +213,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
               <Field
                 name="password"
                 label="Password"
+                password={true}
                 editIcon={true}
                 onIconPress={() =>
                   this.setState({passwordVisibility: !passwordVisibility})
@@ -207,7 +248,9 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 />
               ) : null}
             </View>
-            <TouchableOpacity style={styles.forgotPasswordContainer}>
+            <TouchableOpacity
+              style={styles.forgotPasswordContainer}
+              onPress={() => this.handleForgotPassword()}>
               <Text style={styles.forgotPassword}>
                 {localeString(LOCALE_STRING.LOGIN_SCREEN.FORGOT_PASSWORD)}
               </Text>
@@ -240,6 +283,7 @@ export const LoginScreen = reduxForm({
 const mapStateToProps = state => ({
   loginUserResponse: state.loginUser,
   getUserInfoResponse: state.getUserInfo,
+  reducerResponse: state.form,
 });
 
 const bindActions = dispatch => ({

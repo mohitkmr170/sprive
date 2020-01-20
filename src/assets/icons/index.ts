@@ -10,3 +10,6 @@ export const iAvatar = require('../icons/004-avatar.png');
 export const iUpdate = require('../icons/005-update.png');
 export const iRight = require('../icons/arrow-right.png');
 export const iLogOut = require('../icons/logout.png');
+export const iVerify = require('../icons/emailVerified.png');
+export const iFail = require('../icons/errorState.png');
+export const iEye = require('../icons/eye.png');

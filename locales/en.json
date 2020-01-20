@@ -9,11 +9,13 @@
     "signIn": "Sign in",
     "signInToAccount": "Sign in to your account",
     "forgotPassword": "Forgot Password?",
-    "dontHaveAccount": "Don’t have an account?"
+    "dontHaveAccount": "Don’t have an account?",
+    "mortgageNotFound": "Mortgage data not found, please set it to proceed!"
   },
   "global": {
     "backButton": "Back",
     "email": "Email",
+    "e-mail": "email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "calculateNow": "Calculate Now",
@@ -34,10 +36,11 @@
     "alreadyRegistered": "Already have an account? ",
     "setupAccc": "Set up your secure account",
     "byClickingText": "By clicking on Create Account, you are accepting our",
-    "T&C": "Terms&Conditions",
+    "T&C": "Terms & Conditions",
     "andOur": "and our",
     "privacyPolicy": "Privacy Policy",
-    "accountAlreadyExist": "Already have an account?"
+    "accountAlreadyExist": "Already have an account?",
+    "emailClients": "Email Clients found on your device"
   },
   "mortgageForm": {
     "title": "Your Mortgage",
@@ -56,7 +59,8 @@
     "secondHeader": "Smarter payments to maximise your savings",
     "secondListOne": "Pay off your mortgage as quickly as you can",
     "secondListTwo": "Chip away without impacting your lifestyle",
-    "buttonText": "Start saving with Sprive"
+    "buttonText": "Start saving with Sprive",
+    "negativeInterest": "Interest cannot be negative"
   },
   "validationMessages": {
     "required": "Required",
@@ -71,7 +75,8 @@
     "maxLimitMonthlyMortgage": "Invalid amount. Please re-enter a value less than £10,000",
     "yearRange": "should be between [0-35] range",
     "inValidAmount": "Invalid amount. Please provide a larger monthly payment amount",
-    "whiteSpaces": "Whitespaces not allowed"
+    "whiteSpaces": "Whitespaces not allowed",
+    "passwordNotMatched": "password did not match"
   },
   "setGoalScreen": {
     "title": "Set Goal",
@@ -163,5 +168,48 @@
     "inviteFriends": "Invite Friends",
     "updatePassword": "Update Password",
     "logOut": "Log out"
+  },
+  "emailVerification": {
+    "okay": "Okay",
+    "verification": "Verification",
+    "successTitle": "Success! Account Verified",
+    "successMessage": "You are successfully registered, press okay to proceed",
+    "failTitle": "Account verification failed",
+    "failMessage": "Please SignUp again to Continue",
+    "emailSentAgain": "Email sent again",
+    "checkEmail": "Please check your e-mail",
+    "emailSent": "We sent an email to {{currentEmail}} \n Click the link to verify your account",
+    "openEmailApp": "Open e-mail app",
+    "resendVerification": "Resend verification",
+    "alreadyVerified": "Requested email is already verified.",
+    "userNotVerified": "User not verified, please verify your email to proceed!",
+    "wrongWithDeeplink": "Something went wrong with deeplink!"
+  },
+  "accountLocked": {
+    "accountLocked": "Account Locked",
+    "caseVerification": "We detected more than 10 unsuccessful attempts to verify your email address",
+    "casePasswordReset": "We detected more than 10 unsuccessful attempts to reset your password",
+    "contactAdmin": "Contact Admin"
+  },
+  "forgotPassword": {
+    "forgotPassword": "Forgot Password",
+    "enterEmail": "Enter your Email Address",
+    "linkSent": "Send Link",
+    "noMailReceived": "I didn’t receive an email",
+    "magicLinkFirstPart": "A magic link to reset the password has been sent to ",
+    "magicLinkSecondPart": ". Please click the link to reset the password",
+    "magicLinkSentAgain": "Password reset email sent again!",
+  },
+  "resetPassword": {
+    "resetPassword": "Reset Password",
+    "password": "password",
+     "newPassword": "New Password",
+     "placeHolderPassword": "Password",
+     "confirmPassword": "confirmPassword",
+     "retypePassword": "Re-type Password",
+     "confirm": "Confirm",
+     "passwordNotMatched": "Password does not match!",
+     "resetFromApp": "Please reset your password in the App!",
+     "fail": "Password reset Failed!"
   }
 }

@@ -18,6 +18,7 @@ import {get as _get} from 'lodash';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 import {COLOR} from '../../utils/colors';
+import {showSnackBar} from '../../utils/helperFunctions';
 
 interface props {
   navigation: {
@@ -27,6 +28,7 @@ interface props {
   getCumulativeInterest: (payload: object) => void;
   getCumulativeInterestResponse: () => void;
   handleSubmit: (firstParam: (values: object) => void) => void;
+  reducerResponse: object;
 }
 
 interface state {
@@ -46,6 +48,14 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     StatusBar.setBackgroundColor(COLOR.WHITE);
   }
   componentDidMount() {
+    const {reducerResponse} = this.props;
+    const isButtonDisabled =
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT, null) &&
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_TIMEPERIOD, null) &&
+      _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT, null)
+        ? true
+        : false;
+    this.setState({enableButton: !isButtonDisabled});
     // this.didFocusListener = this.props.navigation.addListener(
     //   APP_CONSTANTS.LISTENER.DID_FOCUS,
     //   async () => {
@@ -101,21 +111,33 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
     };
     await getCumulativeInterest(payload);
     const {getCumulativeInterestResponse} = this.props;
-    const cumulativeInterest = _get(
-      getCumulativeInterestResponse,
-      DB_KEYS.TOTAL_INTEREST,
-      false,
-    );
-    if (cumulativeInterest)
-      this.props.navigation.navigate(
-        NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
-      );
-    else {
+    //Condition check for negative Interest
+    if (_get(getCumulativeInterestResponse, DB_KEYS.ERROR, false))
       this.showServerError();
+    else {
+      const cumulativeInterest = _get(
+        getCumulativeInterestResponse,
+        DB_KEYS.TOTAL_INTEREST,
+        false,
+      );
+      if (cumulativeInterest >= 0)
+        this.props.navigation.navigate(
+          NAVIGATION_SCREEN_NAME.SAVE_INTEREST_SCREEN,
+        );
+      else {
+        showSnackBar(
+          {},
+          localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.NEGATIVE_INTEREST),
+        );
+      }
     }
   };
   render() {
-    const {handleSubmit, getCumulativeInterestResponse} = this.props;
+    const {
+      handleSubmit,
+      getCumulativeInterestResponse,
+      reducerResponse,
+    } = this.props;
     return (
       <View style={styles.screenContainer}>
         <GeneralStatusBar />
@@ -179,6 +201,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
 }
 export const MortgageInputForm = reduxForm({
   form: APP_CONSTANTS.MORTGAGE_INPUT_FORM,
+  destroyOnUnmount: false,
 })(UnconnectedMortgageInput);
 
 const mapStateToProps = state => ({

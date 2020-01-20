@@ -34,7 +34,6 @@ import {
   getPasswordStrength,
   checkPassMessagePercentage,
   setAuthToken,
-  resetAuthToken,
 } from '../../utils/helperFunctions';
 import {COLOR} from '../../utils/colors';
 import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
@@ -94,42 +93,13 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     const {signUpUserResponse} = this.props;
     if (!_get(signUpUserResponse, DB_KEYS.ERROR, null)) {
       await setAuthToken(
-        _get(signUpUserResponse, DB_KEYS.ACCESS_TOKEN, null),
+        _get(signUpUserResponse, DB_KEYS.ACCESS_DATA_TOKEN, null),
         values.email,
       );
-      // getUserInfo API call
-      await getUserInfo();
-      const {getUserInfoResponse} = this.props;
-      if (_get(getUserInfoResponse, DB_KEYS.ERROR, null)) {
-        navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
-      } else {
-        const mortgageData = {
-          mortgage_balance: _get(
-            reducerResponse,
-            DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT,
-            '',
-          ).replace(/,/g, ''),
-          mortgage_term: _get(
-            reducerResponse,
-            DB_KEYS.FORM_MORTGAGE_TIMEPERIOD,
-            '',
-          ).replace(/,/g, ''),
-          mortgage_payment: _get(
-            reducerResponse,
-            DB_KEYS.FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT,
-            '',
-          ).replace(/,/g, ''),
-          user_id: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
-        };
-        await setUserMortgage(mortgageData);
-        const {setUserMortgageResponse} = this.props;
-        if (_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
-          navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
-        }
-        //   // await resetAuthToken();
-        //   navigation.navigate(NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN);
-        // }
-      }
+      /*
+      NOTES : Verify flow starts here
+      */
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
     } else {
       let currentServerError = this.state.serverError;
       currentServerError.email = _get(
@@ -254,6 +224,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                   <Field
                     name="password"
                     label="Password"
+                    password={true}
                     editIcon={true}
                     onIconPress={() =>
                       this.setState({passwordVisibility: !passwordVisibility})
@@ -318,13 +289,12 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                 <Text
                   onPress={() => this.handleTermAndConditionClick()}
                   style={styles.decoratedText}>
-                  {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}{' '}
-                </Text>
-                {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}
+                  {localeString(LOCALE_STRING.SIGNUP_FORM.TERMS_AND_CONDITION)}
+                </Text>{' '}
+                {localeString(LOCALE_STRING.SIGNUP_FORM.AND_OUR)}{' '}
                 <Text
                   onPress={() => this.handlePrivacyPolicyClick()}
                   style={styles.decoratedText}>
-                  {' '}
                   {localeString(LOCALE_STRING.SIGNUP_FORM.PRIVACY_POLICY)}
                 </Text>
               </Text>

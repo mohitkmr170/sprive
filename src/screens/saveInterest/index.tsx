@@ -13,8 +13,13 @@ import {
   NAVIGATION_SCREEN_NAME,
   LOCALE_STRING,
   DB_KEYS,
+  APP_CONSTANTS,
 } from '../../utils/constants';
-import {getNumberWithCommas, getAuthToken} from '../../utils/helperFunctions';
+import {
+  getNumberWithCommas,
+  getAuthToken,
+  showSnackBar,
+} from '../../utils/helperFunctions';
 import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 import {COLOR} from '../../utils/colors';
 
@@ -102,7 +107,27 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     //     // CASE-: Token Error, KeyChain Corrupted or couldn't be fetched
     //     // HANDLE-: Route to SignUp Screen
     //   });
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+    getAuthToken()
+      .then(async res => {
+        const {getUserInfo} = this.props;
+        /*
+        NOTES : This condition is added to handle concurrent device login for unverified user
+        */
+
+        console.log('AUTH_TOKE_IN_SAVE_INTEREST :::', res);
+        if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
+          await getUserInfo();
+          const {getUserInfoResponse} = this.props;
+          if (!_get(getUserInfoResponse, DB_KEYS.ERROR, true))
+            this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+          else
+            this.props.navigation.navigate(
+              NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN,
+            );
+        } else
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
+      })
+      .catch(err => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
   };
 
   render() {
@@ -144,12 +169,12 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
 
 const mapStateToProps = state => ({
   getCumulativeInterestResponse: state.getCumulativeInterest,
-  getUserInfoResponse: state.getUserInfo.response,
+  getUserInfoResponse: state.getUserInfo,
   reducerResponse: state.form,
   setUserMortgageResponse: state.setUserMortgage,
 });
 
-const bindActions = () => ({
+const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
 });
