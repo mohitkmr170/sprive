@@ -12,6 +12,10 @@ import {navigate} from './src/navigation/navigationService';
 import {getUserInfo} from './src/store/reducers';
 import {NAVIGATION_SCREEN_NAME, DB_KEYS} from './src/utils/constants';
 import {get as _get} from 'lodash';
+import OneSignal from 'react-native-onesignal';
+
+const ONE_SIGNAL_APP_ID = 'ce763fbb-0f60-4f44-b709-30eedbf62388';
+
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -44,6 +48,13 @@ class App extends React.Component<props, state> {
     // };
   }
   async componentDidMount() {
+    OneSignal.init(ONE_SIGNAL_APP_ID, {kOSSettingsKeyAutoPrompt: true});
+    // OneSignal.provideUserConsent(true);
+    // OneSignal.enableVibrate(true);
+    // OneSignal.enableSound(true);
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('ids', this.onIds);
     /**
      * Hide native layer splash screen
      */
@@ -98,7 +109,26 @@ class App extends React.Component<props, state> {
   }
   componentWillUnmount() {
     this.onDynamicLinkUnsubscribe();
+    OneSignal.removeEventListener('received', this.onReceived);
+    OneSignal.removeEventListener('opened', this.onOpened);
+    OneSignal.removeEventListener('ids', this.onIds);
   }
+  onReceived(notification: any) {
+    console.log('Notification received: ', notification);
+  }
+
+  onOpened(openResult: any) {
+    navigate(NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION, {});
+    console.log('Message: ', openResult.notification.payload.body);
+    console.log('Data: ', openResult.notification.payload.additionalData);
+    console.log('isActive: ', openResult.notification.isAppInFocus);
+    console.log('openResult: ', openResult);
+  }
+
+  onIds(device: any) {
+    console.log('Device info: ', device);
+  }
+
   render() {
     return (
       <Provider store={store}>
