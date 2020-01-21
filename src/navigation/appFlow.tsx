@@ -29,6 +29,7 @@ import {
   ResetPassword,
   PasswordCheckMail,
   UpdatePassword,
+  PushNotification,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 
@@ -167,6 +168,9 @@ const AppStackNavigator = createStackNavigator(
     },
     UpdatePasswordScreen: {
       screen: UpdatePassword,
+    },
+    PushNotificationScreen: {
+      screen: PushNotification,
     },
   },
   {
