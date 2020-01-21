@@ -21,5 +21,6 @@ export default {
     RESEND_EMAIL: '/send-verification-link',
     RESET_PASSWORD_LINK: '/send-reset-password-link',
     RESET_PASSWORD: '/reset-password',
+    PUSH_NOTIFICATION: '/push-notification',
   },
 };

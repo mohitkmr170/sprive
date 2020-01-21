@@ -4,6 +4,10 @@ export const LOCALE_STRING = {
     SUB_TITLE: 'splashScreen.subTitle',
     INFO: 'splashScreen.info',
   },
+  GLOBAL: {
+    NOTIFICATION: 'global.notification',
+    NOTIFICATIONS: 'global.notifications',
+  },
   LOGIN_SCREEN: {
     LOGIN_BUTTON: 'login.loginButton',
     SIGNIN_TO_ACCOUNT: 'login.signInToAccount',

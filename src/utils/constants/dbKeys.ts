@@ -104,4 +104,5 @@ export const DB_KEYS = {
   },
   IS_BLOCKED: 'response.data.errors.is_blocked',
   USER_INFO_RESPONSE_IS_BLOCKED: 'response.response.data.errors.is_blocked',
+  PUSH_NOTIFICATION: 'response.data.push_notification_id',
 };
