@@ -26,6 +26,7 @@ import {
   resendEmail,
 } from '../../store/reducers';
 import {logoutUser} from '../../store/actions/actions';
+import OneSignal from 'react-native-onesignal';
 
 const VERIFYING_LOADING = 'Verifying...';
 interface props {
@@ -216,9 +217,17 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
               firstButtonText={localeString(
                 LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
               )}
-              handleFirstButton={() =>
-                navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN)
-              }
+              handleFirstButton={() => {
+                const externalUserId = _get(
+                  getUserInfoResponse,
+                  DB_KEYS.PUSH_NOTIFICATION,
+                  '',
+                );
+                if (externalUserId) {
+                  OneSignal.setExternalUserId(externalUserId);
+                }
+                navigation.navigate(NAVIGATION_SCREEN_NAME.SET_GOAL_SCREEN);
+              }}
               mainMessage={localeString(
                 LOCALE_STRING.EMAIL_VERIFICATION.SUCCESS_TITLE,
               )}

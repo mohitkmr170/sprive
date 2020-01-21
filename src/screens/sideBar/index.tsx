@@ -24,9 +24,11 @@ import {
   iRight,
   iLogOut,
 } from '../../assets';
+import {pushNotification} from '../../store/reducers';
 import {closeDrawer} from '../../navigation/navigationService';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
+import OneSignal from 'react-native-onesignal';
 
 interface props {
   navigation: {
@@ -35,6 +37,8 @@ interface props {
   };
   getUserInfoResponse: object;
   logoutUserAction: () => void;
+  pushNotification: () => void;
+  pushNotificationResponse: object;
 }
 
 const CLOSE_ICON_NAME = 'close';
@@ -50,8 +54,20 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.NOTIFICATION),
       icon: iNotification,
-      action: () => {},
-      isDisabled: false,
+      action: async () => {
+        const {pushNotification} = this.props;
+        await pushNotification();
+        const {pushNotificationResponse} = this.props;
+        if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
+          showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
+          closeDrawer();
+        }
+      },
+      isDisabled: _get(
+        this.props.pushNotificationResponse,
+        DB_KEYS.IS_FETCHING,
+        false,
+      ),
     },
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.OVER_PAYMENT_HISTORY),
@@ -97,6 +113,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
   ];
   handleLogOut = async () => {
     this.props.logoutUserAction();
+    OneSignal.removeExternalUserId();
     const {getUserInfoResponse} = this.props;
     setAuthToken(
       APP_CONSTANTS.FALSE_TOKEN,
@@ -179,10 +196,12 @@ export class UnconnectedSideBar extends React.Component<props, state> {
 
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
+  pushNotificationResponse: state.pushNotification,
 });
 
 const bindActions = dispatch => ({
   logoutUserAction: () => dispatch(logoutUser()),
+  pushNotification: () => dispatch(pushNotification.fetchCall()),
 });
 
 export const SideBar = connect(

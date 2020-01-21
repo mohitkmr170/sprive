@@ -29,6 +29,7 @@ import {
   DB_KEYS,
   PAYLOAD_KEYS,
 } from '../../utils';
+import OneSignal from 'react-native-onesignal';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -79,9 +80,17 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
           true,
         )
-      )
+      ) {
+        const externalUserId = _get(
+          getUserInfoResponse,
+          DB_KEYS.PUSH_NOTIFICATION,
+          '',
+        );
+        if (externalUserId) {
+          OneSignal.setExternalUserId(externalUserId);
+        }
         navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
-      else {
+      } else {
         const {reducerResponse} = this.props;
         if (
           _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT, null) &&

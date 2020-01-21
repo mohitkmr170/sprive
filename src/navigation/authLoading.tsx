@@ -34,6 +34,7 @@ import {
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {verticalScale} from 'react-native-size-matters/extend';
 import {reset} from '../navigation/navigationService';
+import OneSignal from 'react-native-onesignal';
 
 const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
@@ -152,6 +153,14 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
         user_id: _get(getUserInfoResponses, DB_KEYS.DATA_ID, null),
       };
       await getProjectedData({}, qParamProjectData);
+      const externalUserId = _get(
+        getUserInfoResponses,
+        DB_KEYS.PUSH_NOTIFICATION,
+        '',
+      );
+      if (externalUserId) {
+        OneSignal.setExternalUserId(externalUserId);
+      }
       reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
         isUserDataChanged: false,
       });
