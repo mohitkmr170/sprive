@@ -12,6 +12,7 @@ import {styles} from './styles';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import * as Progress from 'react-native-progress';
+import {logoutUser} from '../../store/actions/actions';
 import {
   minLength8,
   maxLength16,
@@ -20,6 +21,8 @@ import {
   noWhiteSpaces,
   passMatching,
   localeString,
+  showSnackBar,
+  setAuthToken,
   checkPassMessagePercentage,
   getPasswordStrength,
   APP_CONSTANTS,
@@ -46,6 +49,7 @@ interface props {
   getUserInfoResponse: object;
   reducerResponse: object;
   updatePasswordResponse: object;
+  logoutUserAction: () => void;
 }
 interface state {
   existingPasswordVisibility: boolean;
@@ -104,6 +108,23 @@ export class UnconnectedUpdatePassword extends React.Component<props, state> {
   };
 
   async componentDidMount() {}
+
+  handleOkayClick = () => {
+    this.props.logoutUserAction();
+    const {getUserInfoResponse} = this.props;
+    setAuthToken(
+      APP_CONSTANTS.FALSE_TOKEN,
+      _get(getUserInfoResponse, DB_KEYS.CURRENT_USER_EMAIL, ''),
+    )
+      .then(response => {
+        this.setState({isUpdateComplete: false});
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+      })
+      .catch(error => {
+        showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
+      });
+  };
+
   render() {
     const {handleSubmit, updatePasswordResponse, navigation} = this.props;
     const {
@@ -263,8 +284,11 @@ export class UnconnectedUpdatePassword extends React.Component<props, state> {
               LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
             )}
             handleFirstButton={() => {
-              this.setState({isUpdateComplete: false});
-              reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+              isUpdatePasswordFailed
+                ? this.props.navigation.navigate(
+                    NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+                  )
+                : this.handleOkayClick();
             }}
             mainMessage={
               isUpdatePasswordFailed
@@ -304,6 +328,7 @@ const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   updatePassword: (payload: object) =>
     dispatch(updatePassword.fetchCall(payload)),
+  logoutUserAction: () => dispatch(logoutUser()),
 });
 
 export const UpdatePassword = connect(
