@@ -159,9 +159,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                 .then(response => {
                   showSnackBar(
                     {},
-                    localeString(
-                      LOCALE_STRING.EMAIL_VERIFICATION.USER_NOT_VERIFIED,
-                    ),
+                    localeString(LOCALE_STRING.RESET_PASSWORD.RESET_UNVERIFIED),
                   );
                   reset(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
                   this.setState({deeplinkLoading: false});

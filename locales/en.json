@@ -212,7 +212,8 @@
      "confirm": "Confirm",
      "passwordNotMatched": "Password does not match!",
      "resetFromApp": "Please reset your password in the App!",
-     "fail": "Password reset Failed!"
+     "fail": "Password reset Failed!",
+     "resetUnverified": "For an unverified user reset password cannot be completed",
   },
   "updatePassword": {
     "updatePassword": "Update Password",
