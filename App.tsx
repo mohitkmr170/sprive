@@ -16,6 +16,14 @@ import OneSignal from 'react-native-onesignal';
 
 const ONE_SIGNAL_APP_ID = 'ce763fbb-0f60-4f44-b709-30eedbf62388'; //Should be moved to a saparate .env file
 const NOTIFICATION_DISPLAY = 2; //always display notification in shade.
+
+const codePush = require('react-native-code-push');
+
+/*
+NOTES : To be fetched from environment variable
+*/
+
+const CODEPUSH_DEPLOYMENT_KEY: string = 'og7TG7wFZN3WSGkdTgDhxX28JUKB4sn0CZp7j';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -208,4 +216,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+let codePushOptions = {
+  deploymentKey: CODEPUSH_DEPLOYMENT_KEY,
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.ON_NEXT_RESUME,
+};
+export default codePush(codePushOptions)(App);

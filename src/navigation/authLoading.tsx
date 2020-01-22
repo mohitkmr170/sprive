@@ -8,6 +8,7 @@ import {
   Platform,
   Text,
   StatusBar,
+  Alert,
 } from 'react-native';
 import {splashScreen, iSprive} from '../assets';
 import {get as _get} from 'lodash';
@@ -34,12 +35,20 @@ import {
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {verticalScale} from 'react-native-size-matters/extend';
 import {reset} from '../navigation/navigationService';
+import Snackbar from 'react-native-snackbar';
 import OneSignal from 'react-native-onesignal';
+const codePush = require('react-native-code-push');
+const APP_UPDATED_SUCCESS: string = 'App has been updated.';
 
 const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
 const AUTH_STACK = 'Auth';
 const APP_LOAD_TIME = 2000;
+const CODEPUSH_SNACKBAR = {
+  CTA_TEXT: 'Details',
+  CTA_TEXT_COLOR: 'green',
+};
+
 interface props {
   navigation: {
     navigate: (firstParam: any, navigationParams?: object) => void;
@@ -95,6 +104,43 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
   async componentDidMount() {
     StatusBar.setHidden(true, 'fade');
     this.authFlowCheck();
+    /*
+    NOTES : Remember to update the current version to be updated => CFBundleShortVersionString
+    */
+    try {
+      let codePushUpdateResponse = await codePush.getUpdateMetadata();
+      console.log(
+        'componentDidMount : getUpdateMetadata : update => ',
+        codePushUpdateResponse,
+      );
+      if (
+        codePushUpdateResponse &&
+        codePushUpdateResponse.isFirstRun &&
+        !codePushUpdateResponse.isPending
+      ) {
+        setTimeout(() => {
+          Snackbar.show({
+            text: APP_UPDATED_SUCCESS,
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: CODEPUSH_SNACKBAR.CTA_TEXT,
+              textColor: CODEPUSH_SNACKBAR.CTA_TEXT_COLOR,
+              onPress: () => {
+                const UPDATE_DESCRIPTION: string = codePushUpdateResponse.description
+                  ? codePushUpdateResponse.description
+                  : '';
+                Alert.alert('Update Description', UPDATE_DESCRIPTION);
+              },
+            },
+          });
+        }, APP_LOAD_TIME);
+      }
+    } catch (error) {
+      Snackbar.show({
+        text: APP_CONSTANTS.GENERAL_ERROR,
+        duration: Snackbar.LENGTH_LONG,
+      });
+    }
   }
 
   preApiCalls = async () => {
