@@ -19,3 +19,5 @@ export const thirdCarousel = require('../images/sprive-illustration-2.png');
 export const emailSent = require('../images/emailsent.png');
 export const spriveLoading = require('../images/spriveLoading.gif');
 export const accountLocked = require('../images/accountLocked.png');
+export const paymentFail = require('../images/paymentFail.png');
+export const paymentSuccess = require('../images/paymentSuccess.png');

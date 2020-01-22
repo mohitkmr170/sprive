@@ -6,25 +6,26 @@ import {
   MortgageInputContainer,
   GeneralStatusBar,
 } from '../../components';
-import {localeString} from '../../utils/i18n';
-import {DB_KEYS, NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+import {
+  _gaSetCurrentScreen,
+  localeString,
+  DB_KEYS,
+  NAVIGATION_SCREEN_NAME,
+  APP_CONSTANTS,
+  LOCALE_STRING,
+  STYLE_CONSTANTS,
+  FE_FORM_VALUE_CONSTANTS,
+  PAYLOAD_KEYS,
+  COLOR,
+} from '../../utils';
 import {Button} from 'react-native-elements';
 import {reduxForm, isDirty} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {updateUserMortgage} from '../../store/reducers';
 import {connect} from 'react-redux';
 import {resetToTabNavigator} from '../../navigation/navigationService';
-import {
-  APP_CONSTANTS,
-  LOCALE_STRING,
-  STYLE_CONSTANTS,
-  FE_FORM_VALUE_CONSTANTS,
-} from '../../utils/constants';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 import {get as _get} from 'lodash';
-import {COLOR} from '../../utils/colors';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action';
-import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 interface props {
   navigation: {

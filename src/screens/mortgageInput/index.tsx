@@ -6,19 +6,23 @@ import {
   MortgageInputContainer,
   GeneralStatusBar,
 } from '../../components';
-import {localeString} from '../../utils/i18n';
-import {NAVIGATION_SCREEN_NAME, DB_KEYS} from '../../utils/constants';
+import {
+  localeString,
+  _gaSetCurrentScreen,
+  showSnackBar,
+  NAVIGATION_SCREEN_NAME,
+  DB_KEYS,
+  APP_CONSTANTS,
+  LOCALE_STRING,
+  PAYLOAD_KEYS,
+  COLOR,
+} from '../../utils';
 import {Button} from 'react-native-elements';
 import {getCumulativeInterest} from '../../store/reducers';
 import {reduxForm, reset} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {connect} from 'react-redux';
-import {APP_CONSTANTS, LOCALE_STRING} from '../../utils/constants';
 import {get as _get} from 'lodash';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
-import {COLOR} from '../../utils/colors';
-import {showSnackBar} from '../../utils/helperFunctions';
 
 interface props {
   navigation: {

@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLOR} from '../../utils/colors';
-import {STYLE_CONSTANTS} from '../../utils/constants';
+import {COLOR, STYLE_CONSTANTS} from '../../utils';
 
 export const textInputBoxStyle = StyleSheet.create({
   labelText: {
@@ -14,7 +13,7 @@ export const textInputBoxStyle = StyleSheet.create({
     marginLeft: STYLE_CONSTANTS.margin.SMALLEST,
   },
   inputBox: {
-    height: 40,
+    height: STYLE_CONSTANTS.margin.HUMONGOUS,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
   },

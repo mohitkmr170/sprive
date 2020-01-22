@@ -16,9 +16,13 @@
 #import <CodePush/CodePush.h>
 
 @implementation AppDelegate
+@synthesize oneSignal = _oneSignal;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  NSURL *jsCodeLocation;
+  self.oneSignal = [[RCTOneSignal alloc] initWithLaunchOptions:launchOptions
+                                                       appId:@"ce763fbb-0f60-4f44-b709-30eedbf62388"];
   if ([FIRApp defaultApp] == nil) {
       [FIRApp configure];
   }

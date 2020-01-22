@@ -1,9 +1,8 @@
 import {localeString} from './i18n';
 import {connect} from 'react-redux';
-import {LOCALE_STRING} from './constants';
+import {LOCALE_STRING, DB_KEYS} from '../utils';
 import {store} from '../store/configStore';
 import {get as _get} from 'lodash';
-import {DB_KEYS} from './constants';
 
 const MORTGAGE_LIMIT = 10000000,
   MONTHLY_MORTGAGE_LIMIT = 10000;
@@ -139,6 +138,20 @@ export const emailMatching = (value: any) => {
   const previousPassword = _get(
     reducerResponse,
     DB_KEYS.RESET_PASSWORD_FORM,
+    '',
+  );
+  return value && previousPassword !== value
+    ? localeString(LOCALE_STRING.VALIDATIONS.PASSWORD_NOT_MATCHED)
+    : undefined;
+};
+/**
+ * @param value : string : Validation for email matching
+ */
+export const passMatching = (value: any) => {
+  const reducerResponse = store.getState().form;
+  const previousPassword = _get(
+    reducerResponse,
+    DB_KEYS.UPDATE_PASSWORD_FORM,
     '',
   );
   return value && previousPassword !== value

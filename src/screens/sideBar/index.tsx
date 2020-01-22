@@ -2,15 +2,18 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
-import {GeneralStatusBar} from '../../components';
 import {logoutUser} from '../../store/actions/actions';
 import {
+  localeString,
+  setAuthToken,
+  showSnackBar,
   NAVIGATION_SCREEN_NAME,
   APP_CONSTANTS,
   DB_KEYS,
   LOCALE_STRING,
   STYLE_CONSTANTS,
-} from '../../utils/constants';
+  COLOR,
+} from '../../utils';
 import {
   iNotification,
   iAvatar,
@@ -21,12 +24,11 @@ import {
   iRight,
   iLogOut,
 } from '../../assets';
+import {pushNotification} from '../../store/reducers';
 import {closeDrawer} from '../../navigation/navigationService';
-import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
-import {localeString} from '../../utils/i18n';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {COLOR} from '../../utils/colors';
+import OneSignal from 'react-native-onesignal';
 
 interface props {
   navigation: {
@@ -35,6 +37,8 @@ interface props {
   };
   getUserInfoResponse: object;
   logoutUserAction: () => void;
+  pushNotification: () => void;
+  pushNotificationResponse: object;
 }
 
 const CLOSE_ICON_NAME = 'close';
@@ -50,8 +54,20 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.NOTIFICATION),
       icon: iNotification,
-      action: () => {},
-      isDisabled: false,
+      action: async () => {
+        const {pushNotification} = this.props;
+        await pushNotification();
+        const {pushNotificationResponse} = this.props;
+        if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
+          showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
+          closeDrawer();
+        }
+      },
+      isDisabled: _get(
+        this.props.pushNotificationResponse,
+        DB_KEYS.IS_FETCHING,
+        false,
+      ),
     },
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.OVER_PAYMENT_HISTORY),
@@ -65,7 +81,8 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.UPDATE_PASSWORD),
       icon: iUpdate,
-      action: () => {},
+      action: () =>
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.UPDATE_PASSWORD),
       isDisabled: false,
     },
     {
@@ -96,6 +113,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
   ];
   handleLogOut = async () => {
     this.props.logoutUserAction();
+    OneSignal.removeExternalUserId();
     const {getUserInfoResponse} = this.props;
     setAuthToken(
       APP_CONSTANTS.FALSE_TOKEN,
@@ -178,10 +196,12 @@ export class UnconnectedSideBar extends React.Component<props, state> {
 
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
+  pushNotificationResponse: state.pushNotification,
 });
 
 const bindActions = dispatch => ({
   logoutUserAction: () => dispatch(logoutUser()),
+  pushNotification: () => dispatch(pushNotification.fetchCall()),
 });
 
 export const SideBar = connect(

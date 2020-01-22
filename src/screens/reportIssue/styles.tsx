@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLOR} from '../../utils/colors';
-import {STYLE_CONSTANTS} from '../../utils/constants';
+import {COLOR, STYLE_CONSTANTS} from '../../utils';
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,8 +7,8 @@ export const styles = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
-    marginHorizontal: 20,
-    marginVertical: 28,
+    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
+    marginVertical: STYLE_CONSTANTS.margin.HUGISH,
   },
   buttonTitle: {
     color: COLOR.WHITE,
@@ -20,48 +19,54 @@ export const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: COLOR.PRIMARY,
-    borderRadius: 40,
+    borderRadius: STYLE_CONSTANTS.margin.HUMONGOUS,
     marginBottom: STYLE_CONSTANTS.margin.HUMONGOUS,
     marginTop: STYLE_CONSTANTS.margin.HUGISH,
-    marginHorizontal: 30,
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
   },
   titleText: {
-    fontSize: 24,
-    lineHeight: 36,
-    color: '#09245E',
-    fontWeight: '600',
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
+    color: COLOR.VOILET,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
-  dropDownContainer: {backgroundColor: '#F7F8FA', marginTop: 36},
-  dropDownItemText: {fontSize: 14, lineHeight: 22},
+  dropDownContainer: {
+    backgroundColor: COLOR.WHITE,
+    marginTop: STYLE_CONSTANTS.margin.HUGE,
+  },
+  dropDownItemText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+  },
   descriptionTitle: {
-    marginTop: 28,
-    color: '#09245E',
-    fontSize: 14,
-    lineHeight: 22,
-    fontWeight: '600',
+    marginTop: STYLE_CONSTANTS.margin.HUGISH,
+    color: COLOR.VOILET,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   internalStyle: {
     borderBottomColor: 'transparent',
-    marginHorizontal: 20,
+    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
   },
   descriptionTextFaded: {
-    color: '#09245E4D',
+    color: COLOR.VOILET,
     fontStyle: 'italic',
     fontWeight: 'normal',
   },
   descriptionInput: {
-    backgroundColor: '#F7F8FA',
-    paddingHorizontal: 10,
-    paddingVertical: 16,
-    fontSize: 14,
-    lineHeight: 22,
-    marginTop: 10,
+    backgroundColor: COLOR.WHITE,
+    paddingHorizontal: STYLE_CONSTANTS.padding.SMALLISH,
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    marginTop: STYLE_CONSTANTS.margin.SMALLISH,
     height: STYLE_CONSTANTS.device.WINDOW_HEIGHT / 5,
   },
   descriptionWarning: {
-    fontSize: 14,
-    lineHeight: 22,
-    marginTop: 10,
-    color: 'rgba(9, 36, 94, 0.3)',
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    marginTop: STYLE_CONSTANTS.margin.SMALLISH,
+    color: COLOR.PARTIAL_BLACK,
   },
 });

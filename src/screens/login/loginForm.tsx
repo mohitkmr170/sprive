@@ -8,28 +8,28 @@ import {
   GeneralStatusBar,
   ServerErrorContainer,
 } from '../../components';
-import {localeString} from '../../utils/i18n';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {loginUser, getUserInfo} from '../../store/reducers';
 import {get as _get} from 'lodash';
-import {setAuthToken, showSnackBar} from '../../utils/helperFunctions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
+  setAuthToken,
+  showSnackBar,
+  localeString,
   email,
   minLength8,
   maxLength16,
   required,
   alphaNumeric,
   noWhiteSpaces,
-} from '../../utils/validate';
-import {
   APP_CONSTANTS,
   NAVIGATION_SCREEN_NAME,
   LOCALE_STRING,
   DB_KEYS,
-} from '../../utils/constants';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+  PAYLOAD_KEYS,
+} from '../../utils';
+import OneSignal from 'react-native-onesignal';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -80,9 +80,17 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
           true,
         )
-      )
+      ) {
+        const externalUserId = _get(
+          getUserInfoResponse,
+          DB_KEYS.PUSH_NOTIFICATION,
+          '',
+        );
+        if (externalUserId) {
+          OneSignal.setExternalUserId(externalUserId);
+        }
         navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
-      else {
+      } else {
         const {reducerResponse} = this.props;
         if (
           _get(reducerResponse, DB_KEYS.FORM_MORTGAGE_MORTGAGE_AMOUNT, null) &&

@@ -1,8 +1,7 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {styles} from './styles';
-import {localeString} from '../../utils/i18n';
-import {LOCALE_STRING} from '../../utils/constants';
+import {localeString, LOCALE_STRING} from '../../utils';
 import {spriveLoading} from '../../assets';
 
 interface props {

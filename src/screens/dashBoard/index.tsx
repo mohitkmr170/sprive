@@ -26,7 +26,17 @@ import {
 } from '../../components';
 import * as Progress from 'react-native-progress';
 import {get as _get, cloneDeep} from 'lodash';
-import {localeString} from '../../utils/i18n';
+import {
+  localeString,
+  getNumberWithCommas,
+  _gaSetCurrentScreen,
+  NAVIGATION_SCREEN_NAME,
+  LOCALE_STRING,
+  APP_CONSTANTS,
+  DB_KEYS,
+  COLOR,
+  PAYLOAD_KEYS,
+} from '../../utils';
 import {
   getMonthlyPaymentRecord,
   getUserInfo,
@@ -34,17 +44,7 @@ import {
   getUserMortgageData,
   getUserGoal,
 } from '../../store/reducers';
-import {
-  NAVIGATION_SCREEN_NAME,
-  LOCALE_STRING,
-  APP_CONSTANTS,
-  DB_KEYS,
-} from '../../utils/constants';
-import {COLOR} from '../../utils/colors';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-import {getNumberWithCommas} from '../../utils/helperFunctions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
-import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
 
 const CURRENT_MONTH = new Date().getMonth();
 interface NavigationParams {

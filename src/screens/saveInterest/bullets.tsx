@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {COLOR} from '../../utils/colors';
+import {COLOR} from '../../utils';
 
 const BULLET_SIZE = 10;
 const INNER_VIEW_SIZE_DIFF = 2;

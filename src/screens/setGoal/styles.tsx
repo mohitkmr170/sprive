@@ -1,13 +1,14 @@
 import {StyleSheet} from 'react-native';
-import {COLOR} from '../../utils/colors';
-import {STYLE_CONSTANTS} from '../../utils/constants';
+import {COLOR, STYLE_CONSTANTS} from '../../utils';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
-  middleContainer: {},
+  middleContainer: {
+    flex: 1,
+  },
   mortgageStatusProgressContainer: {
     marginTop: STYLE_CONSTANTS.margin.NORMAL,
     flexDirection: 'row',
@@ -31,30 +32,30 @@ export const styles = StyleSheet.create({
     backgroundColor: COLOR.PRIMARY,
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
     marginVertical: STYLE_CONSTANTS.margin.HUGISH,
-    borderRadius: 40,
+    borderRadius: STYLE_CONSTANTS.margin.HUMONGOUS,
   },
   ercInnerContainer: {
     color: COLOR.VOILET,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
     opacity: 0.5,
-    paddingTop: 4,
+    paddingTop: STYLE_CONSTANTS.padding.SMALLEST,
     flexWrap: 'wrap',
-    paddingRight: 20,
+    paddingRight: STYLE_CONSTANTS.padding.LARGEST,
   },
   ercLimitContainer: {
     position: 'absolute',
     top: getStatusBarHeight(),
-    left: 14,
-    right: 14,
+    left: STYLE_CONSTANTS.padding.BELOW_NORMAL,
+    right: STYLE_CONSTANTS.padding.BELOW_NORMAL,
     zIndex: 1,
   },
   ercContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingHorizontal: STYLE_CONSTANTS.padding.LARGEST,
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
     backgroundColor: COLOR.WHITE,
-    borderRadius: 12,
+    borderRadius: STYLE_CONSTANTS.padding.SMALL,
     shadowColor: 'black',
     shadowOffset: {height: 2, width: 2},
     shadowOpacity: 10,
@@ -109,7 +110,7 @@ export const styles = StyleSheet.create({
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
-    marginTop: STYLE_CONSTANTS.margin.HUGER,
+    marginTop: STYLE_CONSTANTS.margin.LARGEST,
     color: COLOR.VOILET,
     opacity: 0.5,
     textAlign: 'center',
@@ -120,7 +121,7 @@ export const styles = StyleSheet.create({
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGER,
     textAlign: 'center',
-    marginTop: STYLE_CONSTANTS.margin.SLIGHT_HUMUNGOUS,
+    marginTop: STYLE_CONSTANTS.margin.HUGER,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   bottomContainer: {

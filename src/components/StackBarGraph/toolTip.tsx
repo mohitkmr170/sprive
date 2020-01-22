@@ -1,13 +1,14 @@
 import React from 'react';
-import {Text, StyleSheet, Platform} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {COLOR} from '../../utils/colors';
-import {get as _get} from 'lodash';
-import {localeString} from '../../utils/i18n';
-import {LOCALE_STRING, STYLE_CONSTANTS} from '../../utils/constants';
 import {
-  getNumberWithCommas
-} from '../../utils/helperFunctions';
+  localeString,
+  getNumberWithCommas,
+  COLOR,
+  LOCALE_STRING,
+  STYLE_CONSTANTS,
+} from '../../utils';
+import {get as _get} from 'lodash';
 
 interface props {
   info: {
@@ -57,7 +58,9 @@ export class ToolTip extends React.Component<props, state> {
         </Text>
         <Text style={styles.fixesPaymentText}>
           Fixed Payment{' '}
-          <Text style={{color: COLOR.DARK_BLUE}}>£{monthlyMortgageWithCommas}</Text>
+          <Text style={{color: COLOR.DARK_BLUE}}>
+            £{monthlyMortgageWithCommas}
+          </Text>
         </Text>
       </Animatable.View>
     );

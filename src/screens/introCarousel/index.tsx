@@ -4,13 +4,13 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {
+  localeString,
   STYLE_CONSTANTS,
   LOCALE_STRING,
   NAVIGATION_SCREEN_NAME,
   DB_KEYS,
-} from '../../utils/constants';
+} from '../../utils';
 import {get as _get} from 'lodash';
-import {localeString} from '../../utils/i18n';
 import {firstCarousel, secondCarousel, thirdCarousel} from '../../assets';
 import {verticalScale} from 'react-native-size-matters/extend';
 

@@ -16,3 +16,5 @@ export * from './accountBlocked';
 export * from './forgotPassword';
 export * from './resetPassword';
 export * from './ForgotPasswordMail';
+export * from './updatePassword';
+export * from './pushNotification';
