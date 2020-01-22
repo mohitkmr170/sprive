@@ -107,9 +107,17 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     /*
     NOTES : Remember to update the current version to be updated => CFBundleShortVersionString
     */
-    codePush.getUpdateMetadata().then((update: any) => {
-      console.log('componentDidMount : getUpdateMetadata : update => ', update);
-      if (update && update.isFirstRun && !update.isPending) {
+    try {
+      let codePushUpdateResponse = await codePush.getUpdateMetadata();
+      console.log(
+        'componentDidMount : getUpdateMetadata : update => ',
+        codePushUpdateResponse,
+      );
+      if (
+        codePushUpdateResponse &&
+        codePushUpdateResponse.isFirstRun &&
+        !codePushUpdateResponse.isPending
+      ) {
         setTimeout(() => {
           Snackbar.show({
             text: APP_UPDATED_SUCCESS,
@@ -118,8 +126,8 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
               text: CODEPUSH_SNACKBAR.CTA_TEXT,
               textColor: CODEPUSH_SNACKBAR.CTA_TEXT_COLOR,
               onPress: () => {
-                const UPDATE_DESCRIPTION: string = update.description
-                  ? update.description
+                const UPDATE_DESCRIPTION: string = codePushUpdateResponse.description
+                  ? codePushUpdateResponse.description
                   : '';
                 Alert.alert('Update Description', UPDATE_DESCRIPTION);
               },
@@ -127,7 +135,12 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
           });
         }, APP_LOAD_TIME);
       }
-    });
+    } catch (error) {
+      Snackbar.show({
+        text: APP_CONSTANTS.GENERAL_ERROR,
+        duration: Snackbar.LENGTH_LONG,
+      });
+    }
   }
 
   preApiCalls = async () => {
