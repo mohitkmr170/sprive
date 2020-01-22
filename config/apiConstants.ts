@@ -9,7 +9,7 @@ export default {
     INTEREST_CALCULATOR: '/cumulative-interest-calculator',
     GET_USER_INFO: '/get-user-info',
     LOGIN: '/authentication',
-    SIGNUP: '/users',
+    SIGNUP: '/register',
     USER_MORTGAGE: '/mortgage',
     GOAL: '/goal',
     GET_GRAPH_DATA: '/monthly-payment-record',
