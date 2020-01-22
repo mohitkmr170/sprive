@@ -17,7 +17,11 @@ import {
   ICON_NAME,
   LOCALE_STRING,
   DB_KEYS,
-} from '../../utils/constants';
+  localeString,
+  COLOR,
+  PAYLOAD_KEYS,
+  getNumberWithCommas,
+} from '../../utils';
 import {get as _get} from 'lodash';
 import {
   getGraphData,
@@ -25,12 +29,8 @@ import {
   getProjectedData,
 } from '../../store/reducers';
 import Icons from 'react-native-vector-icons/Feather';
-import {localeString} from '../../utils/i18n';
-import {COLOR} from '../../utils/colors';
 import {graphData} from './helpers';
 import {ToolTip} from './toolTip';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
-import {getNumberWithCommas} from '../../utils/helperFunctions';
 
 const FIXED_PAYMENT = 'Fixed Payment';
 const OVER_PAYMENT = 'Overpayment';

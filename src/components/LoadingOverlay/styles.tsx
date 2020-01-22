@@ -1,7 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLOR} from '../../utils/colors';
-import {STYLE_CONSTANTS} from '../../utils/constants';
-import {verticalScale} from 'react-native-size-matters/extend';
+import {STYLE_CONSTANTS, COLOR} from '../../utils';
 
 export const styles = StyleSheet.create({
   container: {
@@ -23,7 +21,7 @@ export const styles = StyleSheet.create({
     marginTop: STYLE_CONSTANTS.margin.LARGER,
   },
   spriveLoadingGif: {
-    height: 5 * verticalScale(STYLE_CONSTANTS.padding.LARGEST),
-    width: 5 * verticalScale(STYLE_CONSTANTS.padding.LARGEST),
+    height: 5 * STYLE_CONSTANTS.padding.LARGEST,
+    width: 5 * STYLE_CONSTANTS.padding.LARGEST,
   },
 });

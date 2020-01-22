@@ -1,20 +1,22 @@
 import {StyleSheet} from 'react-native';
+import {STYLE_CONSTANTS} from '../../utils';
 
 export const Styles = StyleSheet.create({
   containerStyle: {
-    marginBottom: 4,
+    marginBottom: STYLE_CONSTANTS.margin.SMALLEST,
   },
   labelStyle: {
-    marginTop: 6,
+    marginTop:
+      STYLE_CONSTANTS.margin.SMALLISH - STYLE_CONSTANTS.margin.SMALLEST,
   },
   fieldError: {
     alignItems: 'flex-end',
-    maxHeight: 28,
-    minHeight: 14,
+    maxHeight: STYLE_CONSTANTS.margin.HUGISH,
+    minHeight: STYLE_CONSTANTS.padding.BELOW_NORMAL,
   },
   errorText: {
-    fontSize: 14,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
     color: 'red',
-    lineHeight: 14,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.NORMAL,
   },
 });

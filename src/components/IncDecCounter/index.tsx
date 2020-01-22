@@ -1,10 +1,8 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
-import {iBack} from '../../assets';
-import {APP_CONSTANTS, ICON, STYLE_CONSTANTS} from '../../utils/constants';
+import {COLOR, APP_CONSTANTS, ICON, STYLE_CONSTANTS} from '../../utils';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {COLOR} from '../../utils/colors';
 interface props {
   onIncrementPress: () => void;
   onDecrementPress: () => void;

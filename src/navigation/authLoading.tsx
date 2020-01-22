@@ -10,7 +10,6 @@ import {
   StatusBar,
 } from 'react-native';
 import {splashScreen, iSprive} from '../assets';
-import {getAuthToken} from '../utils/helperFunctions';
 import {get as _get} from 'lodash';
 import {
   getUserInfo,
@@ -21,17 +20,18 @@ import {
 } from '../store/reducers';
 import {connect} from 'react-redux';
 import {
+  getAuthToken,
+  resetAuthToken,
+  localeString,
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
   STYLE_CONSTANTS,
   LOCALE_STRING,
   APP_CONSTANTS,
-} from '../utils/constants';
-import {PAYLOAD_KEYS} from '../utils/payloadKeys';
-import {resetAuthToken} from '../utils/helperFunctions';
+  PAYLOAD_KEYS,
+  COLOR,
+} from '../utils';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {COLOR} from '../../src/utils/colors';
-import {localeString} from '../utils/i18n';
 import {verticalScale} from 'react-native-size-matters/extend';
 import {reset} from '../navigation/navigationService';
 
@@ -237,33 +237,31 @@ const styles = StyleSheet.create({
     paddingTop:
       Platform.OS === 'ios'
         ? verticalScale(getStatusBarHeight()) +
-          3 * verticalScale(STYLE_CONSTANTS.padding.LARGEST)
-        : 3 * verticalScale(STYLE_CONSTANTS.padding.LARGEST),
+          3 * STYLE_CONSTANTS.padding.LARGEST
+        : 3 * STYLE_CONSTANTS.padding.LARGEST,
     paddingHorizontal:
-      verticalScale(STYLE_CONSTANTS.padding.HUGE) +
-      verticalScale(STYLE_CONSTANTS.padding.SMALLEST),
+      STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.SMALLEST,
     justifyContent: 'space-between',
-    paddingBottom: 3 * verticalScale(STYLE_CONSTANTS.padding.LARGEST),
+    paddingBottom: 3 * STYLE_CONSTANTS.padding.LARGEST,
   },
   titleText: {
     fontSize:
-      verticalScale(STYLE_CONSTANTS.font.SIZE.LARGEST) +
-      verticalScale(STYLE_CONSTANTS.font.SIZE.TINY),
+      STYLE_CONSTANTS.font.SIZE.LARGEST + STYLE_CONSTANTS.font.SIZE.TINY,
     lineHeight:
-      verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGER) +
-      verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH),
+      STYLE_CONSTANTS.font.LINEHEIGHT.HUGER +
+      STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     color: COLOR.WHITE,
     fontWeight: 'bold',
   },
   infoText: {
-    fontSize: verticalScale(STYLE_CONSTANTS.font.SIZE.SMALL),
-    lineHeight: verticalScale(STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH),
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
     color: COLOR.WHITE,
     textAlign: 'center',
   },
   logo: {
-    height: verticalScale(STYLE_CONSTANTS.SPLASH_DIMENSION.height),
-    width: verticalScale(STYLE_CONSTANTS.SPLASH_DIMENSION.width),
+    height: STYLE_CONSTANTS.SPLASH_DIMENSION.height,
+    width: STYLE_CONSTANTS.SPLASH_DIMENSION.width,
   },
 });
 

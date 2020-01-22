@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
 import {iBack} from '../../assets';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {APP_CONSTANTS, STYLE_CONSTANTS} from '../../utils';
 interface props {
   title: String;
   rightIconPresent: boolean;
@@ -34,7 +34,11 @@ export class Header extends React.Component<props, state> {
             hitSlop={APP_CONSTANTS.HIT_SLOP}
             style={styles.touchable}>
             {/* .svg not working for SvgUri, UI specs to be inspected */}
-            <Image source={iBack} height={24} width={24} />
+            <Image
+              source={iBack}
+              height={STYLE_CONSTANTS.margin.LARGER}
+              width={STYLE_CONSTANTS.margin.LARGER}
+            />
           </TouchableOpacity>
         ) : (
           <View style={styles.emptyLeftContainer} />
@@ -46,7 +50,11 @@ export class Header extends React.Component<props, state> {
           <TouchableOpacity
             onPress={() => navigation.navigate(iconPath)}
             style={iconStyle}>
-            <Image source={iconName} height={40} width={40} />
+            <Image
+              source={iconName}
+              height={STYLE_CONSTANTS.margin.HUMONGOUS}
+              width={STYLE_CONSTANTS.margin.HUMONGOUS}
+            />
           </TouchableOpacity>
         )}
       </View>

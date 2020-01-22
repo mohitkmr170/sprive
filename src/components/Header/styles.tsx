@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLOR} from '../../utils/colors';
-import {STYLE_CONSTANTS} from '../../utils/constants';
+import {COLOR, STYLE_CONSTANTS} from '../../utils';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -12,7 +11,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: COLOR.GRAY,
     borderBottomWidth: 0.5,
   },
-  emptyLeftContainer: {paddingVertical: 20},
+  emptyLeftContainer: {paddingVertical: STYLE_CONSTANTS.padding.LARGEST},
   sideText: {alignSelf: 'center'},
   middleContainer: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,

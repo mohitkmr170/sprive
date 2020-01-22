@@ -9,34 +9,30 @@ import {
   GeneralStatusBar,
   ServerErrorContainer,
 } from '../../components';
-import {localeString} from '../../utils/i18n';
-import {Field, reduxForm, reset} from 'redux-form';
-import {connect} from 'react-redux';
-import {get as _get} from 'lodash';
-import {signUpUser, setUserMortgage, getUserInfo} from '../../store/reducers';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
+  getPasswordStrength,
+  checkPassMessagePercentage,
+  setAuthToken,
+  localeString,
   email,
   minLength8,
   maxLength16,
   required,
   alphaNumeric,
   noWhiteSpaces,
-} from '../../utils/validate';
-import {
   APP_CONSTANTS,
   NAVIGATION_SCREEN_NAME,
   DB_KEYS,
   LOCALE_STRING,
   STYLE_CONSTANTS,
-} from '../../utils/constants';
-import {
-  getPasswordStrength,
-  checkPassMessagePercentage,
-  setAuthToken,
-} from '../../utils/helperFunctions';
-import {COLOR} from '../../utils/colors';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
+  COLOR,
+  PAYLOAD_KEYS,
+} from '../../utils';
+import {Field, reduxForm, reset} from 'redux-form';
+import {connect} from 'react-redux';
+import {get as _get} from 'lodash';
+import {signUpUser, setUserMortgage, getUserInfo} from '../../store/reducers';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 interface props {
   navigation: {

@@ -2,10 +2,8 @@ import React from 'react';
 import {View, Text, TextInput, Platform, StatusBar} from 'react-native';
 import {styles} from './styles';
 import {LoginForm} from './loginForm';
-import {_gaSetCurrentScreen} from '../../utils/googleAnalytics';
-import {NAVIGATION_SCREEN_NAME} from '../../utils/constants';
+import {_gaSetCurrentScreen, COLOR, NAVIGATION_SCREEN_NAME} from '../../utils';
 import KeyboardManager from 'react-native-keyboard-manager';
-import {COLOR} from '../../utils/colors';
 
 interface props {
   navigation: {

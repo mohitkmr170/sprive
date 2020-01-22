@@ -1,9 +1,8 @@
 import {localeString} from './i18n';
 import {connect} from 'react-redux';
-import {LOCALE_STRING} from './constants';
+import {LOCALE_STRING, DB_KEYS} from '../utils';
 import {store} from '../store/configStore';
 import {get as _get} from 'lodash';
-import {DB_KEYS} from './constants';
 
 const MORTGAGE_LIMIT = 10000000,
   MONTHLY_MORTGAGE_LIMIT = 10000;

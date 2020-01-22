@@ -1,12 +1,12 @@
 import {StyleSheet} from 'react-native';
-import {COLOR} from '../../utils/colors';
-import {STYLE_CONSTANTS} from '../../utils/constants';
+import {COLOR, STYLE_CONSTANTS} from '../../utils';
 
 STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD;
 
 export const styles = StyleSheet.create({
   topContainer: {flex: 1},
   mainContainer: {
+    flex: 1,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
   },
   innerLeftContainer: {flex: 1},
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
     paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
     marginTop: STYLE_CONSTANTS.margin.HUGISH,
-    borderRadius: 8,
+    borderRadius: STYLE_CONSTANTS.margin.SMALLER,
     backgroundColor: COLOR.OVERPAYMENT_CARD,
     shadowColor: COLOR.SLIGHT_BLUE,
     shadowOffset: {height: 5, width: 0},
@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
   },
   poundText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
-    lineHeight: 44,
+    lineHeight: 2 * STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     color: COLOR.WHITE,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
   buttonInteriorStyle: {
     backgroundColor: COLOR.PRIMARY,
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
-    borderRadius: 40,
+    borderRadius: 2 * STYLE_CONSTANTS.padding.LARGEST,
     marginBottom: STYLE_CONSTANTS.margin.HUGISH,
     marginTop: STYLE_CONSTANTS.margin.SMALL,
   },
@@ -67,13 +67,14 @@ export const styles = StyleSheet.create({
     paddingVertical: STYLE_CONSTANTS.margin.NORMAL,
   },
   staticText: {
+    //Font size to be added here
     color: COLOR.VOILET,
     opacity: 0.3,
-    marginTop: STYLE_CONSTANTS.margin.SLIGHT_HUMUNGOUS,
+    marginTop: STYLE_CONSTANTS.margin.LARGEST,
     marginHorizontal: STYLE_CONSTANTS.margin.SMALLISH,
   },
   cardMainContainer: {
-    borderRadius: 12,
+    borderRadius: STYLE_CONSTANTS.padding.SMALL,
     borderWidth: 0.5,
     borderColor: COLOR.LIGHT_GRAY,
     shadowColor: COLOR.BLACK_SHADOW_COLOR,
@@ -128,9 +129,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: STYLE_CONSTANTS.padding.LARGER,
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: STYLE_CONSTANTS.padding.SMALL,
     borderColor: COLOR.LIGHT_GRAY,
-    shadowColor: '#0000000F',
+    shadowColor: COLOR.BLACK_SHADOW_COLOR,
     shadowOffset: {height: 3, width: 0},
     shadowOpacity: 1,
     shadowRadius: 1,
@@ -145,7 +146,7 @@ export const styles = StyleSheet.create({
   amountCardValue: {
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGISH,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
-    color: '#00C1A4',
+    color: COLOR.SLIDER_COLOR,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
 });

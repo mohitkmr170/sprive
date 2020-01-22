@@ -4,13 +4,17 @@ import {Button} from 'react-native-elements';
 import {GeneralStatusBar, Header} from '../../components';
 import {styles} from './styles';
 import {connect} from 'react-redux';
-import {localeString} from '../../utils/i18n';
-import {APP_CONSTANTS, LOCALE_STRING, DB_KEYS} from '../../utils/constants';
+import {
+  localeString,
+  showSnackBar,
+  APP_CONSTANTS,
+  LOCALE_STRING,
+  DB_KEYS,
+  PAYLOAD_KEYS,
+} from '../../utils';
 import {resetPasswordLink} from '../../store/reducers';
 import {openInbox} from 'react-native-email-link';
 import {get as _get} from 'lodash';
-import {showSnackBar} from '../../utils/helperFunctions';
-import {PAYLOAD_KEYS} from '../../utils/payloadKeys';
 interface props {
   navigation: {
     navigate: (routeName: string, navigationParam?: object) => void;

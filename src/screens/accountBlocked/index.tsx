@@ -3,15 +3,15 @@ import {View, Text, Image, BackHandler, Linking} from 'react-native';
 import {Button} from 'react-native-elements';
 import {GeneralStatusBar, Header} from '../../components';
 import {accountLocked} from '../../assets';
-import {localeString} from '../../utils/i18n';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import {
+  localeString,
   STYLE_CONSTANTS,
   APP_CONSTANTS,
   LOCALE_STRING,
   DB_KEYS,
-} from '../../utils/constants';
+} from '../../utils';
 import {get as _get} from 'lodash';
 
 const CONTACT_ADMIN_SUPPORT = {

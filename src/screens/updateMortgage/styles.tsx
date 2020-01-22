@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLOR} from '../../utils/colors';
-import {STYLE_CONSTANTS} from '../../utils/constants';
+import {COLOR, STYLE_CONSTANTS} from '../../utils';
 
 export const styles = StyleSheet.create({
   screenContainer: {
@@ -15,7 +14,7 @@ export const styles = StyleSheet.create({
     color: COLOR.BLUE,
     opacity: 0.5,
     marginLeft: STYLE_CONSTANTS.margin.SMALLISH,
-    fontWeight: '500',
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   mainHeaderText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
@@ -36,7 +35,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLOR.PRIMARY,
     marginHorizontal:
       STYLE_CONSTANTS.margin.HUGISH - STYLE_CONSTANTS.margin.SMALL,
-    borderRadius: 40,
+    borderRadius: STYLE_CONSTANTS.margin.HUMONGOUS,
     marginBottom: STYLE_CONSTANTS.margin.HUGISH,
     marginTop: STYLE_CONSTANTS.margin.SMALL,
   },

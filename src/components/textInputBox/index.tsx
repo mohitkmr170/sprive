@@ -3,7 +3,7 @@ import {Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 import {iEmail, iEye, iPasswordLock, iLock} from '../../assets';
 import Icon from 'react-native-vector-icons/Feather';
 import {textInputBoxStyle} from './styles';
-import {APP_CONSTANTS} from '../../utils/constants';
+import {APP_CONSTANTS} from '../../utils';
 
 interface props {
   label: string;

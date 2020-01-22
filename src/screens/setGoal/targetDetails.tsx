@@ -1,9 +1,7 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
-import {LOCALE_STRING} from '../../utils/constants';
-import {localeString} from '../../utils/i18n';
+import {getNumberWithCommas, localeString, LOCALE_STRING} from '../../utils';
 import {styles} from './styles';
-import {getNumberWithCommas} from '../../utils/helperFunctions';
 
 interface props {
   monthlyOverPayment: number;
