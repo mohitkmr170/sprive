@@ -105,4 +105,12 @@ export const DB_KEYS = {
   IS_BLOCKED: 'response.data.errors.is_blocked',
   USER_INFO_RESPONSE_IS_BLOCKED: 'response.response.data.errors.is_blocked',
   PUSH_NOTIFICATION: 'response.data.push_notification_id',
+  ONE_SIGNAL_NOTIFICATION: {
+    BODY: 'payload.body',
+    ADDITIONAL_DATA: 'payload.additionalData',
+    IS_APP_IN_FOCUS: 'isAppInFocus',
+    RECEIVED: 'received',
+    OPENED: 'opened',
+    IDS: 'ids',
+  },
 };
