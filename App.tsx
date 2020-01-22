@@ -13,6 +13,12 @@ import {getUserInfo} from './src/store/reducers';
 import {NAVIGATION_SCREEN_NAME, DB_KEYS} from './src/utils/constants';
 import {get as _get} from 'lodash';
 const codePush = require('react-native-code-push');
+
+/*
+NOTES : To be fetched from environment variable
+*/
+
+const CODEPUSH_DEPLOYMENT_KEY: string = 'og7TG7wFZN3WSGkdTgDhxX28JUKB4sn0CZp7j';
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -129,7 +135,7 @@ const styles = StyleSheet.create({
 });
 
 let codePushOptions = {
-  deploymentKey: 'og7TG7wFZN3WSGkdTgDhxX28JUKB4sn0CZp7j', //TODO:: Get it from env.
+  deploymentKey: CODEPUSH_DEPLOYMENT_KEY,
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
   installMode: codePush.InstallMode.ON_NEXT_RESUME,
 };
