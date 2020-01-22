@@ -18,7 +18,7 @@ import {
   StatusOverlay,
   GeneralStatusBar,
 } from '../../components';
-import {chatIcon, correct, tick} from '../../assets';
+import {chatIcon, paymentFail, paymentSuccess} from '../../assets';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {reset} from '../../navigation/navigationService';
 import {
@@ -305,7 +305,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
         />
         {isPaymentDone && (
           <StatusOverlay
-            icon={!error ? tick : correct}
+            icon={!error ? paymentSuccess : paymentFail}
             mainTitle={!error && `£${amountWithCommas}`}
             mainMessage={
               !error

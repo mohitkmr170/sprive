@@ -11,6 +11,7 @@ import {
   APP_CONSTANTS,
   DB_KEYS,
 } from '../../utils';
+import OneSignal from 'react-native-onesignal';
 export class StoreFetchableData {
   constructor(name: any, apiService: any) {
     this.name = name;
@@ -72,6 +73,7 @@ export class StoreFetchableData {
                 APP_CONSTANTS.NOT_AUTHENTICATED_CLASS_NAME
               ) {
                 store.dispatch(logoutUser());
+                OneSignal.removeExternalUserId();
                 setAuthToken(
                   APP_CONSTANTS.FALSE_TOKEN,
                   _get(store.getState(), DB_KEYS.USER_INFO_EMAIL, ''),

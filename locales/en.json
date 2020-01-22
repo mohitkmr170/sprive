@@ -20,7 +20,9 @@
     "confirmPassword": "Confirm Password",
     "calculateNow": "Calculate Now",
     "currencyPound": "£",
-    "invalidAmount": "Invalid Amount"
+    "invalidAmount": "Invalid Amount",
+    "notification": "Notification sent successfully",
+    "notifications": "Notifications"
   },
   "signUp": {
     "signUpText": "Sign up",
