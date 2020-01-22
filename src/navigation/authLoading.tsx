@@ -103,9 +103,11 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
   async componentDidMount() {
     StatusBar.setHidden(true, 'fade');
     this.authFlowCheck();
-
+    /*
+    NOTES : Remember to update the current version to be updated => CFBundleShortVersionString
+    */
     codePush.getUpdateMetadata().then((update: any) => {
-      console.log('update:::::::::', update);
+      console.log('componentDidMount : getUpdateMetadata : update => ', update);
       if (update && update.isFirstRun && !update.isPending) {
         setTimeout(() => {
           Snackbar.show({
