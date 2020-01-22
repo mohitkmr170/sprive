@@ -8,6 +8,7 @@ import {
   Platform,
   Text,
   StatusBar,
+  Alert,
 } from 'react-native';
 import {splashScreen, iSprive} from '../assets';
 import {getAuthToken} from '../utils/helperFunctions';
@@ -42,6 +43,11 @@ const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
 const AUTH_STACK = 'Auth';
 const APP_LOAD_TIME = 2000;
+const CODEPUSH_SNACKBAR = {
+  CTA_TEXT: 'Details',
+  CTA_TEXT_COLOR: 'green',
+};
+
 interface props {
   navigation: {
     navigate: (firstParam: any, navigationParams?: object) => void;
@@ -97,6 +103,28 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
   async componentDidMount() {
     StatusBar.setHidden(true, 'fade');
     this.authFlowCheck();
+
+    codePush.getUpdateMetadata().then((update: any) => {
+      console.log('update:::::::::', update);
+      if (update && update.isFirstRun && !update.isPending) {
+        setTimeout(() => {
+          Snackbar.show({
+            text: APP_UPDATED_SUCCESS,
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: CODEPUSH_SNACKBAR.CTA_TEXT,
+              textColor: CODEPUSH_SNACKBAR.CTA_TEXT_COLOR,
+              onPress: () => {
+                const UPDATE_DESCRIPTION: string = update.description
+                  ? update.description
+                  : '';
+                Alert.alert('Update Description', UPDATE_DESCRIPTION);
+              },
+            },
+          });
+        }, APP_LOAD_TIME);
+      }
+    });
   }
 
   preApiCalls = async () => {
@@ -231,30 +259,6 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
         </Text>
       </ImageBackground>
     );
-  }
-
-  componentWillUnmount() {
-    const syncStatusChangeCallback = (syncStatus: any) => {
-      switch (syncStatus) {
-        case codePush.SyncStatus.CHECKING_FOR_UPDATE:
-          console.log('Checking for updates.');
-          break;
-        case codePush.SyncStatus.UPDATE_INSTALLED:
-          console.log('Update installed.');
-          Snackbar.show({
-            text: APP_UPDATED_SUCCESS,
-            duration: Snackbar.LENGTH_LONG,
-          });
-          break;
-      }
-    };
-    const codePushOption = {
-      deploymentKey: 'og7TG7wFZN3WSGkdTgDhxX28JUKB4sn0CZp7j', //TODO:: Get it from env.
-    };
-    codePush.sync(codePushOption, syncStatusChangeCallback);
-    codePush.getUpdateMetadata().then((update: any) => {
-      console.log('recent codepush update:::', update);
-    });
   }
 }
 
