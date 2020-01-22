@@ -34,6 +34,9 @@ import {COLOR} from '../../src/utils/colors';
 import {localeString} from '../utils/i18n';
 import {verticalScale} from 'react-native-size-matters/extend';
 import {reset} from '../navigation/navigationService';
+import Snackbar from 'react-native-snackbar';
+const codePush = require('react-native-code-push');
+const APP_UPDATED_SUCCESS: string = 'App has been updated.';
 
 const LAUNCH_STATUS = 'alreadyLaunched';
 const FIRST_LAUNCH = 'firstLaunch';
@@ -228,6 +231,30 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
         </Text>
       </ImageBackground>
     );
+  }
+
+  componentWillUnmount() {
+    const syncStatusChangeCallback = (syncStatus: any) => {
+      switch (syncStatus) {
+        case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+          console.log('Checking for updates.');
+          break;
+        case codePush.SyncStatus.UPDATE_INSTALLED:
+          console.log('Update installed.');
+          Snackbar.show({
+            text: APP_UPDATED_SUCCESS,
+            duration: Snackbar.LENGTH_LONG,
+          });
+          break;
+      }
+    };
+    const codePushOption = {
+      deploymentKey: 'og7TG7wFZN3WSGkdTgDhxX28JUKB4sn0CZp7j', //TODO:: Get it from env.
+    };
+    codePush.sync(codePushOption, syncStatusChangeCallback);
+    codePush.getUpdateMetadata().then((update: any) => {
+      console.log('recent codepush update:::', update);
+    });
   }
 }
 
