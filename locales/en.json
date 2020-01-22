@@ -51,7 +51,7 @@
     "monthlyMortgagePaymentLabel": "Monthly Mortgage Payment",
     "mortgageData": "Mortgage Data",
     "letUsWorkOut": "Let's work out how much interest you’re paying",
-    "takeYourBest": "Take your best guess for now, you can always update this later",
+    "takeYourBest": "Take your best guess for now, you can always update this later"
   },
   "saveInterest": {
     "cardText": "The amount you’re paying your bank in interest alone",
@@ -200,7 +200,7 @@
     "noMailReceived": "I didn’t receive an email",
     "magicLinkFirstPart": "A magic link to reset the password has been sent to ",
     "magicLinkSecondPart": ". Please click the link to reset the password",
-    "magicLinkSentAgain": "Password reset email sent again!",
+    "magicLinkSentAgain": "Password reset email sent again!"
   },
   "resetPassword": {
     "resetPassword": "Reset Password",
@@ -212,7 +212,8 @@
      "confirm": "Confirm",
      "passwordNotMatched": "Password does not match!",
      "resetFromApp": "Please reset your password in the App!",
-     "fail": "Password reset Failed!"
+     "fail": "Password reset Failed!",
+     "resetUnverified": "For an unverified user, reset password operation cannot perpetuate from here"
   },
   "updatePassword": {
     "updatePassword": "Update Password",

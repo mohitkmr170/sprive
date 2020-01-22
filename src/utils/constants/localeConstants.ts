@@ -208,6 +208,7 @@ export const LOCALE_STRING = {
     PASSWORD_NOT_MATCHED: 'resetPassword.passwordNotMatched',
     RESET_FROM_APP: 'resetPassword.resetFromApp',
     PASSWORD_RESET_FAILED: 'resetPassword.fail',
+    RESET_UNVERIFIED: 'resetPassword.resetUnverified',
   },
   UPDATE_PASSWORD: {
     UPDATE_PASSWORD: 'updatePassword.updatePassword',
