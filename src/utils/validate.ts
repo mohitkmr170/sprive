@@ -144,3 +144,17 @@ export const emailMatching = (value: any) => {
     ? localeString(LOCALE_STRING.VALIDATIONS.PASSWORD_NOT_MATCHED)
     : undefined;
 };
+/**
+ * @param value : string : Validation for email matching
+ */
+export const passMatching = (value: any) => {
+  const reducerResponse = store.getState().form;
+  const previousPassword = _get(
+    reducerResponse,
+    DB_KEYS.UPDATE_PASSWORD_FORM,
+    '',
+  );
+  return value && previousPassword !== value
+    ? localeString(LOCALE_STRING.VALIDATIONS.PASSWORD_NOT_MATCHED)
+    : undefined;
+};

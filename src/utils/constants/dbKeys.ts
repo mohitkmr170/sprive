@@ -37,6 +37,7 @@ export const DB_KEYS = {
   MORTGAGE_TERM_ERROR: 'response.response.data.errors.mortgage_term',
   MORTGAGE_PAYMENT_ERROR: 'response.response.data.errors.mortgage_payment',
   SIGNUP_PASSWORD: 'signup.values.password',
+  SUCCESS: 'Success',
   VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
@@ -89,10 +90,17 @@ export const DB_KEYS = {
     BLOCKED_TYPE: 'navigation.state.params.blockedType',
     PASSWORD_RESET: 'password_reset',
   },
+  UPDATE_PASSWORD: {
+    EXISTING_PASSWORD: 'exitingPassword',
+    NEW_PASSWORD: 'newPassword',
+    RETYPE_PASSWORD: 'retypePassword',
+  },
   LOGIN_EMAIL: 'form.logIn.values.email',
   RESET_PASSWORD_FORM: 'resetPassword.values.password',
+  UPDATE_PASSWORD_FORM: 'updatePassword.values.newPassword',
   FORM: {
     RESET_PASSWORD: 'resetPassword',
+    UPDATE_PASSWORD: 'updatePassword',
   },
   IS_BLOCKED: 'response.data.errors.is_blocked',
   USER_INFO_RESPONSE_IS_BLOCKED: 'response.response.data.errors.is_blocked',

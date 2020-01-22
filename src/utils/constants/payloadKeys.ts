@@ -50,4 +50,8 @@ export const PAYLOAD_KEYS: any = {
     PASSWORD_RESET_KEY: 'password_reset_key',
     NEW_PASSWORD: 'new_password',
   },
+  UPDATE_PASSWORD: {
+    CURRENT_PASSWORD: 'current_password',
+    NEW_PASSWORD: 'new_password',
+  },
 };
