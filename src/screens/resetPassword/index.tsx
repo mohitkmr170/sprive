@@ -12,6 +12,7 @@ import {styles} from './styles';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import * as Progress from 'react-native-progress';
+import {logoutUser} from '../../store/actions/actions';
 import {
   minLength8,
   maxLength16,
@@ -22,6 +23,7 @@ import {
   localeString,
   showSnackBar,
   getAuthToken,
+  setAuthToken,
   checkPassMessagePercentage,
   getPasswordStrength,
   APP_CONSTANTS,
@@ -36,6 +38,7 @@ import {get as _get} from 'lodash';
 import {resetPassword, getUserInfo} from '../../store/reducers';
 import {reset} from '../../navigation/navigationService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import OneSignal from 'react-native-onesignal';
 
 interface props {
   navigation: {
@@ -44,6 +47,7 @@ interface props {
   };
   handleSubmit: (values?: {email: string; password: string}) => void;
   resetPassword: (payload: object) => void;
+  logoutUserAction: () => void;
   resetPasswordResponse: object;
   getUserInfo: () => void;
   getUserInfoResponse: object;
@@ -129,16 +133,48 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
           await getUserInfo();
           const {getUserInfoResponse} = this.props;
           if (!_get(getUserInfoResponse, DB_KEYS.ERROR, false)) {
-            showSnackBar(
-              {},
-              localeString(LOCALE_STRING.RESET_PASSWORD.RESET_FROM_APP),
-            );
-            this.setState({deeplinkLoading: false});
-            this.props.navigation.navigate(
-              NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-            );
+            if (
+              _get(
+                getUserInfoResponse,
+                DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_VERIFIED,
+                false,
+              )
+            ) {
+              showSnackBar(
+                {},
+                localeString(LOCALE_STRING.RESET_PASSWORD.RESET_FROM_APP),
+              );
+              this.setState({deeplinkLoading: false});
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+              );
+            } else {
+              this.props.logoutUserAction();
+              OneSignal.removeExternalUserId();
+              const {getUserInfoResponse} = this.props;
+              setAuthToken(
+                APP_CONSTANTS.FALSE_TOKEN,
+                _get(getUserInfoResponse, DB_KEYS.CURRENT_USER_EMAIL, ''),
+              )
+                .then(response => {
+                  showSnackBar(
+                    {},
+                    localeString(
+                      LOCALE_STRING.EMAIL_VERIFICATION.USER_NOT_VERIFIED,
+                    ),
+                  );
+                  reset(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+                  this.setState({deeplinkLoading: false});
+                })
+                .catch(error => {
+                  showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
+                });
+            }
           }
-        } else this.setState({deeplinkLoading: false});
+        } else {
+          console.log('here3');
+          this.setState({deeplinkLoading: false});
+        }
       })
       .catch(err => {});
   }
@@ -291,6 +327,7 @@ const mapStateToProps = state => ({
 
 const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
+  logoutUserAction: () => dispatch(logoutUser()),
   resetPassword: payload => dispatch(resetPassword.fetchCall(payload)),
 });
 
