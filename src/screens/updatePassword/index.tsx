@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
 import {
   GeneralStatusBar,
@@ -69,6 +69,7 @@ export class UnconnectedUpdatePassword extends React.Component<props, state> {
       passStrengthMessage: '',
       isUpdateComplete: false,
     };
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
 
   /**
