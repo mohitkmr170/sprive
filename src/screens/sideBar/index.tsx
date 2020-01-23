@@ -55,12 +55,12 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       title: localeString(LOCALE_STRING.SIDE_BAR.NOTIFICATION),
       icon: iNotification,
       action: async () => {
+        closeDrawer();
         const {pushNotification} = this.props;
         await pushNotification();
         const {pushNotificationResponse} = this.props;
         if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
           showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
-          closeDrawer();
         }
       },
       isDisabled: _get(
