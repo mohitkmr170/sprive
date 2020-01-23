@@ -424,8 +424,8 @@ SPEC REPOS:
     - IQKeyboardManager
     - JWT
     - nanopb
-    - SSZipArchive
     - OneSignal
+    - SSZipArchive
 
 EXTERNAL SOURCES:
   CodePush:

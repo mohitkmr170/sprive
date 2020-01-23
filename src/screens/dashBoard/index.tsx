@@ -69,6 +69,7 @@ interface props {
   getUserMortgageData: (payload: object, extraPayload: object) => void;
   getUserGoal: (payload: object, extraPayload: object) => void;
   getUserGoalResponse: object;
+  pushNotificationResponse: object;
 }
 
 interface state {
@@ -205,6 +206,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getProjectedDataResponse,
       getUserMortgageDataResponse,
       getUserGoalResponse,
+      pushNotificationResponse,
     } = this.props;
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
@@ -244,7 +246,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
       '-',
     );
-    if (this.state.loading) return <LoadingModal loadingText="Loading..." />;
+    if (
+      this.state.loading ||
+      _get(pushNotificationResponse, DB_KEYS.IS_FETCHING, false)
+    )
+      return <LoadingModal loadingText="Loading..." />;
     else
       return (
         <View style={styles.mainContainer}>
@@ -442,6 +448,7 @@ const mapStateToProps = state => ({
   userDataChangeEvent: state.userDataChangeReducer,
   getUserMortgageDataResponse: state.getUserMortgageData,
   getUserGoalResponse: state.getUserGoal,
+  pushNotificationResponse: state.pushNotification,
 });
 
 const bindActions = dispatch => ({
