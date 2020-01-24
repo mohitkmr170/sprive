@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   dropDownContainer: {
-    backgroundColor: COLOR.WHITE,
+    backgroundColor: COLOR.ALICE_BLUE,
     marginTop: STYLE_CONSTANTS.margin.HUGE,
   },
   dropDownItemText: {
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'normal',
   },
   descriptionInput: {
-    backgroundColor: COLOR.WHITE,
+    backgroundColor: COLOR.ALICE_BLUE,
     paddingHorizontal: STYLE_CONSTANTS.padding.SMALLISH,
     paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
