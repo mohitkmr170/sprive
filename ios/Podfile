@@ -51,7 +51,7 @@ target 'Sprive' do
   pod 'RNFBAnalytics', :path => '../node_modules/@react-native-firebase/analytics'
   pod 'GoogleIDFASupport', '~> 3.14.0'
   pod 'ReactNativeKeyboardManager', :path => '../node_modules/react-native-keyboard-manager'
-
+  pod 'OneSignal', '>= 2.11.2', '< 3.0'
 
   target 'SpriveTests' do
     inherit! :search_paths
@@ -69,4 +69,7 @@ target 'Sprive-tvOS' do
     # Pods for testing
   end
 
+end
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignal', '>= 2.11.2', '< 3.0'
 end
