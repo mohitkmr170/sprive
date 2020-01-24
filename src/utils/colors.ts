@@ -51,4 +51,5 @@ export const COLOR = {
   MEDUIM_OPACITY_BLACK: 'rgba(0, 0, 0, 0.3)',
   HALF_VOILET: 'rgba(9, 36, 94, 0.5)',
   PARTIAL_BLACK: 'rgba(9, 36, 94, 0.3)',
+  ALICE_BLUE: '#F7F8FA',
 };
