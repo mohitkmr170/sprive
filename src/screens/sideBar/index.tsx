@@ -29,7 +29,6 @@ import {closeDrawer} from '../../navigation/navigationService';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
 import OneSignal from 'react-native-onesignal';
-
 interface props {
   navigation: {
     navigate: (routeName: string) => void;
@@ -153,7 +152,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                     style={styles.sideBarDataListContainer}>
                     <View style={styles.iconTextContainer}>
                       <Image
-                        resizeMode="center"
+                        resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
                         style={styles.iconStyle}
                         source={item.icon}
                       />
