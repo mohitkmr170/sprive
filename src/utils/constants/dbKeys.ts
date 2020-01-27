@@ -52,9 +52,9 @@ export const DB_KEYS = {
     ESTIMATED_TIME_MONTHS: 'response.data.projected_mortgage_free_in.months',
   },
   INTRO_CAROUSEL: {
-    IMAGE: 'item.image',
-    TITLE: 'item.title',
-    SUB_TITLE: 'item.subTitle',
+    IMAGE: 'image',
+    TITLE: 'title',
+    SUB_TITLE: 'subTitle',
   },
   ERROR_MESSAGE: 'response.data.message',
   PAYMENT_HISTORY: {

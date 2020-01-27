@@ -39,11 +39,11 @@ export const styles = StyleSheet.create({
     height: STYLE_CONSTANTS.margin.SMALLISH,
     borderRadius: STYLE_CONSTANTS.border.BORDER_RADIUS.TINY,
     marginHorizontal: STYLE_CONSTANTS.margin.SMALLER,
-    backgroundColor: COLOR.PRIMARY,
+    backgroundColor: COLOR.LESS_OPACITY_PRIMARY,
   },
   PaginationContainerStyle: {
-    alignSelf: 'flex-start',
-    marginTop: STYLE_CONSTANTS.margin.HUGISH,
+    justifyContent: 'flex-start',
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
   },
   carouselTextContainer: {
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
