@@ -12,6 +12,7 @@ import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {loginUser, getUserInfo} from '../../store/reducers';
 import {get as _get} from 'lodash';
+import {reset as resetNavigation} from '../../navigation/navigationService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   setAuthToken,
@@ -63,10 +64,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   }
 
   handleBackPress = () => {
-    /*
-    TODO : Handle Back button press, condition based
-    */
-    this.props.navigation.goBack();
+    resetNavigation(NAVIGATION_SCREEN_NAME.INTRO_CAROUSEL);
   };
 
   preLoginCheck = async () => {
@@ -167,7 +165,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
   };
 
   handleSignUpPress = () => {
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.INTRO_CAROUSEL);
+    resetNavigation(NAVIGATION_SCREEN_NAME.INTRO_CAROUSEL);
   };
 
   handleForgotPassword = () => {
