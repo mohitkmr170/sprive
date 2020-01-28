@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, ScrollView, StatusBar} from 'react-native';
-import {Button, Slider} from 'react-native-elements';
+import {Button} from 'react-native-elements';
+import Slider from 'react-native-slider';
 import {styles} from './styles';
 import {Header, LoadingModal, GeneralStatusBar} from '../../components';
 import {
