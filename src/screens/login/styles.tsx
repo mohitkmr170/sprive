@@ -21,7 +21,6 @@ export const styles = StyleSheet.create({
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGER,
     marginBottom: STYLE_CONSTANTS.margin.SMALLEST,
     padding: STYLE_CONSTANTS.padding.SMALLEST,
-    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     width: '95%',
   },
   phoneInputContainer: {

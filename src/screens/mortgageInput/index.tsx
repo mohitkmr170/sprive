@@ -18,6 +18,7 @@ import {
   COLOR,
 } from '../../utils';
 import {Button} from 'react-native-elements';
+import {reset as resetNavigation} from '../../navigation/navigationService';
 import {getCumulativeInterest} from '../../store/reducers';
 import {reduxForm, reset} from 'redux-form';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -84,7 +85,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
   };
   // Back Icon Pressed
   handleBackPress = () => {
-    this.props.navigation.goBack();
+    resetNavigation(NAVIGATION_SCREEN_NAME.INTRO_CAROUSEL);
   };
   // Funtion to toggle the visibility of the submit buttons
   handlePayNowVisibility() {
