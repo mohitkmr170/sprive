@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, Text, ScrollView, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
+import Slider from 'react-native-slider';
 import {styles} from './styles';
 import {Header, LoadingModal, GeneralStatusBar} from '../../components';
-import Slider from '@react-native-community/slider';
 import {
   _gaSetCurrentScreen,
   localeString,
@@ -401,12 +401,13 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                     DB_KEYS.MORTGAGE_TERM,
                     null,
                   )}
+                  trackStyle={styles.trackStyle}
                   step={SLIDER_STEP}
                   value={mortgageTerm}
                   onValueChange={newValue => this.onSlide(newValue)}
                   thumbTintColor={COLOR.SLIDER_COLOR}
                   minimumTrackTintColor={COLOR.BLACK}
-                  maximumTrackTintColor={COLOR.BLACK}
+                  maximumTrackTintColor={COLOR.GRAY}
                 />
                 <Text style={styles.sliderLeftText}>
                   {_get(
