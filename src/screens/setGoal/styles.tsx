@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
     marginLeft: STYLE_CONSTANTS.margin.SMALLISH,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
+  trackStyle: {height: STYLE_CONSTANTS.margin.SMALLEST / 2},
   buttonStyle: {
     backgroundColor: COLOR.PRIMARY,
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
