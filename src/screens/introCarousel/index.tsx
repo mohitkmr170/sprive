@@ -59,9 +59,9 @@ export class IntroCarousel extends React.Component<props, state> {
   componentDidMount() {
     StatusBar.setHidden(false, 'fade');
   }
-  renderItem = (item: object) => {
+  renderItem = (item: object, index: number) => {
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1}} key={index}>
         <Image
           source={_get(item, DB_KEYS.INTRO_CAROUSEL.IMAGE, '')}
           resizeMethod={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.AUTO}
@@ -96,9 +96,12 @@ export class IntroCarousel extends React.Component<props, state> {
         <View style={styles.mainContainer}>
           <Swiper
             showsButtons={false}
-            loop
+            index={0}
+            loop={true}
             autoplay={!this.state.isTouchActive}
             autoplayDirection={true}
+            pagingEnabled
+            horizontal
             onTouchStart={() => this.setState({isTouchActive: true})}
             onTouchEnd={() => this.setState({isTouchActive: false})}
             autoplayTimeout={CAROUSEL_AUTO_SCROLL_INTERVAL}
@@ -106,23 +109,27 @@ export class IntroCarousel extends React.Component<props, state> {
             dotStyle={styles.inactiveDotStyle}
             key={SAMPLE_DATA_CAROUSEL.length}
             activeDotStyle={styles.dotStyle}>
-            {SAMPLE_DATA_CAROUSEL.map((item, index) => this.renderItem(item))}
+            {SAMPLE_DATA_CAROUSEL.map((item, index) =>
+              this.renderItem(item, index),
+            )}
           </Swiper>
         </View>
-        <Button
-          title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_FREE)}
-          titleStyle={styles.buttonTitle}
-          buttonStyle={styles.button}
-          onPress={() => this.handleSignUpForFree()}
-        />
-        <Text style={styles.alreadyRegistered}>
-          {localeString(LOCALE_STRING.SIGNUP_FORM.ALREADY_REGISTERED)}
-          <Text
-            onPress={() => this.handleSignInPress()}
-            style={styles.innerLoginText}>
-            {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
+        <View>
+          <Button
+            title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_FREE)}
+            titleStyle={styles.buttonTitle}
+            buttonStyle={styles.button}
+            onPress={() => this.handleSignUpForFree()}
+          />
+          <Text style={styles.alreadyRegistered}>
+            {localeString(LOCALE_STRING.SIGNUP_FORM.ALREADY_REGISTERED)}
+            <Text
+              onPress={() => this.handleSignInPress()}
+              style={styles.innerLoginText}>
+              {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
+            </Text>
           </Text>
-        </Text>
+        </View>
       </View>
     );
   }
