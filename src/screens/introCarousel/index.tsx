@@ -1,8 +1,7 @@
 import React from 'react';
-import {View, Text, Image, StatusBar} from 'react-native';
+import {View, Text, Image, StatusBar, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {
   localeString,
   STYLE_CONSTANTS,
@@ -13,6 +12,7 @@ import {
 import {get as _get} from 'lodash';
 import {firstCarousel, secondCarousel, thirdCarousel} from '../../assets';
 import {verticalScale} from 'react-native-size-matters/extend';
+import Swiper from 'react-native-swiper';
 
 interface props {
   navigation: {
@@ -22,9 +22,10 @@ interface props {
 interface state {
   entries: object;
   activeSlide: number;
+  isTouchActive: boolean;
 }
 
-const CAROUSEL_AUTO_SCROLL_INTERVAL = 3000;
+const CAROUSEL_AUTO_SCROLL_INTERVAL = 3;
 
 const SAMPLE_DATA_CAROUSEL = [
     {
@@ -44,8 +45,6 @@ const SAMPLE_DATA_CAROUSEL = [
     },
   ],
   INITIAL_ACTIVE_INDEX = 0,
-  INACTIVE_DOT_OPACITY = 0.5,
-  INACTIVE_DOT_SCALE = 0.6,
   CAROUSEL_IMAGE_PERCENT = 459;
 
 export class IntroCarousel extends React.Component<props, state> {
@@ -54,28 +53,15 @@ export class IntroCarousel extends React.Component<props, state> {
     this.state = {
       entries: SAMPLE_DATA_CAROUSEL,
       activeSlide: INITIAL_ACTIVE_INDEX,
+      isTouchActive: false,
     };
   }
   componentDidMount() {
     StatusBar.setHidden(false, 'fade');
   }
-  pagination = () => {
-    const {entries, activeSlide} = this.state;
+  renderItem = (item: object, index: number) => {
     return (
-      <Pagination
-        dotsLength={entries.length}
-        activeDotIndex={activeSlide}
-        containerStyle={styles.PaginationContainerStyle}
-        dotStyle={styles.dotStyle}
-        inactiveDotStyle={styles.inactiveDotStyle}
-        inactiveDotOpacity={INACTIVE_DOT_OPACITY}
-        inactiveDotScale={INACTIVE_DOT_SCALE}
-      />
-    );
-  };
-  renderItem = (item: object) => {
-    return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1}} key={index}>
         <Image
           source={_get(item, DB_KEYS.INTRO_CAROUSEL.IMAGE, '')}
           resizeMethod={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.AUTO}
@@ -108,34 +94,42 @@ export class IntroCarousel extends React.Component<props, state> {
     return (
       <View style={styles.mainView}>
         <View style={styles.mainContainer}>
-          <View style={{flex: 1}}>
-            <Carousel
-              data={this.state.entries}
-              renderItem={this.renderItem}
-              sliderWidth={STYLE_CONSTANTS.device.SCREEN_WIDTH}
-              itemWidth={STYLE_CONSTANTS.device.SCREEN_WIDTH}
-              onSnapToItem={index => this.setState({activeSlide: index})}
-              autoplay={true}
-              loop={true}
-              autoplayInterval={CAROUSEL_AUTO_SCROLL_INTERVAL}
-            />
-          </View>
-          <View style={styles.paginationContainer}>{this.pagination()}</View>
+          <Swiper
+            showsButtons={false}
+            index={0}
+            loop={true}
+            autoplay={!this.state.isTouchActive}
+            autoplayDirection={true}
+            pagingEnabled
+            horizontal
+            onTouchStart={() => this.setState({isTouchActive: true})}
+            onTouchEnd={() => this.setState({isTouchActive: false})}
+            autoplayTimeout={CAROUSEL_AUTO_SCROLL_INTERVAL}
+            paginationStyle={styles.PaginationContainerStyle}
+            dotStyle={styles.inactiveDotStyle}
+            key={SAMPLE_DATA_CAROUSEL.length}
+            activeDotStyle={styles.dotStyle}>
+            {SAMPLE_DATA_CAROUSEL.map((item, index) =>
+              this.renderItem(item, index),
+            )}
+          </Swiper>
         </View>
-        <Button
-          title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_FREE)}
-          titleStyle={styles.buttonTitle}
-          buttonStyle={styles.button}
-          onPress={() => this.handleSignUpForFree()}
-        />
-        <Text style={styles.alreadyRegistered}>
-          {localeString(LOCALE_STRING.SIGNUP_FORM.ALREADY_REGISTERED)}
-          <Text
-            onPress={() => this.handleSignInPress()}
-            style={styles.innerLoginText}>
-            {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
+        <View>
+          <Button
+            title={localeString(LOCALE_STRING.SIGNUP_FORM.SIGNUP_FREE)}
+            titleStyle={styles.buttonTitle}
+            buttonStyle={styles.button}
+            onPress={() => this.handleSignUpForFree()}
+          />
+          <Text style={styles.alreadyRegistered}>
+            {localeString(LOCALE_STRING.SIGNUP_FORM.ALREADY_REGISTERED)}
+            <Text
+              onPress={() => this.handleSignInPress()}
+              style={styles.innerLoginText}>
+              {localeString(LOCALE_STRING.LOGIN_SCREEN.LOGIN_SIGNIN)}
+            </Text>
           </Text>
-        </Text>
+        </View>
       </View>
     );
   }
