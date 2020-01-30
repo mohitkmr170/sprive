@@ -15,3 +15,9 @@ export const addUserDetails = (userDetails: {
 export const logoutUser = () => ({
   type: LOGOUT_USER,
 });
+
+export const notification = () => {
+  return {
+    type: actionTypes.IS_NOTIFICATION_RECEIVED,
+  };
+};

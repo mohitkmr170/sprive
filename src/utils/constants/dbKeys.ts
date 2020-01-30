@@ -1,5 +1,6 @@
 export const DB_KEYS = {
   USER_INFO_NAME: 'response.data.name',
+  USER_INFO: 'getUserInfo.response',
   USER_INFO_EMAIL: 'getUserInfo.response.data.email',
   RESPONSE_MESSAGE: 'response.message',
   NAVIGATION_PARAMS: 'state.params',
@@ -10,6 +11,7 @@ export const DB_KEYS = {
   META_SKIP: 'response.meta.skip',
   TOTAL_INTEREST: 'response.data.totalInterest',
   AUTH_STATUS: 'status',
+  IS_NOTIFICATION_RECEIVED: 'isNotificationReceived',
   CURRENT_USER_EMAIL: 'response.data.email',
   DATA_ID: 'response.data.id',
   DATA_OF_ZERO_ID: 'response.data[0].id',

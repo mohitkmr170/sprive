@@ -10,6 +10,7 @@ import storage from 'redux-persist/lib/storage';
 import {applicationReducer} from './appReducers/addUserDetails';
 import {userDataChangeReducer} from './appReducers/triggerUserDataChange.reducer';
 import {logoutUser} from '../store/appReducers/logoutUser';
+import {notification} from '../store/appReducers/notification';
 
 const appReducers = {
   ...mapValues(reducers, 'reducers'),
@@ -17,6 +18,7 @@ const appReducers = {
   applicationReducer,
   userDataChangeReducer,
   logoutUser,
+  notification,
 };
 
 const appReducer = combineReducers(appReducers);
@@ -29,6 +31,9 @@ const rootReducer = (
   if (action.type === LOGOUT_USER) {
     Object.keys(state).map(key => {
       if (key === 'form') {
+        state[key] = null;
+      }
+      if (key === 'getUserInfo') {
         state[key] = null;
       }
     });
