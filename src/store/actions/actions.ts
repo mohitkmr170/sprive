@@ -21,3 +21,9 @@ export const notification = () => {
     type: actionTypes.IS_NOTIFICATION_RECEIVED,
   };
 };
+
+export const clearFormData = () => {
+  return {
+    type: actionTypes.CLEAR_FORM_DATA,
+  };
+};

@@ -5,6 +5,7 @@ import {mapValues} from 'lodash';
 import logger from 'redux-logger';
 import {reducer as formReducer} from 'redux-form';
 import {LOGOUT_USER} from './actions/actions';
+import {actionTypes} from './actionTypes';
 import * as reducers from './reducers';
 import storage from 'redux-persist/lib/storage';
 import {applicationReducer} from './appReducers/addUserDetails';
@@ -34,6 +35,13 @@ const rootReducer = (
         state[key] = null;
       }
       if (key === 'getUserInfo') {
+        state[key] = null;
+      }
+    });
+  }
+  if (action.type === actionTypes.CLEAR_FORM_DATA) {
+    Object.keys(state).map(key => {
+      if (key === 'form') {
         state[key] = null;
       }
     });
