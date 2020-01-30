@@ -37,6 +37,7 @@ import {verticalScale} from 'react-native-size-matters/extend';
 import {reset} from '../navigation/navigationService';
 import Snackbar from 'react-native-snackbar';
 import OneSignal from 'react-native-onesignal';
+import {notification} from '../store/actions/actions';
 const codePush = require('react-native-code-push');
 const APP_UPDATED_SUCCESS: string = 'App has been updated.';
 
@@ -66,6 +67,8 @@ interface props {
   getUserMortgageData: (payload: object, extraPayload: object) => void;
   getUserGoal: (payload: object, extraPayload: object) => void;
   getUserGoalResponse: object;
+  notification: () => void;
+  notificationResponse: object;
 }
 
 interface state {}
@@ -151,8 +154,14 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       navigation,
       getUserMortgageData,
       getUserGoal,
+      notificationResponse,
     } = this.props;
     const userId = _get(getUserInfoResponses, DB_KEYS.DATA_ID, null);
+    const isNotificationReceived = _get(
+      notificationResponse,
+      DB_KEYS.IS_NOTIFICATION_RECEIVED,
+      false,
+    );
     if (!getUserInfoResponses || !userId)
       navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
     const qParamsInfo = {
@@ -161,9 +170,14 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     await getUserMortgageData({}, qParamsInfo);
     const {getUserMortgageDataResponse} = this.props;
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
-      reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
-        isUserDataChanged: true,
-      });
+      reset(
+        isNotificationReceived
+          ? NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION
+          : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+        {
+          isUserDataChanged: true,
+        },
+      );
       return;
     }
     const qParam_monthly_payment_record = {
@@ -176,9 +190,14 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     await getUserGoal({}, qParam_get_user_goal);
     const {getUserGoalResponse} = this.props;
     if (!_get(getUserGoalResponse, DB_KEYS.RESPONSE_DATA, []).length) {
-      reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
-        isUserDataChanged: true,
-      });
+      reset(
+        isNotificationReceived
+          ? NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION
+          : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+        {
+          isUserDataChanged: true,
+        },
+      );
       return;
     }
     const mortgageTerm = _get(
@@ -207,13 +226,23 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       if (externalUserId) {
         OneSignal.setExternalUserId(externalUserId);
       }
-      reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
-        isUserDataChanged: false,
-      });
+      reset(
+        isNotificationReceived
+          ? NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION
+          : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+        {
+          isUserDataChanged: false,
+        },
+      );
     } else
-      reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
-        isUserDataChanged: true,
-      });
+      reset(
+        isNotificationReceived
+          ? NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION
+          : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+        {
+          isUserDataChanged: true,
+        },
+      );
   };
 
   // Auth check, based on which navigation to auth/app stack is decided
@@ -328,6 +357,7 @@ const mapStateToProps = state => ({
   userDataChangeEvent: state.userDataChangeReducer,
   getUserMortgageDataResponse: state.getUserMortgageData,
   getUserGoalResponse: state.getUserGoal,
+  notificationResponse: state.notification,
 });
 
 const bindActions = dispatch => ({
@@ -341,6 +371,7 @@ const bindActions = dispatch => ({
     dispatch(getUserMortgageData.fetchCall(payload, extraPayload)),
   getUserGoal: (payload, extraPayload) =>
     dispatch(getUserGoal.fetchCall(payload, extraPayload)),
+  notification: () => dispatch(notification()),
 });
 
 export const AuthLoading = connect(

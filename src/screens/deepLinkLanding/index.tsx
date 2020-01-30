@@ -25,7 +25,7 @@ import {
   getUserInfo,
   resendEmail,
 } from '../../store/reducers';
-import {logoutUser} from '../../store/actions/actions';
+import {clearFormData} from '../../store/actions/actions';
 import OneSignal from 'react-native-onesignal';
 
 const VERIFYING_LOADING = 'Verifying...';
@@ -43,7 +43,7 @@ interface props {
   getUserInfo: () => void;
   getUserInfoResponse: object;
   reducerResponse: object;
-  logoutUserAction: () => void;
+  clearFormDataAction: () => void;
 }
 interface state {
   isVerifyApicalled: boolean;
@@ -95,7 +95,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL); //If Mortgage data is not found!(Case when user signIn's from another device with has no Mortgage data set), Need to be discussed
       }
       if (_get(setUserMortgageResponse, DB_KEYS.RESPONSE_DATA, null)) {
-        this.props.logoutUserAction();
+        this.props.clearFormDataAction();
         this.setState({isVerifyApicalled: true});
       }
       //   await resetAuthToken();
@@ -271,7 +271,7 @@ const bindActions = dispatch => ({
   resendEmail: payload => dispatch(resendEmail.fetchCall(payload)),
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
-  logoutUserAction: () => dispatch(logoutUser()),
+  clearFormDataAction: () => dispatch(clearFormData()),
 });
 
 export const DeepLinkLanding = connect(

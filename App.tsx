@@ -13,6 +13,7 @@ import {getUserInfo} from './src/store/reducers';
 import {NAVIGATION_SCREEN_NAME, DB_KEYS} from './src/utils/constants';
 import {get as _get} from 'lodash';
 import OneSignal from 'react-native-onesignal';
+import {notification} from './src/store/actions/actions';
 
 const ONE_SIGNAL_APP_ID = 'ce763fbb-0f60-4f44-b709-30eedbf62388'; //Should be moved to a saparate .env file
 const NOTIFICATION_DISPLAY = 2; //always display notification in shade.
@@ -154,8 +155,10 @@ class App extends React.Component<props, state> {
    *
    * @param openResult : object : contains notification info(body, additional data)
    */
-  onOpened(openResult: any) {
-    navigate(NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION, {});
+  async onOpened(openResult: any) {
+    if (_get(store.getState(), DB_KEYS.USER_INFO, null))
+      navigate(NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION, {});
+    else await store.dispatch(notification());
     console.log(
       'onOpened : Message =>',
       _get(openResult.notification, DB_KEYS.ONE_SIGNAL_NOTIFICATION.BODY, ''),
