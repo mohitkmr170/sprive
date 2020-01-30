@@ -111,7 +111,6 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     },
   ];
   handleLogOut = async () => {
-    this.props.logoutUserAction();
     OneSignal.removeExternalUserId();
     const {getUserInfoResponse} = this.props;
     setAuthToken(
@@ -120,6 +119,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     )
       .then(response => {
         // showSnackBar(APP_CONSTANTS.LOG_OUT);
+        this.props.logoutUserAction();
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
       })
       .catch(error => {
