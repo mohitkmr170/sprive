@@ -1,5 +1,5 @@
 import apiConstants from '../../../config/apiConstants';
-import {postRequest} from '../requestServices';
+import {patchRequest} from '../requestServices';
 
 const endPoint = apiConstants.API_END_POINTS.RESET_PASSWORD;
 /**
@@ -7,6 +7,6 @@ const endPoint = apiConstants.API_END_POINTS.RESET_PASSWORD;
  * @param body : object : payload for POST api call
  */
 
-export function updatePassword(body: object) {
-  return postRequest(endPoint, body);
+export function updatePassword(body: object, qParam: object) {
+  return patchRequest(endPoint, body, qParam);
 }

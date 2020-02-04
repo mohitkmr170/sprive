@@ -5,10 +5,10 @@ class updatePasswordData extends StoreFetchableData {
   constructor() {
     super('updatePassword', getApi);
   }
-  fetchCall(data: any) {
+  fetchCall(data: any, moreData: any) {
     return dispatch =>
       dispatch(this.actions.fetch()) &&
-      this.fetchData(data)
+      this.fetchData(data, moreData)
         .then((res: any) => {
           dispatch(this.actions.response(res));
         })

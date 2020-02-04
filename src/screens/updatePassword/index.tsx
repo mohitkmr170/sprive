@@ -45,7 +45,7 @@ interface props {
   };
   handleSubmit: (values?: {email: string; password: string}) => void;
   getUserInfo: () => void;
-  updatePassword: (payload: object) => void;
+  updatePassword: (payload: object, extraPayload: object) => void;
   getUserInfoResponse: object;
   reducerResponse: object;
   updatePasswordResponse: object;
@@ -86,7 +86,7 @@ export class UnconnectedUpdatePassword extends React.Component<props, state> {
   }
 
   handleSubmition = async (values: object) => {
-    const {updatePassword} = this.props;
+    const {updatePassword, getUserInfoResponse} = this.props;
     if (
       _get(values, DB_KEYS.UPDATE_PASSWORD.NEW_PASSWORD, '') ===
       _get(values, DB_KEYS.UPDATE_PASSWORD.RETYPE_PASSWORD, '')
@@ -103,7 +103,15 @@ export class UnconnectedUpdatePassword extends React.Component<props, state> {
           '',
         ),
       };
-      await updatePassword(payload);
+
+      const updatePasswordQueryParams: any = {
+        [PAYLOAD_KEYS.USER_ID]: String(
+          _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+        ),
+      };
+
+      await updatePassword(payload, updatePasswordQueryParams);
+
       this.setState({isUpdateComplete: true});
     }
   };
@@ -327,8 +335,8 @@ const mapStateToProps = state => ({
 
 const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
-  updatePassword: (payload: object) =>
-    dispatch(updatePassword.fetchCall(payload)),
+  updatePassword: (payload: object, extraPayload: object) =>
+    dispatch(updatePassword.fetchCall(payload, extraPayload)),
   logoutUserAction: () => dispatch(logoutUser()),
 });
 
