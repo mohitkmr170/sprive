@@ -44,4 +44,6 @@ export const APP_CONSTANTS = {
     PASSWORD: 'password',
   },
   HARD_BACK_PRESS: 'hardwareBackPress',
+  MIN_MORTGAGE_TERM: 1,
+  MAX_MORTGAGE_TERM: 35,
 };

@@ -399,7 +399,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                   maximumValue={_get(
                     getUserMortgageDataResponse,
                     DB_KEYS.MORTGAGE_TERM,
-                    null,
+                    APP_CONSTANTS.MAX_MORTGAGE_TERM,
                   )}
                   trackStyle={styles.trackStyle}
                   step={SLIDER_STEP}
