@@ -168,6 +168,13 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
                   showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
                 });
             }
+          } else {
+            // CASE-: Token available, but failed to get user data corresponding to same.
+            // Reason -: Invalid token OR invalid value in keychain/keystore
+            // console.log('else case, getUserInfoResponse ---> ', {
+            //   ...getUserInfoResponse,
+            // });
+            this.setState({deeplinkLoading: false});
           }
         } else {
           console.log('here3');
