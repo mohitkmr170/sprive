@@ -9,11 +9,14 @@ import {
   STYLE_CONSTANTS,
   APP_CONSTANTS,
   LOCALE_STRING,
+  NAVIGATION_SCREEN_NAME,
 } from '../../utils';
 import {PendingTaskListItem} from './PendingTaskListItem';
 import {styles} from './styles';
 
-interface props {}
+interface props {
+  navigation: object;
+}
 interface state {
   pendingTaskProgress: number;
   isModalVisible: boolean;
@@ -34,18 +37,21 @@ const pendingTasks = [
     timeToComplete: '5 mins',
     defaultColorCode: '#FF7474',
     completePercetage: 0.25,
+    targetScreen: NAVIGATION_SCREEN_NAME.USER_PROFILE,
   },
   {
     pendingTaskName: 'Maximise your savings',
     timeToComplete: '10 mins',
     defaultColorCode: '#FF7474',
     completePercetage: 0.25,
+    targetScreen: '',
   },
   {
     pendingTaskName: 'Early repayment tracking',
     timeToComplete: '10 mins',
     defaultColorCode: '#FFB400',
     completePercetage: 0.5,
+    targetScreen: '',
   },
 ];
 
@@ -71,6 +77,7 @@ export class PendingTaskDrawer extends React.Component<props, state> {
     return currentProgressPercentage;
   };
   render() {
+    const {navigation} = this.props;
     const config = {
       velocityThreshold: GESTURE_CONFIGS.VEOLCITY_THRESHOLD,
       directionalOffsetThreshold: GESTURE_CONFIGS.DIRECTIONAL_OFFSET_THRESHOLD,
@@ -143,7 +150,13 @@ export class PendingTaskDrawer extends React.Component<props, state> {
               <View style={styles.pendingTaskCard}>
                 {pendingTasks &&
                   pendingTasks.map(item => {
-                    return <PendingTaskListItem item={item} />;
+                    return (
+                      <PendingTaskListItem
+                        item={item}
+                        navigation={navigation}
+                        onSwipeDown={this.onSwipeDown}
+                      />
+                    );
                   })}
               </View>
             </View>

@@ -3,7 +3,7 @@ import {Text, View, TextInput, TouchableOpacity, Image} from 'react-native';
 import {iEmail, iEye, iPasswordLock, iLock} from '../../assets';
 import Icon from 'react-native-vector-icons/Feather';
 import {textInputBoxStyle} from './styles';
-import {APP_CONSTANTS} from '../../utils';
+import {APP_CONSTANTS, STYLE_CONSTANTS} from '../../utils';
 
 interface props {
   label: string;
@@ -17,6 +17,7 @@ interface props {
   password: boolean;
   value: string;
   secureTextEntry: boolean;
+  fieldLabelStyle: object;
 }
 interface state {}
 
@@ -32,10 +33,18 @@ export class TextInputBox extends React.Component<props, state> {
       password,
       value,
       secureTextEntry,
+      fieldLabelStyle,
     } = this.props;
     return (
       <View>
-        {label && <Text style={[textInputBoxStyle.labelText]}>{label}</Text>}
+        {label && (
+          <Text
+            style={
+              fieldLabelStyle ? fieldLabelStyle : textInputBoxStyle.labelText
+            }>
+            {label}
+          </Text>
+        )}
         <View style={[textInputBoxStyle.inputContainer, customContainerStyle]}>
           <View style={textInputBoxStyle.topContainer}>
             {currencyIcon && (
