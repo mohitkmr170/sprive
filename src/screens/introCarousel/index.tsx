@@ -104,6 +104,11 @@ export class IntroCarousel extends React.Component<props, state> {
             horizontal
             onTouchStart={() => this.setState({isTouchActive: true})}
             onTouchEnd={() => this.setState({isTouchActive: false})}
+            onMomentumScrollEnd={()=>{
+              if(this.state.isTouchActive) {
+                this.setState({isTouchActive: false})
+              }
+            }}
             autoplayTimeout={CAROUSEL_AUTO_SCROLL_INTERVAL}
             paginationStyle={styles.PaginationContainerStyle}
             dotStyle={styles.inactiveDotStyle}
