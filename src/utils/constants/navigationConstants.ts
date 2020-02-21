@@ -21,4 +21,7 @@ export const NAVIGATION_SCREEN_NAME = {
   FORGOT_PASSWORD_MAIL: 'PasswordCheckMailScreen',
   UPDATE_PASSWORD: 'UpdatePasswordScreen',
   PUSH_NOTIFICATION: 'PushNotificationScreen',
+  USER_PROFILE: 'UserProfileScreen',
+  USER_ADDRESS: 'UserAddressScreen',
+  SEARCH_ADDRESS: 'SearchAddressScreen',
 };

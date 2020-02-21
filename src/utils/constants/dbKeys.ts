@@ -104,6 +104,18 @@ export const DB_KEYS = {
     RESET_PASSWORD: 'resetPassword',
     UPDATE_PASSWORD: 'updatePassword',
   },
+  USER_PROFILE: {
+    FIRST_NAME: 'userProfile.values.firstName',
+    LAST_NAME: 'userProfile.values.lastName',
+    DOB: 'userProfile.values.dateOfBirth',
+    ADDRESS: 'userProfile.values.address',
+  },
+  USER_ADDRESS: {
+    FLAT_NUMBER: 'userAddress.values.flatNumber',
+    STREET_NAME: 'userAddress.values.streetName',
+    CITY: 'userAddress.values.city',
+    POST_CODE: 'userAddress.values.postCode',
+  },
   IS_BLOCKED: 'response.data.errors.is_blocked',
   USER_INFO_RESPONSE_IS_BLOCKED: 'response.response.data.errors.is_blocked',
   PUSH_NOTIFICATION: 'response.data.push_notification_id',

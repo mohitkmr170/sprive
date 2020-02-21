@@ -3,6 +3,8 @@ export const APP_CONSTANTS = {
   GRAPH_HEIGHT: 200,
   LOGIN_FORM: 'logIn',
   SIGNUP_FORM: 'signup',
+  USER_PROFILE_FORM: 'userProfile',
+  USER_ADDRESS_FORM: 'userAddress',
   MORTGAGE_INPUT_FORM: 'MortgageInput',
   FORGOT_PASSWORD_FORM: 'forgotPassword',
   RESET_PASSWORD_FORM: 'resetPassword',
