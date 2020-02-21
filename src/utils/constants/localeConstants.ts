@@ -156,6 +156,7 @@ export const LOCALE_STRING = {
     UPDATE: 'updateMortgage.update',
   },
   SIDE_BAR: {
+    USER_PROFILE: 'sideBar.userProfile',
     NOTIFICATION: 'sideBar.notifications',
     OVER_PAYMENT_HISTORY: 'sideBar.overPaymentHistory',
     SETTINGS: 'sideBar.settings',
@@ -249,5 +250,7 @@ export const LOCALE_STRING = {
     POST_CODE: 'userProfile.postCode',
     SEARCH_FLAT: 'userProfile.searchFlat',
     NO_ADDRESS_FOUND: 'userProfile.noAddressFound',
+    DONE: 'userProfile.done',
+    EDIT: 'userProfile.edit',
   },
 };
