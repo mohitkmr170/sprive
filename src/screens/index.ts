@@ -21,3 +21,4 @@ export * from './pushNotification';
 export * from './userProfile';
 export * from './userAddress';
 export * from './searchAddress';
+export * from './userProfileViewMode';
