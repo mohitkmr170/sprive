@@ -208,6 +208,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getUserMortgageDataResponse,
       getUserGoalResponse,
       pushNotificationResponse,
+      navigation,
     } = this.props;
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
@@ -438,7 +439,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             />
           )}
           {/* Condition to be added */}
-          <PendingTaskDrawer />
+          <PendingTaskDrawer navigation={navigation} />
         </View>
       );
   }

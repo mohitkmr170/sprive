@@ -18,3 +18,6 @@ export * from './resetPassword';
 export * from './ForgotPasswordMail';
 export * from './updatePassword';
 export * from './pushNotification';
+export * from './userProfile';
+export * from './userAddress';
+export * from './searchAddress';
