@@ -73,6 +73,7 @@
     "length10": "Must be 10 characters",
     "invalidEmail": "Invalid email address",
     "alphaNumberic": "Atleast one character and one number",
+    "alphaBetsWithSpaces": "Only aplhabets allowed",
     "maxLimitMortgage": "Invalid amount. Please re-enter a value less than £10,000,000",
     "maxLimitMonthlyMortgage": "Invalid amount. Please re-enter a value less than £10,000",
     "yearRange": "should be between [0-35] range",
@@ -231,7 +232,7 @@
     "yourPendingTask": "Your pending tasks",
     "completionDescription": "Completing your information allows Sprive to more accurately find you better deals and maximise your savings",
     "progress": "Progress",
-    "percentageComplete": "{{percent}} % Complete"
+    "percentageComplete": "{{percent}}% Complete"
   },
   "userProfile": {
     "userProfile": "User Profile",

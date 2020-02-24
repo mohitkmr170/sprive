@@ -72,6 +72,7 @@ export const LOCALE_STRING = {
     YEAR_RANGE: 'validationMessages.yearRange',
     WHITE_SPACES: 'validationMessages.whiteSpaces',
     PASSWORD_NOT_MATCHED: 'validationMessages.passwordNotMatched',
+    APLHABETS_WITH_SPACES: 'validationMessages.alphaBetsWithSpaces',
   },
   SET_GOAL_SCREEN: {
     TITLE: 'setGoalScreen.title',
