@@ -90,6 +90,7 @@ export class UnConnectedUserProfileViewMode extends React.Component<
                 autoCapitalize: false,
                 autoCorrect: false,
                 returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                editable: false,
               }}
               validate={[alphaNumeric, required]}
             />
@@ -103,6 +104,7 @@ export class UnConnectedUserProfileViewMode extends React.Component<
                 autoCapitalize: false,
                 autoCorrect: false,
                 returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                editable: false,
               }}
               validate={[alphaNumeric, required]}
             />
@@ -118,6 +120,7 @@ export class UnConnectedUserProfileViewMode extends React.Component<
                 autoCapitalize: false,
                 autoCorrect: false,
                 returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                editable: false,
               }}
               validate={[alphaNumeric, required, dobValidation]}
             />
@@ -131,6 +134,8 @@ export class UnConnectedUserProfileViewMode extends React.Component<
                 autoCapitalize: false,
                 autoCorrect: false,
                 returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                multiline: true,
+                editable: false,
               }}
               validate={[alphaNumeric, required]}
             />
