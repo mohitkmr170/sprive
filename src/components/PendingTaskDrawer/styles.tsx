@@ -29,6 +29,19 @@ export const styles = StyleSheet.create({
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
+  innerControllerContainer: {
+    position: 'absolute',
+    top: -STYLE_CONSTANTS.margin.SMALL,
+    width: STYLE_CONSTANTS.device.MAX_WIDTH,
+    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
+    alignItems: 'center',
+  },
+  innerControllerView: {
+    width: STYLE_CONSTANTS.margin.HUMONGOUS,
+    height: STYLE_CONSTANTS.margin.SMALLEST,
+    borderRadius: 2,
+    backgroundColor: COLOR.WHITE,
+  },
   progressText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.TINY,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
