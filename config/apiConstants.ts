@@ -22,5 +22,6 @@ export default {
     RESET_PASSWORD_LINK: '/send-reset-password-link',
     RESET_PASSWORD: '/reset-password',
     PUSH_NOTIFICATION: '/push-notification',
+    PENDING_TASK: '/pending-tasks',
   },
 };
