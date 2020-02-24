@@ -18,6 +18,7 @@ import {
   getProjectedData,
   getUserMortgageData,
   getUserGoal,
+  getPendingTask,
 } from '../store/reducers';
 import {connect} from 'react-redux';
 import {
@@ -69,6 +70,8 @@ interface props {
   getUserGoalResponse: object;
   notification: () => void;
   notificationResponse: object;
+  getPendingTask: (payload: object, extraPayload: object) => void;
+  getPendingTaskResponse: object;
 }
 
 interface state {}
@@ -155,6 +158,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       getUserMortgageData,
       getUserGoal,
       notificationResponse,
+      getPendingTask,
     } = this.props;
     const userId = _get(getUserInfoResponses, DB_KEYS.DATA_ID, null);
     const isNotificationReceived = _get(
@@ -168,6 +172,10 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
+    const pendingTask_qParam = {
+      [PAYLOAD_KEYS.USER_ID]: userId,
+    };
+    await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
       reset(
@@ -358,6 +366,7 @@ const mapStateToProps = state => ({
   getUserMortgageDataResponse: state.getUserMortgageData,
   getUserGoalResponse: state.getUserGoal,
   notificationResponse: state.notification,
+  getPendingTaskResponse: state.getPendingTask,
 });
 
 const bindActions = dispatch => ({
@@ -372,6 +381,8 @@ const bindActions = dispatch => ({
   getUserGoal: (payload, extraPayload) =>
     dispatch(getUserGoal.fetchCall(payload, extraPayload)),
   notification: () => dispatch(notification()),
+  getPendingTask: (payload, extraPayload) =>
+    dispatch(getPendingTask.fetchCall(payload, extraPayload)),
 });
 
 export const AuthLoading = connect(

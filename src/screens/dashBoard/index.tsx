@@ -44,6 +44,7 @@ import {
   getProjectedData,
   getUserMortgageData,
   getUserGoal,
+  getPendingTask,
 } from '../../store/reducers';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
 
@@ -71,6 +72,8 @@ interface props {
   getUserGoal: (payload: object, extraPayload: object) => void;
   getUserGoalResponse: object;
   pushNotificationResponse: object;
+  getPendingTask: (payload: object, extraPayload: object) => void;
+  getPendingTaskResponse: object;
 }
 
 interface state {
@@ -135,6 +138,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       navigation,
       getUserMortgageData,
       getUserGoal,
+      getPendingTask,
     } = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     if (!getUserInfoResponse || !userId)
@@ -143,6 +147,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
+    const pendingTask_qParam = {
+      [PAYLOAD_KEYS.USER_ID]: userId,
+    };
+    await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
       this.setState({loading: false});
@@ -209,6 +217,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getUserGoalResponse,
       pushNotificationResponse,
       navigation,
+      getPendingTaskResponse,
     } = this.props;
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
@@ -439,7 +448,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             />
           )}
           {/* Condition to be added */}
-          <PendingTaskDrawer navigation={navigation} />
+          {_get(getPendingTaskResponse, DB_KEYS.RESPONSE_DATA, []).length ? (
+            <PendingTaskDrawer navigation={navigation} />
+          ) : null}
         </View>
       );
   }
@@ -453,6 +464,7 @@ const mapStateToProps = state => ({
   getUserMortgageDataResponse: state.getUserMortgageData,
   getUserGoalResponse: state.getUserGoal,
   pushNotificationResponse: state.pushNotification,
+  getPendingTaskResponse: state.getPendingTask,
 });
 
 const bindActions = dispatch => ({
@@ -466,6 +478,8 @@ const bindActions = dispatch => ({
     dispatch(getUserMortgageData.fetchCall(payload, extraPayload)),
   getUserGoal: (payload, extraPayload) =>
     dispatch(getUserGoal.fetchCall(payload, extraPayload)),
+  getPendingTask: (payload, extraPayload) =>
+    dispatch(getPendingTask.fetchCall(payload, extraPayload)),
 });
 
 export const DashBoard = connect(
