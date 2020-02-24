@@ -56,4 +56,6 @@ export const COLOR = {
   PARTIAL_BLACK: 'rgba(9, 36, 94, 0.3)',
   ALICE_BLUE: '#F7F8FA',
   SMOKE_WHITE: '#F5F5F5',
+  SALMON_RED: '#FF7474',
+  AMBER: '#FFB400',
 };

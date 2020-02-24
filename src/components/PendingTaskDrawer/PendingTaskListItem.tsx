@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {get as _get} from 'lodash';
-import {COLOR, STYLE_CONSTANTS} from '../../utils';
+import {COLOR, STYLE_CONSTANTS, getPendingTaskColorCode} from '../../utils';
 import {styles} from './styles';
 
 interface props {
@@ -22,15 +22,15 @@ export class PendingTaskListItem extends React.Component<props, state> {
     return currentProgressPercentage;
   };
   render() {
+    const pendingTaskCompletionPercentage =
+      _get(this.props.item, 'completePercetage', 0) * 100;
     return (
       <TouchableOpacity
         style={[
           styles.pendingListItemContainer,
           {
-            backgroundColor: _get(
-              this.props.item,
-              'defaultColorCode',
-              COLOR.LIGHTER_GRAY,
+            backgroundColor: getPendingTaskColorCode(
+              pendingTaskCompletionPercentage,
             ),
           },
         ]}>
@@ -46,11 +46,7 @@ export class PendingTaskListItem extends React.Component<props, state> {
           <Progress.Circle
             size={STYLE_CONSTANTS.margin.HUGE}
             progress={_get(this.props.item, 'completePercetage', 0)}
-            color={_get(
-              this.props.item,
-              'defaultColorCode',
-              COLOR.LIGHTER_GRAY,
-            )}
+            color={getPendingTaskColorCode(pendingTaskCompletionPercentage)}
             unfilledColor={COLOR.LIGHTER_GRAY}
             borderWidth={0}
             showsText
