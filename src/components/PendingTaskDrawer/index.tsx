@@ -118,6 +118,9 @@ export class PendingTaskDrawer extends React.Component<props, state> {
             onBackdropPress={() => this.onSwipeDown()}
             style={styles.modalContainer}>
             <View style={styles.pendingTaskContainer}>
+              <View style={styles.innerControllerContainer}>
+                <View style={styles.innerControllerView} />
+              </View>
               <Text style={styles.yourPendingTaskText}>
                 {localeString(LOCALE_STRING.PENDING_TASK.YOUR_PENDING_TASK)}
               </Text>
