@@ -224,5 +224,12 @@
     "update": "Update",
     "updateSuccess": "Password updated successfully",
     "updateFail": "Update password failed"
+  },
+  "pendingTask": {
+    "completeYourProfile": "Complete your profile",
+    "yourPendingTask": "Your pending tasks",
+    "completionDescription": "Completing your information allows Sprive to more accurately find you better deals and maximise your savings",
+    "progress": "Progress",
+    "percentageComplete": "{{percent}} % Complete"
   }
 }

@@ -22,6 +22,7 @@ import {
   StackBarGraph,
   StatusOverlay,
   LoadingModal,
+  PendingTaskDrawer,
   GeneralStatusBar,
 } from '../../components';
 import * as Progress from 'react-native-progress';
@@ -436,6 +437,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               )}
             />
           )}
+          {/* Condition to be added */}
+          <PendingTaskDrawer />
         </View>
       );
   }
