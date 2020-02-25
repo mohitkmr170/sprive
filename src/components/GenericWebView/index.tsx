@@ -28,6 +28,10 @@ export class GenericWebView extends React.Component<props, state> {
     };
   }
   componentDidMount() {
+    console.log(
+      'componentDidMount : this.state.webViewUri : =>',
+      this.state.webViewUri,
+    );
     if (!this.state.webViewUri) this.props.navigation.goBack();
   }
   render() {
