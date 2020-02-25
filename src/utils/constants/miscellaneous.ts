@@ -17,3 +17,17 @@ export const FE_FORM_VALUE_CONSTANTS = {
     MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
   },
 };
+export const TASK_IDS = {
+  TASK_ONE: 1,
+  TASK_TWO: 2,
+  TASK_THREE: 3,
+  TASK_FOUR: 4,
+  TASK_FIVE: 5,
+};
+export const STAGE_IDS = {
+  STAGE_ONE: 1,
+  STAGE_TWO: 2,
+  STAGE_THREE: 3,
+  STAGE_FOUR: 4,
+  STAGE_FIVE: 5,
+};
