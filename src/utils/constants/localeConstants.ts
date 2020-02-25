@@ -220,4 +220,11 @@ export const LOCALE_STRING = {
     UPDATE_SUCCESS: 'updatePassword.updateSuccess',
     UPDATE_FAIL: 'updatePassword.updateFail',
   },
+  PENDING_TASK: {
+    COMPLETE_YOUR_PROFILE: 'pendingTask.completeYourProfile',
+    YOUR_PENDING_TASK: 'pendingTask.yourPendingTask',
+    COMPLETION_DESCRIPTION: 'pendingTask.completionDescription',
+    PROGRESS: 'pendingTask.progress',
+    PERCENTAGE_COMPLETE: 'pendingTask.percentageComplete',
+  },
 };

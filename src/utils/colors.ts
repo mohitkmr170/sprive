@@ -33,6 +33,8 @@ export const COLOR = {
   SHADOW_COLOR: '#000',
   LIGHT_BORDER: 'rgba(9, 36, 94, 0.1)',
   LIGHT_TEXT_GREEN: 'rgba(0, 193, 164, 1)',
+  LIGHT_TEXT_GREEN_MILD_OPACITY: 'rgba(0, 193, 164, 0.2)',
+  LIGHT_TEXT_GREEN_LEAST_OPACITY: 'rgba(0, 193, 164, 0.1)',
   SLIDER_COLOR: '#00C1A4',
   STEEL_GRAY: '#D3D6EB',
   BRICK_RED: '#FF7474',
@@ -53,4 +55,7 @@ export const COLOR = {
   HALF_VOILET: 'rgba(9, 36, 94, 0.5)',
   PARTIAL_BLACK: 'rgba(9, 36, 94, 0.3)',
   ALICE_BLUE: '#F7F8FA',
+  SMOKE_WHITE: '#F5F5F5',
+  SALMON_RED: '#FF7474',
+  AMBER: '#FFB400',
 };
