@@ -39,7 +39,13 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       dateOfBirth: '',
     };
   }
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    let taskAndStage = _get(this.props.navigation, 'state.params', {});
+    console.log(
+      'componentDidMount : this.props : navigation_params =>',
+      taskAndStage,
+    );
+  };
   handleFormSubmit = () => {};
   handleCompleteLater = () => {
     this.props.navigation.goBack();
