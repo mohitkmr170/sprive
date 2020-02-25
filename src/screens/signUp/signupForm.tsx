@@ -27,6 +27,7 @@ import {
   STYLE_CONSTANTS,
   COLOR,
   PAYLOAD_KEYS,
+  WEB_VIEW_PARAMS,
 } from '../../utils';
 import {Field, reduxForm, reset} from 'redux-form';
 import {connect} from 'react-redux';
@@ -149,8 +150,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     TODO : Onlick of Privacy prolicy to be handled
     */
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.GENERIC_WEB_VIEW, {
-      webViewUri:
-        'https://drive.google.com/open?id=1245ani10Xj25jnGUyUYtaU5idZ2Je9LZ',
+      webViewUri: WEB_VIEW_PARAMS.WEB_VIEW_URI,
     });
   };
 

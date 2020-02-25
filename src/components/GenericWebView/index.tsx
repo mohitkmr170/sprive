@@ -4,6 +4,7 @@ import {WebView} from 'react-native-webview';
 import {GeneralStatusBar, Header} from '../../components';
 import {get as _get} from 'lodash';
 import {styles} from './styles';
+import {WEB_VIEW_PARAMS} from '../../utils';
 
 interface props {
   navigation: {
@@ -21,7 +22,7 @@ export class GenericWebView extends React.Component<props, state> {
     this.state = {
       webViewUri: _get(
         this.props.navigation,
-        'state.params.webViewUri',
+        WEB_VIEW_PARAMS.WEB_VIEW,
         undefined,
       ),
     };
