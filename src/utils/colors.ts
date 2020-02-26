@@ -56,6 +56,8 @@ export const COLOR = {
   PARTIAL_BLACK: 'rgba(9, 36, 94, 0.3)',
   ALICE_BLUE: '#F7F8FA',
   SMOKE_WHITE: '#F5F5F5',
+  LIGHT_BORDER_LEAST_OPACITY: 'rgba(9, 36, 94, 0.02)',
+  MILD_BACKGROUND_BLACK: 'rgba(9, 36, 94, 0.05)',
   SALMON_RED: '#FF7474',
   AMBER: '#FFB400',
 };

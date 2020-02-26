@@ -231,5 +231,28 @@
     "completionDescription": "Completing your information allows Sprive to more accurately find you better deals and maximise your savings",
     "progress": "Progress",
     "percentageComplete": "{{percent}} % Complete"
+  },
+  "userProfile": {
+    "userProfile": "User Profile",
+    "aboutYou": "About you",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "dob": "Date of Birth",
+    "dobPlaceholder": "DD/MM/YYYY",
+    "address": "Address",
+    "next": "Next",
+    "completeLater": "Complete later",
+    "postCodeNotValid": "Post Code not Valid",
+    "postCodeNotRequired": "Post Code is Required",
+    "findAddress": "Find my address",
+    "enterManually": "Or enter it manually:",
+    "enterResidentialAddress": "Please enter your residential address",
+    "searchPostCode": "Search Post Code",
+    "flatNumber": "House or Flat Number",
+    "streetName": "Street Name",
+    "city": "City",
+    "postCode": "PostCode",
+    "searchFlat": "Search house or flat number",
+    "noAddressFound": "No Address Found!"
   }
 }

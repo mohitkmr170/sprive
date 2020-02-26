@@ -30,6 +30,9 @@ import {
   PasswordCheckMail,
   UpdatePassword,
   PushNotification,
+  UserProfile,
+  UserAddress,
+  SearchAddress,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 import {GenericWebView} from '../components';
@@ -175,6 +178,15 @@ const AppStackNavigator = createStackNavigator(
     },
     PushNotificationScreen: {
       screen: PushNotification,
+    },
+    UserProfileScreen: {
+      screen: UserProfile,
+    },
+    UserAddressScreen: {
+      screen: UserAddress,
+    },
+    SearchAddressScreen: {
+      screen: SearchAddress,
     },
   },
   {

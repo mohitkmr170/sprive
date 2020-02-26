@@ -11,6 +11,7 @@ const REGEX = {
   NUMERIC: /[^0-9]/i,
   EMAIL: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
   ALPHA_NUMERIC: /(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]|[@]*$/i,
+  DATE_OF_BIRTH: /^(((0[1-9]|[12][0-9]|30)[-/]?(0[13-9]|1[012])|31[-/]?(0[13578]|1[02])|(0[1-9]|1[0-9]|2[0-8])[-/]?02)[-/]?[0-9]{4}|29[-/]?02[-/]?([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00))$/,
 };
 
 /**
@@ -128,6 +129,17 @@ export const negativeValidation = (value: any) => {
   const thresholdMonthlyLimit = monthlyMortgage / (timePeriod * 12);
   return value && thresholdMonthlyLimit > Number(withoutCommas)
     ? localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.INVALID_AMOUNT)
+    : undefined;
+};
+/**
+ *
+ * @param value : string : Date of Birth
+ * Validation of DOB entered by User
+ */
+export const dobValidation = (value: string) => {
+  let date = value.split('/');
+  return value && !REGEX.DATE_OF_BIRTH.test(value)
+    ? 'Invalid Date of Birth'
     : undefined;
 };
 /**

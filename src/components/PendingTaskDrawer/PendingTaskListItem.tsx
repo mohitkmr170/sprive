@@ -2,11 +2,22 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {get as _get} from 'lodash';
-import {COLOR, STYLE_CONSTANTS, getPendingTaskColorCode} from '../../utils';
+import {
+  getPendingTaskColorCode,
+  COLOR,
+  STYLE_CONSTANTS,
+  NAVIGATION_SCREEN_NAME,
+} from '../../utils';
 import {styles} from './styles';
 
+const SWIPE_DOWN_ANIMATION_DELAY = 200;
 interface props {
   item: object;
+  navigation: {
+    navigate: (routeName: string, params?: object) => void;
+    goBack: () => void;
+  };
+  onSwipeDown: () => void;
 }
 interface state {}
 
@@ -21,6 +32,12 @@ export class PendingTaskListItem extends React.Component<props, state> {
       _get(this.props.item, 'completePercetage', 0) * 100 + '%';
     return currentProgressPercentage;
   };
+  handleTargetNavigation = () => {
+    setTimeout(
+      () => this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_PROFILE),
+      SWIPE_DOWN_ANIMATION_DELAY,
+    );
+  };
   render() {
     const pendingTaskCompletionPercentage =
       _get(this.props.item, 'completePercetage', 0) * 100;
@@ -33,7 +50,9 @@ export class PendingTaskListItem extends React.Component<props, state> {
               pendingTaskCompletionPercentage,
             ),
           },
-        ]}>
+        ]}
+        onPress={() => this.handleTargetNavigation()}
+        onPressIn={this.props.onSwipeDown}>
         <View style={styles.pendingListItemMainContainer}>
           <View>
             <Text style={styles.taskName}>
