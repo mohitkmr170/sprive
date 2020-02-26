@@ -23,5 +23,6 @@ export default {
     RESET_PASSWORD: '/reset-password',
     PUSH_NOTIFICATION: '/push-notification',
     PENDING_TASK: '/pending-tasks',
+    GET_ADDRESS: '/get-address',
   },
 };
