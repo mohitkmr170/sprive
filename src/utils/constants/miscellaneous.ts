@@ -17,3 +17,8 @@ export const FE_FORM_VALUE_CONSTANTS = {
     MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
   },
 };
+export const WEB_VIEW_PARAMS = {
+  WEB_VIEW: 'state.params.webViewUri',
+  WEB_VIEW_URI:
+    'https://drive.google.com/open?id=1245ani10Xj25jnGUyUYtaU5idZ2Je9LZ',
+};

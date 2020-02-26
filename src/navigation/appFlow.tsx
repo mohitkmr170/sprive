@@ -35,6 +35,7 @@ import {
   SearchAddress,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
+import {GenericWebView} from '../components';
 
 /**
  * Tab Navigator, can be used as a screen to which we can navigate to
@@ -127,6 +128,9 @@ const AuthStackNavigator = createStackNavigator(
     },
     PasswordCheckMailScreen: {
       screen: PasswordCheckMail,
+    },
+    GenericWebViewScreen: {
+      screen: GenericWebView,
     },
   },
   {
