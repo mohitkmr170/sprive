@@ -22,3 +22,11 @@ export const WEB_VIEW_PARAMS = {
   WEB_VIEW_URI:
     'https://drive.google.com/open?id=1245ani10Xj25jnGUyUYtaU5idZ2Je9LZ',
 };
+export const APP_REGEX = {
+  POST_CODE_UK: /[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}/i,
+};
+export const SEARCH_ADDRESS = {
+  ITEM_INDEX: 'index',
+  ITEM_COMPLETE_ADDRESS: 'item.completeAddress',
+  COMPLETE_ADDRESS: 'completeAddress',
+};

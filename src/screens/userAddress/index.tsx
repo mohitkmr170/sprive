@@ -19,6 +19,7 @@ import {
   COLOR,
   DB_KEYS,
   STYLE_CONSTANTS,
+  APP_REGEX,
 } from '../../utils';
 import {styles} from './styles';
 
@@ -33,8 +34,6 @@ interface props {
 interface state {
   postCode: string;
 }
-
-const postcodeRegEx = /[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}/i;
 
 export class UnConnectedUserAddress extends React.Component<props, state> {
   constructor(props: props) {
@@ -51,7 +50,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
   handleAddressSearch = () => {
     const {postCode} = this.state;
     if (postCode) {
-      if (postcodeRegEx.test(postCode))
+      if (APP_REGEX.POST_CODE_UK.test(postCode))
         //As per postCode rules in UK
         //API call to search address based on Post Code
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SEARCH_ADDRESS);
