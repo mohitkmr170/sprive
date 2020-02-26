@@ -138,4 +138,7 @@ export const DB_KEYS = {
     TASK_NAME: 'task_name',
     TIME_TO_COMPLETE: 'time_to_complete',
   },
+  GET_ADDRESS: {
+    DISPLAY_ADDRESS: 'display_address',
+  },
 };

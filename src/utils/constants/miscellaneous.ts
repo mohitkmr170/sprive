@@ -2,6 +2,14 @@
 NOTES : This is kept here temporarily, will be modified later
 */
 
+export const LOCAL_KEYS = {
+  HOUSE_NUMBER: 'item.house_number',
+  STREET_NAME: 'item.street_name',
+  CITY: 'item.city',
+  POST_CODE: 'item.post_code',
+  DISPLAY_ADDRESS: 'item.display_address',
+};
+
 export const ICON = {
   UP: 'ios-arrow-round-up',
   DOWN: 'ios-arrow-round-down',
@@ -15,6 +23,12 @@ export const FE_FORM_VALUE_CONSTANTS = {
     MORTGAGE_BALANCE: 'mortgageAmount',
     MORTGAGE_TERM: 'timePeriod',
     MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
+  },
+  GET_ADDRESS: {
+    FLAT_NUMBER: 'flatNumber',
+    STREET_NAME: 'streetName',
+    CITY: 'city',
+    POST_CODE: 'postCode',
   },
 };
 export const TASK_IDS = {
