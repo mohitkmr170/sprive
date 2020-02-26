@@ -6,3 +6,4 @@ export * from './reportIssue';
 export * from './userGoal';
 export * from './miscellaneous';
 export * from './pendingTask';
+export * from './getAddress';
