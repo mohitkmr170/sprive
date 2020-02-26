@@ -2,7 +2,9 @@ import React from 'react';
 import {View, Text, FlatList, TouchableOpacity, Alert} from 'react-native';
 import {Input} from 'react-native-elements';
 import {chatIcon} from '../../assets';
+import {change} from 'redux-form';
 import {get as _get} from 'lodash';
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 import {Header, GeneralStatusBar} from '../../components';
 import {
@@ -11,86 +13,77 @@ import {
   localeString,
   LOCALE_STRING,
   STYLE_CONSTANTS,
+  APP_CONSTANTS,
+  LOCAL_KEYS,
+  FE_FORM_VALUE_CONSTANTS,
+  DB_KEYS,
 } from '../../utils';
 import {styles} from './styles';
+import {store} from '../../store/configStore';
 
 interface props {
   navigation: {
-    navigate: (routeName: string) => void;
+    navigate: (routeName: string, params?: object) => void;
     goBack: () => void;
   };
+  getAddressResponse: object;
 }
 interface state {
   searchText: string;
   addressData: any;
 }
 
-const sampleAddressData = [
-  {
-    houserNumber: 'Flat A',
-    street: '10 Downing Street',
-    city: 'London',
-    postCode: 'N22 ABC',
-    completeAddress: 'Flat A, 10 Downing Street, London N22 ABC',
-  },
-  {
-    houserNumber: 'Flat B',
-    street: '10 Downing Street',
-    city: 'London',
-    postCode: 'N22 ABC',
-    completeAddress: 'Flat B, 10 Downing Street, London N22 ABC',
-  },
-  {
-    houserNumber: 'Flat C',
-    street: '10 Downing Street',
-    city: 'London',
-    postCode: 'N22 ABC',
-    completeAddress: 'Flat C, 10 Downing Street, London N22 ABC',
-  },
-  {
-    houserNumber: 'Flat D',
-    street: '10 Downing Street',
-    city: 'London',
-    postCode: 'N22 ABC',
-    completeAddress: 'Flat D, 10 Downing Street, London N22 ABC',
-  },
-  {
-    houserNumber: 'Flat E',
-    street: '10 Downing Street',
-    city: 'London',
-    postCode: 'N22 ABC',
-    completeAddress: 'Flat E, 10 Downing Street, London N22 ABC',
-  },
-  {
-    houserNumber: 'Flat F',
-    street: '10 Downing Street',
-    city: 'London',
-    postCode: 'N22 ABC',
-    completeAddress: 'Flat F, 10 Downing Street, London N22 ABC',
-  },
-];
-
-export class SearchAddress extends React.Component<props, state> {
+export class UnconnectedSearchAddress extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
       searchText: '',
-      addressData: sampleAddressData,
+      addressData: _get(
+        this.props.getAddressResponse,
+        DB_KEYS.RESPONSE_DATA,
+        [],
+      ),
     };
   }
   componentDidMount = () => {};
-  hanldeAddressSelection = (index: any) => {
-    console.log('hanldeAddressSelection : selected Index :::', index);
-    this.props.navigation.goBack();
+  hanldeAddressSelection = (selectedAddress: object) => {
+    store.dispatch(
+      change(
+        APP_CONSTANTS.USER_ADDRESS_FORM,
+        FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
+        _get(selectedAddress, LOCAL_KEYS.HOUSE_NUMBER, ''),
+      ),
+    ) &&
+      store.dispatch(
+        change(
+          APP_CONSTANTS.USER_ADDRESS_FORM,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
+          _get(selectedAddress, LOCAL_KEYS.STREET_NAME, ''),
+        ),
+      ) &&
+      store.dispatch(
+        change(
+          APP_CONSTANTS.USER_ADDRESS_FORM,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
+          _get(selectedAddress, LOCAL_KEYS.CITY, ''),
+        ),
+      ) &&
+      store.dispatch(
+        change(
+          APP_CONSTANTS.USER_ADDRESS_FORM,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
+          _get(selectedAddress, LOCAL_KEYS.POST_CODE, ''),
+        ),
+      );
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
   };
   /*
   NOTES : BD_KEYS not updated, will be done after API Integration
   */
   renderAddressList = (item: object) => {
-    console.log('Addresses :::', item);
     return (
       <TouchableOpacity
-        onPress={() => this.hanldeAddressSelection(_get(item, 'index', null))}
+        onPress={() => this.hanldeAddressSelection(item)}
         style={[
           styles.listContainer,
           {
@@ -99,28 +92,35 @@ export class SearchAddress extends React.Component<props, state> {
           },
         ]}>
         <Text style={styles.addressText}>
-          {_get(item, 'item.completeAddress', '')}
+          {_get(item, LOCAL_KEYS.DISPLAY_ADDRESS, '')}
         </Text>
       </TouchableOpacity>
     );
   };
   handleAddressSearch = (inputText: string) => {
+    const completeAddressList = _get(
+      this.props.getAddressResponse,
+      DB_KEYS.RESPONSE_DATA,
+      [],
+    );
     let addressDataResult: any = [];
     if (inputText) {
-      sampleAddressData.map((item: object, index: number) => {
+      completeAddressList.map((item: object, index: number) => {
         if (
-          _get(item, 'completeAddress', '')
+          _get(item, DB_KEYS.GET_ADDRESS.DISPLAY_ADDRESS, '')
             .toLowerCase()
             .search(inputText.toLowerCase()) >= 0
         ) {
           addressDataResult.push(item);
         }
-        if (index === sampleAddressData.length - 1) {
+        if (index === completeAddressList.length - 1) {
           this.setState({addressData: addressDataResult});
         }
       });
     } else {
-      this.setState({addressData: sampleAddressData});
+      this.setState({
+        addressData: completeAddressList,
+      });
     }
   };
   render() {
@@ -174,3 +174,13 @@ export class SearchAddress extends React.Component<props, state> {
     );
   }
 }
+const mapStateToProps = (state: object) => ({
+  getAddressResponse: state.getAddress,
+});
+
+const bindActions = () => ({});
+
+export const SearchAddress = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedSearchAddress);
