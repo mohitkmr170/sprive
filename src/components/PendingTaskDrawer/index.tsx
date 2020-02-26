@@ -35,23 +35,18 @@ const pendingTasks = [
   {
     pendingTaskName: 'Complete your profile',
     timeToComplete: '5 mins',
-    defaultColorCode: '#FF7474',
-    completePercetage: 0.25,
-    targetScreen: NAVIGATION_SCREEN_NAME.USER_PROFILE,
+    completePercetage: 0.15,
   },
   {
     pendingTaskName: 'Maximise your savings',
     timeToComplete: '10 mins',
-    defaultColorCode: '#FF7474',
     completePercetage: 0.25,
     targetScreen: '',
   },
   {
     pendingTaskName: 'Early repayment tracking',
     timeToComplete: '10 mins',
-    defaultColorCode: '#FFB400',
-    completePercetage: 0.5,
-    targetScreen: '',
+    completePercetage: 0.85,
   },
 ];
 

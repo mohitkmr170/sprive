@@ -27,6 +27,7 @@ import {
   STYLE_CONSTANTS,
   COLOR,
   PAYLOAD_KEYS,
+  WEB_VIEW_PARAMS,
 } from '../../utils';
 import {Field, reduxForm, reset} from 'redux-form';
 import {connect} from 'react-redux';
@@ -36,7 +37,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 interface props {
   navigation: {
-    navigate: (routeName: String) => void;
+    navigate: (routeName: String, params?: object) => void;
     goBack: () => void;
   };
   signUpUser: (payload: object) => void;
@@ -148,6 +149,9 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     /*
     TODO : Onlick of Privacy prolicy to be handled
     */
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.GENERIC_WEB_VIEW, {
+      webViewUri: WEB_VIEW_PARAMS.WEB_VIEW_URI,
+    });
   };
 
   handleSignInPress = () => {
