@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/Feather';
+import {getAddress} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
@@ -29,6 +30,8 @@ interface props {
   };
   handleSubmit: (values?: {email: string; password: string}) => void;
   reducerResponse: object;
+  getAddress: (payload: object) => void;
+  getAddressResponse: object;
 }
 interface state {
   postCode: string;
@@ -48,14 +51,21 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
   handleCompleteLater = () => {
     this.props.navigation.goBack();
   };
-  handleAddressSearch = () => {
+  handleAddressSearch = async () => {
+    const {getAddress} = this.props;
     const {postCode} = this.state;
     if (postCode) {
-      if (postcodeRegEx.test(postCode))
+      if (postcodeRegEx.test(postCode)) {
         //As per postCode rules in UK
         //API call to search address based on Post Code
-        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SEARCH_ADDRESS);
-      else
+        const payload = {
+          post_code: postCode,
+        };
+        await getAddress(payload);
+        const {getAddressResponse} = this.props;
+        if (!_get(getAddressResponse, DB_KEYS.ERROR, false))
+          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SEARCH_ADDRESS);
+      } else
         showSnackBar(
           {},
           localeString(LOCALE_STRING.USER_PROFILE.POST_CODE_NOT_VALID),
@@ -70,7 +80,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     this.setState({postCode});
   };
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, getAddressResponse} = this.props;
     const isFormValuesFilled =
       _get(
         this.props.reducerResponse,
@@ -131,9 +141,13 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
               hitSlop={APP_CONSTANTS.HIT_SLOP}
               onPress={() => this.handleAddressSearch()}
               style={styles.findAddressContainer}>
-              <Text style={styles.findMyAddressText}>
-                {localeString(LOCALE_STRING.USER_PROFILE.FIND_ADDRESS)}
-              </Text>
+              {_get(getAddressResponse, DB_KEYS.IS_FETCHING, false) ? (
+                <ActivityIndicator style={styles.searchLoader} />
+              ) : (
+                <Text style={styles.findMyAddressText}>
+                  {localeString(LOCALE_STRING.USER_PROFILE.FIND_ADDRESS)}
+                </Text>
+              )}
             </TouchableOpacity>
             <Text style={styles.enterManuallyText}>
               {localeString(LOCALE_STRING.USER_PROFILE.ENTER_MANUALLY)}
@@ -214,9 +228,12 @@ export const UserAddressForm = reduxForm({
 
 const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
+  getAddressResponse: state.getAddress,
 });
 
-const bindActions = () => ({});
+const bindActions = dispatch => ({
+  getAddress: payload => dispatch(getAddress.fetchCall(payload)),
+});
 
 export const UserAddress = connect(
   mapStateToProps,
