@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
 import {Header, GeneralStatusBar} from '../../components';
 import {
+  mapFormValues,
   COLOR,
   NAVIGATION_SCREEN_NAME,
   localeString,
@@ -47,35 +48,29 @@ export class UnconnectedSearchAddress extends React.Component<props, state> {
   }
   componentDidMount = () => {};
   hanldeAddressSelection = (selectedAddress: object) => {
-    store.dispatch(
-      change(
-        APP_CONSTANTS.USER_ADDRESS_FORM,
-        FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
-        _get(selectedAddress, LOCAL_KEYS.HOUSE_NUMBER, ''),
-      ),
-    ) &&
-      store.dispatch(
-        change(
-          APP_CONSTANTS.USER_ADDRESS_FORM,
-          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
-          _get(selectedAddress, LOCAL_KEYS.STREET_NAME, ''),
-        ),
-      ) &&
-      store.dispatch(
-        change(
-          APP_CONSTANTS.USER_ADDRESS_FORM,
-          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
-          _get(selectedAddress, LOCAL_KEYS.CITY, ''),
-        ),
-      ) &&
-      store.dispatch(
-        change(
-          APP_CONSTANTS.USER_ADDRESS_FORM,
-          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
-          _get(selectedAddress, LOCAL_KEYS.POST_CODE, ''),
-        ),
-      );
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
+    mapFormValues(
+      APP_CONSTANTS.USER_ADDRESS_FORM,
+      FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
+      _get(selectedAddress, LOCAL_KEYS.HOUSE_NUMBER, ''),
+    );
+    mapFormValues(
+      APP_CONSTANTS.USER_ADDRESS_FORM,
+      FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
+      _get(selectedAddress, LOCAL_KEYS.STREET_NAME, ''),
+    );
+    mapFormValues(
+      APP_CONSTANTS.USER_ADDRESS_FORM,
+      FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
+      _get(selectedAddress, LOCAL_KEYS.CITY, ''),
+    );
+    mapFormValues(
+      APP_CONSTANTS.USER_ADDRESS_FORM,
+      FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
+      _get(selectedAddress, LOCAL_KEYS.POST_CODE, ''),
+    );
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS, {
+      selectedAddressIndex: _get(selectedAddress, 'index', null),
+    });
   };
   /*
   NOTES : BD_KEYS not updated, will be done after API Integration
