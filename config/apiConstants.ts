@@ -24,5 +24,6 @@ export default {
     PUSH_NOTIFICATION: '/push-notification',
     PENDING_TASK: '/pending-tasks',
     GET_ADDRESS: '/get-address',
+    TASK_HANDLER: '/task-handler',
   },
 };
