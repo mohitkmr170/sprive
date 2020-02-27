@@ -52,12 +52,37 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
   }
   componentDidMount = () => {};
   handleFormSubmit = (values: object) => {
+    const {reducerResponse} = this.props;
     const selectedAddressIndex = _get(
       this.props.navigation,
       STATE_PARAMS.SELECTED_SEARCH_ADDRESS_INDEX,
       null,
     );
-    if (values && selectedAddressIndex) {
+    const selectedAddress =
+      _get(
+        reducerResponse,
+        `${APP_CONSTANTS.USER_ADDRESS_FORM}.values.flatNumber`,
+        null,
+      ) +
+      ', ' +
+      _get(
+        reducerResponse,
+        `${APP_CONSTANTS.USER_ADDRESS_FORM}.values.streetName`,
+        null,
+      ) +
+      ', ' +
+      _get(
+        reducerResponse,
+        `${APP_CONSTANTS.USER_ADDRESS_FORM}.values.city`,
+        null,
+      ) +
+      ', ' +
+      _get(
+        reducerResponse,
+        `${APP_CONSTANTS.USER_ADDRESS_FORM}.values.postCode`,
+        null,
+      );
+    if (values) {
       mapFormValues(
         APP_CONSTANTS.USER_PROFILE_FORM_VIEW_MODE,
         FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
@@ -76,13 +101,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
       mapFormValues(
         APP_CONSTANTS.USER_PROFILE_FORM_VIEW_MODE,
         FE_FORM_VALUE_CONSTANTS.USER_PROFILE.ADDRESS,
-        _get(
-          _get(this.props.getAddressResponse, DB_KEYS.RESPONSE_DATA, [])[
-            selectedAddressIndex
-          ],
-          LOCAL_KEYS.DISPLAY_ADDRESS_KEY,
-          null,
-        ),
+        selectedAddress,
       );
       this.props.navigation.navigate(
         NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
@@ -169,6 +188,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
                 />
               }
               autoCapitalize="characters"
+              autoCorrect={false}
               maxLength={7}
               containerStyle={styles.inputContainerWrapper}
               inputContainerStyle={styles.inputContainer}
@@ -237,6 +257,8 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
               component={ReduxFormField}
               props={{
                 maxLength: 7,
+                autoCapitalize: 'characters',
+                autoCorrect: false,
                 style: styles.formInput,
                 autoCapitalize: false,
                 returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,

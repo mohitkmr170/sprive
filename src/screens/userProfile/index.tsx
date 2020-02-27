@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
@@ -49,7 +49,12 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       taskAndStage,
     );
   };
-  handleFormSubmit = () => {};
+  handleFormSubmit = (values: object) => {
+    if (values) {
+      this.mapPrefilledAddress();
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
+    }
+  };
   handleCompleteLater = () => {
     this.props.navigation.goBack();
   };
@@ -73,6 +78,10 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     return val;
   };
   handleOnFocus() {
+    this.mapPrefilledAddress();
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
+  }
+  mapPrefilledAddress = () => {
     const {reducerResponse} = this.props;
     if (
       _get(
@@ -109,15 +118,13 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
         );
       }
     }
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
-  }
+  };
   render() {
     const {handleSubmit} = this.props;
     const isFormValuesFilled =
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.FIRST_NAME, null) &&
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.LAST_NAME, null) &&
-      _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.DOB, null) &&
-      _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.ADDRESS, null);
+      _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.DOB, null);
     const isAddressEditable =
       _get(
         this.props.reducerResponse,
@@ -207,7 +214,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
                   editable: isAddressEditable,
                 }}
                 onFocus={() => this.handleOnFocus()}
-                validate={[alphaNumeric, required]}
+                validate={[alphaNumeric]}
               />
             </View>
           </KeyboardAwareScrollView>
