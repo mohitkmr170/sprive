@@ -33,6 +33,7 @@ import {
   UserProfile,
   UserAddress,
   SearchAddress,
+  UserProfileViewMode,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 import {GenericWebView} from '../components';
@@ -187,6 +188,9 @@ const AppStackNavigator = createStackNavigator(
     },
     SearchAddressScreen: {
       screen: SearchAddress,
+    },
+    UserProfileViewModeScreen: {
+      screen: UserProfileViewMode,
     },
   },
   {

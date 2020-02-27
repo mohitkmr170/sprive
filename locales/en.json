@@ -163,6 +163,7 @@
     "update": "Update"
   },
   "sideBar": {
+    "userProfile": "Profile",
     "notifications": "Notifications",
     "overPaymentHistory": "Overpayment History",
     "settings": "Settings",
@@ -253,6 +254,8 @@
     "city": "City",
     "postCode": "PostCode",
     "searchFlat": "Search house or flat number",
-    "noAddressFound": "No Address Found!"
+    "noAddressFound": "No Address Found!",
+    "done": "Done",
+    "edit": "Edit"
   }
 }

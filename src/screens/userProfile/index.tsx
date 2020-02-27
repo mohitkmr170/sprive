@@ -72,6 +72,15 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.LAST_NAME, null) &&
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.DOB, null) &&
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.ADDRESS, null);
+    const isAddressEditable =
+      _get(
+        this.props.reducerResponse,
+        DB_KEYS.USER_PROFILE.FIRST_NAME,
+        false,
+      ) &&
+      _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.LAST_NAME, false) &&
+      _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.DOB, false) &&
+      true;
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
@@ -136,20 +145,23 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
               normalize={this.handleDateOfBirthEntry}
               validate={[alphaNumeric, required, dobValidation]}
             />
-            <Field
-              name="address"
-              label={localeString(LOCALE_STRING.USER_PROFILE.ADDRESS)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                autoCorrect: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-              }}
-              onFocus={() => this.handleOnFocus()}
-              validate={[alphaNumeric, required]}
-            />
+            <View style={{opacity: isAddressEditable ? 1 : 0.4}}>
+              <Field
+                name="address"
+                label={localeString(LOCALE_STRING.USER_PROFILE.ADDRESS)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  autoCorrect: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                  editable: isAddressEditable,
+                }}
+                onFocus={() => this.handleOnFocus()}
+                validate={[alphaNumeric, required]}
+              />
+            </View>
           </KeyboardAwareScrollView>
           <Button
             title={localeString(LOCALE_STRING.USER_PROFILE.NEXT)}

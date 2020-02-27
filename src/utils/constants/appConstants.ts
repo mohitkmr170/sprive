@@ -4,6 +4,7 @@ export const APP_CONSTANTS = {
   LOGIN_FORM: 'logIn',
   SIGNUP_FORM: 'signup',
   USER_PROFILE_FORM: 'userProfile',
+  USER_PROFILE_FORM_VIEW_MODE: 'userProfileViewMode',
   USER_ADDRESS_FORM: 'userAddress',
   MORTGAGE_INPUT_FORM: 'MortgageInput',
   FORGOT_PASSWORD_FORM: 'forgotPassword',

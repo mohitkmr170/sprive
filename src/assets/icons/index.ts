@@ -15,3 +15,4 @@ export const iFail = require('../icons/errorState.png');
 export const iEye = require('../icons/eye.png');
 export const iPasswordView = require('../icons/passwordView.svg');
 export const iPasswordLock = require('../icons/passwordLock.svg');
+export const iEdit = require('../icons/edit.png');
