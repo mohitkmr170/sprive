@@ -4,6 +4,7 @@ import {Button, Input} from 'react-native-elements';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
+import {reset} from '../../navigation/navigationService';
 import Icon from 'react-native-vector-icons/Feather';
 import {getAddress, taskHandler} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -156,7 +157,9 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     }
   };
   handleCompleteLater = () => {
-    this.props.navigation.goBack();
+    reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+      isUserDataChanged: true,
+    });
   };
   handleAddressSearch = async () => {
     const {getAddress} = this.props;
