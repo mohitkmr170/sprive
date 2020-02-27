@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Field, reduxForm, change} from 'redux-form';
 import {connect} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon, iEdit} from '../../assets';
+import {reset} from '../../navigation/navigationService';
 import {get as _get} from 'lodash';
 import {
   mapFormValues,
@@ -120,7 +121,9 @@ export class UnConnectedUserProfileViewMode extends React.Component<
     );
   };
   handleDonePressed = () => {
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+    reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+      isUserDataChanged: true,
+    });
   };
   handleEditPress = () => {
     this.handleFormDataMappings(APP_CONSTANTS.USER_PROFILE_FORM);
@@ -228,7 +231,7 @@ export class UnConnectedUserProfileViewMode extends React.Component<
                   multiline: true,
                   editable: false,
                 }}
-                validate={[alphaNumeric, required]}
+                validate={[alphaNumeric]}
               />
             </View>
           </KeyboardAwareScrollView>
@@ -252,7 +255,14 @@ export const UserProfileViewModeForm = reduxForm({
 })(UnConnectedUserProfileViewMode);
 
 const mapStateToProps = (state: object) => ({
+  initialValues: {
+    firstName: _get(state, DB_KEYS.PENDING_TASK.USER_INFO.FIRST_NAME, ''),
+    lastName: _get(state, DB_KEYS.PENDING_TASK.USER_INFO.LAST_NAME, ''),
+    dateOfBirth: _get(state, DB_KEYS.PENDING_TASK.USER_INFO.DOB, ''),
+    address: '', //To be integrated using address-api
+  },
   reducerResponse: state.form,
+  getUserInfoResponse: state.getUserInfo,
 });
 
 const bindActions = () => ({});
