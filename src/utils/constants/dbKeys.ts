@@ -128,6 +128,7 @@ export const DB_KEYS = {
     IDS: 'ids',
   },
   PENDING_TASK: {
+    IS_PENDING_TASK: 'response.data.is_pending_task',
     OVERALL_PROGRESS_PERCENTAGE: 'response.data.overall_progress_percentage',
     TASKS: 'response.data.tasks',
     COMPLETION_PERCENTAGE: 'completion_percentage',
@@ -135,7 +136,7 @@ export const DB_KEYS = {
     TASK_ID: 'task_id',
     ID: 'id',
     STAGE_ID: 'stageId',
-    TASK_NAME: 'task_name',
+    TASK_NAME: 'tasks.name',
     TIME_TO_COMPLETE: 'time_to_complete',
   },
 };
