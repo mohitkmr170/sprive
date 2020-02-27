@@ -135,6 +135,11 @@ export const DB_KEYS = {
   },
   PENDING_TASK: {
     IS_PENDING_TASK: 'response.data.is_pending_task',
+    USER_INFO: {
+      FIRST_NAME: 'getUserInfo.response.data.first_name',
+      LAST_NAME: 'getUserInfo.response.data.last_name',
+      DOB: 'getUserInfo.response.data.dob',
+    },
     OVERALL_PROGRESS_PERCENTAGE: 'response.data.overall_progress_percentage',
     TASKS: 'response.data.tasks',
     COMPLETION_PERCENTAGE: 'completion_percentage',

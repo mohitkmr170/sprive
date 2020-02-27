@@ -72,3 +72,12 @@ export const SEARCH_ADDRESS = {
   ITEM_COMPLETE_ADDRESS: 'item.completeAddress',
   COMPLETE_ADDRESS: 'completeAddress',
 };
+export const PENDING_TASK_IDS = {
+  TASKS: {
+    USER_PROFILE: 1,
+  },
+  STAGES: {
+    ABOUT_YOU: 1,
+    ADDRESS: 2,
+  },
+};
