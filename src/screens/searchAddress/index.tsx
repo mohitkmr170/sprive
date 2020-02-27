@@ -18,6 +18,7 @@ import {
   LOCAL_KEYS,
   FE_FORM_VALUE_CONSTANTS,
   DB_KEYS,
+  SEARCH_ADDRESS,
 } from '../../utils';
 import {styles} from './styles';
 import {store} from '../../store/configStore';
@@ -73,7 +74,7 @@ export class UnconnectedSearchAddress extends React.Component<props, state> {
     });
   };
   /*
-  NOTES : BD_KEYS not updated, will be done after API Integration
+  NOTES : DB_KEYS not updated, will be done after API Integration
   */
   renderAddressList = (item: object) => {
     return (
@@ -82,8 +83,9 @@ export class UnconnectedSearchAddress extends React.Component<props, state> {
         style={[
           styles.listContainer,
           {
-            borderTopColor: _get(item, 'index', null) && COLOR.LIGHTER_GRAY,
-            borderTopWidth: _get(item, 'index', null) && 1,
+            borderTopColor:
+              _get(item, SEARCH_ADDRESS.ITEM_INDEX, null) && COLOR.LIGHTER_GRAY,
+            borderTopWidth: _get(item, SEARCH_ADDRESS.ITEM_INDEX, null) && 1,
           },
         ]}>
         <Text style={styles.addressText}>

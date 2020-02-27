@@ -134,7 +134,6 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.LAST_NAME, false) &&
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.DOB, false) &&
       true;
-
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />

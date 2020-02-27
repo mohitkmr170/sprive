@@ -448,7 +448,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             />
           )}
           {/* Condition to be added */}
-          {_get(getPendingTaskResponse, DB_KEYS.RESPONSE_DATA, []).length ? (
+          {_get(
+            getPendingTaskResponse,
+            DB_KEYS.PENDING_TASK.IS_PENDING_TASK,
+            false,
+          ) ? (
             <PendingTaskDrawer navigation={navigation} />
           ) : null}
         </View>

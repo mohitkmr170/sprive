@@ -161,7 +161,7 @@ export function getRoundFigure(data: number) {
  * @param percentage : number : Pending task completion percentage
  */
 export function getPendingTaskColorCode(percentage: number) {
-  if (percentage > 0 && percentage < 20) return COLOR.SALMON_RED;
+  if (percentage >= 0 && percentage < 20) return COLOR.SALMON_RED;
   else if (percentage >= 20 && percentage < 80) return COLOR.AMBER;
   else if (percentage >= 80 && percentage < 100) return COLOR.LIGHT_GREEN;
   else return COLOR.WHITE;

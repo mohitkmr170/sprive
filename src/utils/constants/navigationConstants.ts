@@ -25,4 +25,5 @@ export const NAVIGATION_SCREEN_NAME = {
   USER_ADDRESS: 'UserAddressScreen',
   SEARCH_ADDRESS: 'SearchAddressScreen',
   USER_PROFILE_VIEW_MODE: 'UserProfileViewModeScreen',
+  GENERIC_WEB_VIEW: 'GenericWebViewScreen'
 };

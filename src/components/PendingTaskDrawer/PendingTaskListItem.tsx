@@ -15,6 +15,7 @@ import {
 } from '../../utils';
 import {styles} from './styles';
 
+const SWIPE_DOWN_ANIMATION_DELAY = 200;
 interface props {
   item: object;
   navigation: {
@@ -42,23 +43,23 @@ export class PendingTaskListItem extends React.Component<props, state> {
   handleStageNavigation = (routeName: string, taskAndStageId: object) => {
     setTimeout(
       () => this.props.navigation.navigate(routeName, taskAndStageId),
-      200,
+      SWIPE_DOWN_ANIMATION_DELAY,
     );
   };
   getTargetNavigation = () => {
+    const {item} = this.props;
     const taskStageList: [] = _get(
-      this.props.item,
+      item,
       DB_KEYS.PENDING_TASK.TASK_STAGES,
       [],
-    )[0];
+    )[0]; //Taking the first pending taks
     let taskAndStageId = {
-      taskId: _get(this.props.item, DB_KEYS.PENDING_TASK.TASK_ID, null),
+      taskId: _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null),
       stageId: _get(taskStageList, DB_KEYS.PENDING_TASK.ID, null),
     };
     if (
       taskStageList &&
-      _get(this.props.item, DB_KEYS.PENDING_TASK.TASK_ID, null) ===
-        TASK_IDS.TASK_ONE
+      _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null) === TASK_IDS.TASK_ONE
     ) {
       switch (_get(taskAndStageId, DB_KEYS.PENDING_TASK.STAGE_ID, null)) {
         case STAGE_IDS.STAGE_ONE:
@@ -79,8 +80,9 @@ export class PendingTaskListItem extends React.Component<props, state> {
     } else showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
   };
   render() {
+    const {item} = this.props;
     const pendingTaskCompletionPercentage = _get(
-      this.props.item,
+      item,
       DB_KEYS.PENDING_TASK.COMPLETION_PERCENTAGE,
       0,
     );
@@ -99,20 +101,16 @@ export class PendingTaskListItem extends React.Component<props, state> {
         <View style={styles.pendingListItemMainContainer}>
           <View>
             <Text style={styles.taskName}>
-              {_get(this.props.item, DB_KEYS.PENDING_TASK.TASK_NAME, '')}
+              {_get(item, [DB_KEYS.PENDING_TASK.TASK_NAME], '')}
             </Text>
             <Text style={styles.taskCompletionTime}>
-              {_get(this.props.item, DB_KEYS.PENDING_TASK.TIME_TO_COMPLETE, '')}
+              {_get(item, DB_KEYS.PENDING_TASK.TIME_TO_COMPLETE, '')}
             </Text>
           </View>
           <Progress.Circle
             size={STYLE_CONSTANTS.margin.HUGE}
             progress={
-              _get(
-                this.props.item,
-                DB_KEYS.PENDING_TASK.COMPLETION_PERCENTAGE,
-                0,
-              ) / 100
+              _get(item, DB_KEYS.PENDING_TASK.COMPLETION_PERCENTAGE, 0) / 100
             }
             color={getPendingTaskColorCode(pendingTaskCompletionPercentage)}
             unfilledColor={COLOR.LIGHTER_GRAY}
