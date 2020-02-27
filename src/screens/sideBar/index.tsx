@@ -13,6 +13,9 @@ import {
   LOCALE_STRING,
   STYLE_CONSTANTS,
   COLOR,
+  TASK_IDS,
+  STAGE_IDS,
+  STAGE_NAME_INDEX,
 } from '../../utils';
 import {
   iNotification,
@@ -31,9 +34,10 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import OneSignal from 'react-native-onesignal';
 interface props {
   navigation: {
-    navigate: (routeName: string) => void;
+    navigate: (routeName: string, params?: object) => void;
     goBack: () => void;
   };
+  getPendingTaskResponse: object;
   getUserInfoResponse: object;
   logoutUserAction: () => void;
   pushNotification: () => void;
@@ -49,14 +53,66 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     super(props);
     this.state = {};
   }
+  handleStageNavigation = (routeName: string, taskAndStageId: object) => {
+    this.props.navigation.navigate(routeName, taskAndStageId);
+  };
+  getTargetNavigation = (item: object) => {
+    const taskStageList: [] = _get(
+      item,
+      DB_KEYS.PENDING_TASK.TASK_STAGES,
+      [],
+    )[0]; //Taking the first pending taks
+    let taskAndStageId = {
+      taskId: _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null),
+      stageId: _get(taskStageList, DB_KEYS.PENDING_TASK.ID, null),
+    };
+    if (
+      taskStageList &&
+      _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null) === TASK_IDS.TASK_ONE
+    ) {
+      switch (_get(taskAndStageId, DB_KEYS.PENDING_TASK.STAGE_ID, null)) {
+        case STAGE_IDS.STAGE_ONE:
+          this.handleStageNavigation(
+            NAVIGATION_SCREEN_NAME.USER_PROFILE,
+            taskAndStageId,
+          );
+          break;
+        case STAGE_IDS.STAGE_TWO:
+          this.handleStageNavigation(
+            NAVIGATION_SCREEN_NAME.USER_ADDRESS,
+            taskAndStageId,
+          );
+          break;
+        default:
+          showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
+      }
+    } else showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
+  };
   SIDEBAR_DATA = [
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.USER_PROFILE),
       icon: iAvatar,
-      action: () =>
-        this.props.navigation.navigate(
-          NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
-        ),
+      action: () => {
+        const {getPendingTaskResponse} = this.props;
+        let found = _get(
+          getPendingTaskResponse,
+          DB_KEYS.PENDING_TASK.TASKS,
+          [],
+        ).find(
+          (item: object) =>
+            _get(item, DB_KEYS.PENDING_TASK.ID, null) ===
+            STAGE_NAME_INDEX.USER_PROFILE,
+        );
+        _get(
+          getPendingTaskResponse,
+          DB_KEYS.PENDING_TASK.IS_PENDING_TASK,
+          false,
+        ) && found
+          ? this.getTargetNavigation(found)
+          : this.props.navigation.navigate(
+              NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
+            );
+      },
       isDisabled: false,
     },
     {
@@ -205,6 +261,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   pushNotificationResponse: state.pushNotification,
+  getPendingTaskResponse: state.getPendingTask,
 });
 
 const bindActions = dispatch => ({
