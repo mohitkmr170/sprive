@@ -157,12 +157,12 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
         mapFormValues(
           APP_CONSTANTS.USER_ADDRESS_FORM,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
-          detailedAddress.flatNumber,
+          detailedAddress.house_number,
         );
         mapFormValues(
           APP_CONSTANTS.USER_ADDRESS_FORM,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
-          detailedAddress.streetName,
+          detailedAddress.street_name,
         );
         mapFormValues(
           APP_CONSTANTS.USER_ADDRESS_FORM,
@@ -172,7 +172,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
         mapFormValues(
           APP_CONSTANTS.USER_ADDRESS_FORM,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
-          detailedAddress.postCode,
+          detailedAddress.post_code,
         );
       }
     } else return;
