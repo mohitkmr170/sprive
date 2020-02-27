@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
+import {taskHandler} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
@@ -20,6 +21,8 @@ import {
   FE_FORM_VALUE_CONSTANTS,
   mapFormValues,
   STATE_PARAMS,
+  PENDING_TASK_IDS,
+  PAYLOAD_KEYS,
 } from '../../utils';
 import {styles} from './styles';
 
@@ -30,6 +33,9 @@ interface props {
   };
   reducerResponse: object;
   handleSubmit: (values?: {email: string; password: string}) => void;
+  taskHandler: (payload: object) => void;
+  taskHandlerResponse: object;
+  getUserInfoResponse: object;
 }
 interface state {
   dateOfBirth: string;
@@ -49,10 +55,41 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       taskAndStage,
     );
   };
+  handleStageSubmission = async (formValues: object) => {
+    console.log('handleStageSubmission : formValues :::', formValues);
+    const {taskHandler, getUserInfoResponse} = this.props;
+    const payload = {
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.TASK_ID]: PENDING_TASK_IDS.TASKS.USER_PROFILE,
+      [PAYLOAD_KEYS.STAGE_ID]: PENDING_TASK_IDS.STAGES.ABOUT_YOU,
+      [PAYLOAD_KEYS.DATA]: {
+        [PAYLOAD_KEYS.FIRST_NAME]: _get(
+          formValues,
+          FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
+          '',
+        ),
+        [PAYLOAD_KEYS.LAST_NAME]: _get(
+          formValues,
+          FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME,
+          '',
+        ),
+        [PAYLOAD_KEYS.DOB]: _get(
+          formValues,
+          FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,
+          '',
+        ),
+      },
+    };
+    await taskHandler(payload);
+    const {taskHandlerResponse} = this.props;
+    console.log('TASK SUBMISSION : TASK-1 : STAGE-1 :', taskHandlerResponse);
+    if (!_get(taskHandlerResponse, DB_KEYS.ERROR, false))
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
+  };
   handleFormSubmit = (values: object) => {
     if (values) {
       this.mapPrefilledAddress();
-      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
+      this.handleStageSubmission(values);
     }
   };
   handleCompleteLater = () => {
@@ -78,8 +115,25 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     return val;
   };
   handleOnFocus() {
+    const {reducerResponse} = this.props;
     this.mapPrefilledAddress();
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
+    this.handleStageSubmission({
+      firstName: _get(
+        reducerResponse,
+        `${APP_CONSTANTS.USER_PROFILE_FORM}.values.firstName`,
+        '',
+      ),
+      lastName: _get(
+        reducerResponse,
+        `${APP_CONSTANTS.USER_PROFILE_FORM}.values.lastName`,
+        '',
+      ),
+      dateOfBirth: _get(
+        reducerResponse,
+        `${APP_CONSTANTS.USER_PROFILE_FORM}.values.dateOfBirth`,
+        '',
+      ),
+    });
   }
   mapPrefilledAddress = () => {
     const {reducerResponse} = this.props;
@@ -117,10 +171,10 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
           detailedAddress.postCode,
         );
       }
-    }
+    } else return;
   };
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, taskHandlerResponse} = this.props;
     const isFormValuesFilled =
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.FIRST_NAME, null) &&
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.LAST_NAME, null) &&
@@ -223,6 +277,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
             onPress={handleSubmit(this.handleFormSubmit)}
             buttonStyle={styles.buttonStyle}
             disabled={!isFormValuesFilled}
+            loading={_get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false)}
           />
           <TouchableOpacity
             style={styles.completeLaterView}
@@ -243,9 +298,14 @@ export const UserProfileForm = reduxForm({
 
 const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
+  taskHandlerResponse: state.taskHandler,
+  getUserInfoResponse: state.getUserInfo,
 });
 
-const bindActions = () => ({});
+const bindActions = dispatch => ({
+  taskHandler: (payload, extraPayload) =>
+    dispatch(taskHandler.fetchCall(payload, extraPayload)),
+});
 
 export const UserProfile = connect(
   mapStateToProps,
