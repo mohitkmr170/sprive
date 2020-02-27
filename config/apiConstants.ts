@@ -25,5 +25,6 @@ export default {
     PENDING_TASK: '/pending-tasks',
     GET_ADDRESS: '/get-address',
     TASK_HANDLER: '/task-handler',
+    GET_USER_ADDRESS: '/addresses',
   },
 };
