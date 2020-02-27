@@ -20,12 +20,16 @@ import {
   COLOR,
   DB_KEYS,
   STYLE_CONSTANTS,
+  mapFormValues,
+  STATE_PARAMS,
+  FE_FORM_VALUE_CONSTANTS,
+  LOCAL_KEYS,
 } from '../../utils';
 import {styles} from './styles';
 
 interface props {
   navigation: {
-    navigate: (routeName: string) => void;
+    navigate: (routeName: string, params?: object) => void;
     goBack: () => void;
   };
   handleSubmit: (values?: {email: string; password: string}) => void;
@@ -47,7 +51,45 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     };
   }
   componentDidMount = () => {};
-  handleFormSubmit = () => {};
+  handleFormSubmit = (values: object) => {
+    const selectedAddressIndex = _get(
+      this.props.navigation,
+      STATE_PARAMS.SELECTED_SEARCH_ADDRESS_INDEX,
+      null,
+    );
+    if (values && selectedAddressIndex) {
+      mapFormValues(
+        APP_CONSTANTS.USER_PROFILE_FORM_VIEW_MODE,
+        FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
+        _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.FIRST_NAME, null),
+      );
+      mapFormValues(
+        APP_CONSTANTS.USER_PROFILE_FORM_VIEW_MODE,
+        FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME,
+        _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.LAST_NAME, null),
+      );
+      mapFormValues(
+        APP_CONSTANTS.USER_PROFILE_FORM_VIEW_MODE,
+        FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,
+        _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.DOB, null),
+      );
+      mapFormValues(
+        APP_CONSTANTS.USER_PROFILE_FORM_VIEW_MODE,
+        FE_FORM_VALUE_CONSTANTS.USER_PROFILE.ADDRESS,
+        _get(
+          _get(this.props.getAddressResponse, DB_KEYS.RESPONSE_DATA, [])[
+            selectedAddressIndex
+          ],
+          LOCAL_KEYS.DISPLAY_ADDRESS_KEY,
+          null,
+        ),
+      );
+      this.props.navigation.navigate(
+        NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
+        {selectedAddressIndex: selectedAddressIndex},
+      );
+    }
+  };
   handleCompleteLater = () => {
     this.props.navigation.goBack();
   };
