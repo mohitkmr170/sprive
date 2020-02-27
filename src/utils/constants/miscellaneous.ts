@@ -31,6 +31,9 @@ export const STAGE_IDS = {
   STAGE_FOUR: 4,
   STAGE_FIVE: 5,
 };
+export const STAGE_NAME_INDEX = {
+  USER_PROFILE: 1,
+};
 export const WEB_VIEW_PARAMS = {
   WEB_VIEW: 'state.params.webViewUri',
   WEB_VIEW_URI:
