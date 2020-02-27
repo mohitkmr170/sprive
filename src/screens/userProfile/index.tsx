@@ -17,6 +17,9 @@ import {
   NAVIGATION_SCREEN_NAME,
   DB_KEYS,
   LOCALE_STRING,
+  FE_FORM_VALUE_CONSTANTS,
+  mapFormValues,
+  STATE_PARAMS,
 } from '../../utils';
 import {styles} from './styles';
 
@@ -70,6 +73,42 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     return val;
   };
   handleOnFocus() {
+    const {reducerResponse} = this.props;
+    if (
+      _get(
+        reducerResponse,
+        `${APP_CONSTANTS.USER_PROFILE_FORM}.values.address`,
+        null,
+      )
+    ) {
+      const detailedAddress = _get(
+        this.props.navigation,
+        STATE_PARAMS.DETAILED_USER_ADDRESS,
+        null,
+      );
+      if (detailedAddress) {
+        mapFormValues(
+          APP_CONSTANTS.USER_ADDRESS_FORM,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
+          detailedAddress.flatNumber,
+        );
+        mapFormValues(
+          APP_CONSTANTS.USER_ADDRESS_FORM,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
+          detailedAddress.streetName,
+        );
+        mapFormValues(
+          APP_CONSTANTS.USER_ADDRESS_FORM,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
+          detailedAddress.city,
+        );
+        mapFormValues(
+          APP_CONSTANTS.USER_ADDRESS_FORM,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
+          detailedAddress.postCode,
+        );
+      }
+    }
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
   }
   render() {
@@ -164,6 +203,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
                   autoCapitalize: false,
                   autoCorrect: false,
                   returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                  multiline: true,
                   editable: isAddressEditable,
                 }}
                 onFocus={() => this.handleOnFocus()}
