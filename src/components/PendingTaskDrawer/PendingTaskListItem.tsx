@@ -42,7 +42,7 @@ export class PendingTaskListItem extends React.Component<props, state> {
   };
   handleStageNavigation = (routeName: string, taskAndStageId: object) => {
     setTimeout(
-      () => this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_PROFILE),
+      () => this.props.navigation.navigate(routeName, taskAndStageId),
       SWIPE_DOWN_ANIMATION_DELAY,
     );
   };
