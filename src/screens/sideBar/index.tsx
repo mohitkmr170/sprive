@@ -52,7 +52,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
   SIDEBAR_DATA = [
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.USER_PROFILE),
-      icon: iPound,
+      icon: iAvatar,
       action: () =>
         this.props.navigation.navigate(
           NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,

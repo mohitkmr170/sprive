@@ -11,6 +11,7 @@ import {
   localeString,
   LOCALE_STRING,
   STYLE_CONSTANTS,
+  SEARCH_ADDRESS,
 } from '../../utils';
 import {styles} from './styles';
 
@@ -84,41 +85,40 @@ export class SearchAddress extends React.Component<props, state> {
     this.props.navigation.goBack();
   };
   /*
-  NOTES : BD_KEYS not updated, will be done after API Integration
+  NOTES : DB_KEYS not updated, will be done after API Integration
   */
   renderAddressList = (item: object) => {
     console.log('Addresses :::', item);
     return (
       <TouchableOpacity
-        onPress={() => this.hanldeAddressSelection(_get(item, 'index', null))}
+        onPress={() =>
+          this.hanldeAddressSelection(
+            _get(item, SEARCH_ADDRESS.ITEM_INDEX, null),
+          )
+        }
         style={[
           styles.listContainer,
           {
-            borderTopColor: _get(item, 'index', null) && COLOR.LIGHTER_GRAY,
-            borderTopWidth: _get(item, 'index', null) && 1,
+            borderTopColor:
+              _get(item, SEARCH_ADDRESS.ITEM_INDEX, null) && COLOR.LIGHTER_GRAY,
+            borderTopWidth: _get(item, SEARCH_ADDRESS.ITEM_INDEX, null) && 1,
           },
         ]}>
         <Text style={styles.addressText}>
-          {_get(item, 'item.completeAddress', '')}
+          {_get(item, SEARCH_ADDRESS.ITEM_COMPLETE_ADDRESS, '')}
         </Text>
       </TouchableOpacity>
     );
   };
   handleAddressSearch = (inputText: string) => {
-    let addressDataResult: any = [];
     if (inputText) {
-      sampleAddressData.map((item: object, index: number) => {
-        if (
-          _get(item, 'completeAddress', '')
+      let addressDataResult = sampleAddressData.filter(
+        item =>
+          _get(item, SEARCH_ADDRESS.COMPLETE_ADDRESS, '')
             .toLowerCase()
-            .search(inputText.toLowerCase()) >= 0
-        ) {
-          addressDataResult.push(item);
-        }
-        if (index === sampleAddressData.length - 1) {
-          this.setState({addressData: addressDataResult});
-        }
-      });
+            .search(inputText.toLowerCase()) >= 0,
+      );
+      this.setState({addressData: addressDataResult});
     } else {
       this.setState({addressData: sampleAddressData});
     }

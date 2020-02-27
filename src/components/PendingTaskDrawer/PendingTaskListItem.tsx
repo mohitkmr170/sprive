@@ -15,6 +15,7 @@ import {
 } from '../../utils';
 import {styles} from './styles';
 
+const SWIPE_DOWN_ANIMATION_DELAY = 200;
 interface props {
   item: object;
   navigation: {
@@ -41,8 +42,8 @@ export class PendingTaskListItem extends React.Component<props, state> {
   };
   handleStageNavigation = (routeName: string, taskAndStageId: object) => {
     setTimeout(
-      () => this.props.navigation.navigate(routeName, taskAndStageId),
-      200,
+      () => this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_PROFILE),
+      SWIPE_DOWN_ANIMATION_DELAY,
     );
   };
   getTargetNavigation = () => {
