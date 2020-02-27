@@ -8,6 +8,7 @@ import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon, iEdit} from '../../assets';
 import {reset} from '../../navigation/navigationService';
 import {get as _get} from 'lodash';
+import {getUserAddress} from '../../store/reducers';
 import {
   mapFormValues,
   alphaNumeric,
@@ -22,28 +23,19 @@ import {
   DB_KEYS,
   FE_FORM_VALUE_CONSTANTS,
   STATE_PARAMS,
+  PAYLOAD_KEYS,
 } from '../../utils';
 import {styles} from './styles';
-
-const SAMPLE_USER_DATA = {
-  FIRST_NAME: 'Mohit',
-  LAST_NAME: 'Kumar',
-  DOB: '06/04/1995',
-  ADDRESS: {
-    [FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER]: 'Defaul Flat 100',
-    [FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME]: 'Default street name',
-    [FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY]: 'default city',
-    [FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE]: 'default postcode',
-  },
-  COMPLETE_ADDRESS:
-    'Defaul Flat 100, Default street name, default city, default postcode', //To check multiline
-};
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
     goBack: () => void;
   };
   reducerResponse: object;
+  getUserInfoResponse: object;
+  getUserAddress: (payload: object, qParam: object) => void;
+  getUserAddressResponse: object;
+  taskHandlerResponse: object;
 }
 interface state {}
 
@@ -55,7 +47,7 @@ export class UnConnectedUserProfileViewMode extends React.Component<
     super(props);
     this.state = {};
   }
-  componentDidMount = () => {
+  componentDidMount = async () => {
     /*
     NOTES : Default address added for now, actual data will be fetched from user API and mapped accordingly
     */
@@ -66,7 +58,20 @@ export class UnConnectedUserProfileViewMode extends React.Component<
         null,
       )
     ) {
-      this.handleFormDataMappings(APP_CONSTANTS.USER_PROFILE_FORM_VIEW_MODE);
+      const {getUserAddress, getUserInfoResponse} = this.props;
+      const payload = {
+        [PAYLOAD_KEYS.USER_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.DATA_ID,
+          null,
+        ),
+      };
+      await getUserAddress(payload, {});
+      const {getUserAddressResponse} = this.props;
+      console.log(
+        'componentDidMount : getUserAddressResponse =>',
+        getUserAddressResponse,
+      );
     }
   };
   handleFormDataMappings = (formName: string) => {
@@ -96,39 +101,40 @@ export class UnConnectedUserProfileViewMode extends React.Component<
     mapFormValues(
       formName,
       FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
-      currentFormValues.FIRST_NAME
-        ? currentFormValues.FIRST_NAME
-        : SAMPLE_USER_DATA.FIRST_NAME,
+      currentFormValues.FIRST_NAME,
     );
     mapFormValues(
       formName,
       FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME,
-      currentFormValues.LAST_NAME
-        ? currentFormValues.LAST_NAME
-        : SAMPLE_USER_DATA.LAST_NAME,
+      currentFormValues.LAST_NAME,
     );
     mapFormValues(
       formName,
       FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,
-      currentFormValues.DOB ? currentFormValues.DOB : SAMPLE_USER_DATA.DOB,
+      currentFormValues.DOB,
     );
     mapFormValues(
       formName,
       FE_FORM_VALUE_CONSTANTS.USER_PROFILE.ADDRESS,
-      currentFormValues.ADDRESS
-        ? currentFormValues.ADDRESS
-        : SAMPLE_USER_DATA.COMPLETE_ADDRESS,
+      currentFormValues.ADDRESS,
     );
   };
   handleDonePressed = () => {
+    const {taskHandlerResponse} = this.props;
     reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
-      isUserDataChanged: true,
+      isUserDataChanged: _get(taskHandlerResponse, DB_KEYS.RESPONSE, null)
+        ? true
+        : false,
     });
   };
   handleEditPress = () => {
+    const {navigation, getUserAddressResponse} = this.props;
     this.handleFormDataMappings(APP_CONSTANTS.USER_PROFILE_FORM);
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_PROFILE, {
-      detailedAddress: SAMPLE_USER_DATA.ADDRESS,
+    /*
+    NOTES : //data[0] to be changed later after BE update
+    */
+    navigation.navigate(NAVIGATION_SCREEN_NAME.USER_PROFILE, {
+      detailedAddress: _get(getUserAddressResponse, 'response.data[0]', {}),
     });
   };
   render() {
@@ -259,13 +265,28 @@ const mapStateToProps = (state: object) => ({
     firstName: _get(state, DB_KEYS.PENDING_TASK.USER_INFO.FIRST_NAME, ''),
     lastName: _get(state, DB_KEYS.PENDING_TASK.USER_INFO.LAST_NAME, ''),
     dateOfBirth: _get(state, DB_KEYS.PENDING_TASK.USER_INFO.DOB, ''),
-    address: '', //To be integrated using address-api
+    /*
+    NOTES : //data[0] to be changed later after BE update
+    */
+    address:
+      _get(state, 'getUserAddress.response.data[0].house_number', '') +
+      ', ' +
+      _get(state, 'getUserAddress.response.data[0].street_name', '') +
+      ',  ' +
+      _get(state, 'getUserAddress.response.data[0].city', '') +
+      ', ' +
+      _get(state, 'getUserAddress.response.data[0].post_code', ''),
   },
   reducerResponse: state.form,
   getUserInfoResponse: state.getUserInfo,
+  getUserAddressResponse: state.getUserAddress,
+  taskHandlerResponse: state.taskHandler,
 });
 
-const bindActions = () => ({});
+const bindActions = dispatch => ({
+  getUserAddress: (payload, extraPayload) =>
+    dispatch(getUserAddress.fetchCall(payload, extraPayload)),
+});
 
 export const UserProfileViewMode = connect(
   mapStateToProps,
