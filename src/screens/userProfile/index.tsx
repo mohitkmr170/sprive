@@ -59,21 +59,25 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     console.log('handleStageSubmission : formValues :::', formValues);
     const {taskHandler, getUserInfoResponse} = this.props;
     const payload = {
-      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-      [PAYLOAD_KEYS.TASK_ID]: PENDING_TASK_IDS.TASKS.USER_PROFILE,
-      [PAYLOAD_KEYS.STAGE_ID]: PENDING_TASK_IDS.STAGES.ABOUT_YOU,
-      [PAYLOAD_KEYS.DATA]: {
-        [PAYLOAD_KEYS.FIRST_NAME]: _get(
+      [PAYLOAD_KEYS.PENDING_TASK.USER_ID]: _get(
+        getUserInfoResponse,
+        DB_KEYS.DATA_ID,
+        null,
+      ),
+      [PAYLOAD_KEYS.PENDING_TASK.TASK_ID]: PENDING_TASK_IDS.TASKS.USER_PROFILE,
+      [PAYLOAD_KEYS.PENDING_TASK.STAGE_ID]: PENDING_TASK_IDS.STAGES.ABOUT_YOU,
+      [PAYLOAD_KEYS.PENDING_TASK.DATA]: {
+        [PAYLOAD_KEYS.PENDING_TASK.FIRST_NAME]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
           '',
         ),
-        [PAYLOAD_KEYS.LAST_NAME]: _get(
+        [PAYLOAD_KEYS.PENDING_TASK.LAST_NAME]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME,
           '',
         ),
-        [PAYLOAD_KEYS.DOB]: _get(
+        [PAYLOAD_KEYS.PENDING_TASK.DOB]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,
           '',

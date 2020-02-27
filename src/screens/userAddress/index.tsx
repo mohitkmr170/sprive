@@ -61,26 +61,30 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
   ) => {
     const {taskHandler, getUserInfoResponse} = this.props;
     const payload = {
-      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-      [PAYLOAD_KEYS.TASK_ID]: PENDING_TASK_IDS.TASKS.USER_PROFILE,
-      [PAYLOAD_KEYS.STAGE_ID]: PENDING_TASK_IDS.STAGES.ADDRESS,
-      [PAYLOAD_KEYS.DATA]: {
-        [PAYLOAD_KEYS.HOUSE_NUMBER]: _get(
+      [PAYLOAD_KEYS.PENDING_TASK.USER_ID]: _get(
+        getUserInfoResponse,
+        DB_KEYS.DATA_ID,
+        null,
+      ),
+      [PAYLOAD_KEYS.PENDING_TASK.TASK_ID]: PENDING_TASK_IDS.TASKS.USER_PROFILE,
+      [PAYLOAD_KEYS.PENDING_TASK.STAGE_ID]: PENDING_TASK_IDS.STAGES.ADDRESS,
+      [PAYLOAD_KEYS.PENDING_TASK.DATA]: {
+        [PAYLOAD_KEYS.PENDING_TASK.HOUSE_NUMBER]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
           '',
         ),
-        [PAYLOAD_KEYS.STREET_NAME]: _get(
+        [PAYLOAD_KEYS.PENDING_TASK.STREET_NAME]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
           '',
         ),
-        [PAYLOAD_KEYS.CITY]: _get(
+        [PAYLOAD_KEYS.PENDING_TASK.CITY]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
           '',
         ),
-        [PAYLOAD_KEYS.POST_CODE]: _get(
+        [PAYLOAD_KEYS.PENDING_TASK.POST_CODE]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
           '',
