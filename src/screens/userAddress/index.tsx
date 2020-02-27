@@ -5,7 +5,7 @@ import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/Feather';
-import {getAddress} from '../../store/reducers';
+import {getAddress, taskHandler} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
@@ -25,6 +25,8 @@ import {
   FE_FORM_VALUE_CONSTANTS,
   LOCAL_KEYS,
   APP_REGEX,
+  PENDING_TASK_IDS,
+  PAYLOAD_KEYS,
 } from '../../utils';
 import {styles} from './styles';
 
@@ -37,6 +39,9 @@ interface props {
   reducerResponse: object;
   getAddress: (payload: object) => void;
   getAddressResponse: object;
+  taskHandler: (payload: object) => void;
+  taskHandlerResponse: object;
+  getUserInfoResponse: object;
 }
 interface state {
   postCode: string;
@@ -50,6 +55,47 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     };
   }
   componentDidMount = () => {};
+  handleStageSubmission = async (
+    formValues: object,
+    selectedAddressIndex: number,
+  ) => {
+    const {taskHandler, getUserInfoResponse} = this.props;
+    const payload = {
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.TASK_ID]: PENDING_TASK_IDS.TASKS.USER_PROFILE,
+      [PAYLOAD_KEYS.STAGE_ID]: PENDING_TASK_IDS.STAGES.ADDRESS,
+      [PAYLOAD_KEYS.DATA]: {
+        [PAYLOAD_KEYS.HOUSE_NUMBER]: _get(
+          formValues,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
+          '',
+        ),
+        [PAYLOAD_KEYS.STREET_NAME]: _get(
+          formValues,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
+          '',
+        ),
+        [PAYLOAD_KEYS.CITY]: _get(
+          formValues,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
+          '',
+        ),
+        [PAYLOAD_KEYS.POST_CODE]: _get(
+          formValues,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
+          '',
+        ),
+      },
+    };
+    await taskHandler(payload);
+    const {taskHandlerResponse} = this.props;
+    console.log('TASK SUBMISSION : TASK-1 : STAGE-2 :', taskHandlerResponse);
+    if (!_get(taskHandlerResponse, DB_KEYS.ERROR, false))
+      this.props.navigation.navigate(
+        NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
+        {selectedAddressIndex: selectedAddressIndex},
+      );
+  };
   handleFormSubmit = (values: object) => {
     const {reducerResponse} = this.props;
     const selectedAddressIndex = _get(
@@ -102,10 +148,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
         FE_FORM_VALUE_CONSTANTS.USER_PROFILE.ADDRESS,
         selectedAddress,
       );
-      this.props.navigation.navigate(
-        NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
-        {selectedAddressIndex: selectedAddressIndex},
-      );
+      this.handleStageSubmission(values, selectedAddressIndex);
     }
   };
   handleCompleteLater = () => {
@@ -140,7 +183,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     this.setState({postCode});
   };
   render() {
-    const {handleSubmit, getAddressResponse} = this.props;
+    const {handleSubmit, getAddressResponse, taskHandlerResponse} = this.props;
     const isFormValuesFilled =
       _get(
         this.props.reducerResponse,
@@ -271,6 +314,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
             onPress={handleSubmit(this.handleFormSubmit)}
             buttonStyle={styles.buttonStyle}
             disabled={!isFormValuesFilled}
+            loading={_get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false)}
           />
           <TouchableOpacity
             style={styles.completeLaterContainer}
@@ -292,10 +336,13 @@ export const UserAddressForm = reduxForm({
 const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
   getAddressResponse: state.getAddress,
+  getUserInfoResponse: state.getUserInfo,
 });
 
 const bindActions = dispatch => ({
   getAddress: payload => dispatch(getAddress.fetchCall(payload)),
+  taskHandler: (payload, extraPayload) =>
+    dispatch(taskHandler.fetchCall(payload, extraPayload)),
 });
 
 export const UserAddress = connect(
