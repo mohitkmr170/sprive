@@ -110,6 +110,12 @@ export const DB_KEYS = {
     DOB: 'userProfile.values.dateOfBirth',
     ADDRESS: 'userProfile.values.address',
   },
+  USER_PROFILE_VIEW_MODE: {
+    FIRST_NAME: 'userProfileViewMode.values.firstName',
+    LAST_NAME: 'userProfileViewMode.values.lastName',
+    DOB: 'userProfileViewMode.values.dateOfBirth',
+    ADDRESS: 'userProfileViewMode.values.address',
+  },
   USER_ADDRESS: {
     FLAT_NUMBER: 'userAddress.values.flatNumber',
     STREET_NAME: 'userAddress.values.streetName',

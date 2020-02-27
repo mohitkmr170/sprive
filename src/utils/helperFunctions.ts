@@ -2,6 +2,8 @@ import * as Keychain from 'react-native-keychain';
 import Snackbar from 'react-native-snackbar';
 import {get as _get} from 'lodash';
 import {COLOR} from '../utils/colors';
+import {change} from 'redux-form';
+import {store} from '../store/configStore';
 import {APP_CONSTANTS, DB_KEYS} from './constants';
 
 /**
@@ -163,4 +165,14 @@ export function getPendingTaskColorCode(percentage: number) {
   else if (percentage >= 20 && percentage < 80) return COLOR.AMBER;
   else if (percentage >= 80 && percentage < 100) return COLOR.LIGHT_GREEN;
   else return COLOR.WHITE;
+}
+/*
+  NOTES : This function can be moved to helper functions
+  */
+export function mapFormValues(
+  formName: string,
+  formField: string,
+  fieldValue: string,
+) {
+  store.dispatch(change(formName, formField, fieldValue));
 }

@@ -8,6 +8,7 @@ export const LOCAL_KEYS = {
   CITY: 'item.city',
   POST_CODE: 'item.post_code',
   DISPLAY_ADDRESS: 'item.display_address',
+  DISPLAY_ADDRESS_KEY: 'display_address',
 };
 
 export const ICON = {
@@ -30,6 +31,16 @@ export const FE_FORM_VALUE_CONSTANTS = {
     CITY: 'city',
     POST_CODE: 'postCode',
   },
+  USER_PROFILE: {
+    FIRST_NAME: 'firstName',
+    LAST_NAME: 'lastName',
+    DATE_OF_BIRTH: 'dateOfBirth',
+    ADDRESS: 'address',
+  },
+};
+export const STATE_PARAMS = {
+  SELECTED_SEARCH_ADDRESS_INDEX: 'state.params.selectedAddressIndex',
+  DETAILED_USER_ADDRESS: 'state.params.detailedAddress',
 };
 export const TASK_IDS = {
   TASK_ONE: 1,
