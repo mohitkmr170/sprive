@@ -4,13 +4,13 @@ import Modal from 'react-native-modal';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import * as Progress from 'react-native-progress';
 import {get as _get} from 'lodash';
+import {connect} from 'react-redux';
 import {
   localeString,
   COLOR,
   STYLE_CONSTANTS,
   APP_CONSTANTS,
   LOCALE_STRING,
-  NAVIGATION_SCREEN_NAME,
   DB_KEYS,
 } from '../../utils';
 import {PendingTaskListItem} from './PendingTaskListItem';
@@ -18,6 +18,7 @@ import {styles} from './styles';
 
 interface props {
   navigation: object;
+  getPendingTaskResponse: object;
 }
 interface state {
   isModalVisible: boolean;
@@ -28,48 +29,10 @@ const GESTURE_CONFIGS = {
   DIRECTIONAL_OFFSET_THRESHOLD: 80,
 };
 
-/**
- * Sample pending task list data
- */
-
-const pendingTaskResponse = {
-  isFetching: false,
-  response: {
-    status: true,
-    message: '',
-    data: {
-      overall_progress_percentage: 12,
-      tasks: [
-        {
-          id: 3,
-          task_id: 1,
-          task_name: 'User profile',
-          status: false,
-          completion_percentage: 10,
-          time_to_complete: '5 Min',
-          task_stages: [
-            {
-              id: 1,
-              name: 'About you',
-            },
-            {
-              id: 2,
-              name: 'Address',
-            },
-          ],
-        },
-      ],
-    },
-    meta: {
-      total: 1,
-      limit: 10,
-      skip: 0,
-    },
-  },
-  error: false,
-};
-
-export class PendingTaskDrawer extends React.Component<props, state> {
+export class UnconnectedPendingTaskDrawer extends React.Component<
+  props,
+  state
+> {
   constructor(props: props) {
     super(props);
     this.state = {
@@ -87,13 +50,13 @@ export class PendingTaskDrawer extends React.Component<props, state> {
     return completionPercentage + '%';
   };
   render() {
-    const {navigation} = this.props;
+    const {navigation, getPendingTaskResponse} = this.props;
     const config = {
       velocityThreshold: GESTURE_CONFIGS.VEOLCITY_THRESHOLD,
       directionalOffsetThreshold: GESTURE_CONFIGS.DIRECTIONAL_OFFSET_THRESHOLD,
     };
     const overallCompletionPercentage = _get(
-      pendingTaskResponse,
+      getPendingTaskResponse,
       DB_KEYS.PENDING_TASK.OVERALL_PROGRESS_PERCENTAGE,
       0,
     );
@@ -170,19 +133,21 @@ export class PendingTaskDrawer extends React.Component<props, state> {
                 />
               </View>
               <View style={styles.pendingTaskCard}>
-                {_get(pendingTaskResponse, DB_KEYS.PENDING_TASK.TASKS, [])
+                {_get(getPendingTaskResponse, DB_KEYS.PENDING_TASK.TASKS, [])
                   .length &&
-                  _get(pendingTaskResponse, DB_KEYS.PENDING_TASK.TASKS, []).map(
-                    item => {
-                      return (
-                        <PendingTaskListItem
-                          item={item}
-                          navigation={navigation}
-                          onSwipeDown={this.onSwipeDown}
-                        />
-                      );
-                    },
-                  )}
+                  _get(
+                    getPendingTaskResponse,
+                    DB_KEYS.PENDING_TASK.TASKS,
+                    [],
+                  ).map(item => {
+                    return (
+                      <PendingTaskListItem
+                        item={item}
+                        navigation={navigation}
+                        onSwipeDown={this.onSwipeDown}
+                      />
+                    );
+                  })}
               </View>
             </View>
           </Modal>
@@ -191,3 +156,13 @@ export class PendingTaskDrawer extends React.Component<props, state> {
     );
   }
 }
+const mapStateToProps = state => ({
+  getPendingTaskResponse: state.getPendingTask,
+});
+
+const bindActions = dispatch => ({});
+
+export const PendingTaskDrawer = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedPendingTaskDrawer);
