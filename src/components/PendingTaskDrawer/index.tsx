@@ -12,6 +12,7 @@ import {
   APP_CONSTANTS,
   LOCALE_STRING,
   DB_KEYS,
+  NUMERIC_FACTORS,
 } from '../../utils';
 import {PendingTaskListItem} from './PendingTaskListItem';
 import {styles} from './styles';
@@ -93,7 +94,9 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
               </Text>
               <Progress.Circle
                 size={STYLE_CONSTANTS.margin.HUGE}
-                progress={overallCompletionPercentage / 100} //Percentage
+                progress={
+                  overallCompletionPercentage / NUMERIC_FACTORS.PERCENT_FACTOR
+                }
                 color={COLOR.LIGHT_TEXT_GREEN}
                 unfilledColor={COLOR.LIGHT_TEXT_GREEN_MILD_OPACITY}
                 borderWidth={0}
@@ -143,7 +146,9 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
                   </Text>
                 </View>
                 <Progress.Bar
-                  progress={overallCompletionPercentage / 100}
+                  progress={
+                    overallCompletionPercentage / NUMERIC_FACTORS.PERCENT_FACTOR
+                  }
                   color={COLOR.LIGHT_TEXT_GREEN}
                   height={STYLE_CONSTANTS.margin.SMALLER}
                   width={null}
