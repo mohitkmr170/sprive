@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
+import {reset} from '../../navigation/navigationService';
 import {taskHandler} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
@@ -28,7 +29,7 @@ import {styles} from './styles';
 
 interface props {
   navigation: {
-    navigate: (routeName: string) => void;
+    navigate: (routeName: string, params?: object) => void;
     goBack: () => void;
   };
   reducerResponse: object;
@@ -36,6 +37,7 @@ interface props {
   taskHandler: (payload: object) => void;
   taskHandlerResponse: object;
   getUserInfoResponse: object;
+  getPendingTaskResponse: object;
 }
 interface state {
   dateOfBirth: string;
@@ -87,8 +89,16 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     await taskHandler(payload);
     const {taskHandlerResponse} = this.props;
     console.log('TASK SUBMISSION : TASK-1 : STAGE-1 :', taskHandlerResponse);
-    if (!_get(taskHandlerResponse, DB_KEYS.ERROR, false))
-      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS);
+    if (!_get(taskHandlerResponse, DB_KEYS.ERROR, false)) {
+      let taskAndStageId = {
+        taskId: PENDING_TASK_IDS.TASKS.USER_PROFILE,
+        stageId: PENDING_TASK_IDS.STAGES.ADDRESS,
+      };
+      this.props.navigation.navigate(
+        NAVIGATION_SCREEN_NAME.USER_ADDRESS,
+        taskAndStageId,
+      );
+    }
   };
   handleFormSubmit = (values: object) => {
     if (values) {
@@ -97,7 +107,11 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     }
   };
   handleCompleteLater = () => {
-    this.props.navigation.goBack();
+    _get(this.props.navigation, STATE_PARAMS.IS_FIRST_ROUTE, false)
+      ? this.props.navigation.goBack()
+      : reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+          isUserDataChanged: true,
+        });
   };
   handleDateOfBirthEntry = (val: any, prevVal: any) => {
     // Prevent non-digit characters being entered
@@ -118,27 +132,6 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     }
     return val;
   };
-  handleOnFocus() {
-    const {reducerResponse} = this.props;
-    this.mapPrefilledAddress();
-    this.handleStageSubmission({
-      firstName: _get(
-        reducerResponse,
-        `${APP_CONSTANTS.USER_PROFILE_FORM}.values.firstName`,
-        '',
-      ),
-      lastName: _get(
-        reducerResponse,
-        `${APP_CONSTANTS.USER_PROFILE_FORM}.values.lastName`,
-        '',
-      ),
-      dateOfBirth: _get(
-        reducerResponse,
-        `${APP_CONSTANTS.USER_PROFILE_FORM}.values.dateOfBirth`,
-        '',
-      ),
-    });
-  }
   mapPrefilledAddress = () => {
     const {reducerResponse} = this.props;
     if (
@@ -256,24 +249,6 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
               normalize={this.handleDateOfBirthEntry}
               validate={[required, dobValidation]}
             />
-            <View style={{opacity: isAddressEditable ? 1 : 0.4}}>
-              <Field
-                name="address"
-                label={localeString(LOCALE_STRING.USER_PROFILE.ADDRESS)}
-                fieldLabelStyle={styles.fieldLabelStyle}
-                component={ReduxFormField}
-                props={{
-                  style: styles.formInput,
-                  autoCapitalize: false,
-                  autoCorrect: false,
-                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-                  multiline: true,
-                  editable: isAddressEditable,
-                }}
-                onFocus={() => this.handleOnFocus()}
-                validate={[alphaNumeric]}
-              />
-            </View>
           </KeyboardAwareScrollView>
           <Button
             title={localeString(LOCALE_STRING.USER_PROFILE.NEXT)}
@@ -283,14 +258,17 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
             disabled={!isFormValuesFilled}
             loading={_get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false)}
           />
-          <TouchableOpacity
-            style={styles.completeLaterView}
-            hitSlop={APP_CONSTANTS.HIT_SLOP}
-            onPress={() => this.handleCompleteLater()}>
-            <Text style={styles.completeLaterText}>
-              {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
-            </Text>
-          </TouchableOpacity>
+          {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
+            _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
+              <TouchableOpacity
+                style={styles.completeLaterView}
+                hitSlop={APP_CONSTANTS.HIT_SLOP}
+                onPress={() => this.handleCompleteLater()}>
+                <Text style={styles.completeLaterText}>
+                  {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
+                </Text>
+              </TouchableOpacity>
+            )}
         </View>
       </View>
     );
@@ -304,6 +282,7 @@ const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
   taskHandlerResponse: state.taskHandler,
   getUserInfoResponse: state.getUserInfo,
+  getPendingTaskResponse: state.getPendingTask,
 });
 
 const bindActions = dispatch => ({

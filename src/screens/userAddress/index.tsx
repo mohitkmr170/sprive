@@ -157,9 +157,11 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     }
   };
   handleCompleteLater = () => {
-    reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
-      isUserDataChanged: true,
-    });
+    _get(this.props.navigation, STATE_PARAMS.IS_FIRST_ROUTE, false)
+      ? this.props.navigation.goBack()
+      : reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+          isUserDataChanged: true,
+        });
   };
   handleAddressSearch = async () => {
     const {getAddress} = this.props;
@@ -323,14 +325,17 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
             disabled={!isFormValuesFilled}
             loading={_get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false)}
           />
-          <TouchableOpacity
-            style={styles.completeLaterContainer}
-            hitSlop={APP_CONSTANTS.HIT_SLOP}
-            onPress={() => this.handleCompleteLater()}>
-            <Text style={styles.completeLaterText}>
-              {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
-            </Text>
-          </TouchableOpacity>
+          {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
+            _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
+              <TouchableOpacity
+                style={styles.completeLaterContainer}
+                hitSlop={APP_CONSTANTS.HIT_SLOP}
+                onPress={() => this.handleCompleteLater()}>
+                <Text style={styles.completeLaterText}>
+                  {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
+                </Text>
+              </TouchableOpacity>
+            )}
         </View>
       </View>
     );

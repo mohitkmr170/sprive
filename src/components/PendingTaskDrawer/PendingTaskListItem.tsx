@@ -56,6 +56,7 @@ export class PendingTaskListItem extends React.Component<props, state> {
     let taskAndStageId = {
       taskId: _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null),
       stageId: _get(taskStageList, DB_KEYS.PENDING_TASK.ID, null),
+      isFirstRoute: true,
     };
     if (
       taskStageList &&

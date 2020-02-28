@@ -41,6 +41,9 @@ export const FE_FORM_VALUE_CONSTANTS = {
 export const STATE_PARAMS = {
   SELECTED_SEARCH_ADDRESS_INDEX: 'state.params.selectedAddressIndex',
   DETAILED_USER_ADDRESS: 'state.params.detailedAddress',
+  TASK_ID: 'state.params.taskId',
+  STAGE_ID: 'state.params.stageId',
+  IS_FIRST_ROUTE: 'state.params.isFirstRoute',
 };
 export const TASK_IDS = {
   TASK_ONE: 1,
