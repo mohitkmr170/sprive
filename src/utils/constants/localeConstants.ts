@@ -228,6 +228,8 @@ export const LOCALE_STRING = {
     COMPLETION_DESCRIPTION: 'pendingTask.completionDescription',
     PROGRESS: 'pendingTask.progress',
     PERCENTAGE_COMPLETE: 'pendingTask.percentageComplete',
+    TASK_ISSUE: 'pendingTask.taskIssue',
+    STAGE_ISSUE: 'pendingTask.stageIssue',
   },
   USER_PROFILE: {
     USER_PROFILE: 'userProfile.userProfile',
