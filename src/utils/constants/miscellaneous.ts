@@ -20,6 +20,9 @@ export const FE_FORM_VALUE_CONSTANTS = {
     MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
   },
 };
+/*
+NOTES : This data will be obtained from Backend API
+*/
 export const TASK_IDS = {
   TASK_ONE: 1,
   TASK_TWO: 2,
@@ -27,6 +30,9 @@ export const TASK_IDS = {
   TASK_FOUR: 4,
   TASK_FIVE: 5,
 };
+/*
+NOTES : This data will be obtained from Backend API
+*/
 export const STAGE_IDS = {
   STAGE_ONE: 1,
   STAGE_TWO: 2,
