@@ -2,6 +2,9 @@
 NOTES : This is kept here temporarily, will be modified later
 */
 
+export const NUMERIC_FACTORS = {
+  PERCENT_FACTOR: 100,
+};
 export const ICON = {
   UP: 'ios-arrow-round-up',
   DOWN: 'ios-arrow-round-down',
