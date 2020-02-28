@@ -39,16 +39,30 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
       isModalVisible: false,
     };
   }
+
   componentDidMount() {}
+
+  /**
+   * Function to handle swipe_up Gesture
+   */
   onSwipeUp = () => {
     this.setState({isModalVisible: true});
   };
+
+  /**
+   * Function to handle swipe_down Gesture
+   */
   onSwipeDown = () => {
     this.setState({isModalVisible: false});
   };
+
+  /**
+   * Function to get formatted percentage to be displayed
+   */
   getFromattedPercentText = (completionPercentage: number) => {
     return completionPercentage + '%';
   };
+
   render() {
     const {navigation, getPendingTaskResponse} = this.props;
     const config = {
@@ -59,6 +73,11 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
       getPendingTaskResponse,
       DB_KEYS.PENDING_TASK.OVERALL_PROGRESS_PERCENTAGE,
       0,
+    );
+    const taskList = _get(
+      getPendingTaskResponse,
+      DB_KEYS.PENDING_TASK.TASKS,
+      [],
     );
     return (
       <GestureRecognizer
@@ -133,13 +152,8 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
                 />
               </View>
               <View style={styles.pendingTaskCard}>
-                {_get(getPendingTaskResponse, DB_KEYS.PENDING_TASK.TASKS, [])
-                  .length &&
-                  _get(
-                    getPendingTaskResponse,
-                    DB_KEYS.PENDING_TASK.TASKS,
-                    [],
-                  ).map(item => {
+                {taskList.length &&
+                  taskList.map(item => {
                     return (
                       <PendingTaskListItem
                         item={item}
