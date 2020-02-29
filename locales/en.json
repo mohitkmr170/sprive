@@ -234,7 +234,9 @@
     "yourPendingTask": "Your pending tasks",
     "completionDescription": "Completing your information allows Sprive to more accurately find you better deals and maximise your savings",
     "progress": "Progress",
-    "percentageComplete": "{{percent}}% Complete"
+    "percentageComplete": "{{percent}}% Complete",
+    "taskIssue": "Something seems to be wrong with Task",
+    "stageIssue": "Something seems to be wrong with Stage"
   },
   "userProfile": {
     "userProfile": "User Profile",

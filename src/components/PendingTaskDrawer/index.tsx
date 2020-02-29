@@ -12,6 +12,7 @@ import {
   APP_CONSTANTS,
   LOCALE_STRING,
   DB_KEYS,
+  NUMERIC_FACTORS,
 } from '../../utils';
 import {PendingTaskListItem} from './PendingTaskListItem';
 import {styles} from './styles';
@@ -39,16 +40,30 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
       isModalVisible: false,
     };
   }
+
   componentDidMount() {}
+
+  /**
+   * Function to handle swipe_up Gesture
+   */
   onSwipeUp = () => {
     this.setState({isModalVisible: true});
   };
+
+  /**
+   * Function to handle swipe_down Gesture
+   */
   onSwipeDown = () => {
     this.setState({isModalVisible: false});
   };
+
+  /**
+   * Function to get formatted percentage to be displayed
+   */
   getFromattedPercentText = (completionPercentage: number) => {
     return completionPercentage + '%';
   };
+
   render() {
     const {navigation, getPendingTaskResponse} = this.props;
     const config = {
@@ -59,6 +74,11 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
       getPendingTaskResponse,
       DB_KEYS.PENDING_TASK.OVERALL_PROGRESS_PERCENTAGE,
       0,
+    );
+    const taskList = _get(
+      getPendingTaskResponse,
+      DB_KEYS.PENDING_TASK.TASKS,
+      [],
     );
     return (
       <GestureRecognizer
@@ -74,7 +94,9 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
               </Text>
               <Progress.Circle
                 size={STYLE_CONSTANTS.margin.HUGE}
-                progress={overallCompletionPercentage / 100} //Percentage
+                progress={
+                  overallCompletionPercentage / NUMERIC_FACTORS.PERCENT_FACTOR
+                }
                 color={COLOR.LIGHT_TEXT_GREEN}
                 unfilledColor={COLOR.LIGHT_TEXT_GREEN_MILD_OPACITY}
                 borderWidth={0}
@@ -124,7 +146,9 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
                   </Text>
                 </View>
                 <Progress.Bar
-                  progress={overallCompletionPercentage / 100}
+                  progress={
+                    overallCompletionPercentage / NUMERIC_FACTORS.PERCENT_FACTOR
+                  }
                   color={COLOR.LIGHT_TEXT_GREEN}
                   height={STYLE_CONSTANTS.margin.SMALLER}
                   width={null}
@@ -133,13 +157,8 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
                 />
               </View>
               <View style={styles.pendingTaskCard}>
-                {_get(getPendingTaskResponse, DB_KEYS.PENDING_TASK.TASKS, [])
-                  .length &&
-                  _get(
-                    getPendingTaskResponse,
-                    DB_KEYS.PENDING_TASK.TASKS,
-                    [],
-                  ).map(item => {
+                {taskList.length &&
+                  taskList.map(item => {
                     return (
                       <PendingTaskListItem
                         item={item}

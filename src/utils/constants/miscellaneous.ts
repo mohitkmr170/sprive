@@ -11,6 +11,9 @@ export const LOCAL_KEYS = {
   DISPLAY_ADDRESS_KEY: 'display_address',
 };
 
+export const NUMERIC_FACTORS = {
+  PERCENT_FACTOR: 100,
+};
 export const ICON = {
   UP: 'ios-arrow-round-up',
   DOWN: 'ios-arrow-round-down',
@@ -45,6 +48,9 @@ export const STATE_PARAMS = {
   STAGE_ID: 'state.params.stageId',
   IS_FIRST_ROUTE: 'state.params.isFirstRoute',
 };
+/*
+NOTES : This data will be obtained from Backend API
+*/
 export const TASK_IDS = {
   TASK_ONE: 1,
   TASK_TWO: 2,
@@ -52,6 +58,9 @@ export const TASK_IDS = {
   TASK_FOUR: 4,
   TASK_FIVE: 5,
 };
+/*
+NOTES : This data will be obtained from Backend API
+*/
 export const STAGE_IDS = {
   STAGE_ONE: 1,
   STAGE_TWO: 2,

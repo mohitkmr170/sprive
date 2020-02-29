@@ -156,8 +156,13 @@ export function getNumberWithCommas(data: string) {
 export function getRoundFigure(data: number) {
   return Math.round(data);
 }
+
+/*
+NOTES : These percentage range will be obtained from Backend API
+*/
+
 /**
- *
+ * Function to get color_coding based on task_completion_percentage range
  * @param percentage : number : Pending task completion percentage
  */
 export function getPendingTaskColorCode(percentage: number) {
