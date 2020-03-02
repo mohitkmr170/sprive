@@ -16,3 +16,6 @@ export const iEye = require('../icons/eye.png');
 export const iPasswordView = require('../icons/passwordView.svg');
 export const iPasswordLock = require('../icons/passwordLock.svg');
 export const iEdit = require('../icons/edit.png');
+export const iPointer = require('../icons/pointer.png');
+export const iPadLocks = require('../icons/padlocks.png');
+export const iViewArrow = require('../icons/view-arrow.png');

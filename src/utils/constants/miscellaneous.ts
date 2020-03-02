@@ -9,6 +9,7 @@ export const LOCAL_KEYS = {
   POST_CODE: 'item.post_code',
   DISPLAY_ADDRESS: 'item.display_address',
   DISPLAY_ADDRESS_KEY: 'display_address',
+  SWIPER_NAME: 'name',
 };
 
 export const NUMERIC_FACTORS = {

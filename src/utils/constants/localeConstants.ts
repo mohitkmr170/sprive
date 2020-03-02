@@ -258,4 +258,21 @@ export const LOCALE_STRING = {
     DONE: 'userProfile.done',
     EDIT: 'userProfile.edit',
   },
+  MY_PROGRESS_AND_PAYMENTS: {
+    MY_PAYMENTS: 'myProgressAndPayment.myPayments',
+    MY_PRGRESS: 'myProgressAndPayment.myProgress',
+    TODAY: 'myProgressAndPayment.today',
+    TARGET: 'myProgressAndPayment.target',
+    PROJECTED: 'myProgressAndPayment.projected',
+    MORTGAGE: 'myProgressAndPayment.mortgage',
+    CHEAPER_DEALS: 'myProgressAndPayment.cheaperDeals',
+    COMPLETE_YOUR_PROFILE: 'myProgressAndPayment.completeYourprofile',
+    CURRENT_LTV: 'myProgressAndPayment.currentLtv',
+    UNLOCK_DEALS: 'myProgressAndPayment.unlockBetterDeals',
+  },
+  HOME_OWNERSHIP: {
+    HOME_OWNERSHIP: 'homeOwnership.homeOwnerShip',
+    JOURNEY: 'homeOwnership.journey',
+    VIEW: 'homeOwnership.view',
+  },
 };

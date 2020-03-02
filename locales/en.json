@@ -262,5 +262,22 @@
     "noAddressFound": "No Address Found!",
     "done": "Done",
     "edit": "Edit"
-  }
+  },
+  "myProgressAndPayment": {
+    "myPayments": "My Payments",
+    "myProgress": "My Progress",
+    "mortgage": "Mortgage",
+    "cheaperDeals": "Cheaper Deals",
+    "today": "Today",
+    "target": "Target",
+    "projected": "Projected",
+    "completeYourprofile": "Complete your profile",
+    "currentLtv": "Current LTV",
+    "unlockBetterDeals": "Unlock better deals the next time you re-mortgage"
+  },
+  "homeOwnership": {
+    "homeOwnerShip": "Home Ownership",
+    "journey": "Journey",
+    "view": "View"
+  },
 }
