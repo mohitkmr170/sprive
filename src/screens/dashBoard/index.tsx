@@ -333,7 +333,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               buttonStyle={styles.button}
               onPress={() => this.handleMakeOverPayment()}
             />
-            <PaymentProgressCard currentMonthTarget={monthlyTarget} />
+            <PaymentProgressCard
+              navigation={navigation}
+              currentMonthTarget={monthlyTarget}
+            />
             <View style={styles.homeOwnerShipCardContainer}>
               <View>
                 <Text style={styles.ownerShipText}>

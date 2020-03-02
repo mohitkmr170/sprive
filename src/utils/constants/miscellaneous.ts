@@ -14,6 +14,7 @@ export const LOCAL_KEYS = {
 
 export const NUMERIC_FACTORS = {
   PERCENT_FACTOR: 100,
+  LTV_FRACTION_OFFSET: 5,
 };
 export const ICON = {
   UP: 'ios-arrow-round-up',

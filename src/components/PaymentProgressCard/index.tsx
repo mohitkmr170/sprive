@@ -12,6 +12,10 @@ import {
 } from '../../utils';
 
 interface props {
+  navigation: {
+    navigate: (routeName: string, params?: object) => void;
+    goBack: () => void;
+  };
   currentMonthTarget: any;
 }
 interface state {}
@@ -37,7 +41,7 @@ export class PaymentProgressCard extends React.Component<props, state> {
       <View style={styles.swiperCardContainer}>
         {_get(item, LOCAL_KEYS.SWIPER_NAME, '') ===
         localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.MY_PRGRESS) ? (
-          <MyProgress />
+          <MyProgress navigation={this.props.navigation} />
         ) : (
           <MyPayments currentMonthTarget={currentMonthTarget} />
         )}

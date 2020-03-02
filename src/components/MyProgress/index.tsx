@@ -1,21 +1,30 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {iPadLocks} from '../../assets';
 import {ProjectedDataContainer} from '../StackBarGraph/projectedDataContainer';
 import {
+  getLtvRangeAndPercentage,
   COLOR,
   APP_CONSTANTS,
   STYLE_CONSTANTS,
   localeString,
   LOCALE_STRING,
+  NAVIGATION_SCREEN_NAME,
 } from '../../utils';
+import {get as _get} from 'lodash';
 import {styles} from './styles';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import {TargetStepIndicator} from './targetStepIndicator';
 
-interface props {}
+const CURRENT_LTV = 61;
+interface props {
+  navigation: {
+    navigate: (routeName: string, params?: object) => void;
+    goBack: () => void;
+  };
+}
 
 interface state {
   isCheaperDealSelected: boolean;
@@ -33,12 +42,21 @@ export class MyProgress extends React.Component<props, state> {
     };
   }
 
+  componentDidMount() {}
+
   handleCheaperDealsClick = () => {
     this.setState({isCheaperDealSelected: true, isMortgageSelected: false});
   };
 
   handleMortgageClick = () => {
     this.setState({isCheaperDealSelected: false, isMortgageSelected: true});
+  };
+
+  hanldeCompleteYourProfileClick = () => {
+    /*
+    TODO : Need to check where to route based on stage-completion of `user-profile` task
+    */
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_PROFILE);
   };
 
   render() {
@@ -104,7 +122,9 @@ export class MyProgress extends React.Component<props, state> {
           </TouchableOpacity>
         </View>
         {isCheaperDealSelected && (
-          <TouchableOpacity style={styles.blockedViewContainer}>
+          <TouchableOpacity
+            onPress={() => this.hanldeCompleteYourProfileClick()}
+            style={styles.blockedViewContainer}>
             <LinearGradient
               colors={BLOCK_GRADIENT}
               style={styles.blockedInnerContainer}>
@@ -125,10 +145,16 @@ export class MyProgress extends React.Component<props, state> {
               {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.CURRENT_LTV)}
             </Text>
             <View style={styles.progressBarContainer}>
-              <Text style={styles.percentageText}>70%</Text>
+              <Text style={styles.percentageText}>
+                {_get(getLtvRangeAndPercentage(CURRENT_LTV), 'startVal', '')}
+              </Text>
               <View style={styles.progressContainer}>
                 <Progress.Bar
-                  progress={0.48}
+                  progress={_get(
+                    getLtvRangeAndPercentage(CURRENT_LTV),
+                    'percentage',
+                    0,
+                  )}
                   color={COLOR.DARKEST_YELLOW}
                   height={10}
                   width={null}
@@ -137,7 +163,9 @@ export class MyProgress extends React.Component<props, state> {
                   borderWidth={0}
                 />
               </View>
-              <Text style={styles.percentageText}>75%</Text>
+              <Text style={styles.percentageText}>
+                {_get(getLtvRangeAndPercentage(CURRENT_LTV), 'endVal', '')}
+              </Text>
             </View>
             <Text style={styles.unlockbetterDealsText}>
               {localeString(
