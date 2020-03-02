@@ -52,6 +52,8 @@ target 'Sprive' do
   pod 'GoogleIDFASupport', '~> 3.14.0'
   pod 'ReactNativeKeyboardManager', :path => '../node_modules/react-native-keyboard-manager'
   pod 'OneSignal', '>= 2.11.2', '< 3.0'
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
 
   target 'SpriveTests' do
     inherit! :search_paths
