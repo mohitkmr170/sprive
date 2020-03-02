@@ -22,7 +22,7 @@ export class GraphDetails extends React.Component<props, state> {
             {backgroundColor: color, borderColor: color},
           ]}
         />
-        <Text>{title}</Text>
+        <Text style={{fontSize: 10}}>{title}</Text>
       </View>
     );
   }
