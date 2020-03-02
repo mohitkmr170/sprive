@@ -12,3 +12,4 @@ export * from './PendingTaskDrawer';
 export * from './PaymentProgressCard';
 export * from './MyProgress';
 export * from './MyPayments';
+export * from './PolicyUpdate';

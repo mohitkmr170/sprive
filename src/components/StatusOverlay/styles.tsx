@@ -1,5 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {COLOR, STYLE_CONSTANTS} from '../../utils';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 export const styles = StyleSheet.create({
   mainContainer: {
@@ -12,6 +13,7 @@ export const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1,
     backgroundColor: COLOR.LIGHT_OPACITY_BLACK,
+    paddingTop: Platform.OS === 'android' ? 0 : getStatusBarHeight(),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -63,5 +65,14 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     paddingTop: STYLE_CONSTANTS.padding.SMALLISH,
     textAlign: 'center',
+  },
+  subTitle: {
+    color: COLOR.VOILET,
+    opacity: 0.5,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    paddingTop: STYLE_CONSTANTS.padding.SMALLISH,
+    textAlign: 'center',
+    marginTop: 16,
   },
 });
