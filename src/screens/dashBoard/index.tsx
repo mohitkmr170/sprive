@@ -16,6 +16,7 @@ import {
   plusIncome,
   minusIncome,
   correct,
+  iViewArrow,
 } from '../../assets';
 import {connect} from 'react-redux';
 import {
@@ -24,6 +25,7 @@ import {
   LoadingModal,
   PendingTaskDrawer,
   GeneralStatusBar,
+  PaymentProgressCard,
 } from '../../components';
 import * as Progress from 'react-native-progress';
 import {get as _get, cloneDeep} from 'lodash';
@@ -37,6 +39,7 @@ import {
   DB_KEYS,
   COLOR,
   PAYLOAD_KEYS,
+  STYLE_CONSTANTS,
 } from '../../utils';
 import {
   getMonthlyPaymentRecord,
@@ -208,6 +211,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     this.didFocusListener.remove();
   }
 
+  hanldeHomeOwnerShip = () => {
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.HOME_OWNERSHIP);
+  };
+
   render() {
     console.log('Inside Dashboard Render');
     const {
@@ -264,148 +271,90 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       return <LoadingModal loadingText="Loading..." />;
     else
       return (
-        <View style={styles.mainContainer}>
-          <ScrollView
-            contentContainerStyle={styles.middleContainer}
-            showsVerticalScrollIndicator={false}>
-            <GeneralStatusBar
-              backgroundColor={COLOR.DARK_BLUE}
-              barStyle="light-content"
-            />
-            <ImageBackground
-              source={dashBoardCard}
-              style={styles.blueImageBackground}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate(
-                    NAVIGATION_SCREEN_NAME.REPORT_ISSUE,
-                  )
-                }
-                style={styles.supportIcon}>
-                <Image source={report} />
-              </TouchableOpacity>
-              <Text style={styles.thisMonthText}>
-                {localeString(LOCALE_STRING.DASHBOARD_SCREEN.THIS_MONTH)}
+        <ScrollView
+          contentContainerStyle={styles.middleContainer}
+          showsVerticalScrollIndicator={false}>
+          <GeneralStatusBar
+            backgroundColor={COLOR.DARK_BLUE}
+            barStyle="light-content"
+          />
+          <ImageBackground
+            source={dashBoardCard}
+            style={styles.blueImageBackground}>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate(
+                  NAVIGATION_SCREEN_NAME.REPORT_ISSUE,
+                )
+              }
+              style={styles.supportIcon}>
+              <Image source={report} />
+            </TouchableOpacity>
+            <Text style={styles.thisMonthText}>
+              {localeString(LOCALE_STRING.DASHBOARD_SCREEN.THIS_MONTH)}
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={[
+                  styles.overPaymentTargetAmount,
+                  {
+                    color: !balanceAmount ? COLOR.SHADED_GREEN : COLOR.WHITE,
+                  },
+                ]}>
+                £{monthlyTargetWithCommas}
               </Text>
-              <View style={{flexDirection: 'row'}}>
-                <Text
-                  style={[
-                    styles.overPaymentTargetAmount,
-                    {
-                      color: !balanceAmount ? COLOR.SHADED_GREEN : COLOR.WHITE,
-                    },
-                  ]}>
-                  £{monthlyTargetWithCommas}
-                </Text>
-                {!balanceAmount && (
-                  <View style={styles.paidButton}>
-                    <Text style={{color: COLOR.WHITE}}>Paid</Text>
-                  </View>
-                )}
-              </View>
-              <Text style={styles.overPaymentTargetText}>
-                {localeString(LOCALE_STRING.DASHBOARD_SCREEN.OVER_PAYMENT)}
-              </Text>
-              {balanceAmount === 0 ? (
-                <Text style={styles.dueReminderText}>
-                  {localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_IT_UP)}
-                </Text>
-              ) : (
-                <Text style={styles.dueReminderText}>
-                  {balanceAmount > 0 && balanceAmount < monthlyTarget
-                    ? `£${balanceAmountWithCommas} more to go!`
-                    : localeString(
-                        LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
-                        {month: APP_CONSTANTS.MONTH_NAMES[CURRENT_MONTH]},
-                      )}
-                </Text>
-              )}
-            </ImageBackground>
-            <View style={styles.secondContainer}>
-              <View style={styles.statusContainer}>
-                <Text style={styles.statusLefttext}>
-                  {localeString(LOCALE_STRING.DASHBOARD_SCREEN.AMOUNT_LEFT)}{' '}
-                  <Text style={styles.innerFirstText}>£2,880</Text>
-                </Text>
-                <Text style={styles.statusRightText}>
-                  Spent £560 out of £3,440
-                </Text>
-              </View>
-              <View style={styles.passStrengthInnerContainer}>
-                <Progress.Bar
-                  progress={0.6}
-                  color={COLOR.DARKEST_YELLOW}
-                  height={10}
-                  width={null}
-                  borderRadius={5}
-                  unfilledColor={COLOR.LIGHTEST_YELLOW}
-                  borderWidth={0}
-                />
-              </View>
-            </View>
-            <View style={styles.incomeStatusContainer}>
-              <View style={styles.incomeInnerContainer}>
-                <View style={styles.rowParentContainer}>
-                  <View style={styles.incomeInnerContainers}>
-                    <View style={styles.rowParentContainer}>
-                      <Image source={plusIncome} height={18} width={18} />
-                      <Text style={styles.incomeText}>
-                        {localeString(LOCALE_STRING.DASHBOARD_SCREEN.INCOME)}
-                      </Text>
-                    </View>
-                    <Text style={styles.incomeSpentText}>£3,440</Text>
-                  </View>
-                  <View style={styles.incomeInnerContainers}>
-                    <View style={styles.rowParentContainer}>
-                      <Image source={minusIncome} height={18} width={18} />
-                      <Text style={styles.spentText}>
-                        {localeString(LOCALE_STRING.DASHBOARD_SCREEN.SPENT)}
-                      </Text>
-                    </View>
-                    <Text style={styles.incomeSpentText}>£3,440</Text>
-                  </View>
+              {!balanceAmount && (
+                <View style={styles.paidButton}>
+                  <Text style={{color: COLOR.WHITE}}>Paid</Text>
                 </View>
-                <Text style={styles.availableBalanceText}>
-                  {localeString(
-                    LOCALE_STRING.DASHBOARD_SCREEN.AVAILABLE_BALANCE,
-                  )}
-                </Text>
-                <Text style={styles.availableAmountText}>£21,312</Text>
-                <Button
-                  title={localeString(
-                    LOCALE_STRING.DASHBOARD_SCREEN.MAKE_OVERPAYMENT,
-                  )}
-                  titleStyle={styles.buttonTitle}
-                  buttonStyle={styles.button}
-                  onPress={() => this.handleMakeOverPayment()}
-                />
-              </View>
+              )}
             </View>
+            <Text style={styles.overPaymentTargetText}>
+              {localeString(LOCALE_STRING.DASHBOARD_SCREEN.OVER_PAYMENT)}
+            </Text>
+            {balanceAmount === 0 ? (
+              <Text style={styles.dueReminderText}>
+                {localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_IT_UP)}
+              </Text>
+            ) : (
+              <Text style={styles.dueReminderText}>
+                {balanceAmount > 0 && balanceAmount < monthlyTarget
+                  ? `£${balanceAmountWithCommas} more to go!`
+                  : localeString(
+                      LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
+                      {month: APP_CONSTANTS.MONTH_NAMES[CURRENT_MONTH]},
+                    )}
+              </Text>
+            )}
+          </ImageBackground>
+          <Button
+            title={localeString(
+              LOCALE_STRING.DASHBOARD_SCREEN.MAKE_OVERPAYMENT,
+            )}
+            titleStyle={styles.buttonTitle}
+            buttonStyle={styles.button}
+            onPress={() => this.handleMakeOverPayment()}
+          />
+          <PaymentProgressCard currentMonthTarget={monthlyTarget} />
+          <View style={styles.homeOwnerShipCardContainer}>
             <View>
-              <View style={styles.myProgressContainer}>
-                <Text style={styles.myProgressText}>
-                  {localeString(LOCALE_STRING.DASHBOARD_SCREEN.MY_PROGRESS)}
-                </Text>
-                <Text style={styles.projectedText}>
-                  {localeString(
-                    LOCALE_STRING.DASHBOARD_SCREEN.PROJECTED_MORTGAGE,
-                  )}{' '}
-                  <Text style={styles.monthsLeftText}>
-                    {extimatedYears
-                      ? extimatedYears +
-                        (extimatedYears === 1 ? ' year' : ' years')
-                      : ''}{' '}
-                    {estimatedMonths
-                      ? estimatedMonths +
-                        (estimatedMonths === 1 ? ' month' : ' months')
-                      : ''}
-                    {!estimatedMonths && !extimatedYears && '-'}
-                  </Text>
-                </Text>
-              </View>
-              <StackBarGraph currentMonthTarget={monthlyTarget} />
+              <Text style={styles.ownerShipText}>
+                {localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)}
+              </Text>
+              <Text style={styles.ownerShipText}>
+                {localeString(LOCALE_STRING.HOME_OWNERSHIP.JOURNEY)}
+              </Text>
             </View>
-          </ScrollView>
+            <TouchableOpacity
+              onPress={() => this.hanldeHomeOwnerShip()}
+              hitSlop={APP_CONSTANTS.HIT_SLOP}
+              style={styles.viewContainer}>
+              <Text style={styles.viewText}>
+                {localeString(LOCALE_STRING.HOME_OWNERSHIP.VIEW)}
+              </Text>
+              <Image source={iViewArrow} />
+            </TouchableOpacity>
+          </View>
           {(!_get(
             getMonthlyPaymentRecordResponse,
             DB_KEYS.RESPONSE_DATA,
@@ -455,7 +404,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           ) ? (
             <PendingTaskDrawer navigation={navigation} />
           ) : null}
-        </View>
+        </ScrollView>
+
+        // </View>
       );
   }
 }

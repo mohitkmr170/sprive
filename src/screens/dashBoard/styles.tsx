@@ -89,7 +89,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
   },
   rowParentContainer: {flexDirection: 'row'},
-  incomeInnerContainers: {flex: 1, alignItems: 'center'},
+  incomeInnerContainers: {alignItems: 'center'},
   incomeText: {
     marginLeft: STYLE_CONSTANTS.margin.SMALLER,
     color: COLOR.PARROT_GREEN,
@@ -153,4 +153,28 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
   },
   monthsLeftText: {color: COLOR.VOILET},
+  homeOwnerShipCardContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
+    paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
+    backgroundColor: COLOR.VOILET,
+    marginVertical: STYLE_CONSTANTS.margin.LARGEST,
+    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
+    borderRadius: STYLE_CONSTANTS.margin.SMALL,
+  },
+  ownerShipText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGER,
+    color: COLOR.WHITE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+  },
+  viewContainer: {alignItems: 'center', flexDirection: 'row'},
+  viewText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    color: COLOR.WHITE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    marginRight: STYLE_CONSTANTS.margin.SMALL,
+  },
 });
