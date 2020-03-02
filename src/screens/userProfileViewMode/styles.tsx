@@ -25,6 +25,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  fieldContainer: {marginTop: STYLE_CONSTANTS.margin.HUGISH},
   editText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
@@ -59,7 +60,6 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
-    marginBottom: STYLE_CONSTANTS.margin.HUGISH,
   },
   completeLaterText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,

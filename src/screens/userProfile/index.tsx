@@ -10,6 +10,7 @@ import {get as _get} from 'lodash';
 import {
   alphaNumeric,
   required,
+  alphaBets,
   dobValidation,
   localeString,
   APP_CONSTANTS,
@@ -38,7 +39,13 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       dateOfBirth: '',
     };
   }
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    let taskAndStage = _get(this.props.navigation, 'state.params', {});
+    console.log(
+      'componentDidMount : this.props : navigation_params =>',
+      taskAndStage,
+    );
+  };
   handleFormSubmit = () => {};
   handleCompleteLater = () => {
     this.props.navigation.goBack();
@@ -111,7 +118,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
                 autoCorrect: false,
                 returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
               }}
-              validate={[alphaNumeric, required]}
+              validate={[alphaBets, required]}
             />
             <Field
               name="lastName"
@@ -124,7 +131,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
                 autoCorrect: false,
                 returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
               }}
-              validate={[alphaNumeric, required]}
+              validate={[alphaBets, required]}
             />
             <Field
               name="dateOfBirth"
@@ -143,7 +150,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
                 returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
               }}
               normalize={this.handleDateOfBirthEntry}
-              validate={[alphaNumeric, required, dobValidation]}
+              validate={[required, dobValidation]}
             />
             <View style={{opacity: isAddressEditable ? 1 : 0.4}}>
               <Field

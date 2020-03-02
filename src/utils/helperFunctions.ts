@@ -155,12 +155,16 @@ export function getRoundFigure(data: number) {
   return Math.round(data);
 }
 
+/*
+NOTES : These percentage range will be obtained from Backend API
+*/
+
 /**
- *
+ * Function to get color_coding based on task_completion_percentage range
  * @param percentage : number : Pending task completion percentage
  */
 export function getPendingTaskColorCode(percentage: number) {
-  if (percentage > 0 && percentage < 20) return COLOR.SALMON_RED;
+  if (percentage >= 0 && percentage < 20) return COLOR.SALMON_RED;
   else if (percentage >= 20 && percentage < 80) return COLOR.AMBER;
   else if (percentage >= 80 && percentage < 100) return COLOR.LIGHT_GREEN;
   else return COLOR.WHITE;

@@ -3,22 +3,25 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import * as Progress from 'react-native-progress';
+import {get as _get} from 'lodash';
+import {connect} from 'react-redux';
 import {
   localeString,
   COLOR,
   STYLE_CONSTANTS,
   APP_CONSTANTS,
   LOCALE_STRING,
-  NAVIGATION_SCREEN_NAME,
+  DB_KEYS,
+  NUMERIC_FACTORS,
 } from '../../utils';
 import {PendingTaskListItem} from './PendingTaskListItem';
 import {styles} from './styles';
 
 interface props {
   navigation: object;
+  getPendingTaskResponse: object;
 }
 interface state {
-  pendingTaskProgress: number;
   isModalVisible: boolean;
 }
 
@@ -27,56 +30,56 @@ const GESTURE_CONFIGS = {
   DIRECTIONAL_OFFSET_THRESHOLD: 80,
 };
 
-/**
- * Sample pending task list data
- */
-
-const pendingTasks = [
-  {
-    pendingTaskName: 'Complete your profile',
-    timeToComplete: '5 mins',
-    completePercetage: 0.15,
-  },
-  {
-    pendingTaskName: 'Maximise your savings',
-    timeToComplete: '10 mins',
-    completePercetage: 0.25,
-    targetScreen: '',
-  },
-  {
-    pendingTaskName: 'Early repayment tracking',
-    timeToComplete: '10 mins',
-    completePercetage: 0.85,
-  },
-];
-
-export class PendingTaskDrawer extends React.Component<props, state> {
+export class UnconnectedPendingTaskDrawer extends React.Component<
+  props,
+  state
+> {
   constructor(props: props) {
     super(props);
     this.state = {
-      pendingTaskProgress: 0,
       isModalVisible: false,
     };
   }
-  componentDidMount() {
-    this.setState({pendingTaskProgress: 0.5});
-  }
+
+  componentDidMount() {}
+
+  /**
+   * Function to handle swipe_up Gesture
+   */
   onSwipeUp = () => {
     this.setState({isModalVisible: true});
   };
+
+  /**
+   * Function to handle swipe_down Gesture
+   */
   onSwipeDown = () => {
     this.setState({isModalVisible: false});
   };
-  getFromattedPercentText = () => {
-    let currentProgressPercentage = this.state.pendingTaskProgress * 100 + '%';
-    return currentProgressPercentage;
+
+  /**
+   * Function to get formatted percentage to be displayed
+   */
+  getFromattedPercentText = (completionPercentage: number) => {
+    return completionPercentage + '%';
   };
+
   render() {
-    const {navigation} = this.props;
+    const {navigation, getPendingTaskResponse} = this.props;
     const config = {
       velocityThreshold: GESTURE_CONFIGS.VEOLCITY_THRESHOLD,
       directionalOffsetThreshold: GESTURE_CONFIGS.DIRECTIONAL_OFFSET_THRESHOLD,
     };
+    const overallCompletionPercentage = _get(
+      getPendingTaskResponse,
+      DB_KEYS.PENDING_TASK.OVERALL_PROGRESS_PERCENTAGE,
+      0,
+    );
+    const taskList = _get(
+      getPendingTaskResponse,
+      DB_KEYS.PENDING_TASK.TASKS,
+      [],
+    );
     return (
       <GestureRecognizer
         onSwipeUp={this.onSwipeUp}
@@ -91,12 +94,16 @@ export class PendingTaskDrawer extends React.Component<props, state> {
               </Text>
               <Progress.Circle
                 size={STYLE_CONSTANTS.margin.HUGE}
-                progress={0.5} //Percentage
+                progress={
+                  overallCompletionPercentage / NUMERIC_FACTORS.PERCENT_FACTOR
+                }
                 color={COLOR.LIGHT_TEXT_GREEN}
                 unfilledColor={COLOR.LIGHT_TEXT_GREEN_MILD_OPACITY}
                 borderWidth={0}
                 showsText
-                formatText={() => this.getFromattedPercentText()}
+                formatText={() =>
+                  this.getFromattedPercentText(overallCompletionPercentage)
+                }
                 textStyle={styles.progressText}
               />
             </View>
@@ -132,12 +139,16 @@ export class PendingTaskDrawer extends React.Component<props, state> {
                   <Text style={styles.percentCompleteText}>
                     {localeString(
                       LOCALE_STRING.PENDING_TASK.PERCENTAGE_COMPLETE,
-                      {percent: 50},
+                      {
+                        percent: overallCompletionPercentage,
+                      },
                     )}
                   </Text>
                 </View>
                 <Progress.Bar
-                  progress={0.5}
+                  progress={
+                    overallCompletionPercentage / NUMERIC_FACTORS.PERCENT_FACTOR
+                  }
                   color={COLOR.LIGHT_TEXT_GREEN}
                   height={STYLE_CONSTANTS.margin.SMALLER}
                   width={null}
@@ -146,8 +157,8 @@ export class PendingTaskDrawer extends React.Component<props, state> {
                 />
               </View>
               <View style={styles.pendingTaskCard}>
-                {pendingTasks &&
-                  pendingTasks.map(item => {
+                {taskList.length &&
+                  taskList.map(item => {
                     return (
                       <PendingTaskListItem
                         item={item}
@@ -164,3 +175,13 @@ export class PendingTaskDrawer extends React.Component<props, state> {
     );
   }
 }
+const mapStateToProps = state => ({
+  getPendingTaskResponse: state.getPendingTask,
+});
+
+const bindActions = dispatch => ({});
+
+export const PendingTaskDrawer = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedPendingTaskDrawer);

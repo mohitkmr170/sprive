@@ -127,4 +127,19 @@ export const DB_KEYS = {
     OPENED: 'opened',
     IDS: 'ids',
   },
+  /*
+  NOTES : This is to be refactored as per the branch `update/api-response`
+  */
+  PENDING_TASK: {
+    IS_PENDING_TASK: 'response.data.is_pending_task',
+    OVERALL_PROGRESS_PERCENTAGE: 'response.data.overall_progress_percentage',
+    TASKS: 'response.data.tasks',
+    COMPLETION_PERCENTAGE: 'completion_percentage',
+    TASK_STAGES: 'task_stages',
+    TASK_ID: 'task_id',
+    ID: 'id',
+    STAGE_ID: 'stageId',
+    TASK_NAME: 'tasks.name',
+    TIME_TO_COMPLETE: 'time_to_complete',
+  },
 };

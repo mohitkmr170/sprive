@@ -10,6 +10,7 @@ import {get as _get} from 'lodash';
 import {
   alphaNumeric,
   required,
+  alphaBets,
   dobValidation,
   localeString,
   APP_CONSTANTS,
@@ -80,65 +81,67 @@ export class UnConnectedUserProfileViewMode extends React.Component<
                 </Text>
               </TouchableOpacity>
             </View>
-            <Field
-              name="firstName"
-              label={localeString(LOCALE_STRING.USER_PROFILE.FIRST_NAME)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                autoCorrect: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-                editable: false,
-              }}
-              validate={[alphaNumeric, required]}
-            />
-            <Field
-              name="lastName"
-              label={localeString(LOCALE_STRING.USER_PROFILE.LAST_NAME)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                autoCorrect: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-                editable: false,
-              }}
-              validate={[alphaNumeric, required]}
-            />
-            <Field
-              name="dateOfBirth"
-              label={localeString(LOCALE_STRING.USER_PROFILE.DOB)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                maxLength: 10, //DOB
-                keyboardType: 'number-pad',
-                style: styles.formInput,
-                autoCapitalize: false,
-                autoCorrect: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-                editable: false,
-              }}
-              validate={[alphaNumeric, required, dobValidation]}
-            />
-            <Field
-              name="address"
-              label={localeString(LOCALE_STRING.USER_PROFILE.ADDRESS)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                autoCorrect: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-                multiline: true,
-                editable: false,
-              }}
-              validate={[alphaNumeric, required]}
-            />
+            <View style={styles.fieldContainer}>
+              <Field
+                name="firstName"
+                label={localeString(LOCALE_STRING.USER_PROFILE.FIRST_NAME)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  autoCorrect: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                  editable: false,
+                }}
+                validate={[alphaBets, required]}
+              />
+              <Field
+                name="lastName"
+                label={localeString(LOCALE_STRING.USER_PROFILE.LAST_NAME)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  autoCorrect: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                  editable: false,
+                }}
+                validate={[alphaBets, required]}
+              />
+              <Field
+                name="dateOfBirth"
+                label={localeString(LOCALE_STRING.USER_PROFILE.DOB)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  maxLength: 10, //DOB
+                  keyboardType: 'number-pad',
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  autoCorrect: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                  editable: false,
+                }}
+                validate={[required, dobValidation]}
+              />
+              <Field
+                name="address"
+                label={localeString(LOCALE_STRING.USER_PROFILE.ADDRESS)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  autoCorrect: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                  multiline: true,
+                  editable: false,
+                }}
+                validate={[alphaNumeric, required]}
+              />
+            </View>
           </KeyboardAwareScrollView>
           <Button
             title={localeString(LOCALE_STRING.USER_PROFILE.DONE)}

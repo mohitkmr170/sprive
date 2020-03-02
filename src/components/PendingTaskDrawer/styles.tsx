@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: STYLE_CONSTANTS.margin.SMALLER,
   },
-  progressContainer: {marginTop: STYLE_CONSTANTS.margin.SMALL},
+  progressContainer: {marginTop: STYLE_CONSTANTS.margin.LARGEST},
   innerProgressText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
@@ -90,7 +90,7 @@ export const styles = StyleSheet.create({
     color: COLOR.VOILET,
     opacity: 0.5,
   },
-  pendingTaskCard: {marginTop: STYLE_CONSTANTS.margin.HUGISH},
+  pendingTaskCard: {marginTop: STYLE_CONSTANTS.margin.LARGEST},
   pendingListItemContainer: {
     marginTop: STYLE_CONSTANTS.padding.BELOW_NORMAL,
     borderRadius: STYLE_CONSTANTS.margin.SMALL,
