@@ -34,6 +34,7 @@ import {
   UserAddress,
   SearchAddress,
   UserProfileViewMode,
+  HomeOwnerShip,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 import {GenericWebView} from '../components';
@@ -191,6 +192,9 @@ const AppStackNavigator = createStackNavigator(
     },
     UserProfileViewModeScreen: {
       screen: UserProfileViewMode,
+    },
+    HomeOwnerShipScreen: {
+      screen: HomeOwnerShip,
     },
   },
   {
