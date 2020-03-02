@@ -97,7 +97,7 @@ export class PendingTaskListItem extends React.Component<props, state> {
     const {item} = this.props;
     const taskStageObj = _get(item, DB_KEYS.PENDING_TASK.TASK_STAGES, []).length
       ? _get(item, DB_KEYS.PENDING_TASK.TASK_STAGES, [])[0]
-      : {}; //Taking the first stage of this pending taks
+      : {}; //Taking the first stage of this pending tasks
     let taskAndStageId = {
       taskId: _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null),
       stageId: _get(taskStageList, DB_KEYS.PENDING_TASK.ID, null),
