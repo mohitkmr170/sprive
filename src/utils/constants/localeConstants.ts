@@ -275,4 +275,12 @@ export const LOCALE_STRING = {
     JOURNEY: 'homeOwnership.journey',
     VIEW: 'homeOwnership.view',
   },
+  POLICY_UPDATE: {
+    HI_THERE: 'policyUpdate.hiThere',
+    RECENTLY: 'policyUpdate.recently',
+    TANDC: 'policyUpdate.termAndCondition',
+    TAKE_A_LOOK: 'policyUpdate.takeALook',
+    ALL_USERS: 'policyUpdate.alllUsers',
+    OKAY: 'policyUpdate.okay',
+  },
 };

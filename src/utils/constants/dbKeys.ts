@@ -7,6 +7,7 @@ export const DB_KEYS = {
   ACCESS_DATA_TOKEN: 'response.data.accessToken',
   ACCESS_TOKEN: 'response.accessToken',
   IS_FETCHING: 'isFetching',
+  IS_POLICY_UPDATE_RECEIVED: 'isPolicyUpdateReceived',
   META_TOTAL: 'response.meta.total',
   META_SKIP: 'response.meta.skip',
   TOTAL_INTEREST: 'response.data.totalInterest',

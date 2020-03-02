@@ -280,4 +280,12 @@
     "journey": "Journey",
     "view": "View"
   },
+  "policyUpdate": {
+    "hiThere": "Hi there!",
+    "recently": "We’ve recently updated our",
+    "termAndCondition": "Terms & Conditions",
+    "takeALook": "- Take a look \n and see what’s changed.",
+    "alllUsers": "All users will be subject to our updated \n terms.",
+    "okay": "Okay"
+  }
 }

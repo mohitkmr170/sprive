@@ -74,6 +74,7 @@ export const STAGE_NAME_INDEX = {
 };
 export const WEB_VIEW_PARAMS = {
   WEB_VIEW: 'state.params.webViewUri',
+  IS_POLICY: 'state.params.isPolicy',
   WEB_VIEW_URI:
     'https://drive.google.com/open?id=1245ani10Xj25jnGUyUYtaU5idZ2Je9LZ',
 };
