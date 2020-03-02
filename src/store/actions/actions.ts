@@ -27,3 +27,9 @@ export const clearFormData = () => {
     type: actionTypes.CLEAR_FORM_DATA,
   };
 };
+
+export const policyUpdate = () => {
+  return {
+    type: actionTypes.IS_POLICY_UPDATE_RECEIVED,
+  };
+};

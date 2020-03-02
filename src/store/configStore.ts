@@ -12,6 +12,7 @@ import {applicationReducer} from './appReducers/addUserDetails';
 import {userDataChangeReducer} from './appReducers/triggerUserDataChange.reducer';
 import {logoutUser} from '../store/appReducers/logoutUser';
 import {notification} from '../store/appReducers/notification';
+import {policyUpdate} from './appReducers/policyUpdate';
 
 const appReducers = {
   ...mapValues(reducers, 'reducers'),
@@ -20,6 +21,7 @@ const appReducers = {
   userDataChangeReducer,
   logoutUser,
   notification,
+  policyUpdate,
 };
 
 const appReducer = combineReducers(appReducers);
