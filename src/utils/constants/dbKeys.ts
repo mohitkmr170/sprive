@@ -42,6 +42,7 @@ export const DB_KEYS = {
   SIGNUP_PASSWORD: 'signup.values.password',
   SUCCESS: 'Success',
   VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
+  ADDRESS_RESPONSE: 'response.data.address',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',

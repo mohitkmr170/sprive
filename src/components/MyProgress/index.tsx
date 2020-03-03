@@ -2,8 +2,10 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {iPadLocks} from '../../assets';
+import {connect} from 'react-redux';
 import {ProjectedDataContainer} from '../StackBarGraph/projectedDataContainer';
 import {
+  showSnackBar,
   getLtvRangeAndPercentage,
   COLOR,
   APP_CONSTANTS,
@@ -11,6 +13,10 @@ import {
   localeString,
   LOCALE_STRING,
   NAVIGATION_SCREEN_NAME,
+  DB_KEYS,
+  STAGE_NAME_INDEX,
+  TASK_IDS,
+  STAGE_IDS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 import {styles} from './styles';
@@ -24,6 +30,8 @@ interface props {
     navigate: (routeName: string, params?: object) => void;
     goBack: () => void;
   };
+  getUserInfoResponse: object;
+  getPendingTaskResponse: object;
 }
 
 interface state {
@@ -33,7 +41,7 @@ interface state {
 
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.GRADIENT_PRIMARY];
 
-export class MyProgress extends React.Component<props, state> {
+export class UnconnectedMyProgress extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
@@ -51,15 +59,58 @@ export class MyProgress extends React.Component<props, state> {
   handleMortgageClick = () => {
     this.setState({isCheaperDealSelected: false, isMortgageSelected: true});
   };
+  handleStageNavigation = (routeName: string, taskAndStageId: object) => {
+    this.props.navigation.navigate(routeName, taskAndStageId);
+  };
+  getTargetNavigation = (item: object) => {
+    const taskStageObj: [] = _get(
+      item,
+      DB_KEYS.PENDING_TASK.TASK_STAGES,
+      [],
+    )[0]; //Taking the first pending taks
+    let taskAndStageId = {
+      taskId: _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null),
+      stageId: _get(taskStageObj, DB_KEYS.PENDING_TASK.ID, null),
+    };
+    if (
+      taskStageObj &&
+      _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null) === TASK_IDS.TASK_ONE
+    ) {
+      switch (_get(taskAndStageId, DB_KEYS.PENDING_TASK.STAGE_ID, null)) {
+        case STAGE_IDS.STAGE_ONE:
+          this.handleStageNavigation(NAVIGATION_SCREEN_NAME.USER_PROFILE, {});
+          break;
+        case STAGE_IDS.STAGE_TWO:
+          this.handleStageNavigation(NAVIGATION_SCREEN_NAME.USER_ADDRESS, {});
+          break;
+        default:
+          showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
+      }
+    } else showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
+  };
 
   hanldeCompleteYourProfileClick = () => {
     /*
     TODO : Need to check where to route based on stage-completion of `user-profile` task
     */
-    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_PROFILE);
+    const {getPendingTaskResponse} = this.props;
+    let found = _get(
+      getPendingTaskResponse,
+      DB_KEYS.PENDING_TASK.TASKS,
+      [],
+    ).find(
+      (item: object) =>
+        _get(item, DB_KEYS.PENDING_TASK.ID, null) ===
+        STAGE_NAME_INDEX.USER_PROFILE,
+    );
+    _get(getPendingTaskResponse, DB_KEYS.PENDING_TASK.IS_PENDING_TASK, false) &&
+    found
+      ? this.getTargetNavigation(found)
+      : null;
   };
 
   render() {
+    const {getUserInfoResponse} = this.props;
     const {isCheaperDealSelected, isMortgageSelected} = this.state;
     return (
       <Animatable.View
@@ -121,26 +172,28 @@ export class MyProgress extends React.Component<props, state> {
             </Text>
           </TouchableOpacity>
         </View>
-        {isCheaperDealSelected && (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => this.hanldeCompleteYourProfileClick()}
-            style={styles.blockedViewContainer}>
-            <Animatable.View style={{flex: 1}} animation="fadeIn">
-              <LinearGradient
-                colors={BLOCK_GRADIENT}
-                style={styles.blockedInnerContainer}>
-                <Image source={iPadLocks} style={{opacity: 1}} />
-                <Text style={styles.completeYourProfileText}>
-                  {localeString(
-                    LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS
-                      .COMPLETE_YOUR_PROFILE,
-                  )}
-                </Text>
-              </LinearGradient>
-            </Animatable.View>
-          </TouchableOpacity>
-        )}
+        {isCheaperDealSelected &&
+          !Object.keys(_get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}))
+            .length && (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => this.hanldeCompleteYourProfileClick()}
+              style={styles.blockedViewContainer}>
+              <Animatable.View style={{flex: 1}} animation="fadeIn">
+                <LinearGradient
+                  colors={BLOCK_GRADIENT}
+                  style={styles.blockedInnerContainer}>
+                  <Image source={iPadLocks} style={{opacity: 1}} />
+                  <Text style={styles.completeYourProfileText}>
+                    {localeString(
+                      LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS
+                        .COMPLETE_YOUR_PROFILE,
+                    )}
+                  </Text>
+                </LinearGradient>
+              </Animatable.View>
+            </TouchableOpacity>
+          )}
         {isMortgageSelected ? (
           <TargetStepIndicator />
         ) : (
@@ -185,3 +238,13 @@ export class MyProgress extends React.Component<props, state> {
     );
   }
 }
+const mapStateToProps = state => ({
+  getUserInfoResponse: state.getUserInfo,
+  getPendingTaskResponse: state.getPendingTask,
+});
+
+const bindActions = dispatch => ({});
+export const MyProgress = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedMyProgress);
