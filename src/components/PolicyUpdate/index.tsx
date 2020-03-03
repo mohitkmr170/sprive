@@ -6,7 +6,7 @@ import {
   NAVIGATION_SCREEN_NAME,
   WEB_VIEW_PARAMS,
 } from '../../utils';
-import {styles} from '../../screens/dashBoard/styles';
+import {styles} from './styles';
 
 interface props {
   navigation: {

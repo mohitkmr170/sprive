@@ -207,7 +207,8 @@ export class UnconnectedSideBar extends React.Component<props, state> {
         <View style={styles.innerMainContainer}>
           <View style={styles.centerContainer}>
             <View style={styles.profileContainer}>
-              <Text style={styles.userNameText}>{currentUserMail}</Text>
+              {/* Conditions to be added to displat NAME/SPRIVE */}
+              <Text style={styles.userNameText}>Sprive</Text>
               <Text style={styles.userLocationText}>
                 {CURRENT_USER_LOCATION}
               </Text>
