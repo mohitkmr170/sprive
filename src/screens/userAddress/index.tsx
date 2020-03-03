@@ -6,7 +6,12 @@ import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import {reset} from '../../navigation/navigationService';
 import Icon from 'react-native-vector-icons/Feather';
-import {getAddress, taskHandler, getUserInfo} from '../../store/reducers';
+import {
+  getAddress,
+  taskHandler,
+  getUserInfo,
+  updateUserAddress,
+} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
@@ -44,6 +49,8 @@ interface props {
   taskHandlerResponse: object;
   getUserInfoResponse: object;
   getUserInfo: () => void;
+  updateUserAddress: (payload: object, qParams: object) => void;
+  updateUserAddressResponse: object;
 }
 interface state {
   postCode: string;
@@ -61,16 +68,24 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     formValues: object,
     selectedAddressIndex: number,
   ) => {
-    const {taskHandler, getUserInfo, getUserInfoResponse} = this.props;
-    const payload = {
-      [PAYLOAD_KEYS.PENDING_TASK.USER_ID]: _get(
-        getUserInfoResponse,
-        DB_KEYS.DATA_ID,
-        null,
-      ),
-      [PAYLOAD_KEYS.PENDING_TASK.TASK_ID]: PENDING_TASK_IDS.TASKS.USER_PROFILE,
-      [PAYLOAD_KEYS.PENDING_TASK.STAGE_ID]: PENDING_TASK_IDS.STAGES.ADDRESS,
-      [PAYLOAD_KEYS.PENDING_TASK.DATA]: {
+    const {
+      taskHandler,
+      getUserInfo,
+      getUserInfoResponse,
+      updateUserAddress,
+    } = this.props;
+    if (
+      !(
+        _get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
+        _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null)
+      )
+    ) {
+      const updatePayload = {
+        [PAYLOAD_KEYS.USER_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.DATA_ID,
+          null,
+        ),
         [PAYLOAD_KEYS.PENDING_TASK.HOUSE_NUMBER]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
@@ -90,13 +105,54 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           formValues,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
           '',
+        ).replace(/ /g, ''), //To match BE_validation(without White-spaces)
+      };
+      await updateUserAddress(updatePayload, {
+        id: _get(getUserInfoResponse, DB_KEYS.USER_ADDRESS_ID, null),
+      });
+    } else {
+      const payload = {
+        [PAYLOAD_KEYS.PENDING_TASK.USER_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.DATA_ID,
+          null,
         ),
-      },
-    };
-    await taskHandler(payload);
-    const {taskHandlerResponse} = this.props;
+        [PAYLOAD_KEYS.PENDING_TASK.TASK_ID]:
+          PENDING_TASK_IDS.TASKS.USER_PROFILE,
+        [PAYLOAD_KEYS.PENDING_TASK.STAGE_ID]: PENDING_TASK_IDS.STAGES.ADDRESS,
+        [PAYLOAD_KEYS.PENDING_TASK.DATA]: {
+          [PAYLOAD_KEYS.PENDING_TASK.HOUSE_NUMBER]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
+            '',
+          ),
+          [PAYLOAD_KEYS.PENDING_TASK.STREET_NAME]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
+            '',
+          ),
+          [PAYLOAD_KEYS.PENDING_TASK.CITY]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
+            '',
+          ),
+          [PAYLOAD_KEYS.PENDING_TASK.POST_CODE]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
+            '',
+          ),
+        },
+      };
+      await taskHandler(payload);
+    }
+    const {taskHandlerResponse, updateUserAddressResponse} = this.props;
     console.log('TASK SUBMISSION : TASK-1 : STAGE-2 :', taskHandlerResponse);
-    if (!_get(taskHandlerResponse, DB_KEYS.ERROR, false)) {
+    if (
+      !(
+        _get(taskHandlerResponse, DB_KEYS.ERROR, false) ||
+        _get(updateUserAddressResponse, DB_KEYS.ERROR, false)
+      )
+    ) {
       await getUserInfo();
       this.props.navigation.navigate(
         NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
@@ -195,7 +251,12 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     this.setState({postCode});
   };
   render() {
-    const {handleSubmit, getAddressResponse, taskHandlerResponse} = this.props;
+    const {
+      handleSubmit,
+      getAddressResponse,
+      taskHandlerResponse,
+      updateUserAddressResponse,
+    } = this.props;
     const isFormValuesFilled =
       _get(
         this.props.reducerResponse,
@@ -326,7 +387,10 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
             onPress={handleSubmit(this.handleFormSubmit)}
             buttonStyle={styles.buttonStyle}
             disabled={!isFormValuesFilled}
-            loading={_get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false)}
+            loading={
+              _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
+              _get(updateUserAddressResponse, DB_KEYS.IS_FETCHING, false)
+            }
           />
           {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
             _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
@@ -352,6 +416,7 @@ const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
   getAddressResponse: state.getAddress,
   getUserInfoResponse: state.getUserInfo,
+  updateUserAddressResponse: state.updateUserAddress,
 });
 
 const bindActions = dispatch => ({
@@ -359,6 +424,8 @@ const bindActions = dispatch => ({
   taskHandler: (payload, extraPayload) =>
     dispatch(taskHandler.fetchCall(payload, extraPayload)),
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
+  updateUserAddress: (payload, extraPayload) =>
+    dispatch(updateUserAddress.fetchCall(payload, extraPayload)),
 });
 
 export const UserAddress = connect(

@@ -3,6 +3,7 @@ import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Field, reduxForm, change} from 'redux-form';
 import {connect} from 'react-redux';
+import Moment from 'moment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   Header,
@@ -42,6 +43,8 @@ interface props {
   getUserAddressResponse: object;
   taskHandlerResponse: object;
   getUserInfo: () => void;
+  updateUserProfileResponse: object;
+  updateUserAddressResponse: object;
 }
 interface state {
   loading: boolean;
@@ -119,11 +122,18 @@ export class UnConnectedUserProfileViewMode extends React.Component<
     );
   };
   handleDonePressed = () => {
-    const {taskHandlerResponse} = this.props;
+    const {
+      taskHandlerResponse,
+      updateUserProfileResponse,
+      updateUserAddressResponse,
+    } = this.props;
     reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
-      isUserDataChanged: _get(taskHandlerResponse, DB_KEYS.RESPONSE, null)
-        ? true
-        : false,
+      isUserDataChanged:
+        _get(taskHandlerResponse, DB_KEYS.RESPONSE, null) ||
+        _get(updateUserProfileResponse, DB_KEYS.RESPONSE, null) ||
+        _get(updateUserAddressResponse, DB_KEYS.RESPONSE, null)
+          ? true
+          : false,
     });
   };
   handleEditPress = () => {
@@ -266,7 +276,9 @@ const mapStateToProps = (state: object) => ({
   initialValues: {
     firstName: _get(state, DB_KEYS.PENDING_TASK.USER_INFO.FIRST_NAME, ''),
     lastName: _get(state, DB_KEYS.PENDING_TASK.USER_INFO.LAST_NAME, ''),
-    dateOfBirth: _get(state, DB_KEYS.PENDING_TASK.USER_INFO.DOB, ''),
+    dateOfBirth: Moment(
+      _get(state, DB_KEYS.PENDING_TASK.USER_INFO.DOB, ''),
+    ).format('DD/MM/YYYY'),
     /*
     NOTES : //data[0] to be changed later after BE update
     */
@@ -282,6 +294,8 @@ const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
   getUserInfoResponse: state.getUserInfo,
   taskHandlerResponse: state.taskHandler,
+  updateUserProfileResponse: state.updateUserProfile,
+  updateUserAddressResponse: state.updateUserAddress,
 });
 
 const bindActions = dispatch => ({
