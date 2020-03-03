@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import {reset} from '../../navigation/navigationService';
 import Icon from 'react-native-vector-icons/Feather';
-import {getAddress, taskHandler} from '../../store/reducers';
+import {getAddress, taskHandler, getUserInfo} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
@@ -43,6 +43,7 @@ interface props {
   taskHandler: (payload: object) => void;
   taskHandlerResponse: object;
   getUserInfoResponse: object;
+  getUserInfo: () => void;
 }
 interface state {
   postCode: string;
@@ -60,7 +61,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     formValues: object,
     selectedAddressIndex: number,
   ) => {
-    const {taskHandler, getUserInfoResponse} = this.props;
+    const {taskHandler, getUserInfo, getUserInfoResponse} = this.props;
     const payload = {
       [PAYLOAD_KEYS.PENDING_TASK.USER_ID]: _get(
         getUserInfoResponse,
@@ -95,11 +96,13 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     await taskHandler(payload);
     const {taskHandlerResponse} = this.props;
     console.log('TASK SUBMISSION : TASK-1 : STAGE-2 :', taskHandlerResponse);
-    if (!_get(taskHandlerResponse, DB_KEYS.ERROR, false))
+    if (!_get(taskHandlerResponse, DB_KEYS.ERROR, false)) {
+      await getUserInfo();
       this.props.navigation.navigate(
         NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
         {selectedAddressIndex: selectedAddressIndex},
       );
+    }
   };
   handleFormSubmit = (values: object) => {
     const {reducerResponse} = this.props;
@@ -355,6 +358,7 @@ const bindActions = dispatch => ({
   getAddress: payload => dispatch(getAddress.fetchCall(payload)),
   taskHandler: (payload, extraPayload) =>
     dispatch(taskHandler.fetchCall(payload, extraPayload)),
+  getUserInfo: () => dispatch(getUserInfo.fetchCall()),
 });
 
 export const UserAddress = connect(

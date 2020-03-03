@@ -139,9 +139,15 @@ export const DB_KEYS = {
   PENDING_TASK: {
     IS_PENDING_TASK: 'response.data.is_pending_task',
     USER_INFO: {
+      F_NAME: 'response.data.first_name',
+      L_NAME: 'response.data.last_name',
+      DATE_OF_BIRTH: 'response.data.dob',
       FIRST_NAME: 'getUserInfo.response.data.first_name',
       LAST_NAME: 'getUserInfo.response.data.last_name',
       DOB: 'getUserInfo.response.data.dob',
+      ADDRESS: {
+        CITY: 'response.data.address.city',
+      },
     },
     OVERALL_PROGRESS_PERCENTAGE: 'response.data.overall_progress_percentage',
     TASKS: 'response.data.tasks',
@@ -152,6 +158,12 @@ export const DB_KEYS = {
     STAGE_ID: 'stageId',
     TASK_NAME: 'tasks.name',
     TIME_TO_COMPLETE: 'time_to_complete',
+  },
+  GET_USER_INFO: {
+    HOUSE_NUMBER: 'getUserInfo.response.data.address.house_number',
+    STREET_NAME: 'getUserInfo.response.data.address.street_name',
+    CITY: 'getUserInfo.response.data.address.city',
+    POST_CODE: 'getUserInfo.response.data.address.post_code',
   },
   GET_ADDRESS: {
     DISPLAY_ADDRESS: 'display_address',

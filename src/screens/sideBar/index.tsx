@@ -45,7 +45,7 @@ interface props {
 }
 
 const CLOSE_ICON_NAME = 'close';
-const CURRENT_USER_LOCATION = 'London, UK';
+const COUNTRY = 'UK';
 interface state {}
 
 export class UnconnectedSideBar extends React.Component<props, state> {
@@ -193,19 +193,38 @@ export class UnconnectedSideBar extends React.Component<props, state> {
   };
   render() {
     const {getUserInfoResponse} = this.props;
-    let currentUserMail = _get(
+    let userName =
+      _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.F_NAME, '') ||
+      _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.L_NAME, '')
+        ? _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.F_NAME, '') +
+          ' ' +
+          _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.L_NAME, '')
+        : '';
+    let userLocation = _get(
       getUserInfoResponse,
-      DB_KEYS.CURRENT_USER_EMAIL,
+      DB_KEYS.PENDING_TASK.USER_INFO.ADDRESS.CITY,
       '',
-    );
+    )
+      ? _get(
+          getUserInfoResponse,
+          DB_KEYS.PENDING_TASK.USER_INFO.ADDRESS.CITY,
+          '',
+        ) +
+        ', ' +
+        COUNTRY
+      : '';
+
     return (
       <View style={styles.mainContainer}>
         <View style={styles.innerMainContainer}>
           <View style={styles.centerContainer}>
             <View style={styles.profileContainer}>
-              <Text style={styles.userNameText}>{currentUserMail}</Text>
+              {/* Conditions to be added to displat NAME/SPRIVE */}
+              <Text style={styles.userNameText}>
+                {userName ? userName : 'Sprive'}
+              </Text>
               <Text style={styles.userLocationText}>
-                {CURRENT_USER_LOCATION}
+                {userLocation ? userLocation : ''}
               </Text>
             </View>
             <View style={styles.centerContainer}>
