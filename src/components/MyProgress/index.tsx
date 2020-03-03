@@ -123,18 +123,22 @@ export class MyProgress extends React.Component<props, state> {
         </View>
         {isCheaperDealSelected && (
           <TouchableOpacity
+            activeOpacity={0.8}
             onPress={() => this.hanldeCompleteYourProfileClick()}
             style={styles.blockedViewContainer}>
-            <LinearGradient
-              colors={BLOCK_GRADIENT}
-              style={styles.blockedInnerContainer}>
-              <Image source={iPadLocks} style={{opacity: 1}} />
-              <Text style={styles.completeYourProfileText}>
-                {localeString(
-                  LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.COMPLETE_YOUR_PROFILE,
-                )}
-              </Text>
-            </LinearGradient>
+            <Animatable.View style={{flex: 1}} animation="fadeIn">
+              <LinearGradient
+                colors={BLOCK_GRADIENT}
+                style={styles.blockedInnerContainer}>
+                <Image source={iPadLocks} style={{opacity: 1}} />
+                <Text style={styles.completeYourProfileText}>
+                  {localeString(
+                    LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS
+                      .COMPLETE_YOUR_PROFILE,
+                  )}
+                </Text>
+              </LinearGradient>
+            </Animatable.View>
           </TouchableOpacity>
         )}
         {isMortgageSelected ? (

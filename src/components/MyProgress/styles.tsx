@@ -37,8 +37,8 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
-    marginBottom: STYLE_CONSTANTS.margin.HUGER,
-    marginTop: STYLE_CONSTANTS.margin.HUGISH,
+    marginBottom: STYLE_CONSTANTS.margin.LARGEST,
+    marginTop: STYLE_CONSTANTS.margin.SMALL,
   },
   progressBarContainer: {
     flexDirection: 'row',

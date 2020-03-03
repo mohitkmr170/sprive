@@ -1,29 +1,72 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
-import {localeString, STYLE_CONSTANTS, LOCALE_STRING} from '../../utils';
+import {connect} from 'react-redux';
+import {get as _get} from 'lodash';
+import Moment from 'moment';
+import {
+  localeString,
+  STYLE_CONSTANTS,
+  LOCALE_STRING,
+  DB_KEYS,
+} from '../../utils';
 import {styles} from './styles';
 import {iPointer} from '../../assets';
 
-interface props {}
+interface props {
+  getUserMortgageDataResponse: object;
+  getProjectedDataResponse: object;
+  getUserGoalResponse: object;
+}
 
 interface state {
   targetYearPosition: number;
   projectedYearPosition: number;
+  endYear: number;
+  targetYear: number;
+  projectedYear: number;
 }
 
-export class TargetStepIndicator extends React.Component<props, state> {
+export class UnconnectedTargetStepIndicator extends React.Component<
+  props,
+  state
+> {
   constructor(props: props) {
     super(props);
     this.state = {
       targetYearPosition: 0,
       projectedYearPosition: 0,
+      endYear: 0,
+      targetYear: 0,
+      projectedYear: 0,
     };
   }
+
   componentDidMount() {
+    const {
+      getUserMortgageDataResponse,
+      getProjectedDataResponse,
+      getUserGoalResponse,
+    } = this.props;
+    let mortgageCreatedYear = Moment(
+      _get(getUserMortgageDataResponse, DB_KEYS.CREATED_AT, null),
+    ).year();
+    let mortgageTerm = _get(
+      getUserMortgageDataResponse,
+      DB_KEYS.MORTGAGE_TERM,
+      null,
+    );
     let startYear = new Date().getFullYear();
-    let targetYear = 2025;
-    let projectedYear = 2027;
-    let endYear = projectedYear + 8;
+    let targetYear =
+      mortgageCreatedYear +
+      _get(
+        getProjectedDataResponse,
+        DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+        null,
+      );
+    let projectedYear =
+      mortgageCreatedYear +
+      _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null);
+    let endYear = mortgageCreatedYear + mortgageTerm;
     const steps = endYear - startYear;
     const stepFactor =
       (STYLE_CONSTANTS.device.SCREEN_WIDTH - 4 * STYLE_CONSTANTS.margin.LARGE) /
@@ -33,6 +76,9 @@ export class TargetStepIndicator extends React.Component<props, state> {
     this.setState({
       targetYearPosition: targetYearPosition,
       projectedYearPosition: projectedYearPosition,
+      endYear: endYear,
+      targetYear: targetYear,
+      projectedYear: projectedYear,
     });
   }
   render() {
@@ -59,7 +105,9 @@ export class TargetStepIndicator extends React.Component<props, state> {
               <Text style={styles.targetText}>
                 {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.TARGET)}
               </Text>
-              <Text style={styles.targetDateStyle}>Apr 2025</Text>
+              <Text style={styles.targetDateStyle}>
+                {this.state.targetYear}
+              </Text>
             </View>
           </View>
           <View
@@ -71,7 +119,9 @@ export class TargetStepIndicator extends React.Component<props, state> {
               <Text style={styles.targetText}>
                 {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.PROJECTED)}
               </Text>
-              <Text style={styles.targetDateStyle}>June 2027</Text>
+              <Text style={styles.targetDateStyle}>
+                {this.state.projectedYear}
+              </Text>
             </View>
             <Image
               source={iPointer}
@@ -82,9 +132,20 @@ export class TargetStepIndicator extends React.Component<props, state> {
         </View>
         <View style={styles.circularView} />
         <View style={styles.endPointContainer}>
-          <Text style={styles.startDate}>2035</Text>
+          <Text style={styles.startDate}>{this.state.endYear}</Text>
         </View>
       </View>
     );
   }
 }
+const mapStateToProps = (state: any) => ({
+  getUserMortgageDataResponse: state.getUserMortgageData,
+  getProjectedDataResponse: state.getProjectedData,
+  getUserGoalResponse: state.getUserGoal,
+});
+const bindActions = (dispatch: any) => ({});
+
+export const TargetStepIndicator = connect(
+  mapStateToProps,
+  bindActions,
+)(UnconnectedTargetStepIndicator);
