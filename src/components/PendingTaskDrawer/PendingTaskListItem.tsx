@@ -97,10 +97,11 @@ export class PendingTaskListItem extends React.Component<props, state> {
     const {item} = this.props;
     const taskStageObj = _get(item, DB_KEYS.PENDING_TASK.TASK_STAGES, []).length
       ? _get(item, DB_KEYS.PENDING_TASK.TASK_STAGES, [])[0]
-      : {}; //Taking the first stage of this pending taks
+      : {}; //Taking the first stage of this pending tasks
     let taskAndStageId = {
       taskId: _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null),
-      stageId: _get(taskStageObj, DB_KEYS.PENDING_TASK.ID, null), //This is Stage ID(as it is Fetched as `id` from API)
+      stageId: _get(taskStageObj, DB_KEYS.PENDING_TASK.ID, null),
+      isFirstRoute: true,
     };
     if (Object.keys(taskStageObj).length) {
       switch (_get(taskAndStageId, 'taskId', null)) {

@@ -2,6 +2,18 @@
 NOTES : This is kept here temporarily, will be modified later
 */
 
+export const APP_KEYS = {
+  APP_NAME: 'Sprive',
+};
+export const LOCAL_KEYS = {
+  HOUSE_NUMBER: 'item.house_number',
+  STREET_NAME: 'item.street_name',
+  CITY: 'item.city',
+  POST_CODE: 'item.post_code',
+  DISPLAY_ADDRESS: 'item.display_address',
+  DISPLAY_ADDRESS_KEY: 'display_address',
+};
+
 export const NUMERIC_FACTORS = {
   PERCENT_FACTOR: 100,
 };
@@ -19,6 +31,25 @@ export const FE_FORM_VALUE_CONSTANTS = {
     MORTGAGE_TERM: 'timePeriod',
     MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
   },
+  GET_ADDRESS: {
+    FLAT_NUMBER: 'flatNumber',
+    STREET_NAME: 'streetName',
+    CITY: 'city',
+    POST_CODE: 'postCode',
+  },
+  USER_PROFILE: {
+    FIRST_NAME: 'firstName',
+    LAST_NAME: 'lastName',
+    DATE_OF_BIRTH: 'dateOfBirth',
+    ADDRESS: 'address',
+  },
+};
+export const STATE_PARAMS = {
+  SELECTED_SEARCH_ADDRESS_INDEX: 'state.params.selectedAddressIndex',
+  DETAILED_USER_ADDRESS: 'state.params.detailedAddress',
+  TASK_ID: 'state.params.taskId',
+  STAGE_ID: 'state.params.stageId',
+  IS_FIRST_ROUTE: 'state.params.isFirstRoute',
 };
 /*
 NOTES : This data will be obtained from Backend API
@@ -55,4 +86,13 @@ export const SEARCH_ADDRESS = {
   ITEM_INDEX: 'index',
   ITEM_COMPLETE_ADDRESS: 'item.completeAddress',
   COMPLETE_ADDRESS: 'completeAddress',
+};
+export const PENDING_TASK_IDS = {
+  TASKS: {
+    USER_PROFILE: 1,
+  },
+  STAGES: {
+    ABOUT_YOU: 1,
+    ADDRESS: 2,
+  },
 };

@@ -3,9 +3,11 @@ import {connect} from 'react-redux';
 import {LOCALE_STRING, DB_KEYS} from '../utils';
 import {store} from '../store/configStore';
 import {get as _get} from 'lodash';
+import Moment from 'moment';
 
 const MORTGAGE_LIMIT = 10000000,
-  MONTHLY_MORTGAGE_LIMIT = 10000;
+  MONTHLY_MORTGAGE_LIMIT = 10000,
+  MINIMUM_AGE_CRITERION = 18;
 
 const REGEX = {
   NUMERIC: /[^0-9]/i,
@@ -146,10 +148,12 @@ export const negativeValidation = (value: any) => {
  * Validation of DOB entered by User
  */
 export const dobValidation = (value: string) => {
-  let date = value.split('/');
+  const age = Moment().diff(value, 'years');
   return value && !REGEX.DATE_OF_BIRTH.test(value)
-    ? 'Invalid Date of Birth'
-    : undefined;
+    ? localeString(LOCALE_STRING.VALIDATIONS.INVALID_DOB)
+    : age >= MINIMUM_AGE_CRITERION
+    ? undefined
+    : localeString(LOCALE_STRING.VALIDATIONS.MINIMUM_REQ_AGE);
 };
 /**
  * @param value : string : Validation for email matching

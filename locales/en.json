@@ -79,7 +79,9 @@
     "yearRange": "should be between [0-35] range",
     "inValidAmount": "Invalid amount. Please provide a larger monthly payment amount",
     "whiteSpaces": "Whitespaces not allowed",
-    "passwordNotMatched": "password did not match"
+    "passwordNotMatched": "password did not match",
+    "invalidDob": "Invalid Date of Birth",
+    "minimumRequiredAge": "Minimum age required is 18"
   },
   "setGoalScreen": {
     "title": "Set Goal",

@@ -73,6 +73,8 @@ export const LOCALE_STRING = {
     WHITE_SPACES: 'validationMessages.whiteSpaces',
     PASSWORD_NOT_MATCHED: 'validationMessages.passwordNotMatched',
     APLHABETS_WITH_SPACES: 'validationMessages.alphaBetsWithSpaces',
+    INVALID_DOB: 'validationMessages.invalidDob',
+    MINIMUM_REQ_AGE: 'validationMessages.minimumRequiredAge',
   },
   SET_GOAL_SCREEN: {
     TITLE: 'setGoalScreen.title',

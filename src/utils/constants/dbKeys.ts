@@ -41,6 +41,7 @@ export const DB_KEYS = {
   SIGNUP_PASSWORD: 'signup.values.password',
   SUCCESS: 'Success',
   VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
+  USER_ADDRESS_ID: 'response.data.address.id',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
@@ -110,6 +111,12 @@ export const DB_KEYS = {
     DOB: 'userProfile.values.dateOfBirth',
     ADDRESS: 'userProfile.values.address',
   },
+  USER_PROFILE_VIEW_MODE: {
+    FIRST_NAME: 'userProfileViewMode.values.firstName',
+    LAST_NAME: 'userProfileViewMode.values.lastName',
+    DOB: 'userProfileViewMode.values.dateOfBirth',
+    ADDRESS: 'userProfileViewMode.values.address',
+  },
   USER_ADDRESS: {
     FLAT_NUMBER: 'userAddress.values.flatNumber',
     STREET_NAME: 'userAddress.values.streetName',
@@ -132,6 +139,17 @@ export const DB_KEYS = {
   */
   PENDING_TASK: {
     IS_PENDING_TASK: 'response.data.is_pending_task',
+    USER_INFO: {
+      F_NAME: 'response.data.first_name',
+      L_NAME: 'response.data.last_name',
+      DATE_OF_BIRTH: 'response.data.dob',
+      FIRST_NAME: 'getUserInfo.response.data.first_name',
+      LAST_NAME: 'getUserInfo.response.data.last_name',
+      DOB: 'getUserInfo.response.data.dob',
+      ADDRESS: {
+        CITY: 'response.data.address.city',
+      },
+    },
     OVERALL_PROGRESS_PERCENTAGE: 'response.data.overall_progress_percentage',
     TASKS: 'response.data.tasks',
     COMPLETION_PERCENTAGE: 'completion_percentage',
@@ -141,5 +159,14 @@ export const DB_KEYS = {
     STAGE_ID: 'stageId',
     TASK_NAME: 'tasks.name',
     TIME_TO_COMPLETE: 'time_to_complete',
+  },
+  GET_USER_INFO: {
+    HOUSE_NUMBER: 'getUserInfo.response.data.address.house_number',
+    STREET_NAME: 'getUserInfo.response.data.address.street_name',
+    CITY: 'getUserInfo.response.data.address.city',
+    POST_CODE: 'getUserInfo.response.data.address.post_code',
+  },
+  GET_ADDRESS: {
+    DISPLAY_ADDRESS: 'display_address',
   },
 };

@@ -68,6 +68,7 @@ export const styles = StyleSheet.create({
     paddingVertical: STYLE_CONSTANTS.padding.SMALLER,
     marginTop: STYLE_CONSTANTS.margin.NORMAL,
   },
+  searchLoader: {height: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE},
   findMyAddressText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,

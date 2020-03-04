@@ -54,4 +54,17 @@ export const PAYLOAD_KEYS: any = {
     CURRENT_PASSWORD: 'current_password',
     NEW_PASSWORD: 'new_password',
   },
+  PENDING_TASK: {
+    USER_ID: 'user_id',
+    TASK_ID: 'task_id',
+    STAGE_ID: 'stage_id',
+    DATA: 'data',
+    FIRST_NAME: 'first_name',
+    LAST_NAME: 'last_name',
+    DOB: 'dob',
+    HOUSE_NUMBER: 'house_number',
+    STREET_NAME: 'street_name',
+    CITY: 'city',
+    POST_CODE: 'post_code',
+  },
 };
