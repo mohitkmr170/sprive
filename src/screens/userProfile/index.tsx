@@ -4,7 +4,7 @@ import {Button} from 'react-native-elements';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {reset} from '../../navigation/navigationService';
-import {taskHandler} from '../../store/reducers';
+import {taskHandler, updateUserProfile} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
@@ -38,6 +38,8 @@ interface props {
   taskHandlerResponse: object;
   getUserInfoResponse: object;
   getPendingTaskResponse: object;
+  updateUserProfile: (payload: object, qParams: object) => void;
+  updateUserProfileResponse: object;
 }
 interface state {
   dateOfBirth: string;
@@ -59,16 +61,17 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
   };
   handleStageSubmission = async (formValues: object) => {
     console.log('handleStageSubmission : formValues :::', formValues);
-    const {taskHandler, getUserInfoResponse} = this.props;
-    const payload = {
-      [PAYLOAD_KEYS.PENDING_TASK.USER_ID]: _get(
-        getUserInfoResponse,
-        DB_KEYS.DATA_ID,
-        null,
-      ),
-      [PAYLOAD_KEYS.PENDING_TASK.TASK_ID]: PENDING_TASK_IDS.TASKS.USER_PROFILE,
-      [PAYLOAD_KEYS.PENDING_TASK.STAGE_ID]: PENDING_TASK_IDS.STAGES.ABOUT_YOU,
-      [PAYLOAD_KEYS.PENDING_TASK.DATA]: {
+    const {
+      taskHandler,
+      getUserInfoResponse,
+      updateUserProfile,
+      navigation,
+    } = this.props;
+    const taskAndStage =
+      _get(navigation, STATE_PARAMS.TASK_ID, null) &&
+      _get(navigation, STATE_PARAMS.STAGE_ID, null);
+    if (!taskAndStage) {
+      const updatePayload = {
         [PAYLOAD_KEYS.PENDING_TASK.FIRST_NAME]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
@@ -84,25 +87,64 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
           FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,
           '',
         ),
-      },
-    };
-    await taskHandler(payload);
-    const {taskHandlerResponse} = this.props;
+      };
+      await updateUserProfile(updatePayload, {
+        id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      });
+    } else {
+      const payload = {
+        [PAYLOAD_KEYS.PENDING_TASK.USER_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.DATA_ID,
+          null,
+        ),
+        [PAYLOAD_KEYS.PENDING_TASK.TASK_ID]:
+          PENDING_TASK_IDS.TASKS.USER_PROFILE,
+        [PAYLOAD_KEYS.PENDING_TASK.STAGE_ID]: PENDING_TASK_IDS.STAGES.ABOUT_YOU,
+        [PAYLOAD_KEYS.PENDING_TASK.DATA]: {
+          [PAYLOAD_KEYS.PENDING_TASK.FIRST_NAME]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
+            '',
+          ),
+          [PAYLOAD_KEYS.PENDING_TASK.LAST_NAME]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME,
+            '',
+          ),
+          [PAYLOAD_KEYS.PENDING_TASK.DOB]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,
+            '',
+          ),
+        },
+      };
+      await taskHandler(payload);
+    }
+    const {taskHandlerResponse, updateUserProfileResponse} = this.props;
     console.log('TASK SUBMISSION : TASK-1 : STAGE-1 :', taskHandlerResponse);
-    if (!_get(taskHandlerResponse, DB_KEYS.ERROR, false)) {
+    if (
+      !(
+        _get(taskHandlerResponse, DB_KEYS.ERROR, false) ||
+        _get(updateUserProfileResponse, DB_KEYS.ERROR, false)
+      )
+    ) {
       let taskAndStageId = {
-        taskId: PENDING_TASK_IDS.TASKS.USER_PROFILE,
-        stageId: PENDING_TASK_IDS.STAGES.ADDRESS,
+        taskId: PENDING_TASK_IDS.TASKS.USER_PROFILE, //Represents task_id for task_name === `user_profile`
+        stageId: PENDING_TASK_IDS.STAGES.ADDRESS, //Represents stage_id for stage_name === `Address`
       };
       this.props.navigation.navigate(
         NAVIGATION_SCREEN_NAME.USER_ADDRESS,
-        taskAndStageId,
+        _get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
+          _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null)
+          ? taskAndStageId
+          : {},
       );
     }
   };
   handleFormSubmit = (values: object) => {
     if (values) {
-      this.mapPrefilledAddress();
+      // this.mapPrefilledAddress();
       this.handleStageSubmission(values);
     }
   };
@@ -132,6 +174,10 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     }
     return val;
   };
+  /*
+  NOTES : Not required as of now, kept for future reference
+  */
+  /*
   mapPrefilledAddress = () => {
     const {reducerResponse} = this.props;
     if (
@@ -170,8 +216,13 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       }
     } else return;
   };
+  */
   render() {
-    const {handleSubmit, taskHandlerResponse} = this.props;
+    const {
+      handleSubmit,
+      taskHandlerResponse,
+      updateUserProfileResponse,
+    } = this.props;
     const isFormValuesFilled =
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.FIRST_NAME, null) &&
       _get(this.props.reducerResponse, DB_KEYS.USER_PROFILE.LAST_NAME, null) &&
@@ -256,7 +307,10 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
             onPress={handleSubmit(this.handleFormSubmit)}
             buttonStyle={styles.buttonStyle}
             disabled={!isFormValuesFilled}
-            loading={_get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false)}
+            loading={
+              _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
+              _get(updateUserProfileResponse, DB_KEYS.IS_FETCHING, false)
+            }
           />
           {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
             _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
@@ -283,11 +337,14 @@ const mapStateToProps = (state: object) => ({
   taskHandlerResponse: state.taskHandler,
   getUserInfoResponse: state.getUserInfo,
   getPendingTaskResponse: state.getPendingTask,
+  updateUserProfileResponse: state.updateUserProfile,
 });
 
 const bindActions = dispatch => ({
   taskHandler: (payload, extraPayload) =>
     dispatch(taskHandler.fetchCall(payload, extraPayload)),
+  updateUserProfile: (payload, extraPayload) =>
+    dispatch(updateUserProfile.fetchCall(payload, extraPayload)),
 });
 
 export const UserProfile = connect(

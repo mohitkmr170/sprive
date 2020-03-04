@@ -2,6 +2,9 @@
 NOTES : This is kept here temporarily, will be modified later
 */
 
+export const APP_KEYS = {
+  APP_NAME: 'Sprive',
+};
 export const LOCAL_KEYS = {
   HOUSE_NUMBER: 'item.house_number',
   STREET_NAME: 'item.street_name',
