@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {Button, Input} from 'react-native-elements';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, formValues} from 'redux-form';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import {reset} from '../../navigation/navigationService';
@@ -64,22 +64,9 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     };
   }
   componentDidMount = () => {};
-  handleStageSubmission = async (
-    formValues: object,
-    selectedAddressIndex: number,
-  ) => {
-    const {
-      taskHandler,
-      getUserInfo,
-      getUserInfoResponse,
-      updateUserAddress,
-    } = this.props;
-    if (
-      !(
-        _get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
-        _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null)
-      )
-    ) {
+  getAddressPayload = (formValues: object, isEdit: boolean) => {
+    const {getUserInfoResponse} = this.props;
+    if (isEdit) {
       const updatePayload = {
         [PAYLOAD_KEYS.USER_ID]: _get(
           getUserInfoResponse,
@@ -107,9 +94,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           '',
         ).replace(/ /g, ''), //To match BE_validation(without White-spaces)
       };
-      await updateUserAddress(updatePayload, {
-        id: _get(getUserInfoResponse, DB_KEYS.USER_ADDRESS_ID, null),
-      });
+      return updatePayload;
     } else {
       const payload = {
         [PAYLOAD_KEYS.PENDING_TASK.USER_ID]: _get(
@@ -143,6 +128,31 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           ),
         },
       };
+      return payload;
+    }
+  };
+  handleStageSubmission = async (
+    formValues: object,
+    selectedAddressIndex: number,
+  ) => {
+    const {
+      taskHandler,
+      getUserInfo,
+      getUserInfoResponse,
+      updateUserAddress,
+    } = this.props;
+    if (
+      !(
+        _get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
+        _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null)
+      )
+    ) {
+      const payload = this.getAddressPayload(formValues, true);
+      await updateUserAddress(payload, {
+        id: _get(getUserInfoResponse, DB_KEYS.USER_ADDRESS_ID, null),
+      });
+    } else {
+      const payload = this.getAddressPayload(formValues, false);
       await taskHandler(payload);
     }
     const {taskHandlerResponse, updateUserAddressResponse} = this.props;
@@ -167,6 +177,10 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
       STATE_PARAMS.SELECTED_SEARCH_ADDRESS_INDEX,
       null,
     );
+    /*
+    NOTES : This part of code is Commmented, to be kept for future reference
+    */
+    /*
     const selectedAddress =
       _get(
         reducerResponse,
@@ -212,8 +226,9 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
         FE_FORM_VALUE_CONSTANTS.USER_PROFILE.ADDRESS,
         selectedAddress,
       );
-      this.handleStageSubmission(values, selectedAddressIndex);
     }
+    */
+    this.handleStageSubmission(values, selectedAddressIndex);
   };
   handleCompleteLater = () => {
     _get(this.props.navigation, STATE_PARAMS.IS_FIRST_ROUTE, false)

@@ -61,13 +61,16 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
   };
   handleStageSubmission = async (formValues: object) => {
     console.log('handleStageSubmission : formValues :::', formValues);
-    const {taskHandler, getUserInfoResponse, updateUserProfile} = this.props;
-    if (
-      !(
-        _get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
-        _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null)
-      )
-    ) {
+    const {
+      taskHandler,
+      getUserInfoResponse,
+      updateUserProfile,
+      navigation,
+    } = this.props;
+    const taskAndStage =
+      _get(navigation, STATE_PARAMS.TASK_ID, null) &&
+      _get(navigation, STATE_PARAMS.STAGE_ID, null);
+    if (!taskAndStage) {
       const updatePayload = {
         [PAYLOAD_KEYS.PENDING_TASK.FIRST_NAME]: _get(
           formValues,
@@ -127,8 +130,8 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       )
     ) {
       let taskAndStageId = {
-        taskId: PENDING_TASK_IDS.TASKS.USER_PROFILE,
-        stageId: PENDING_TASK_IDS.STAGES.ADDRESS,
+        taskId: PENDING_TASK_IDS.TASKS.USER_PROFILE, //Represents task_id for task_name === `user_profile`
+        stageId: PENDING_TASK_IDS.STAGES.ADDRESS, //Represents stage_id for stage_name === `Address`
       };
       this.props.navigation.navigate(
         NAVIGATION_SCREEN_NAME.USER_ADDRESS,
@@ -141,7 +144,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
   };
   handleFormSubmit = (values: object) => {
     if (values) {
-      this.mapPrefilledAddress();
+      // this.mapPrefilledAddress();
       this.handleStageSubmission(values);
     }
   };
@@ -171,6 +174,10 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     }
     return val;
   };
+  /*
+  NOTES : Not required as of now, kept for future reference
+  */
+  /*
   mapPrefilledAddress = () => {
     const {reducerResponse} = this.props;
     if (
@@ -209,6 +216,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       }
     } else return;
   };
+  */
   render() {
     const {
       handleSubmit,

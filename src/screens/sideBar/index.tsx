@@ -16,6 +16,7 @@ import {
   TASK_IDS,
   STAGE_IDS,
   STAGE_NAME_INDEX,
+  APP_KEYS,
 } from '../../utils';
 import {
   iNotification,
@@ -221,7 +222,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
             <View style={styles.profileContainer}>
               {/* Conditions to be added to displat NAME/SPRIVE */}
               <Text style={styles.userNameText}>
-                {userName ? userName : 'Sprive'}
+                {userName ? userName : APP_KEYS.APP_NAME}
               </Text>
               <Text style={styles.userLocationText}>
                 {userLocation ? userLocation : ''}

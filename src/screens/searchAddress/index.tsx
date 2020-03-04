@@ -70,7 +70,11 @@ export class UnconnectedSearchAddress extends React.Component<props, state> {
       _get(selectedAddress, LOCAL_KEYS.POST_CODE, ''),
     );
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.USER_ADDRESS, {
-      selectedAddressIndex: _get(selectedAddress, 'index', null),
+      selectedAddressIndex: _get(
+        selectedAddress,
+        SEARCH_ADDRESS.ITEM_INDEX,
+        null,
+      ),
     });
   };
   /*
@@ -100,26 +104,21 @@ export class UnconnectedSearchAddress extends React.Component<props, state> {
       DB_KEYS.RESPONSE_DATA,
       [],
     );
-    let addressDataResult: any = [];
     if (inputText) {
-      completeAddressList.map((item: object, index: number) => {
-        if (
-          _get(item, DB_KEYS.GET_ADDRESS.DISPLAY_ADDRESS, '')
+      let addressDataResult = completeAddressList.filter(
+        item =>
+          _get(item, LOCAL_KEYS.DISPLAY_ADDRESS_KEY, '')
             .toLowerCase()
-            .search(inputText.toLowerCase()) >= 0
-        ) {
-          addressDataResult.push(item);
-        }
-        if (index === completeAddressList.length - 1) {
-          this.setState({addressData: addressDataResult});
-        }
-      });
+            .search(inputText.toLowerCase()) >= 0,
+      );
+      this.setState({addressData: addressDataResult});
     } else {
       this.setState({
         addressData: completeAddressList,
       });
     }
   };
+
   render() {
     const {searchText, addressData} = this.state;
     return (
