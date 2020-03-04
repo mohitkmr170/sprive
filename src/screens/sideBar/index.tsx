@@ -105,7 +105,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
           [],
         ).find(
           (item: object) =>
-            _get(item, DB_KEYS.PENDING_TASK.ID, null) ===
+            _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null) ===
             STAGE_NAME_INDEX.USER_PROFILE,
         );
         _get(
