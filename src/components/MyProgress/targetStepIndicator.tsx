@@ -2,12 +2,15 @@ import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Moment from 'moment';
 import {
   localeString,
   STYLE_CONSTANTS,
   LOCALE_STRING,
   DB_KEYS,
+  COLOR,
+  APP_CONSTANTS,
 } from '../../utils';
 import {styles} from './styles';
 import {iPointer} from '../../assets';
@@ -82,6 +85,20 @@ export class UnconnectedTargetStepIndicator extends React.Component<
     });
   }
   render() {
+    const {targetYear, projectedYear, endYear} = this.state;
+    const {getUserGoalResponse, getProjectedDataResponse} = this.props;
+    let projectedMonth =
+      APP_CONSTANTS.MONTH_NAMES[
+        Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month()
+      ];
+    let targetMonth =
+      APP_CONSTANTS.MONTH_NAMES[
+        _get(
+          getProjectedDataResponse,
+          DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
+          null,
+        )
+      ];
     return (
       <View style={styles.mainContainerStepIndicator}>
         <View style={styles.circularView} />
@@ -91,46 +108,114 @@ export class UnconnectedTargetStepIndicator extends React.Component<
           </Text>
         </View>
         <View style={styles.trackStyle}>
-          <View
-            style={[
-              styles.targetContainer,
-              {left: this.state.targetYearPosition},
-            ]}>
-            <Image
-              source={iPointer}
-              style={styles.pointerStyle}
-              resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
-            />
-            <View>
-              <Text style={styles.targetText}>
-                {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.TARGET)}
-              </Text>
-              <Text style={styles.targetDateStyle}>
-                {this.state.targetYear}
-              </Text>
+          {targetYear !== projectedYear && endYear !== projectedYear && (
+            <View
+              style={[
+                styles.targetContainer,
+                {left: this.state.targetYearPosition},
+              ]}>
+              <Image
+                source={iPointer}
+                style={styles.pointerStyle}
+                resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
+              />
+              <View style={styles.targetInnerContainer}>
+                <Text style={styles.targetText}>
+                  {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.TARGET)}
+                </Text>
+                <Text style={styles.targetDateStyle}>
+                  {targetMonth + ' ' + this.state.targetYear}
+                </Text>
+              </View>
             </View>
-          </View>
-          <View
-            style={[
-              styles.projectedContainer,
-              {left: this.state.projectedYearPosition},
-            ]}>
-            <View>
-              <Text style={styles.targetText}>
-                {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.PROJECTED)}
-              </Text>
-              <Text style={styles.targetDateStyle}>
-                {this.state.projectedYear}
-              </Text>
+          )}
+          {targetYear !== projectedYear && endYear !== projectedYear && (
+            <View
+              style={[
+                styles.projectedContainer,
+                {left: this.state.projectedYearPosition},
+              ]}>
+              <View style={styles.projectedInnerContainer}>
+                <Text style={styles.targetText}>
+                  {localeString(
+                    LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.PROJECTED,
+                  )}
+                </Text>
+                <Text style={styles.targetDateStyle}>
+                  {projectedMonth + ' ' + this.state.projectedYear}
+                </Text>
+              </View>
+              <Image
+                source={iPointer}
+                resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
+                style={[{transform: [{rotate: '180deg'}]}, styles.pointerStyle]}
+              />
             </View>
-            <Image
-              source={iPointer}
-              resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
-              style={[{transform: [{rotate: '180deg'}]}, styles.pointerStyle]}
-            />
-          </View>
+          )}
+          {targetYear === projectedYear ||
+            (endYear === projectedYear && (
+              <View
+                style={[
+                  styles.commonPointTextContainer,
+                  {
+                    left:
+                      this.state.projectedYearPosition -
+                      (endYear !== projectedYear
+                        ? STYLE_CONSTANTS.margin.NORMAL
+                        : STYLE_CONSTANTS.margin.HUMONGOUS),
+                  },
+                ]}>
+                <Text style={styles.targetText}>
+                  {localeString(
+                    LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.PROJECTED,
+                  )}
+                </Text>
+                <Text
+                  style={[
+                    styles.targetDateStyle,
+                    {textAlign: endYear !== projectedYear ? 'center' : 'right'},
+                  ]}>
+                  {projectedMonth + ' ' + this.state.projectedYear}
+                </Text>
+              </View>
+            ))}
+          {targetYear === projectedYear && (
+            <View
+              style={[
+                {left: this.state.projectedYearPosition},
+                styles.commonPointIconContainer,
+              ]}>
+              <Icon
+                name="check-circle"
+                size={STYLE_CONSTANTS.margin.LARGEST}
+                color={COLOR.CARIBBEAN_GREEN}
+              />
+            </View>
+          )}
+          {targetYear === projectedYear && (
+            <Text
+              style={[
+                styles.targetDateStyle,
+                styles.onTrackText,
+                {
+                  left:
+                    this.state.projectedYearPosition -
+                    STYLE_CONSTANTS.margin.NORMAL,
+                },
+              ]}>
+              On track
+            </Text>
+          )}
         </View>
-        <View style={styles.circularView} />
+        {endYear !== projectedYear ? (
+          <View style={styles.circularView} />
+        ) : (
+          <Icon
+            name="check-circle"
+            size={STYLE_CONSTANTS.margin.LARGEST}
+            color={COLOR.CARIBBEAN_GREEN}
+          />
+        )}
         <View style={styles.endPointContainer}>
           <Text style={styles.startDate}>{this.state.endYear}</Text>
         </View>

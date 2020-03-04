@@ -64,4 +64,5 @@ export const COLOR = {
   TRACK_BLUE: 'rgba(34, 49, 155, 0.5)',
   GRADIENT_PRIMARY: 'rgba(221, 35, 113, 0.1)',
   HUE_BLUE: '#09245E80',
+  CARIBBEAN_GREEN: '#00C1A4',
 };

@@ -32,6 +32,7 @@ export const DB_KEYS = {
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
   CREATED_AT: 'response.data[0].createdAt',
+  UPDATE_AT: 'response.data[0].updatedAt',
   SNACKBAR_ERRORS: 'response.data.errors',
   BE_EMAIL_ERROR: 'response.response.data.errors.email',
   BE_PASSWORD_ERROR: 'response.response.data.errors.password',

@@ -124,11 +124,40 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
     color: COLOR.VOILET,
     opacity: 0.5,
+    textAlign: 'center',
+  },
+  targetInnerContainer: {
+    right: STYLE_CONSTANTS.margin.LARGISH,
+    top: STYLE_CONSTANTS.margin.SMALLER,
+  },
+  projectedInnerContainer: {
+    right: STYLE_CONSTANTS.margin.LARGEST,
+    bottom: STYLE_CONSTANTS.margin.SMALLER,
+  },
+  commonPointTextContainer: {
+    position: 'absolute',
+    bottom: STYLE_CONSTANTS.margin.NORMAL,
+  },
+  onTrackText: {
+    textAlign: 'center',
+    position: 'absolute',
+    top: STYLE_CONSTANTS.margin.NORMAL,
+  },
+  commonPointIconContainer: {
+    position: 'absolute',
+    bottom: -STYLE_CONSTANTS.margin.SMALLER,
+    height: STYLE_CONSTANTS.margin.LARGEST,
+    width: STYLE_CONSTANTS.margin.LARGEST,
+    backgroundColor: COLOR.WHITE,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   targetDateStyle: {
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
     color: COLOR.LIGHT_TEXT_GREEN,
+    textAlign: 'center',
   },
   pointerStyle: {backgroundColor: COLOR.WHITE},
   toolTipTopContainer: {
