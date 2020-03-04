@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {iPadLocks} from '../../assets';
 import {connect} from 'react-redux';
@@ -17,6 +17,7 @@ import {
   STAGE_NAME_INDEX,
   TASK_IDS,
   STAGE_IDS,
+  NUMERIC_FACTORS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 import {styles} from './styles';
@@ -24,7 +25,7 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import {TargetStepIndicator} from './targetStepIndicator';
 
-const CURRENT_LTV = 61;
+const CURRENT_LTV = 73;
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
@@ -37,6 +38,7 @@ interface props {
 interface state {
   isCheaperDealSelected: boolean;
   isMortgageSelected: boolean;
+  progressWidth: number;
 }
 
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.GRADIENT_PRIMARY];
@@ -47,6 +49,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
     this.state = {
       isCheaperDealSelected: false,
       isMortgageSelected: true,
+      progressWidth: 0,
     };
   }
 
@@ -108,8 +111,13 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
       ? this.getTargetNavigation(found)
       : null;
   };
-
+  getNativeEvent = (width: object) => {
+    if (!this.state.progressWidth) {
+      this.setState({progressWidth: _get(width, 'width', 0)});
+    } else return;
+  };
   render() {
+    console.log('askjdbasjdnaskdjn123123', this.state.progressWidth);
     const {getUserInfoResponse} = this.props;
     const {isCheaperDealSelected, isMortgageSelected} = this.state;
     return (
@@ -205,7 +213,36 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
               <Text style={styles.percentageText}>
                 {_get(getLtvRangeAndPercentage(CURRENT_LTV), 'startVal', '')}
               </Text>
-              <View style={styles.progressContainer}>
+              <View
+                style={styles.progressContainer}
+                onLayout={event =>
+                  this.getNativeEvent(event.nativeEvent.layout)
+                }>
+                <View
+                  style={[
+                    {
+                      left:
+                        (this.state.progressWidth /
+                          NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
+                          (CURRENT_LTV % NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
+                        STYLE_CONSTANTS.padding.BELOW_NORMAL,
+                    },
+                    styles.toolTipTopContainer,
+                  ]}>
+                  <Text style={styles.toolTipText}>{CURRENT_LTV}%</Text>
+                </View>
+                <View
+                  style={[
+                    {
+                      left:
+                        (this.state.progressWidth /
+                          NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
+                          (CURRENT_LTV % NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
+                        STYLE_CONSTANTS.padding.ABOVE_SMALLEST,
+                    },
+                    styles.toolTipBottomContainer,
+                  ]}
+                />
                 <Progress.Bar
                   progress={_get(
                     getLtvRangeAndPercentage(CURRENT_LTV),
