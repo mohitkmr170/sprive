@@ -82,6 +82,7 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
     );
     return (
       <GestureRecognizer
+        style={styles.floatingButtonContainer}
         onSwipeUp={this.onSwipeUp}
         onSwipeDown={this.onSwipeDown}
         hitSlop={APP_CONSTANTS.HIT_SLOP}
@@ -113,10 +114,7 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
             animationIn="slideInUp"
             animationOut="slideOutDown"
             swipeDirection="up"
-            deviceHeight={
-              STYLE_CONSTANTS.device.SCREEN_HEIGHT -
-              STYLE_CONSTANTS.margin.HUGISH * 3
-            }
+            deviceHeight={STYLE_CONSTANTS.device.SCREEN_HEIGHT / 1.2} //For layover
             onBackdropPress={() => this.onSwipeDown()}
             style={styles.modalContainer}>
             <View style={styles.pendingTaskContainer}>

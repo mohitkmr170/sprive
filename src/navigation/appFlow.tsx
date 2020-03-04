@@ -81,11 +81,14 @@ const TabNavigator = createBottomTabNavigator(
   {
     initialRouteName: 'DashboardScreen',
     tabBarOptions: {
+      labelPosition: 'below-icon',
+      style: {height: 2 * STYLE_CONSTANTS.margin.HUGE},
       activeTintColor: COLOR.PRIMARY,
       inactiveTintColor: COLOR.INACTIVE_TAB,
       showIcon: true,
       labelStyle: {
-        fontSize: STYLE_CONSTANTS.font.SIZE.TINY,
+        fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+        marginBottom: STYLE_CONSTANTS.margin.SMALLER,
         lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.SMALL,
       },
     },
