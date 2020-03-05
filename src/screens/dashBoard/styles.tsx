@@ -133,7 +133,6 @@ export const styles = StyleSheet.create({
   button: {
     backgroundColor: COLOR.PRIMARY,
     borderRadius: 40,
-    marginBottom: STYLE_CONSTANTS.margin.HUMONGOUS,
     marginTop: STYLE_CONSTANTS.margin.HUGISH,
     marginHorizontal: STYLE_CONSTANTS.margin.SMALLISH,
   },

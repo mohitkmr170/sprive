@@ -52,7 +52,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginHorizontal: 0,
     marginVertical: 0,
-    marginBottom: 2 * STYLE_CONSTANTS.margin.HUGE,
+    marginBottom:
+      Platform.OS === 'android'
+        ? 2 * STYLE_CONSTANTS.margin.HUGE
+        : 3 * STYLE_CONSTANTS.margin.HUGE,
   },
   pendingTaskContainer: {
     backgroundColor: COLOR.WHITE,
