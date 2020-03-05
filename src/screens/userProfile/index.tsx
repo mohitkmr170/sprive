@@ -4,7 +4,11 @@ import {Button} from 'react-native-elements';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {reset} from '../../navigation/navigationService';
-import {taskHandler, updateUserProfile} from '../../store/reducers';
+import {
+  taskHandler,
+  updateUserProfile,
+  getPendingTask,
+} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
@@ -41,6 +45,7 @@ interface props {
   getPendingTaskResponse: object;
   updateUserProfile: (payload: object, qParams: object) => void;
   updateUserProfileResponse: object;
+  getPendingTask: (payload: object, extraPayload: object) => void;
 }
 interface state {
   dateOfBirth: string;
@@ -226,6 +231,14 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     } else return;
   };
   */
+  hanldeBackPress = async () => {
+    const {getUserInfoResponse, getPendingTask} = this.props;
+    const pendingTask_qParam = {
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+    };
+    await getPendingTask({}, pendingTask_qParam);
+    this.props.navigation.goBack();
+  };
   render() {
     const {
       handleSubmit,
@@ -255,7 +268,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
           iconName={chatIcon}
           iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
           navigation={this.props.navigation}
-          onBackPress={() => this.props.navigation.goBack()}
+          onBackPress={() => this.hanldeBackPress()}
         />
         <View style={styles.mainView}>
           <KeyboardAwareScrollView
@@ -354,6 +367,8 @@ const bindActions = dispatch => ({
     dispatch(taskHandler.fetchCall(payload, extraPayload)),
   updateUserProfile: (payload, extraPayload) =>
     dispatch(updateUserProfile.fetchCall(payload, extraPayload)),
+  getPendingTask: (payload, extraPayload) =>
+    dispatch(getPendingTask.fetchCall(payload, extraPayload)),
 });
 
 export const UserProfile = connect(
