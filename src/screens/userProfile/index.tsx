@@ -163,30 +163,32 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
         });
   };
   handleDateOfBirthEntry = (val: any, prevVal: any) => {
-    // Prevent non-digit characters being entered
-    if (val && isNaN(parseInt(val[val.length - 1], 10))) {
-      return val.slice(0, -1);
-    }
-    // When user is deleting, this prevents immediate re-addition of '/' when it's deleted
-    if (prevVal && prevVal.length >= val.length) {
+    if (val) {
+      // Prevent non-digit characters being entered
+      if (val && isNaN(parseInt(val[val.length - 1], 10))) {
+        return val.slice(0, -1);
+      }
+      // When user is deleting, this prevents immediate re-addition of '/' when it's deleted
+      if (prevVal && prevVal.length >= val.length) {
+        return val;
+      }
+      //To append / after deletion and then addition
+      if (
+        (val.length === 6 && prevVal.length === 5) ||
+        (val.length === 3 && prevVal.length === 2)
+      ) {
+        return (prevVal += `/${val[val.length - 1]}`);
+      }
+      // Add / at appropriate sections of the input
+      if (val.length === 2 || val.length === 5) {
+        return (val += '/');
+      }
+      // Prevent characters being entered after Dob is full
+      if (val.length >= 10) {
+        return val.slice(0, 10);
+      }
       return val;
     }
-    //To append / after deletion and then addition
-    if (
-      (val.length === 6 && prevVal.length === 5) ||
-      (val.length === 3 && prevVal.length === 2)
-    ) {
-      return (prevVal += `/${val[val.length - 1]}`);
-    }
-    // Add / at appropriate sections of the input
-    if (val.length === 2 || val.length === 5) {
-      return (val += '/');
-    }
-    // Prevent characters being entered after Dob is full
-    if (val.length >= 10) {
-      return val.slice(0, 10);
-    }
-    return val;
   };
   /*
   NOTES : Not required as of now, kept for future reference
