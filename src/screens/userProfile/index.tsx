@@ -188,7 +188,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
         return val.slice(0, 10);
       }
       return val;
-    }
+    } else return val;
   };
   /*
   NOTES : Not required as of now, kept for future reference
