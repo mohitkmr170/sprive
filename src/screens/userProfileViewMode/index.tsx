@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Field, reduxForm, change} from 'redux-form';
 import {connect} from 'react-redux';
@@ -30,6 +30,7 @@ import {
   FE_FORM_VALUE_CONSTANTS,
   STATE_PARAMS,
   PAYLOAD_KEYS,
+  COLOR,
 } from '../../utils';
 import {styles} from './styles';
 interface props {
@@ -59,6 +60,7 @@ export class UnConnectedUserProfileViewMode extends React.Component<
     this.state = {
       loading: true,
     };
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
   componentDidMount = async () => {
     /*

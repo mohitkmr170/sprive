@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
@@ -24,6 +24,7 @@ import {
   STATE_PARAMS,
   PENDING_TASK_IDS,
   PAYLOAD_KEYS,
+  COLOR,
 } from '../../utils';
 import {styles} from './styles';
 
@@ -51,6 +52,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     this.state = {
       dateOfBirth: '',
     };
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
   componentDidMount = () => {
     let taskAndStage = _get(this.props.navigation, 'state.params', {});
@@ -157,16 +159,23 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
   };
   handleDateOfBirthEntry = (val: any, prevVal: any) => {
     // Prevent non-digit characters being entered
-    if (isNaN(parseInt(val[val.length - 1], 10))) {
+    if (val && isNaN(parseInt(val[val.length - 1], 10))) {
       return val.slice(0, -1);
     }
     // When user is deleting, this prevents immediate re-addition of '/' when it's deleted
     if (prevVal && prevVal.length >= val.length) {
       return val;
     }
+    //To append / after deletion and then addition
+    if (
+      (val.length === 6 && prevVal.length === 5) ||
+      (val.length === 3 && prevVal.length === 2)
+    ) {
+      return (prevVal += `/${val[val.length - 1]}`);
+    }
     // Add / at appropriate sections of the input
     if (val.length === 2 || val.length === 5) {
-      val += '/';
+      return (val += '/');
     }
     // Prevent characters being entered after Dob is full
     if (val.length >= 10) {

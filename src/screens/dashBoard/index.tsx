@@ -337,7 +337,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               navigation={navigation}
               currentMonthTarget={monthlyTarget}
             />
-            <View style={styles.homeOwnerShipCardContainer}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => this.hanldeHomeOwnerShip()}
+              hitSlop={APP_CONSTANTS.HIT_SLOP}
+              style={styles.homeOwnerShipCardContainer}>
               <View>
                 <Text style={styles.ownerShipText}>
                   {localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)}
@@ -346,16 +350,13 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   {localeString(LOCALE_STRING.HOME_OWNERSHIP.JOURNEY)}
                 </Text>
               </View>
-              <TouchableOpacity
-                onPress={() => this.hanldeHomeOwnerShip()}
-                hitSlop={APP_CONSTANTS.HIT_SLOP}
-                style={styles.viewContainer}>
+              <View style={styles.viewContainer}>
                 <Text style={styles.viewText}>
                   {localeString(LOCALE_STRING.HOME_OWNERSHIP.VIEW)}
                 </Text>
                 <Image source={iViewArrow} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </ScrollView>
           {(!_get(
             getMonthlyPaymentRecordResponse,
