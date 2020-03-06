@@ -21,3 +21,4 @@ export const spriveLoading = require('../images/spriveLoading.gif');
 export const accountLocked = require('../images/accountLocked.png');
 export const paymentFail = require('../images/paymentFail.png');
 export const paymentSuccess = require('../images/paymentSuccess.png');
+export const homeOwnership = require('../images/homeOwnership.png');
