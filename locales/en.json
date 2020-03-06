@@ -287,5 +287,12 @@
     "takeALook": "- Take a look \n and see what’s changed.",
     "alllUsers": "All users will be subject to our updated \n terms.",
     "okay": "Okay"
+  },
+  "homeOwnerShip": {
+    "ofMyHouse": "Of my house owned",
+    "loanToValue": "Loan to Value",
+    "unlockPercentage": "Unlock cheaper deals at {{percent}}% LTV",
+    "amountOwned": "Amount Owned",
+    "estimatedValue": "Estimated Value"
   }
 }

@@ -274,6 +274,11 @@ export const LOCALE_STRING = {
     HOME_OWNERSHIP: 'homeOwnership.homeOwnerShip',
     JOURNEY: 'homeOwnership.journey',
     VIEW: 'homeOwnership.view',
+    OF_MY_HOUSE: 'homeOwnerShip.ofMyHouse',
+    LOAN_TO_VALUE: 'homeOwnerShip.loanToValue',
+    UNLOCK_PERCENTAGE: 'homeOwnerShip.unlockPercentage',
+    AMOUNT_OWNED: 'homeOwnerShip.amountOwned',
+    ESTIMATED_VALUE: 'homeOwnerShip.estimatedValue',
   },
   POLICY_UPDATE: {
     HI_THERE: 'policyUpdate.hiThere',
