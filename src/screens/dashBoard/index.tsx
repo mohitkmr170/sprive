@@ -10,7 +10,13 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import {dashBoardCard, report, correct, iViewArrow} from '../../assets';
+import {
+  dashBoardCard,
+  report,
+  correct,
+  iViewArrow,
+  questionMark,
+} from '../../assets';
 import {connect} from 'react-redux';
 import {
   PolicyUpdate,
@@ -42,6 +48,7 @@ import {
 } from '../../store/reducers';
 import {policyUpdate} from '../../store/actions/actions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
+import {PaymentReminderModal} from './paymentReminderModal';
 
 const CURRENT_MONTH = new Date().getMonth();
 interface NavigationParams {
@@ -79,6 +86,8 @@ interface state {
   loading: boolean;
   isPaymentComplete: boolean;
   isPolicyUpdatePopupVisible: boolean;
+  isPaymentReminderReceived: boolean;
+  isModalAlertVisible: boolean;
 }
 export class UnconnectedDashBoard extends React.Component<props, state> {
   constructor(props: props) {
@@ -90,6 +99,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         : props.navigation.state.params.isUserDataChanged,
       isPaymentComplete: false,
       isPolicyUpdatePopupVisible: true,
+      isPaymentReminderReceived: true,
+      isModalAlertVisible: false,
     };
     StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
   }
@@ -210,6 +221,18 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
 
   hanldeHomeOwnerShip = () => {
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.HOME_OWNERSHIP);
+  };
+
+  handlePaymentFirstButton = () => {
+    this.setState({isPaymentReminderReceived: false});
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
+  };
+
+  handlePaymentSecondButton = () => {
+    this.setState({
+      isPaymentReminderReceived: false,
+      isModalAlertVisible: true,
+    });
   };
 
   render() {
@@ -399,6 +422,29 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               )}
             />
           )}
+          {this.state.isPaymentReminderReceived && (
+            <StatusOverlay
+              icon={questionMark}
+              firstButtonText={localeString(
+                LOCALE_STRING.PAYMENT_REMINDER.PAY_NOW,
+              )}
+              secondButtonText={localeString(
+                LOCALE_STRING.PAYMENT_REMINDER.REMIND_ME_LATER,
+              )}
+              handleFirstButton={() => this.handlePaymentFirstButton()}
+              handleSecondButton={() => this.handlePaymentSecondButton()}
+              mainMessageStyle={styles.mainMessageStyle}
+              infoTitle={localeString(
+                LOCALE_STRING.PAYMENT_REMINDER.STAY_ON_TRACK_MORTGAGE,
+              )}
+              mainMessage={`£${monthlyTargetWithCommas}`} //To be fetched from payment pending
+            />
+          )}
+          <PaymentReminderModal
+            isVisible={this.state.isModalAlertVisible}
+            handleDismiss={() => this.setState({isModalAlertVisible: false})}
+            monthlyTarget={monthlyTargetWithCommas}
+          />
           {_get(
             this.props.policyUpdateResponse,
             DB_KEYS.IS_POLICY_UPDATE_RECEIVED,

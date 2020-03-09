@@ -176,4 +176,57 @@ export const styles = StyleSheet.create({
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     marginRight: STYLE_CONSTANTS.margin.SMALL,
   },
+  mainMessageStyle: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGEST,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUMONGOUS,
+    color: COLOR.CARIBBEAN_GREEN,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+  },
+  paymentModalContainer: {
+    backgroundColor: COLOR.WHITE,
+    borderRadius: 14,
+  },
+  modalTopContainer: {
+    paddingVertical: STYLE_CONSTANTS.padding.SMALL,
+    alignItems: 'center',
+    paddingHorizontal: STYLE_CONSTANTS.padding.LARGEST,
+    borderBottomColor: COLOR.STEEL_GRAY,
+    borderBottomWidth: 1,
+  },
+  stayOnTrackText: {
+    textAlign: 'center',
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGER,
+    color: COLOR.SHADOW_BLUE,
+  },
+  overPaymentText: {fontWeight: 'bold'},
+  remindMeTomorrowText: {
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
+    alignItems: 'center',
+  },
+  laterOptionText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    color: COLOR.PRIMARY,
+  },
+  remindMeNextWeekText: {
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
+    alignItems: 'center',
+    borderTopColor: COLOR.STEEL_GRAY,
+    borderTopWidth: 1,
+  },
+  modalDismissContainer: {
+    backgroundColor: COLOR.WHITE,
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
+    borderRadius: 14,
+    marginTop: STYLE_CONSTANTS.margin.SMALL,
+    alignItems: 'center',
+    marginBottom: STYLE_CONSTANTS.margin.LARGEST,
+  },
+  dismissText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    color: COLOR.DARK_BLUE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+  },
 });
