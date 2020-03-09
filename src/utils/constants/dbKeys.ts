@@ -25,6 +25,7 @@ export const DB_KEYS = {
   ERROR: 'error',
   FORM_MORTGAGE_MORTGAGE_AMOUNT: 'MortgageInput.values.mortgageAmount',
   FORM_MORTGAGE_TIMEPERIOD: 'MortgageInput.values.timePeriod',
+  OUTSTANDING_MORTGAGE_BALANCE: 'response.data.outstanding_mortgage_balance',
   FORM_MORTGAGE_MONTHLY_MORTGAGE_AMOUNT:
     'MortgageInput.values.monthlyMortgagePayment',
   USER_ID: 'response.data.id', //Same
@@ -45,6 +46,8 @@ export const DB_KEYS = {
   VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
   ADDRESS_RESPONSE: 'response.data.address',
   USER_ADDRESS_ID: 'response.data.address.id',
+  LTV: 'response.data[0].ltv',
+  HOME_VALUATION: 'response.data[0].home_valuation',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
