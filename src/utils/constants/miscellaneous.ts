@@ -13,6 +13,7 @@ export const LOCAL_KEYS = {
   DISPLAY_ADDRESS: 'item.display_address',
   DISPLAY_ADDRESS_KEY: 'display_address',
   SWIPER_NAME: 'name',
+  PUSH_NOTIFICATION_ACCESS_GRANTED: 'granted',
 };
 
 export const NUMERIC_FACTORS = {

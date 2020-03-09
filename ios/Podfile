@@ -53,6 +53,8 @@ target 'Sprive' do
   pod 'ReactNativeKeyboardManager', :path => '../node_modules/react-native-keyboard-manager'
   pod 'OneSignal', '>= 2.11.2', '< 3.0'
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
 
 
   target 'SpriveTests' do

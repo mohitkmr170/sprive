@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, ScrollView, StatusBar} from 'react-native';
+import {View, Text, ScrollView, StatusBar, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import Slider from 'react-native-slider';
+import {checkNotifications} from 'react-native-permissions';
 import {styles} from './styles';
 import {Header, LoadingModal, GeneralStatusBar} from '../../components';
 import {
@@ -14,6 +15,7 @@ import {
   APP_CONSTANTS,
   COLOR,
   PAYLOAD_KEYS,
+  LOCAL_KEYS,
 } from '../../utils';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
@@ -350,6 +352,14 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     }
   };
 
+  showNotificationAlert = () => {
+    Alert.alert(
+      'Please turn on notifications',
+      'Sprive would like to send you payment reminders. Please enable them from your mobile settings.',
+      [{text: 'Okay', onPress: () => this.handleSetGoal()}],
+    );
+  };
+
   render() {
     console.log('Inside Goal Render');
     const {
@@ -426,7 +436,13 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
               title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
               titleStyle={styles.buttonTitleStyle}
               buttonStyle={styles.buttonStyle}
-              onPress={() => this.handleSetGoal()}
+              onPress={() => {
+                checkNotifications().then(({status, settings}) => {
+                  status === LOCAL_KEYS.PUSH_NOTIFICATION_ACCESS_GRANTED
+                    ? this.handleSetGoal()
+                    : this.showNotificationAlert();
+                });
+              }}
               disabled={
                 this.state.mortgageTerm ===
                 _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null)
