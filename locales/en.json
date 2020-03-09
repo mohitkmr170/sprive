@@ -294,5 +294,15 @@
     "unlockPercentage": "Unlock cheaper deals at {{percent}}% LTV",
     "amountOwned": "Amount Owned",
     "estimatedValue": "Estimated Value"
+  },
+  "paymentReminder": {
+    "payNow": "Pay Now",
+    "remindMeLater": "Remind me later",
+    "stayOnTrackMortgage": "Stay on track! Reminder to pay towards your mortgage today",
+    "stayOnTrack": "Stay on track! Reminder to pay",
+    "towardsYourMortgage": "towards your mortgage today",
+    "remindMeTomorrow": "Remind me tomorrow",
+    "remindMeNextWeek": "Remind me next week",
+    "dismiss": "Dismiss"
   }
 }

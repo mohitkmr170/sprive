@@ -72,4 +72,5 @@ export const COLOR = {
   HAWKES_BLUE: '#D2DAED',
   SHADOW_COLOR_LATEST: '#00000029',
   LIGHT_BORDER_MARGIN: 'rgba(0, 0, 0, 0.1)',
+  SHADOW_BLUE: '#7E8BAB',
 };

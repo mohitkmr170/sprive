@@ -288,4 +288,14 @@ export const LOCALE_STRING = {
     ALL_USERS: 'policyUpdate.alllUsers',
     OKAY: 'policyUpdate.okay',
   },
+  PAYMENT_REMINDER: {
+    PAY_NOW: 'paymentReminder.payNow',
+    REMIND_ME_LATER: 'paymentReminder.remindMeLater',
+    STAY_ON_TRACK_MORTGAGE: 'paymentReminder.stayOnTrackMortgage',
+    STAY_ON_TRACK: 'paymentReminder.stayOnTrack',
+    TOWARDS_MORTGAGE: 'paymentReminder.towardsYourMortgage',
+    REMIND_ME_TOMORROW: 'paymentReminder.remindMeTomorrow',
+    REMIND_ME_NEXT_WEEK: 'paymentReminder.remindMeNextWeek',
+    DISMISS: 'paymentReminder.dismiss',
+  },
 };
