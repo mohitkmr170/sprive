@@ -354,9 +354,9 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
 
   showNotificationAlert = () => {
     Alert.alert(
-      'Please turn on notifications',
-      'Sprive would like to send you payment reminders. Please enable them from your mobile settings.',
-      [{text: 'Okay', onPress: () => this.handleSetGoal()}],
+      localeString(LOCALE_STRING.NOTIFICATION_PERMISSIONS.TURN_ON_NOTIFICATION),
+      localeString(LOCALE_STRING.NOTIFICATION_PERMISSIONS.ACCESS_TO_SPRIVE),
+      [{text: localeString(LOCALE_STRING.EMAIL_VERIFICATION.OKAY), onPress: () => this.handleSetGoal()}],
     );
   };
 

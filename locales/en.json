@@ -304,5 +304,9 @@
     "remindMeTomorrow": "Remind me tomorrow",
     "remindMeNextWeek": "Remind me next week",
     "dismiss": "Dismiss"
+  },
+  "notificationPermission" : {
+    "pleaseTurnOnNotification": "Please turn on notifications",
+    "accessToSprive": "Sprive would like to send you payment reminders. Please enable them from your mobile settings."
   }
 }

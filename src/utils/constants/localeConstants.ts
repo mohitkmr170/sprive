@@ -298,4 +298,8 @@ export const LOCALE_STRING = {
     REMIND_ME_NEXT_WEEK: 'paymentReminder.remindMeNextWeek',
     DISMISS: 'paymentReminder.dismiss',
   },
+  NOTIFICATION_PERMISSIONS: {
+    TURN_ON_NOTIFICATION: 'notificationPermission.pleaseTurnOnNotification',
+    ACCESS_TO_SPRIVE: 'notificationPermission.accessToSprive',
+  },
 };
