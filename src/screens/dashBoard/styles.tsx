@@ -25,6 +25,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  bottomImageCard: {
+    width:
+      10 * STYLE_CONSTANTS.margin.HUMONGOUS - STYLE_CONSTANTS.margin.LARGEST,
+    height:
+      5 * STYLE_CONSTANTS.margin.HUMONGOUS - STYLE_CONSTANTS.margin.SMALLISH,
+    justifyContent: 'center',
+  },
   paidButton: {
     height: STYLE_CONSTANTS.margin.LARGER,
     width: STYLE_CONSTANTS.margin.HUMONGOUS,
@@ -134,7 +141,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLOR.PRIMARY,
     borderRadius: 40,
     marginTop: STYLE_CONSTANTS.margin.HUGISH,
-    marginHorizontal: STYLE_CONSTANTS.margin.SMALLISH,
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
   },
   myProgressContainer: {
     marginLeft: STYLE_CONSTANTS.margin.HUGISH,
@@ -157,7 +164,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
     paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
-    backgroundColor: COLOR.VOILET,
+    // backgroundColor: COLOR.VOILET,
     marginVertical: STYLE_CONSTANTS.margin.LARGEST,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
     borderRadius: STYLE_CONSTANTS.margin.SMALL,

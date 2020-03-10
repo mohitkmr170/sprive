@@ -16,6 +16,7 @@ import {
   correct,
   iViewArrow,
   questionMark,
+  homeOwnershipCard,
 } from '../../assets';
 import {connect} from 'react-redux';
 import {
@@ -37,6 +38,7 @@ import {
   DB_KEYS,
   COLOR,
   PAYLOAD_KEYS,
+  STYLE_CONSTANTS,
 } from '../../utils';
 import {
   getMonthlyPaymentRecord,
@@ -360,26 +362,30 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               navigation={navigation}
               currentMonthTarget={monthlyTarget}
             />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => this.hanldeHomeOwnerShip()}
-              hitSlop={APP_CONSTANTS.HIT_SLOP}
-              style={styles.homeOwnerShipCardContainer}>
-              <View>
-                <Text style={styles.ownerShipText}>
-                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)}
-                </Text>
-                <Text style={styles.ownerShipText}>
-                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.JOURNEY)}
-                </Text>
-              </View>
-              <View style={styles.viewContainer}>
-                <Text style={styles.viewText}>
-                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.VIEW)}
-                </Text>
-                <Image source={iViewArrow} />
-              </View>
-            </TouchableOpacity>
+            <ImageBackground
+              source={homeOwnershipCard}
+              style={styles.bottomImageCard}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => this.hanldeHomeOwnerShip()}
+                hitSlop={APP_CONSTANTS.HIT_SLOP}
+                style={styles.homeOwnerShipCardContainer}>
+                <View>
+                  <Text style={styles.ownerShipText}>
+                    {localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)}
+                  </Text>
+                  <Text style={styles.ownerShipText}>
+                    {localeString(LOCALE_STRING.HOME_OWNERSHIP.JOURNEY)}
+                  </Text>
+                </View>
+                <View style={styles.viewContainer}>
+                  <Text style={styles.viewText}>
+                    {localeString(LOCALE_STRING.HOME_OWNERSHIP.VIEW)}
+                  </Text>
+                  <Image source={iViewArrow} />
+                </View>
+              </TouchableOpacity>
+            </ImageBackground>
           </ScrollView>
           {(!_get(
             getMonthlyPaymentRecordResponse,
