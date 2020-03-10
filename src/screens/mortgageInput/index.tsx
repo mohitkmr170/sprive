@@ -149,7 +149,7 @@ export class UnconnectedMortgageInput extends React.Component<props, state> {
         <Header
           leftIconPresent={true}
           rightIconPresent
-          title={localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.TITLE)}
+          // title={localeString(LOCALE_STRING.MORTGAGE_INPUT_DATA.TITLE)}
           onBackPress={() => this.handleBackPress()}
         />
         <View style={styles.mainContainer}>

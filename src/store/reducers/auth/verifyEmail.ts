@@ -1,6 +1,11 @@
 import {verifyEmail as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar, APP_CONSTANTS} from '../../../utils';
+import {
+  localeString,
+  showSnackBar,
+  APP_CONSTANTS,
+  LOCALE_STRING,
+} from '../../../utils';
 
 class verifyEmailData extends StoreFetchableData {
   constructor() {
@@ -12,6 +17,10 @@ class verifyEmailData extends StoreFetchableData {
       this.fetchData(data)
         .then((res: any) => {
           dispatch(this.actions.response(res));
+          showSnackBar(
+            {},
+            localeString(LOCALE_STRING.LOGIN_SCREEN.THANKS_FOR_LOGIN),
+          );
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));

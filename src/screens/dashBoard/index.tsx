@@ -99,7 +99,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         : props.navigation.state.params.isUserDataChanged,
       isPaymentComplete: false,
       isPolicyUpdatePopupVisible: true,
-      isPaymentReminderReceived: true,
+      isPaymentReminderReceived: false,
       isModalAlertVisible: false,
     };
     StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);

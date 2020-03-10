@@ -16,6 +16,7 @@ export const LOCALE_STRING = {
     SIGNUP: 'signUp.signUpText',
     LOGIN_SIGNIN: 'login.signIn',
     MORTGAGE_NOT_FOUND: 'login.mortgageNotFound',
+    THANKS_FOR_LOGIN: 'login.thanksForLogin',
   },
   SIGNUP_FORM: {
     SIGNUP_BUTTON: 'signUp.singUpButton',
@@ -75,6 +76,7 @@ export const LOCALE_STRING = {
     APLHABETS_WITH_SPACES: 'validationMessages.alphaBetsWithSpaces',
     INVALID_DOB: 'validationMessages.invalidDob',
     MINIMUM_REQ_AGE: 'validationMessages.minimumRequiredAge',
+    WEAK_PASSWORD: 'validationMessages.weakPassword',
   },
   SET_GOAL_SCREEN: {
     TITLE: 'setGoalScreen.title',
@@ -91,6 +93,7 @@ export const LOCALE_STRING = {
     SET_GOAL: 'setGoalScreen.setGoal',
     ERC_TITLE: 'setGoalScreen.ercTitle',
     ERC_MESSAGE: 'setGoalScreen.ercMessage',
+    SET_GOAL_UPDATE_POPUP: 'setGoalScreen.setGoalUpdatePopup',
   },
   GRAPH_COMPONENT: {
     PROJECTED_TIME: 'stackBarGraphComponent.projectedTime',

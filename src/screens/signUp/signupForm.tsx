@@ -160,6 +160,12 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
   };
 
+  minPasswordStrength = (value: any) => {
+    let zxcvbn = require('zxcvbn');
+    let passStrength = zxcvbn(value);
+    return passStrength.score < 2 ? localeString(LOCALE_STRING.VALIDATIONS.WEAK_PASSWORD) : undefined;
+  };
+
   render() {
     const {handleSubmit, signUpUserResponse} = this.props;
     const {passwordVisibility} = this.state;
@@ -247,6 +253,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                       alphaNumeric,
                       required,
                       noWhiteSpaces,
+                      this.minPasswordStrength,
                     ]}
                     onSubmitEditing={handleSubmit(this.handleSignUpSubmit)}
                   />
