@@ -176,7 +176,8 @@
     "support": "Support",
     "inviteFriends": "Invite Friends",
     "updatePassword": "Update Password",
-    "logOut": "Log out"
+    "logOut": "Log out",
+    "paymentReminder": "Payment Reminder"
   },
   "emailVerification": {
     "okay": "Okay",
@@ -310,6 +311,8 @@
   },
   "notificationPermission" : {
     "pleaseTurnOnNotification": "Please turn on notifications",
-    "accessToSprive": "Sprive would like to send you payment reminders. Please enable them from your mobile settings."
+    "accessToSprive": "Sprive would like to send you payment reminders. Please enable them from your mobile settings.",
+    "rescheduledTomorrow": "Reminder reschedule for tomorrow",
+    "rescheduledNextWeek": "Reminder reschedule for next week"
   }
 }

@@ -164,6 +164,7 @@ export const LOCALE_STRING = {
   SIDE_BAR: {
     USER_PROFILE: 'sideBar.userProfile',
     NOTIFICATION: 'sideBar.notifications',
+    PAYMENT_REMINDER: 'sideBar.paymentReminder',
     OVER_PAYMENT_HISTORY: 'sideBar.overPaymentHistory',
     SETTINGS: 'sideBar.settings',
     SUPPORT: 'sideBar.support',
@@ -304,5 +305,7 @@ export const LOCALE_STRING = {
   NOTIFICATION_PERMISSIONS: {
     TURN_ON_NOTIFICATION: 'notificationPermission.pleaseTurnOnNotification',
     ACCESS_TO_SPRIVE: 'notificationPermission.accessToSprive',
+    RESCHEDULED_TOMORROW: 'notificationPermission.rescheduledTomorrow',
+    RESCHEDULED_NEXT_WEEK: 'notificationPermission.rescheduledNextWeek',
   },
 };
