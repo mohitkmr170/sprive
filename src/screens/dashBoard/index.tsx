@@ -399,7 +399,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             />
             <ImageBackground
               source={homeOwnershipCard}
-              style={styles.bottomImageCard}>
+              resizeMode="cover"
+              resizeMethod="auto"
+              style={{width: STYLE_CONSTANTS.device.SCREEN_WIDTH}}>
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => this.hanldeHomeOwnerShip()}
