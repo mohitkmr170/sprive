@@ -81,10 +81,16 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
     ) {
       switch (_get(taskAndStageId, DB_KEYS.PENDING_TASK.STAGE_ID, null)) {
         case STAGE_IDS.STAGE_ONE:
-          this.handleStageNavigation(NAVIGATION_SCREEN_NAME.USER_PROFILE, {});
+          this.handleStageNavigation(
+            NAVIGATION_SCREEN_NAME.USER_PROFILE,
+            taskAndStageId,
+          );
           break;
         case STAGE_IDS.STAGE_TWO:
-          this.handleStageNavigation(NAVIGATION_SCREEN_NAME.USER_ADDRESS, {});
+          this.handleStageNavigation(
+            NAVIGATION_SCREEN_NAME.USER_ADDRESS,
+            taskAndStageId,
+          );
           break;
         default:
           showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
