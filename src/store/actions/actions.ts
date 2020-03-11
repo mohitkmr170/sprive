@@ -33,3 +33,9 @@ export const policyUpdate = () => {
     type: actionTypes.IS_POLICY_UPDATE_RECEIVED,
   };
 };
+
+export const paymentReminder = () => {
+  return {
+    type: actionTypes.IS_PAYMENT_REMINDER_RECEIVED,
+  };
+};
