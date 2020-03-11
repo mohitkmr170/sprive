@@ -25,6 +25,15 @@ import {
   PAYLOAD_KEYS,
 } from '../../utils';
 
+/*
+NOTES : Temporary Mock data
+*/
+const MOCK_DATA = {
+  currentLtv: 80,
+  houseOwned: 20,
+  amountOwned: '125,000',
+  extimatedValue: '625,000',
+};
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.PRIMARY_THIRD_PART];
 interface props {
   navigation: {
@@ -48,11 +57,14 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount = async () => {
-    const {getOutstandingMortgageBalance, getUserInfoResponse} = this.props;
-    const qParam = {
-      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
-    };
-    await getOutstandingMortgageBalance({}, qParam);
+    /*
+    NOTES : To be Integrated with actual API(Mocked for now)
+    */
+    // const {getOutstandingMortgageBalance, getUserInfoResponse} = this.props;
+    // const qParam = {
+    //   [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
+    // };
+    // await getOutstandingMortgageBalance({}, qParam);
   };
   handleBackPress = () => {
     this.props.navigation.goBack();
@@ -160,7 +172,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                   2 * STYLE_CONSTANTS.margin.HUMONGOUS
                 }
                 width={STYLE_CONSTANTS.margin.LARGISH} //Width of stroke
-                fill={houseOwned} //Progress percent to be filled
+                fill={MOCK_DATA.houseOwned} //Progress percent to be filled
                 tintColor={COLOR.CARIBBEAN_GREEN}
                 backgroundWidth={STYLE_CONSTANTS.margin.SMALLEST / 2}
                 rotation={0} //Starting point of progress
@@ -194,7 +206,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                   strokeWidth="2"
                 />
               </Svg>
-              <Text style={styles.percentageText}>{houseOwned}%</Text>
+              <Text style={styles.percentageText}>{MOCK_DATA.houseOwned}%</Text>
               <Svg height="80" width="80">
                 <Line
                   /*
@@ -209,7 +221,10 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                   strokeWidth="2"
                 />
               </Svg>
-              <Text style={styles.dateText}>Jun 27’</Text>
+              <Text style={styles.dateText}>
+                {/* This is Mock data, to be changed later */}
+                Jun 27’
+              </Text>
             </View>
             <Text style={styles.myHouseText}>
               {localeString(LOCALE_STRING.HOME_OWNERSHIP.OF_MY_HOUSE)}
@@ -221,7 +236,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
               <View style={styles.progressBarContainer}>
                 <View style={styles.progressBarInnerContainer}>
                   <Progress.Bar
-                    progress={currentLtv / 100}
+                    progress={MOCK_DATA.currentLtv / 100}
                     color={COLOR.DARK_YELLOW}
                     height={STYLE_CONSTANTS.margin.SMALLISH}
                     width={null}
@@ -229,7 +244,9 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                     borderWidth={0}
                   />
                 </View>
-                <Text style={styles.ltvPercentageText}>{currentLtv}%</Text>
+                <Text style={styles.ltvPercentageText}>
+                  {MOCK_DATA.currentLtv}%
+                </Text>
               </View>
               <Text style={styles.unlockCheaperDealsText}>
                 {localeString(LOCALE_STRING.HOME_OWNERSHIP.UNLOCK_PERCENTAGE, {
@@ -242,13 +259,15 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                 <Text style={styles.amountOwnedText}>
                   {localeString(LOCALE_STRING.HOME_OWNERSHIP.AMOUNT_OWNED)}
                 </Text>
-                <Text style={styles.amountText}>£{amountOwned}</Text>
+                <Text style={styles.amountText}>£{MOCK_DATA.amountOwned}</Text>
               </View>
               <View style={styles.estimatedValueContainer}>
                 <Text style={styles.amountOwnedText}>
                   {localeString(LOCALE_STRING.HOME_OWNERSHIP.ESTIMATED_VALUE)}
                 </Text>
-                <Text style={styles.amountText}>£{homeValuation}</Text>
+                <Text style={styles.amountText}>
+                  £{MOCK_DATA.extimatedValue}
+                </Text>
               </View>
             </View>
           </ScrollView>
