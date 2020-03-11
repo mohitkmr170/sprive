@@ -2,7 +2,11 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
-import {logoutUser} from '../../store/actions/actions';
+import {
+  logoutUser,
+  paymentReminder,
+  policyUpdate,
+} from '../../store/actions/actions';
 import {
   localeString,
   setAuthToken,
@@ -43,6 +47,8 @@ interface props {
   logoutUserAction: () => void;
   pushNotification: () => void;
   pushNotificationResponse: object;
+  policyUpdate: () => void;
+  paymentReminder: () => void;
 }
 
 const CLOSE_ICON_NAME = 'close';
@@ -129,6 +135,26 @@ export class UnconnectedSideBar extends React.Component<props, state> {
         await pushNotification();
         const {pushNotificationResponse} = this.props;
         if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
+          this.props.policyUpdate();
+          showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
+        }
+      },
+      isDisabled: _get(
+        this.props.pushNotificationResponse,
+        DB_KEYS.IS_FETCHING,
+        false,
+      ),
+    },
+    {
+      title: localeString(LOCALE_STRING.SIDE_BAR.PAYMENT_REMINDER),
+      icon: iNotification,
+      action: async () => {
+        closeDrawer();
+        const {pushNotification} = this.props;
+        await pushNotification();
+        const {pushNotificationResponse} = this.props;
+        if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
+          this.props.paymentReminder();
           showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
         }
       },
@@ -293,6 +319,8 @@ const mapStateToProps = state => ({
 });
 
 const bindActions = dispatch => ({
+  paymentReminder: () => dispatch(paymentReminder()),
+  policyUpdate: () => dispatch(policyUpdate()),
   logoutUserAction: () => dispatch(logoutUser()),
   pushNotification: () => dispatch(pushNotification.fetchCall()),
 });
