@@ -112,14 +112,14 @@
     "projectInterested": "Projected Interest"
   },
   "dashBoard": {
-    "thisMonth": "This Month",
+    "thisMonth": "My Target",
     "overPaymentTarget": "Your overpayment target",
     "paymentReminder": "Next payment reminder due on {{month}} 25th",
     "amountLeft": "Amount Left:",
     "income": "Income",
     "spent": "Spent",
     "avaialbleBalance": "Available Balance",
-    "makeOverPayment": "Make an Overpayment",
+    "makeOverPayment": "Record a Payment",
     "myProgress": "My Progress",
     "projectedMortgage": "Projected: Mortgage free in",
     "keepItUp": "You’re on track. Keep it up"
@@ -276,8 +276,8 @@
     "target": "Target",
     "projected": "Projected",
     "completeYourprofile": "Complete your profile",
-    "currentLtv": "Current LTV",
-    "unlockBetterDeals": "Unlock better deals the next time you re-mortgage"
+    "currentLtv": "Loan-to-Value (LTV)",
+    "unlockBetterDeals": "Unlock better deals the next time you remortgage"
   },
   "homeOwnership": {
     "homeOwnerShip": "Home Ownership",

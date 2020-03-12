@@ -368,7 +368,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                 )}
               </View>
               <Text style={styles.overPaymentTargetText}>
-                {localeString(LOCALE_STRING.DASHBOARD_SCREEN.OVER_PAYMENT)}
+                {APP_CONSTANTS.MONTH_NAMES[CURRENT_MONTH] +
+                  ' ' +
+                  new Date().getFullYear()}
               </Text>
               {balanceAmount === 0 ? (
                 <Text style={styles.dueReminderText}>
@@ -377,7 +379,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               ) : (
                 <Text style={styles.dueReminderText}>
                   {balanceAmount > 0 && balanceAmount < monthlyTarget
-                    ? `£${balanceAmountWithCommas} more to go!`
+                    ? `Stay on track. £${balanceAmountWithCommas} to go!`
                     : localeString(
                         LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
                         {month: APP_CONSTANTS.MONTH_NAMES[CURRENT_MONTH]},
