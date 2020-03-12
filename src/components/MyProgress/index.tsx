@@ -122,7 +122,6 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
     } else return;
   };
   render() {
-    console.log('askjdbasjdnaskdjn123123', this.state.progressWidth);
     const {getUserInfoResponse, getUserMortgageDataResponse} = this.props;
     const {isCheaperDealSelected, isMortgageSelected} = this.state;
     const CURRENT_LTV = _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0);
