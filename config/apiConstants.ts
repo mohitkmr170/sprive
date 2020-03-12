@@ -11,6 +11,7 @@ export default {
     LOGIN: '/authentication',
     SIGNUP: '/register',
     USER_MORTGAGE: '/mortgage',
+    UPDATE_MORTGAGE: '/update-mortgage',
     GOAL: '/goal',
     GET_GRAPH_DATA: '/monthly-payment-record',
     OVERPAYMENT: '/overpayment',

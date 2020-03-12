@@ -67,12 +67,17 @@ export const getRequest = (
  * @param endPoint : string
  * @param params : object
  */
-export const postRequest = (endPoint: string, params?: object) => {
+export const postRequest = (
+  endPoint: string,
+  params?: object,
+  qParams?: object,
+) => {
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
     axios
       .post(getCompleteUrl(endPoint), params, {
         headers: getHeaders(token),
+        params: qParams,
         timeout: apiConstants.TIMEOUT,
       })
       .then(response => resolve(response.data))

@@ -24,8 +24,8 @@ export const styles = StyleSheet.create({
     paddingRight: 2 * STYLE_CONSTANTS.padding.HUGE,
     paddingLeft:
       STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.SMALLEST,
-    // borderBottomColor: COLOR.BLACK_OPACITY_TEN,
-    // borderBottomWidth: 1,
+    borderBottomColor: COLOR.BLACK_OPACITY_TEN,
+    borderBottomWidth: 0.5,
   },
   userNameText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGER,
