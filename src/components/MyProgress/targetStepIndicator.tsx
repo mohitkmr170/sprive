@@ -129,7 +129,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               </View>
             </View>
           )}
-          {targetYear !== projectedYear && endYear !== projectedYear && (
+          {endYear !== projectedYear && (
             <View
               style={[
                 styles.projectedContainer,
