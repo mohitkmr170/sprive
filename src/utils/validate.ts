@@ -148,7 +148,9 @@ export const negativeValidation = (value: any) => {
  * Validation of DOB entered by User
  */
 export const dobValidation = (value: string) => {
-  const age = Moment().diff(value, 'years');
+  let birthYear = Moment(value, 'DD/MM/YYYY').year();
+  let currentYear = new Date().getFullYear();
+  const age = currentYear - birthYear;
   return value && !REGEX.DATE_OF_BIRTH.test(value)
     ? localeString(LOCALE_STRING.VALIDATIONS.INVALID_DOB)
     : age >= MINIMUM_AGE_CRITERION

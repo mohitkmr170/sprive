@@ -326,7 +326,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
               }
               autoCapitalize="characters"
               autoCorrect={false}
-              maxLength={7}
+              maxLength={8}
               containerStyle={styles.inputContainerWrapper}
               inputContainerStyle={styles.inputContainer}
               leftIconContainerStyle={styles.leftIconContainer}
