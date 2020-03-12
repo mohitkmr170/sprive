@@ -438,6 +438,7 @@ const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
   getAddressResponse: state.getAddress,
   getUserInfoResponse: state.getUserInfo,
+  taskHandlerResponse: state.taskHandler,
   updateUserAddressResponse: state.updateUserAddress,
 });
 
