@@ -1,5 +1,5 @@
 import apiConstants from '../../../config/apiConstants';
-import {putRequest} from '../requestServices';
+import {patchRequest} from '../requestServices';
 
 const endPoint = apiConstants.API_END_POINTS.USER_MORTGAGE;
 
@@ -9,5 +9,5 @@ const endPoint = apiConstants.API_END_POINTS.USER_MORTGAGE;
  */
 
 export function updateUserMortgage(body: object, qParam: object) {
-  return putRequest(endPoint, body, qParam);
+  return patchRequest(endPoint, body, qParam);
 }

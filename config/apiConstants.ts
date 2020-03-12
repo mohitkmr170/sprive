@@ -27,6 +27,6 @@ export default {
     TASK_HANDLER: '/task-handler',
     GET_USER_ADDRESS: '/addresses',
     UPDATE_USER_PROFILE: '/users',
-    OUTSTANDING_MORTGAGE_BALABCE: '/outstanding_mortgage_balance',
+    OUTSTANDING_MORTGAGE_BALABCE: '/outstanding-mortgage-balance-calculator',
   },
 };
