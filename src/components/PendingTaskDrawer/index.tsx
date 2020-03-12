@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import Modal from 'react-native-modal';
-import GestureRecognizer from 'react-native-swipe-gestures';
 import * as Progress from 'react-native-progress';
+import GestureRecognizer from 'react-native-swipe-gestures';
 import {get as _get} from 'lodash';
 import {connect} from 'react-redux';
 import {
@@ -66,6 +66,7 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
 
   render() {
     const {navigation, getPendingTaskResponse} = this.props;
+
     const config = {
       velocityThreshold: GESTURE_CONFIGS.VEOLCITY_THRESHOLD,
       directionalOffsetThreshold: GESTURE_CONFIGS.DIRECTIONAL_OFFSET_THRESHOLD,
@@ -112,9 +113,16 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
           <Modal
             isVisible={this.state.isModalVisible}
             animationIn="slideInUp"
+            animationInTiming={350}
             animationOut="slideOutDown"
+            animationOutTiming={350}
             swipeDirection="up"
-            deviceHeight={STYLE_CONSTANTS.device.SCREEN_HEIGHT / 1.2} //For layover
+            deviceHeight={
+              STYLE_CONSTANTS.device.SCREEN_HEIGHT -
+              (Platform.OS === 'android'
+                ? 2 * STYLE_CONSTANTS.margin.HUGE
+                : 3 * STYLE_CONSTANTS.margin.HUGE)
+            } //For layover
             onBackdropPress={() => this.onSwipeDown()}
             style={styles.modalContainer}>
             <View style={styles.pendingTaskContainer}>
