@@ -22,7 +22,7 @@
     "calculateNow": "Calculate Now",
     "currencyPound": "£",
     "invalidAmount": "Invalid Amount",
-    "notification": "Notification sent successfully",
+    "notification": "Notifications blocked, please enable it from settings",
     "notifications": "Notifications"
   },
   "signUp": {

@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
+import {checkNotifications} from 'react-native-permissions';
 import {
   logoutUser,
   paymentReminder,
@@ -21,6 +22,7 @@ import {
   STAGE_IDS,
   STAGE_NAME_INDEX,
   APP_KEYS,
+  LOCAL_KEYS,
 } from '../../utils';
 import {
   iNotification,
@@ -130,14 +132,18 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       title: localeString(LOCALE_STRING.SIDE_BAR.NOTIFICATION),
       icon: iNotification,
       action: async () => {
-        closeDrawer();
-        const {pushNotification} = this.props;
-        await pushNotification();
-        const {pushNotificationResponse} = this.props;
-        if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
-          this.props.policyUpdate();
-          showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
-        }
+        checkNotifications().then(async ({status, settings}) => {
+          if (status === LOCAL_KEYS.PUSH_NOTIFICATION_ACCESS_GRANTED) {
+            closeDrawer();
+            const {pushNotification} = this.props;
+            await pushNotification();
+            const {pushNotificationResponse} = this.props;
+            if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
+              this.props.policyUpdate();
+            }
+          } else
+            showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
+        });
       },
       isDisabled: _get(
         this.props.pushNotificationResponse,
@@ -149,14 +155,19 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       title: localeString(LOCALE_STRING.SIDE_BAR.PAYMENT_REMINDER),
       icon: iNotification,
       action: async () => {
-        closeDrawer();
-        const {pushNotification} = this.props;
-        await pushNotification();
-        const {pushNotificationResponse} = this.props;
-        if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
-          this.props.paymentReminder();
-          showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
-        }
+        checkNotifications().then(async ({status, settings}) => {
+          if (status === LOCAL_KEYS.PUSH_NOTIFICATION_ACCESS_GRANTED) {
+            closeDrawer();
+            const {pushNotification} = this.props;
+            await pushNotification();
+            const {pushNotificationResponse} = this.props;
+            if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
+              this.props.paymentReminder();
+            }
+          } else {
+            showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
+          }
+        });
       },
       isDisabled: _get(
         this.props.pushNotificationResponse,
