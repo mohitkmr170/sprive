@@ -11,6 +11,7 @@ import {styles} from './styles';
 import {chatIcon, homeOwnership, iPadLocks} from '../../assets';
 import {GeneralStatusBar, Header} from '../../components';
 import {
+  getNumberWithCommas,
   localeString,
   showSnackBar,
   APP_CONSTANTS,
@@ -25,15 +26,6 @@ import {
   PAYLOAD_KEYS,
 } from '../../utils';
 
-/*
-NOTES : Temporary Mock data
-*/
-const MOCK_DATA = {
-  currentLtv: 80,
-  houseOwned: 20,
-  amountOwned: '125,000',
-  extimatedValue: '625,000',
-};
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.PRIMARY_THIRD_PART];
 interface props {
   navigation: {
@@ -60,11 +52,11 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
     /*
     NOTES : To be Integrated with actual API(Mocked for now)
     */
-    // const {getOutstandingMortgageBalance, getUserInfoResponse} = this.props;
-    // const qParam = {
-    //   [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
-    // };
-    // await getOutstandingMortgageBalance({}, qParam);
+    const {getOutstandingMortgageBalance, getUserInfoResponse} = this.props;
+    const qParam = {
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
+    };
+    await getOutstandingMortgageBalance({}, qParam);
   };
   handleBackPress = () => {
     this.props.navigation.goBack();
@@ -140,14 +132,16 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       0,
     );
     /*
-    NOTES : getOutstandingMortgageBalance API needs to be verified once deployed in Geeky-Dev
+    NOTES : getOutstandingMortgageBalanceResponse API needs to be verified once deployed in Geeky-Dev
     */
     const amountOwned = homeValuation
       ? homeValuation -
-        _get(
-          getOutstandingMortgageBalance,
-          DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
-          0,
+        Math.round(
+          _get(
+            getOutstandingMortgageBalanceResponse,
+            DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
+            0,
+          ),
         )
       : 0;
     return (
@@ -172,7 +166,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                   2 * STYLE_CONSTANTS.margin.HUMONGOUS
                 }
                 width={STYLE_CONSTANTS.margin.LARGISH} //Width of stroke
-                fill={MOCK_DATA.houseOwned} //Progress percent to be filled
+                fill={houseOwned} //Progress percent to be filled
                 tintColor={COLOR.CARIBBEAN_GREEN}
                 backgroundWidth={STYLE_CONSTANTS.margin.SMALLEST / 2}
                 rotation={0} //Starting point of progress
@@ -206,7 +200,13 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                   strokeWidth="2"
                 />
               </Svg>
-              <Text style={styles.percentageText}>{MOCK_DATA.houseOwned}%</Text>
+              <Text
+                style={[
+                  styles.percentageText,
+                  {paddingLeft: STYLE_CONSTANTS.padding.SMALL},
+                ]}>
+                {houseOwned}%
+              </Text>
               <Svg height="80" width="80">
                 <Line
                   /*
@@ -236,7 +236,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
               <View style={styles.progressBarContainer}>
                 <View style={styles.progressBarInnerContainer}>
                   <Progress.Bar
-                    progress={MOCK_DATA.currentLtv / 100}
+                    progress={currentLtv / 100}
                     color={COLOR.DARK_YELLOW}
                     height={STYLE_CONSTANTS.margin.SMALLISH}
                     width={null}
@@ -244,13 +244,11 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                     borderWidth={0}
                   />
                 </View>
-                <Text style={styles.ltvPercentageText}>
-                  {MOCK_DATA.currentLtv}%
-                </Text>
+                <Text style={styles.ltvPercentageText}>{currentLtv}%</Text>
               </View>
               <Text style={styles.unlockCheaperDealsText}>
                 {localeString(LOCALE_STRING.HOME_OWNERSHIP.UNLOCK_PERCENTAGE, {
-                  percent: 75,
+                  percent: currentLtv - (currentLtv % 5), //To check previous factor of 5
                 })}
               </Text>
             </View>
@@ -259,14 +257,16 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                 <Text style={styles.amountOwnedText}>
                   {localeString(LOCALE_STRING.HOME_OWNERSHIP.AMOUNT_OWNED)}
                 </Text>
-                <Text style={styles.amountText}>£{MOCK_DATA.amountOwned}</Text>
+                <Text style={styles.amountText}>
+                  £{getNumberWithCommas(amountOwned)}
+                </Text>
               </View>
               <View style={styles.estimatedValueContainer}>
                 <Text style={styles.amountOwnedText}>
                   {localeString(LOCALE_STRING.HOME_OWNERSHIP.ESTIMATED_VALUE)}
                 </Text>
                 <Text style={styles.amountText}>
-                  £{MOCK_DATA.extimatedValue}
+                  £{getNumberWithCommas(homeValuation)}
                 </Text>
               </View>
             </View>

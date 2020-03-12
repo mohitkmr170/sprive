@@ -24,8 +24,6 @@ import {styles} from './styles';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import {TargetStepIndicator} from './targetStepIndicator';
-
-const CURRENT_LTV = 73;
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
@@ -33,6 +31,7 @@ interface props {
   };
   getUserInfoResponse: object;
   getPendingTaskResponse: object;
+  getUserMortgageDataResponse: object;
 }
 
 interface state {
@@ -124,8 +123,9 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
   };
   render() {
     console.log('askjdbasjdnaskdjn123123', this.state.progressWidth);
-    const {getUserInfoResponse} = this.props;
+    const {getUserInfoResponse, getUserMortgageDataResponse} = this.props;
     const {isCheaperDealSelected, isMortgageSelected} = this.state;
+    const CURRENT_LTV = _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0);
     return (
       <Animatable.View
         animation="fadeIn"
@@ -284,6 +284,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getPendingTaskResponse: state.getPendingTask,
+  getUserMortgageDataResponse: state.getUserMortgageData,
 });
 
 const bindActions = dispatch => ({});
