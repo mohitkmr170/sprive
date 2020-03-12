@@ -17,15 +17,15 @@ export const styles = StyleSheet.create({
     height: STYLE_CONSTANTS.padding.LARGEST,
     width: STYLE_CONSTANTS.padding.LARGEST,
   },
-  centerContainer: {flex: 1},
+  centerContainer: {flexGrow: 1},
   profileContainer: {
     paddingVertical:
       STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.NORMAL,
     paddingRight: 2 * STYLE_CONSTANTS.padding.HUGE,
     paddingLeft:
       STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.SMALLEST,
-    borderBottomColor: COLOR.BLACK_OPACITY_TEN,
-    borderBottomWidth: 1,
+    // borderBottomColor: COLOR.BLACK_OPACITY_TEN,
+    // borderBottomWidth: 1,
   },
   userNameText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGER,
@@ -44,8 +44,8 @@ export const styles = StyleSheet.create({
     paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
     paddingLeft: STYLE_CONSTANTS.padding.HUGE,
     paddingRight: STYLE_CONSTANTS.padding.HUGE,
-    borderBottomColor: COLOR.BLACK_OPACITY_TEN,
-    borderBottomWidth: 1,
+    borderTopColor: COLOR.BLACK_OPACITY_TEN,
+    borderTopWidth: 1,
     justifyContent: 'space-between',
   },
   iconTextContainer: {flexDirection: 'row'},

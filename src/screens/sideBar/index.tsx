@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
 import {checkNotifications} from 'react-native-permissions';
@@ -39,6 +39,7 @@ import {closeDrawer} from '../../navigation/navigationService';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
 import OneSignal from 'react-native-onesignal';
+
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
@@ -269,7 +270,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                 {userLocation ? userLocation : ''}
               </Text>
             </View>
-            <View style={styles.centerContainer}>
+            <ScrollView contentContainerStyle={styles.centerContainer}>
               {this.SIDEBAR_DATA.map((item, index) => {
                 return (
                   <TouchableOpacity
@@ -294,7 +295,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                   </TouchableOpacity>
                 );
               })}
-            </View>
+            </ScrollView>
             <View>
               <View style={styles.logOutContainer}>
                 <TouchableOpacity
