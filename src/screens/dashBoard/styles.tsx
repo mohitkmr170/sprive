@@ -168,7 +168,7 @@ export const styles = StyleSheet.create({
   bottomCardOuterStyle: {
     flex: 1,
     marginHorizontal: STYLE_CONSTANTS.margin.NORMAL,
-    marginTop: STYLE_CONSTANTS.margin.LARGEST,
+    marginVertical: STYLE_CONSTANTS.margin.LARGEST,
   },
   bottomCardInnerStyle: {borderRadius: STYLE_CONSTANTS.margin.SMALL},
   ownerShipText: {

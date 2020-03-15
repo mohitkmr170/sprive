@@ -117,12 +117,7 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
             animationOut="slideOutDown"
             animationOutTiming={350}
             swipeDirection="up"
-            deviceHeight={
-              STYLE_CONSTANTS.device.SCREEN_HEIGHT -
-              (Platform.OS === 'android'
-                ? 2 * STYLE_CONSTANTS.margin.HUGE
-                : 3 * STYLE_CONSTANTS.margin.HUGE)
-            } //For layover
+            deviceHeight={STYLE_CONSTANTS.device.SCREEN_HEIGHT / 1.2} //For layover
             onBackdropPress={() => this.onSwipeDown()}
             style={styles.modalContainer}>
             <View style={styles.pendingTaskContainer}>

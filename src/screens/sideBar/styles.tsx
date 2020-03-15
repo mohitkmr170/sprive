@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     height: STYLE_CONSTANTS.padding.LARGEST,
     width: STYLE_CONSTANTS.padding.LARGEST,
   },
-  centerContainer: {flexGrow: 1},
+  centerContainer: {flex: 1},
   profileContainer: {
     paddingVertical:
       STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.NORMAL,

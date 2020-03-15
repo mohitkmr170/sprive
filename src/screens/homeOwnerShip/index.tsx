@@ -1,5 +1,12 @@
 import React from 'react';
-import {ScrollView, View, Text, Image, TouchableOpacity} from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import * as Progress from 'react-native-progress';
 import {connect} from 'react-redux';
@@ -49,6 +56,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount = async () => {
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
     /*
     NOTES : To be Integrated with actual API(Mocked for now)
     */
