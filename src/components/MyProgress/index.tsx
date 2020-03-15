@@ -124,7 +124,9 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
   render() {
     const {getUserInfoResponse, getUserMortgageDataResponse} = this.props;
     const {isCheaperDealSelected, isMortgageSelected} = this.state;
-    const CURRENT_LTV = _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0);
+    const CURRENT_LTV = Math.round(
+      _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
+    );
     return (
       <Animatable.View
         animation="fadeIn"

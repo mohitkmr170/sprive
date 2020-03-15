@@ -129,15 +129,15 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       getUserMortgageDataResponse,
       getOutstandingMortgageBalanceResponse,
     } = this.props;
-    const currentLtv = _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0);
+    const currentLtv = Math.round(
+      _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
+    );
     /*
     NOTES : data[0] to be changed later
     */
     const houseOwned = 100 - (currentLtv ? currentLtv : 0);
-    const homeValuation = _get(
-      getUserMortgageDataResponse,
-      DB_KEYS.HOME_VALUATION,
-      0,
+    const homeValuation = Math.round(
+      _get(getUserMortgageDataResponse, DB_KEYS.HOME_VALUATION, 0),
     );
     /*
     NOTES : getOutstandingMortgageBalanceResponse API needs to be verified once deployed in Geeky-Dev
