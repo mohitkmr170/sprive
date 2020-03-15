@@ -270,7 +270,9 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                 {userLocation ? userLocation : ''}
               </Text>
             </View>
-            <View style={styles.centerContainer}>
+            <ScrollView
+              contentContainerStyle={{flexGrow: 1}}
+              showsVerticalScrollIndicator={false}>
               {this.SIDEBAR_DATA.map((item, index) => {
                 return (
                   <TouchableOpacity
@@ -295,7 +297,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                   </TouchableOpacity>
                 );
               })}
-            </View>
+            </ScrollView>
             <View>
               <View style={styles.logOutContainer}>
                 <TouchableOpacity
