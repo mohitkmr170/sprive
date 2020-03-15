@@ -83,7 +83,8 @@
     "passwordNotMatched": "password did not match",
     "invalidDob": "Invalid Date of Birth",
     "minimumRequiredAge": "Minimum age required is 18",
-    "weakPassword": "Password too weak"
+    "weakPassword": "Password too weak",
+    "maxAgeLimit": "Age cannot be greater than 120"
   },
   "setGoalScreen": {
     "title": "Set Goal",

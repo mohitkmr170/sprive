@@ -7,7 +7,8 @@ import Moment from 'moment';
 
 const MORTGAGE_LIMIT = 10000000,
   MONTHLY_MORTGAGE_LIMIT = 10000,
-  MINIMUM_AGE_CRITERION = 18;
+  MINIMUM_AGE_CRITERION = 18,
+  MAX_AGE_CRITERION = 1900;
 
 const REGEX = {
   NUMERIC: /[^0-9]/i,
@@ -156,6 +157,17 @@ export const dobValidation = (value: string) => {
     : age >= MINIMUM_AGE_CRITERION
     ? undefined
     : localeString(LOCALE_STRING.VALIDATIONS.MINIMUM_REQ_AGE);
+};
+/**
+ *
+ * @param value : string : Date of Birth
+ * Validation of DOB for maximum age allowed
+ */
+export const maxAgeCritereon = (value: string) => {
+  let birthYear = Moment(value, 'DD/MM/YYYY').year();
+  return value && birthYear < MAX_AGE_CRITERION
+    ? localeString(LOCALE_STRING.VALIDATIONS.MAX_AGE_LIMIT)
+    : undefined;
 };
 /**
  * @param value : string : Validation for email matching

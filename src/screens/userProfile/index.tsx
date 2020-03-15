@@ -14,6 +14,7 @@ import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
 import {get as _get} from 'lodash';
 import {
+  maxAgeCritereon,
   alphaNumeric,
   required,
   alphaBets,
@@ -323,7 +324,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
                   returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
                 }}
                 normalize={this.handleDateOfBirthEntry}
-                validate={[required, dobValidation]}
+                validate={[required, dobValidation, maxAgeCritereon]}
               />
             </View>
             <Button
