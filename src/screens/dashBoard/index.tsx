@@ -368,7 +368,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                 )}
               </View>
               <Text style={styles.overPaymentTargetText}>
-                {APP_CONSTANTS.MONTH_NAMES[CURRENT_MONTH] +
+                {APP_CONSTANTS.FULL_MONTH_NAMES[CURRENT_MONTH] +
                   ' ' +
                   new Date().getFullYear()}
               </Text>
