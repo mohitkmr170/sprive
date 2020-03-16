@@ -198,7 +198,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                 props={{
                   keyboardType: 'email-address',
                   style: styles.emailInput,
-                  autoCapitalize: false,
+                  autoCapitalize: 'none',
                   placeholder: 'Email',
                 }}
                 editIcon={true}
@@ -230,7 +230,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
                   style: styles.emailInput,
                   returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
                   secureTextEntry: passwordVisibility,
-                  autoCapitalize: false,
+                  autoCapitalize: 'none',
                   placeholder: 'Password',
                 }}
                 editIcon={true}
