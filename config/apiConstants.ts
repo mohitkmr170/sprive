@@ -29,5 +29,6 @@ export default {
     GET_USER_ADDRESS: '/addresses',
     UPDATE_USER_PROFILE: '/users',
     OUTSTANDING_MORTGAGE_BALABCE: '/outstanding-mortgage-balance-calculator',
+    PAYMENT_SCHEDULE_REMINDER: '/payment-schedule-reminder',
   },
 };
