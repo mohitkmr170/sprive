@@ -19,6 +19,7 @@ import {
   homeOwnershipCard,
 } from '../../assets';
 import {connect} from 'react-redux';
+import Moment from 'moment';
 import {
   PolicyUpdate,
   StatusOverlay,
@@ -48,6 +49,7 @@ import {
   getUserMortgageData,
   getUserGoal,
   getPendingTask,
+  paymentRescheduleReminder,
 } from '../../store/reducers';
 import {policyUpdate, paymentReminder} from '../../store/actions/actions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
@@ -83,6 +85,8 @@ interface props {
   policyUpdateResponse: object;
   paymentReminder: () => void;
   paymentReminderResponse: object;
+  paymentRescheduleReminder: (payload: object, extraPayload: object) => void;
+  paymentRescheduleReminderResponse: object;
 }
 
 interface state {
@@ -242,32 +246,72 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   };
 
   remindeMeTomorrow = () => {
+    const {paymentRescheduleReminder, getUserInfoResponse} = this.props;
     this.setState(
       {
         isModalAlertVisible: false,
       },
-      () => {
-        showSnackBar(
-          {},
-          localeString(
-            LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_TOMORROW,
+      async () => {
+        const payload = {
+          [PAYLOAD_KEYS.OVERPAYMENT.SCHEDULE_NOTIFICATION_TIME]: Moment()
+            .add(1, 'days')
+            .toISOString(),
+        };
+        const qParams = {
+          [PAYLOAD_KEYS.USER_ID]: _get(
+            getUserInfoResponse,
+            DB_KEYS.DATA_ID,
+            null,
           ),
-        );
+        };
+        await paymentRescheduleReminder(payload, qParams);
+        const {paymentRescheduleReminderResponse} = this.props;
+        if (!_get(paymentRescheduleReminderResponse, DB_KEYS.ERROR, true))
+          showSnackBar(
+            {},
+            _get(
+              paymentRescheduleReminderResponse,
+              DB_KEYS.RESPONSE_MESSAGE,
+              localeString(
+                LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_TOMORROW,
+              ),
+            ),
+          );
       },
     );
   };
   remindeMeNextWeek = () => {
+    const {paymentRescheduleReminder, getUserInfoResponse} = this.props;
     this.setState(
       {
         isModalAlertVisible: false,
       },
-      () => {
-        showSnackBar(
-          {},
-          localeString(
-            LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_NEXT_WEEK,
+      async () => {
+        const payload = {
+          [PAYLOAD_KEYS.OVERPAYMENT.SCHEDULE_NOTIFICATION_TIME]: Moment()
+            .add(1, 'weeks')
+            .toISOString(),
+        };
+        const qParams = {
+          [PAYLOAD_KEYS.USER_ID]: _get(
+            getUserInfoResponse,
+            DB_KEYS.DATA_ID,
+            null,
           ),
-        );
+        };
+        await paymentRescheduleReminder(payload, qParams);
+        const {paymentRescheduleReminderResponse} = this.props;
+        if (!_get(paymentRescheduleReminderResponse, DB_KEYS.ERROR, true))
+          showSnackBar(
+            {},
+            _get(
+              paymentRescheduleReminderResponse,
+              DB_KEYS.RESPONSE_MESSAGE,
+              localeString(
+                LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_TOMORROW,
+              ),
+            ),
+          );
       },
     );
   };
@@ -529,6 +573,7 @@ const mapStateToProps = state => ({
   getPendingTaskResponse: state.getPendingTask,
   policyUpdateResponse: state.policyUpdate,
   paymentReminderResponse: state.paymentReminder,
+  paymentRescheduleReminderResponse: state.paymentRescheduleReminder,
 });
 
 const bindActions = dispatch => ({
@@ -546,6 +591,8 @@ const bindActions = dispatch => ({
     dispatch(getPendingTask.fetchCall(payload, extraPayload)),
   policyUpdate: () => dispatch(policyUpdate()),
   paymentReminder: () => dispatch(paymentReminder()),
+  paymentRescheduleReminder: (payload, extraPayload) =>
+    dispatch(paymentRescheduleReminder.fetchCall(payload, extraPayload)),
 });
 
 export const DashBoard = connect(

@@ -13,6 +13,7 @@ export const PAYLOAD_KEYS: any = {
     OVERPAYMENT_AMOUNT: 'amount',
     PAGE: 'page',
     YEAR: 'year',
+    SCHEDULE_NOTIFICATION_TIME: 'schedule-time',
   },
   LOGIN: {
     STRATEGY: 'strategy',
