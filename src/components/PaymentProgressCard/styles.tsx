@@ -25,10 +25,8 @@ export const styles = StyleSheet.create({
     backgroundColor: COLOR.LESS_OPACITY_PRIMARY,
   },
   PaginationContainerStyle: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
     justifyContent: 'center',
+    bottom: 0,
   },
   swiperCardContainer: {
     backgroundColor: COLOR.WHITE,
