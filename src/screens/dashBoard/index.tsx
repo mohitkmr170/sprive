@@ -529,7 +529,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               infoTitle={localeString(
                 LOCALE_STRING.PAYMENT_REMINDER.STAY_ON_TRACK_MORTGAGE,
               )}
-              mainMessage={`£${monthlyTargetWithCommas}`} //To be fetched from payment pending
+              mainMessage={`£${balanceAmountWithCommas}`} //To be fetched from payment pending
             />
           )}
           <PaymentReminderModal
