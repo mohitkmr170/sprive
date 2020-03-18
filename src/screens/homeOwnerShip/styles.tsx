@@ -25,6 +25,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  centerImage: {
+    height: 10 * STYLE_CONSTANTS.margin.LARGE,
+    width: 10 * STYLE_CONSTANTS.margin.LARGE,
+  },
   svgLineStyle: {marginLeft: STYLE_CONSTANTS.margin.SMALL},
   ownedPercentageContainer: {
     borderColor: COLOR.WIAKAWA_GRAY,

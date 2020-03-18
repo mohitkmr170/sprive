@@ -15,7 +15,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Svg, Circle, Line} from 'react-native-svg';
 import {getOutstandingMortgageBalance} from '../../store/reducers';
 import {styles} from './styles';
-import {chatIcon, homeOwnership, iPadLocks} from '../../assets';
+import {
+  chatIcon,
+  iPadLocks,
+  zeroComplete,
+  twentyComplete,
+  fourtyComplete,
+  sixtyComplete,
+  eightyComplete,
+  hundredComplete,
+} from '../../assets';
 import {GeneralStatusBar, Header} from '../../components';
 import {
   getNumberWithCommas,
@@ -123,6 +132,26 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       ? this.getTargetNavigation(found)
       : null;
   };
+  getHomeownershipImage = () => {
+    const {getUserMortgageDataResponse} = this.props;
+    const currentLtv = Math.round(
+      _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
+    );
+    const houseOwned = 100 - (currentLtv ? currentLtv : 0);
+    if (houseOwned >= 0 && houseOwned < 20)
+      return <Image style={styles.centerImage} source={zeroComplete} />;
+    else if (houseOwned >= 20 && houseOwned < 40)
+      return <Image style={styles.centerImage} source={twentyComplete} />;
+    else if (houseOwned >= 40 && houseOwned < 60)
+      return <Image style={styles.centerImage} source={fourtyComplete} />;
+    else if (houseOwned >= 60 && houseOwned < 80)
+      return <Image style={styles.centerImage} source={sixtyComplete} />;
+    else if (houseOwned >= 80 && houseOwned < 100)
+      return <Image style={styles.centerImage} source={eightyComplete} />;
+    else if (houseOwned === 100)
+      return <Image style={styles.centerImage} source={hundredComplete} />;
+    else return;
+  };
   render() {
     const {
       getUserInfoResponse,
@@ -189,7 +218,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                   />
                 )}
                 lineCap="butt">
-                {() => <Image source={homeOwnership} />}
+                {() => this.getHomeownershipImage()}
               </AnimatedCircularProgress>
             </View>
             <View style={styles.bottomContainer}>
