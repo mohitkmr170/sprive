@@ -173,6 +173,9 @@ export const LOCALE_STRING = {
     INVITE_FRIENDS: 'sideBar.inviteFriends',
     UPDATE_PASSWORD: 'sideBar.updatePassword',
     LOG_OUT: 'sideBar.logOut',
+    PROFILE_SUB_LIST: 'sideBar.aboutYou',
+    SETTINGS_SUB_LIST: 'sideBar.settings',
+    SECURITY: 'sideBar.security',
   },
   EMAIL_VERIFICATION: {
     EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',

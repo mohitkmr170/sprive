@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
+import {Header} from '../../components';
 import {checkNotifications} from 'react-native-permissions';
 import {
   logoutUser,
@@ -53,12 +54,18 @@ interface props {
 
 const CLOSE_ICON_NAME = 'close';
 const COUNTRY = 'UK';
-interface state {}
+interface state {
+  isSubListOpened: boolean;
+  isPasswordSectionClicked: boolean;
+}
 
 export class UnconnectedSideBar extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isSubListOpened: false,
+      isPasswordSectionClicked: false,
+    };
   }
   componentDidMount() {
     //If Address Task is complete(means profile is also not complete for task user-profile) => Show Actual NAME & ADDRESS
@@ -99,9 +106,9 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       }
     } else showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
   };
-  SIDEBAR_DATA = [
+  SIDEBAR_SUBLIST_DATA = [
     {
-      title: localeString(LOCALE_STRING.SIDE_BAR.USER_PROFILE),
+      title: 'Personal Details',
       icon: iAvatar,
       action: () => {
         const {getPendingTaskResponse} = this.props;
@@ -123,6 +130,26 @@ export class UnconnectedSideBar extends React.Component<props, state> {
           : this.props.navigation.navigate(
               NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
             );
+        this.setState({isSubListOpened: false});
+      },
+      isDisabled: false,
+    },
+    {
+      title: localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE_MORTGAGE),
+      icon: iUpdate,
+      action: () =>
+        this.props.navigation.navigate(
+          NAVIGATION_SCREEN_NAME.UPDATE_MORTGAGE,
+        ) && this.setState({isSubListOpened: false}),
+      isDisabled: false,
+    },
+  ];
+  SIDEBAR_DATA = [
+    {
+      title: localeString(LOCALE_STRING.SIDE_BAR.USER_PROFILE),
+      icon: iAvatar,
+      action: () => {
+        this.setState({isSubListOpened: true});
       },
       isDisabled: false,
     },
@@ -136,24 +163,10 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       isDisabled: false,
     },
     {
-      title: localeString(LOCALE_STRING.SIDE_BAR.UPDATE_PASSWORD),
-      icon: iUpdate,
-      action: () =>
-        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.UPDATE_PASSWORD),
-      isDisabled: false,
-    },
-    {
-      title: localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE_MORTGAGE),
-      icon: iUpdate,
-      action: () =>
-        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.UPDATE_MORTGAGE),
-      isDisabled: false,
-    },
-    {
       title: localeString(LOCALE_STRING.SIDE_BAR.SETTINGS),
       icon: iSettings,
-      action: () => {},
-      isDisabled: true,
+      action: () => this.setState({isPasswordSectionClicked: true}),
+      isDisabled: false,
     },
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.SUPPORT),
@@ -166,6 +179,17 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       icon: iAvatar,
       action: () => {},
       isDisabled: true,
+    },
+  ];
+  SETTINGS_DATA = [
+    {
+      title: localeString(LOCALE_STRING.SIDE_BAR.UPDATE_PASSWORD),
+      icon: iUpdate,
+      action: () =>
+        this.props.navigation.navigate(
+          NAVIGATION_SCREEN_NAME.UPDATE_PASSWORD,
+        ) && this.setState({isPasswordSectionClicked: false}),
+      isDisabled: false,
     },
   ];
   handleLogOut = async () => {
@@ -206,24 +230,56 @@ export class UnconnectedSideBar extends React.Component<props, state> {
         ', ' +
         COUNTRY
       : '';
-
+    const currentRenderingList = this.state.isSubListOpened
+      ? this.SIDEBAR_SUBLIST_DATA
+      : this.state.isPasswordSectionClicked
+      ? this.SETTINGS_DATA
+      : this.SIDEBAR_DATA;
     return (
       <View style={styles.mainContainer}>
         <View style={styles.innerMainContainer}>
           <View style={styles.centerContainer}>
-            <View style={styles.profileContainer}>
-              {/* Conditions to be added to displat NAME/SPRIVE */}
-              <Text style={styles.userNameText}>
-                {userName ? userName : ''}
+            {(this.state.isSubListOpened ||
+              this.state.isPasswordSectionClicked) && (
+              <Header
+                leftIconPresent
+                onBackPress={() =>
+                  this.setState({
+                    isSubListOpened: false,
+                    isPasswordSectionClicked: false,
+                  })
+                }
+                title={
+                  this.state.isSubListOpened
+                    ? localeString(LOCALE_STRING.SIDE_BAR.USER_PROFILE)
+                    : localeString(LOCALE_STRING.SIDE_BAR.SETTINGS)
+                }
+                rightIconPresent
+              />
+            )}
+            {this.state.isSubListOpened ||
+            this.state.isPasswordSectionClicked ? (
+              <Text
+                style={styles.subListeHaderText}>
+                {this.state.isSubListOpened
+                  ? localeString(LOCALE_STRING.SIDE_BAR.PROFILE_SUB_LIST)
+                  : localeString(LOCALE_STRING.SIDE_BAR.SECURITY)}
               </Text>
-              <Text style={styles.userLocationText}>
-                {userLocation ? userLocation : ''}
-              </Text>
-            </View>
+            ) : (
+              <View style={styles.profileContainer}>
+                {/* Conditions to be added to displat NAME/SPRIVE */}
+                <Text style={styles.userNameText}>
+                  {userName ? userName : ''}
+                </Text>
+                <Text style={styles.userLocationText}>
+                  {userLocation ? userLocation : ''}
+                </Text>
+              </View>
+            )}
             <ScrollView
               contentContainerStyle={{flexGrow: 1}}
               showsVerticalScrollIndicator={false}>
-              {this.SIDEBAR_DATA.map((item, index) => {
+              {currentRenderingList.map((item, index) => {
                 return (
                   <TouchableOpacity
                     disabled={item.isDisabled}
@@ -248,27 +304,30 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                 );
               })}
             </ScrollView>
-            <View>
-              <View style={styles.logOutContainer}>
-                <TouchableOpacity
-                  style={styles.logOutTouch}
-                  onPress={() => this.handleLogOut()}>
-                  <Image source={iLogOut} />
-                  <Text style={styles.logOutText}>
-                    {localeString(LOCALE_STRING.SIDE_BAR.LOG_OUT)}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  hitSlop={APP_CONSTANTS.HIT_SLOP}
-                  onPress={() => closeDrawer()}>
-                  <Icon
-                    name={CLOSE_ICON_NAME}
-                    size={STYLE_CONSTANTS.padding.LARGEST}
-                    color={COLOR.MEDUIM_OPACITY_BLACK}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
+            {!this.state.isPasswordSectionClicked &&
+              !this.state.isSubListOpened && (
+                <View>
+                  <View style={styles.logOutContainer}>
+                    <TouchableOpacity
+                      style={styles.logOutTouch}
+                      onPress={() => this.handleLogOut()}>
+                      <Image source={iLogOut} />
+                      <Text style={styles.logOutText}>
+                        {localeString(LOCALE_STRING.SIDE_BAR.LOG_OUT)}
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      hitSlop={APP_CONSTANTS.HIT_SLOP}
+                      onPress={() => closeDrawer()}>
+                      <Icon
+                        name={CLOSE_ICON_NAME}
+                        size={STYLE_CONSTANTS.padding.LARGEST}
+                        color={COLOR.MEDUIM_OPACITY_BLACK}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
           </View>
         </View>
       </View>

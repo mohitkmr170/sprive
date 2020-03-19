@@ -179,7 +179,10 @@
     "inviteFriends": "Invite Friends",
     "updatePassword": "Update Password",
     "logOut": "Log out",
-    "paymentReminder": "Payment Reminder"
+    "paymentReminder": "Payment Reminder",
+    "aboutYou": "About You",
+    "settings": "Settings",
+    "security": "Security"
   },
   "emailVerification": {
     "okay": "Okay",

@@ -58,6 +58,15 @@ export const styles = StyleSheet.create({
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     alignSelf: 'center',
   },
+  subListeHaderText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
+    color: COLOR.VOILET,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    marginTop: STYLE_CONSTANTS.margin.HUGISH,
+    marginBottom: STYLE_CONSTANTS.margin.LARGEST,
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGE,
+  },
   logOutContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
