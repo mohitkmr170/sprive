@@ -48,7 +48,7 @@ const TabNavigator = createBottomTabNavigator(
     DashboardScreen: {
       screen: DashBoard,
       navigationOptions: {
-        tabBarLabel: 'DashBoard',
+        tabBarLabel: 'Dashboard',
         tabBarIcon: ({tintColor}) => (
           <Icons name="activity" size={24} color={tintColor} />
         ),
@@ -57,7 +57,7 @@ const TabNavigator = createBottomTabNavigator(
     SetGoalScreen: {
       screen: SetGoal,
       navigationOptions: {
-        tabBarLabel: 'Goal',
+        tabBarLabel: 'Goals',
         tabBarIcon: ({tintColor}) => (
           <Icons name="award" size={24} color={tintColor} />
         ),

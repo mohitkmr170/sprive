@@ -147,6 +147,7 @@ export const LOCALE_STRING = {
     YEAR: 'overPaymentHistory.year',
   },
   REPORT_ISSUE: {
+    LOVE_TO_HEAR: 'reportIssue.loveToHear',
     PLACEHOLDER: 'reportIssue.placeHolder',
     REPORT_AN_ISSUE: 'reportIssue.reportAnIssue',
     HAVE_AN_ISSUE: 'reportIssue.haveAnIssue',
@@ -257,6 +258,7 @@ export const LOCALE_STRING = {
     FLAT_NUMBER: 'userProfile.flatNumber',
     STREET_NAME: 'userProfile.streetName',
     CITY: 'userProfile.city',
+    COUNTY: 'userProfile.county',
     POST_CODE: 'userProfile.postCode',
     SEARCH_FLAT: 'userProfile.searchFlat',
     NO_ADDRESS_FOUND: 'userProfile.noAddressFound',

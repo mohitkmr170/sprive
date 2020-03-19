@@ -154,15 +154,16 @@
     "year": "Year"
   },
   "reportIssue": {
-    "placeHolder": "Describe your issue here",
-    "reportAnIssue": "Report an Issue",
-    "haveAnIssue": "Have an issue you want us to look into?",
-    "bugCategory": "Issue Category",
-    "issue": "Issue",
+    "loveToHear": "We’d love to hear your feedback",
+    "placeHolder": "Enter your feedback here",
+    "reportAnIssue": "Feedback",
+    "haveAnIssue": "Help us be better",
+    "bugCategory": "Category",
+    "issue": "Description",
     "characterLimit": "",
     "chLeft": "characters left",
-    "reportIssue": "Report Issue",
-    "bugReported": "Issue reported successfully!"
+    "reportIssue": "Send",
+    "bugReported": "Feedback submitted successfully"
     },
   "updateMortgage": {
     "updateMortgage": "Update Mortgage",
@@ -258,11 +259,11 @@
     "findAddress": "Find my address",
     "enterManually": "Or enter it manually:",
     "enterResidentialAddress": "Please enter your residential address",
-    "searchPostCode": "Search Post Code",
+    "searchPostCode": "Search Postcode",
     "flatNumber": "House or Flat Number",
     "streetName": "Street Name",
     "city": "City",
-    "postCode": "PostCode",
+    "postCode": "Postcode",
     "searchFlat": "Search house or flat number",
     "noAddressFound": "No Address Found!",
     "done": "Done",
@@ -294,8 +295,8 @@
     "okay": "Okay"
   },
   "homeOwnerShip": {
-    "ofMyHouse": "Of my house owned",
-    "loanToValue": "Loan to Value",
+    "ofMyHouse": "of my house owned",
+    "loanToValue": "Loan-to-Value (LTV)",
     "unlockPercentage": "Unlock cheaper deals at {{percent}}% LTV",
     "amountOwned": "Amount Owned",
     "estimatedValue": "Estimated Value"

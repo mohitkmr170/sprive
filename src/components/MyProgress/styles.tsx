@@ -127,7 +127,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   targetInnerContainer: {
-    right: STYLE_CONSTANTS.margin.LARGISH,
+    right: STYLE_CONSTANTS.margin.HUMONGOUS,
     top: STYLE_CONSTANTS.margin.SMALLER,
   },
   projectedInnerContainer: {
@@ -151,6 +151,37 @@ export const styles = StyleSheet.create({
     backgroundColor: COLOR.WHITE,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  targetTooltip: {
+    position: 'absolute',
+    top: STYLE_CONSTANTS.margin.LARGEST,
+    left: STYLE_CONSTANTS.padding.ABOVE_SMALLEST,
+    flexDirection: 'row',
+    height: STYLE_CONSTANTS.margin.HUGER,
+    width: STYLE_CONSTANTS.margin.SMALLEST / 2,
+    backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
+  },
+  targetTooltipAdd: {
+    backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
+    marginTop: STYLE_CONSTANTS.margin.LARGER,
+    paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
+    paddingVertical: STYLE_CONSTANTS.padding.SMALLEST,
+    borderRadius: 8,
+  },
+  onTrackTrackLine: {
+    position: 'absolute',
+    top: STYLE_CONSTANTS.margin.SMALLER,
+    flexDirection: 'row',
+    height: STYLE_CONSTANTS.margin.HUGER,
+    width: STYLE_CONSTANTS.margin.SMALLEST / 2,
+    backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
+  },
+  onTrackView: {
+    backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
+    marginTop: STYLE_CONSTANTS.margin.LARGER,
+    paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
+    paddingVertical: STYLE_CONSTANTS.padding.SMALLER,
+    borderRadius: 8,
   },
   targetDateStyle: {
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
