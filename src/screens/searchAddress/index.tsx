@@ -52,18 +52,23 @@ export class UnconnectedSearchAddress extends React.Component<props, state> {
   hanldeAddressSelection = (selectedAddress: object) => {
     mapFormValues(
       APP_CONSTANTS.USER_ADDRESS_FORM,
-      FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
-      _get(selectedAddress, LOCAL_KEYS.HOUSE_NUMBER, ''),
+      FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE1,
+      _get(selectedAddress, LOCAL_KEYS.ADDRESS_LINE1, ''),
     );
     mapFormValues(
       APP_CONSTANTS.USER_ADDRESS_FORM,
-      FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
-      _get(selectedAddress, LOCAL_KEYS.STREET_NAME, ''),
+      FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE2,
+      _get(selectedAddress, LOCAL_KEYS.ADDRESS_LINE2, ''),
     );
     mapFormValues(
       APP_CONSTANTS.USER_ADDRESS_FORM,
       FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
       _get(selectedAddress, LOCAL_KEYS.CITY, ''),
+    );
+    mapFormValues(
+      APP_CONSTANTS.USER_ADDRESS_FORM,
+      FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.COUNTY,
+      _get(selectedAddress, LOCAL_KEYS.COUNTY, ''),
     );
     mapFormValues(
       APP_CONSTANTS.USER_ADDRESS_FORM,

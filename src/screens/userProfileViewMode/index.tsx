@@ -287,8 +287,14 @@ const mapStateToProps = (state: object) => ({
     address:
       _get(state, DB_KEYS.GET_USER_INFO.HOUSE_NUMBER, '') +
       ', ' +
-      _get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '') +
-      ',  ' +
+      (_get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '')
+        ? _get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '')
+        : '') +
+      (_get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '') ? ',  ' : '') +
+      (_get(state, DB_KEYS.GET_USER_INFO.COUNTY, '')
+        ? _get(state, DB_KEYS.GET_USER_INFO.COUNTY, '')
+        : '') +
+      (_get(state, DB_KEYS.GET_USER_INFO.COUNTY, '') ? ', ' : '') +
       _get(state, DB_KEYS.GET_USER_INFO.CITY, '') +
       ', ' +
       _get(state, DB_KEYS.GET_USER_INFO.POST_CODE, ''),

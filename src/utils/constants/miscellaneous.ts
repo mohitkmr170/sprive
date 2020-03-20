@@ -6,10 +6,11 @@ export const APP_KEYS = {
   APP_NAME: 'Sprive',
 };
 export const LOCAL_KEYS = {
-  HOUSE_NUMBER: 'item.house_number',
-  STREET_NAME: 'item.street_name',
-  CITY: 'item.city',
-  POST_CODE: 'item.post_code',
+  ADDRESS_LINE1: 'item.address_line_1',
+  ADDRESS_LINE2: 'item.address_line_2',
+  CITY: 'item.town_or_city',
+  COUNTY: 'item.county_or_region',
+  POST_CODE: 'item.postcode',
   DISPLAY_ADDRESS: 'item.display_address',
   DISPLAY_ADDRESS_KEY: 'display_address',
   SWIPER_NAME: 'name',
@@ -39,10 +40,11 @@ export const FE_FORM_VALUE_CONSTANTS = {
     MORTGAGE_PAYMENT: 'monthlyMortgagePayment',
   },
   GET_ADDRESS: {
-    FLAT_NUMBER: 'flatNumber',
-    STREET_NAME: 'streetName',
-    CITY: 'city',
-    POST_CODE: 'postCode',
+    ADDRESS_LINE1: 'address_line_1',
+    ADDRESS_LINE2: 'address_line_2',
+    CITY: 'town_or_city',
+    COUNTY: 'county_or_region',
+    POST_CODE: 'postcode',
   },
   USER_PROFILE: {
     FIRST_NAME: 'firstName',
