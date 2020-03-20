@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
   progressBarContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: STYLE_CONSTANTS.margin.SMALL,
   },
   progressContainer: {
     flex: 1,
