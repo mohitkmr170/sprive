@@ -171,8 +171,9 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.SUPPORT),
       icon: iSupport,
-      action: () => {},
-      isDisabled: true,
+      action: () =>
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE),
+      isDisabled: false,
     },
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.INVITE_FRIENDS),
@@ -259,8 +260,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
             )}
             {this.state.isSubListOpened ||
             this.state.isPasswordSectionClicked ? (
-              <Text
-                style={styles.subListeHaderText}>
+              <Text style={styles.subListeHaderText}>
                 {this.state.isSubListOpened
                   ? localeString(LOCALE_STRING.SIDE_BAR.PROFILE_SUB_LIST)
                   : localeString(LOCALE_STRING.SIDE_BAR.SECURITY)}
