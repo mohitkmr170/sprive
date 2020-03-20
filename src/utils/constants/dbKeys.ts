@@ -160,7 +160,7 @@ export const DB_KEYS = {
       LAST_NAME: 'getUserInfo.response.data.last_name',
       DOB: 'getUserInfo.response.data.dob',
       ADDRESS: {
-        CITY: 'response.data.address.city',
+        CITY: 'response.data.address.town_or_city',
       },
     },
     OVERALL_PROGRESS_PERCENTAGE: 'response.data.overall_progress_percentage',
