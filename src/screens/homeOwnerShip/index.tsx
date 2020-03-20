@@ -12,7 +12,13 @@ import * as Progress from 'react-native-progress';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import LinearGradient from 'react-native-linear-gradient';
-import {Svg, Circle, Line} from 'react-native-svg';
+import {
+  Svg,
+  Circle,
+  Line,
+  Image as SvgImage,
+  Text as SvgText,
+} from 'react-native-svg';
 import {getOutstandingMortgageBalance} from '../../store/reducers';
 import {styles} from './styles';
 import {
@@ -24,6 +30,7 @@ import {
   sixtyComplete,
   eightyComplete,
   hundredComplete,
+  homeOwnershipArrow,
 } from '../../assets';
 import {GeneralStatusBar, Header} from '../../components';
 import {
@@ -209,15 +216,27 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                 rotation={0} //Starting point of progress
                 dashedBackground={{width: 10, gap: 12}}
                 backgroundColor={COLOR.CARIBBEAN_GREEN_ONE_THIRD}
+                padding={STYLE_CONSTANTS.margin.SMALLER}
                 renderCap={({center}) => (
-                  <Circle
-                    cx={center.x}
-                    cy={center.y}
-                    r={STYLE_CONSTANTS.margin.SMALL}
-                    fill={COLOR.CARIBBEAN_GREEN}
-                  />
-                )}
-                lineCap="butt">
+                  <Svg
+                    height={STYLE_CONSTANTS.device.SCREEN_HEIGHT}
+                    width={STYLE_CONSTANTS.device.SCREEN_WIDTH}>
+                    <Circle
+                      cx={center.x}
+                      cy={center.y}
+                      r={STYLE_CONSTANTS.margin.SMALL}
+                      fill={COLOR.CARIBBEAN_GREEN}
+                    />
+                    <SvgText
+                      x={center.x}
+                      y={center.y + STYLE_CONSTANTS.margin.SMALLEST / 2}
+                      fill={COLOR.WHITE}
+                      fontSize={STYLE_CONSTANTS.font.SIZE.HUGE}
+                      textAnchor="middle">
+                      ⌄
+                    </SvgText>
+                  </Svg>
+                )}>
                 {() => this.getHomeownershipImage()}
               </AnimatedCircularProgress>
             </View>

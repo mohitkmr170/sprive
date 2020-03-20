@@ -7,10 +7,12 @@ export const styles = StyleSheet.create({
   },
   nonHeaderContainer: {flex: 1},
   scrollableMainContainer: {paddingVertical: STYLE_CONSTANTS.padding.LARGEST},
-  innerMainContainer: {marginHorizontal: STYLE_CONSTANTS.margin.HUMONGOUS},
+  innerMainContainer: {
+    marginHorizontal: STYLE_CONSTANTS.margin.HUMONGOUS,
+  },
   startPointDot: {
     position: 'absolute',
-    top: -STYLE_CONSTANTS.margin.SMALLEST,
+    top: STYLE_CONSTANTS.margin.SMALLEST,
     alignSelf: 'center',
     borderColor: COLOR.CARIBBEAN_GREEN,
     height: STYLE_CONSTANTS.margin.LARGER,
