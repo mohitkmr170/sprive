@@ -30,7 +30,6 @@ import {
   sixtyComplete,
   eightyComplete,
   hundredComplete,
-  homeOwnershipArrow,
 } from '../../assets';
 import {GeneralStatusBar, Header} from '../../components';
 import {
@@ -50,6 +49,8 @@ import {
 } from '../../utils';
 
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.PRIMARY_THIRD_PART];
+const totalAngleCovered = 360;
+const totalPercentageOwned = 100;
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
@@ -159,6 +160,10 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       return <Image style={styles.centerImage} source={hundredComplete} />;
     else return;
   };
+  getRotationAngle = (houseOwned: number) => {
+    let angle = (totalAngleCovered / totalPercentageOwned) * houseOwned;
+    return angle;
+  };
   render() {
     const {
       getUserInfoResponse,
@@ -229,11 +234,17 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                     />
                     <SvgText
                       x={center.x}
-                      y={center.y + STYLE_CONSTANTS.margin.SMALLEST / 2}
+                      y={center.y + STYLE_CONSTANTS.margin.SMALLEST}
                       fill={COLOR.WHITE}
-                      fontSize={STYLE_CONSTANTS.font.SIZE.HUGE}
-                      textAnchor="middle">
-                      ⌄
+                      fontSize={STYLE_CONSTANTS.font.SIZE.LARGE}
+                      fontWeight="600"
+                      textAnchor="middle"
+                      transform={{
+                        rotation: this.getRotationAngle(houseOwned),
+                        originX: center.x,
+                        originY: center.y,
+                      }}>
+                      >
                     </SvgText>
                   </Svg>
                 )}>
