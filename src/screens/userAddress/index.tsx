@@ -87,7 +87,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
         ),
         [PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_2]: _get(
           formValues,
-          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE1,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE2,
           '',
         ),
         [PAYLOAD_KEYS.PENDING_TASK.CITY]: _get(
@@ -129,7 +129,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           ),
           [PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_2]: _get(
             formValues,
-            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE1,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE2,
             '',
           ),
           [PAYLOAD_KEYS.PENDING_TASK.CITY]: _get(

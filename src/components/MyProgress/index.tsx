@@ -40,6 +40,7 @@ interface state {
   progressWidth: number;
 }
 
+let ltvProgressBarPosition = 0;
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.GRADIENT_PRIMARY];
 
 export class UnconnectedMyProgress extends React.Component<props, state> {
@@ -117,6 +118,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
       : null;
   };
   getNativeEvent = (width: object) => {
+    ltvProgressBarPosition = _get(width, 'width', 0);
     if (!this.state.progressWidth) {
       this.setState({progressWidth: _get(width, 'width', 0)});
     } else return;
@@ -127,6 +129,14 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
     const CURRENT_LTV = Math.round(
       _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
     );
+    let toolTipPosition =
+      (ltvProgressBarPosition / NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
+        (CURRENT_LTV % NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
+      STYLE_CONSTANTS.padding.BELOW_NORMAL;
+    let toolTipBasePosition =
+      (ltvProgressBarPosition / NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
+        (CURRENT_LTV % NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
+      STYLE_CONSTANTS.padding.ABOVE_SMALLEST;
     return (
       <Animatable.View
         animation="fadeIn"
@@ -228,12 +238,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                 <View
                   style={[
                     {
-                      left:
-                        (this.state.progressWidth /
-                          NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
-                          ((100 - CURRENT_LTV) %
-                            NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
-                        STYLE_CONSTANTS.padding.BELOW_NORMAL,
+                      right: toolTipPosition,
                     },
                     styles.toolTipTopContainer,
                   ]}>
@@ -242,12 +247,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                 <View
                   style={[
                     {
-                      left:
-                        (this.state.progressWidth /
-                          NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
-                          ((100 - CURRENT_LTV) %
-                            NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
-                        STYLE_CONSTANTS.padding.ABOVE_SMALLEST,
+                      right: toolTipBasePosition,
                     },
                     styles.toolTipBottomContainer,
                   ]}

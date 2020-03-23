@@ -6,6 +6,7 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/Entypo';
 import Icons from 'react-native-vector-icons/Feather';
+import IconAnt from 'react-native-vector-icons/AntDesign';
 import {COLOR} from '../utils/colors';
 import {openDrawer} from './navigationService';
 import {STYLE_CONSTANTS} from '../utils/constants';
@@ -59,7 +60,7 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Goals',
         tabBarIcon: ({tintColor}) => (
-          <Icons name="award" size={24} color={tintColor} />
+          <IconAnt name="flag" size={24} color={tintColor} />
         ),
       },
     },
