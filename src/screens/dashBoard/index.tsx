@@ -54,6 +54,7 @@ import {
 import {policyUpdate, paymentReminder} from '../../store/actions/actions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
 import {PaymentReminderModal} from './paymentReminderModal';
+import * as Animatable from 'react-native-animatable';
 
 const CURRENT_MONTH = new Date().getMonth();
 interface NavigationParams {
@@ -97,6 +98,7 @@ interface state {
   isPolicyUpdatePopupVisible: boolean;
   isPaymentReminderReceived: boolean;
   isModalAlertVisible: boolean;
+  isPendingTaskVisible: boolean;
 }
 export class UnconnectedDashBoard extends React.Component<props, state> {
   constructor(props: props) {
@@ -110,6 +112,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       isPolicyUpdatePopupVisible: true,
       isPaymentReminderReceived: false,
       isModalAlertVisible: false,
+      isPendingTaskVisible: true,
     };
     StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
   }
@@ -316,6 +319,20 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     );
   };
 
+  onCloseToBottom = (nativeEvent: {
+    layoutMeasurement: object;
+    contentOffset: object;
+    contentSize: object;
+  }) => {
+    const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
+    if (
+      _get(layoutMeasurement, 'height', 0) + _get(contentOffset, 'y', 0) >=
+      0.9 * _get(contentSize, 'height', 0)
+    ) {
+      this.setState({isPendingTaskVisible: false});
+    } else this.setState({isPendingTaskVisible: true});
+  };
+
   render() {
     console.log('Inside Dashboard Render');
     const {
@@ -375,7 +392,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         <View>
           <ScrollView
             contentContainerStyle={styles.middleContainer}
-            showsVerticalScrollIndicator={false}>
+            showsVerticalScrollIndicator={false}
+            onScroll={({nativeEvent}) => this.onCloseToBottom(nativeEvent)}>
             <GeneralStatusBar
               backgroundColor={COLOR.DARK_BLUE}
               barStyle="light-content"
@@ -554,8 +572,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             getPendingTaskResponse,
             DB_KEYS.PENDING_TASK.IS_PENDING_TASK,
             false,
-          ) ? (
-            <PendingTaskDrawer navigation={navigation} />
+          ) && this.state.isPendingTaskVisible ? (
+            <Animatable.View animation="slideInUp">
+              <PendingTaskDrawer navigation={navigation} />
+            </Animatable.View>
           ) : null}
         </View>
       );
