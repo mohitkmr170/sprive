@@ -212,13 +212,9 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
       let currentgraphDataArray = graphDataArray[currentKey];
       Object.keys(currentgraphDataArray).map((item, index) => {
         graphMonthIndex++;
-        /*
-        NOTES : This is added as Month data iterated for more than GRAPH_OFFSET
-        */
-        graphMonthIndex < GRAPH_OFFSET &&
-          currentMonthArray.push(
-            APP_CONSTANTS.MONTH_NAMES[currentgraphDataArray[item].month - 1],
-          );
+        currentMonthArray.push(
+          APP_CONSTANTS.MONTH_NAMES[currentgraphDataArray[item].month - 1],
+        );
         currentGraphData[graphMonthIndex].monthlyMortgage.value =
           currentgraphDataArray[item].mortgage_amount;
         currentGraphData[graphMonthIndex].monthlyMortgage.svg.fill = COLORS[0];
