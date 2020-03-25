@@ -28,8 +28,8 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   userNameText: {
-    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
-    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGER,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGER,
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },

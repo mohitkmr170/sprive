@@ -1,10 +1,14 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, StatusBar} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {reset} from '../../navigation/navigationService';
-import {taskHandler, updateUserProfile} from '../../store/reducers';
+import {
+  taskHandler,
+  updateUserProfile,
+  getPendingTask,
+} from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
@@ -24,6 +28,7 @@ import {
   STATE_PARAMS,
   PENDING_TASK_IDS,
   PAYLOAD_KEYS,
+  COLOR,
 } from '../../utils';
 import {styles} from './styles';
 
@@ -40,6 +45,7 @@ interface props {
   getPendingTaskResponse: object;
   updateUserProfile: (payload: object, qParams: object) => void;
   updateUserProfileResponse: object;
+  getPendingTask: (payload: object, extraPayload: object) => void;
 }
 interface state {
   dateOfBirth: string;
@@ -51,6 +57,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     this.state = {
       dateOfBirth: '',
     };
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
   componentDidMount = () => {
     let taskAndStage = _get(this.props.navigation, 'state.params', {});
@@ -156,23 +163,32 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
         });
   };
   handleDateOfBirthEntry = (val: any, prevVal: any) => {
-    // Prevent non-digit characters being entered
-    if (isNaN(parseInt(val[val.length - 1], 10))) {
-      return val.slice(0, -1);
-    }
-    // When user is deleting, this prevents immediate re-addition of '/' when it's deleted
-    if (prevVal && prevVal.length >= val.length) {
+    if (val) {
+      // Prevent non-digit characters being entered
+      if (val && isNaN(parseInt(val[val.length - 1], 10))) {
+        return val.slice(0, -1);
+      }
+      // When user is deleting, this prevents immediate re-addition of '/' when it's deleted
+      if (prevVal && prevVal.length >= val.length) {
+        return val;
+      }
+      //To append / after deletion and then addition
+      if (
+        (val.length === 6 && prevVal.length === 5) ||
+        (val.length === 3 && prevVal.length === 2)
+      ) {
+        return (prevVal += `/${val[val.length - 1]}`);
+      }
+      // Add / at appropriate sections of the input
+      if (val.length === 2 || val.length === 5) {
+        return (val += '/');
+      }
+      // Prevent characters being entered after Dob is full
+      if (val.length >= 10) {
+        return val.slice(0, 10);
+      }
       return val;
-    }
-    // Add / at appropriate sections of the input
-    if (val.length === 2 || val.length === 5) {
-      val += '/';
-    }
-    // Prevent characters being entered after Dob is full
-    if (val.length >= 10) {
-      return val.slice(0, 10);
-    }
-    return val;
+    } else return val;
   };
   /*
   NOTES : Not required as of now, kept for future reference
@@ -217,6 +233,14 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
     } else return;
   };
   */
+  hanldeBackPress = async () => {
+    const {getUserInfoResponse, getPendingTask} = this.props;
+    const pendingTask_qParam = {
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+    };
+    await getPendingTask({}, pendingTask_qParam);
+    this.props.navigation.goBack();
+  };
   render() {
     const {
       handleSubmit,
@@ -246,83 +270,85 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
           iconName={chatIcon}
           iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
           navigation={this.props.navigation}
-          onBackPress={() => this.props.navigation.goBack()}
+          onBackPress={() => this.hanldeBackPress()}
         />
         <View style={styles.mainView}>
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.formScrollableView}>
-            <Text style={styles.aboutYouText}>
-              {localeString(LOCALE_STRING.USER_PROFILE.ABOUT_YOU)}
-            </Text>
-            <Field
-              name="firstName"
-              label={localeString(LOCALE_STRING.USER_PROFILE.FIRST_NAME)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                autoCorrect: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-              }}
-              validate={[alphaBets, required]}
+            <View style={{flex: 1}}>
+              <Text style={styles.aboutYouText}>
+                {localeString(LOCALE_STRING.USER_PROFILE.ABOUT_YOU)}
+              </Text>
+              <Field
+                name={FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME}
+                label={localeString(LOCALE_STRING.USER_PROFILE.FIRST_NAME)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  autoCorrect: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                }}
+                validate={[alphaBets, required]}
+              />
+              <Field
+                name={FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME}
+                label={localeString(LOCALE_STRING.USER_PROFILE.LAST_NAME)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  autoCorrect: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                }}
+                validate={[alphaBets, required]}
+              />
+              <Field
+                name={FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH}
+                label={localeString(LOCALE_STRING.USER_PROFILE.DOB)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  maxLength: 10, //DOB
+                  placeholder: localeString(
+                    LOCALE_STRING.USER_PROFILE.DOB_PLACEHOLDER,
+                  ),
+                  keyboardType: 'number-pad',
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  autoCorrect: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                }}
+                normalize={this.handleDateOfBirthEntry}
+                validate={[required, dobValidation]}
+              />
+            </View>
+            <Button
+              title={localeString(LOCALE_STRING.USER_PROFILE.NEXT)}
+              titleStyle={styles.buttonTextStyle}
+              onPress={handleSubmit(this.handleFormSubmit)}
+              buttonStyle={styles.buttonStyle}
+              disabled={!isFormValuesFilled}
+              loading={
+                _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
+                _get(updateUserProfileResponse, DB_KEYS.IS_FETCHING, false)
+              }
             />
-            <Field
-              name="lastName"
-              label={localeString(LOCALE_STRING.USER_PROFILE.LAST_NAME)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                autoCorrect: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-              }}
-              validate={[alphaBets, required]}
-            />
-            <Field
-              name="dateOfBirth"
-              label={localeString(LOCALE_STRING.USER_PROFILE.DOB)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                maxLength: 10, //DOB
-                placeholder: localeString(
-                  LOCALE_STRING.USER_PROFILE.DOB_PLACEHOLDER,
-                ),
-                keyboardType: 'number-pad',
-                style: styles.formInput,
-                autoCapitalize: false,
-                autoCorrect: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-              }}
-              normalize={this.handleDateOfBirthEntry}
-              validate={[required, dobValidation]}
-            />
+            {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
+              _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
+                <TouchableOpacity
+                  style={styles.completeLaterView}
+                  hitSlop={APP_CONSTANTS.HIT_SLOP}
+                  onPress={() => this.handleCompleteLater()}>
+                  <Text style={styles.completeLaterText}>
+                    {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
+                  </Text>
+                </TouchableOpacity>
+              )}
           </KeyboardAwareScrollView>
-          <Button
-            title={localeString(LOCALE_STRING.USER_PROFILE.NEXT)}
-            titleStyle={styles.buttonTextStyle}
-            onPress={handleSubmit(this.handleFormSubmit)}
-            buttonStyle={styles.buttonStyle}
-            disabled={!isFormValuesFilled}
-            loading={
-              _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
-              _get(updateUserProfileResponse, DB_KEYS.IS_FETCHING, false)
-            }
-          />
-          {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
-            _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
-              <TouchableOpacity
-                style={styles.completeLaterView}
-                hitSlop={APP_CONSTANTS.HIT_SLOP}
-                onPress={() => this.handleCompleteLater()}>
-                <Text style={styles.completeLaterText}>
-                  {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
-                </Text>
-              </TouchableOpacity>
-            )}
         </View>
       </View>
     );
@@ -345,6 +371,8 @@ const bindActions = dispatch => ({
     dispatch(taskHandler.fetchCall(payload, extraPayload)),
   updateUserProfile: (payload, extraPayload) =>
     dispatch(updateUserProfile.fetchCall(payload, extraPayload)),
+  getPendingTask: (payload, extraPayload) =>
+    dispatch(getPendingTask.fetchCall(payload, extraPayload)),
 });
 
 export const UserProfile = connect(

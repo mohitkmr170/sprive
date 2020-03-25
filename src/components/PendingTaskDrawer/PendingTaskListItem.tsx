@@ -65,11 +65,8 @@ export class PendingTaskListItem extends React.Component<props, state> {
    * Function to select particular stage based on stage_id
    * @param taskAndStageId : object : Object with task_id & stage_id as navigation_params
    */
-  handleStageSelection = (taskAndStageId: object) => {
-    this.handleStageNavigation(
-      NAVIGATION_SCREEN_NAME.USER_PROFILE,
-      taskAndStageId,
-    );
+  handleStageSelection = (routeName: string, taskAndStageId: object) => {
+    this.handleStageNavigation(routeName, taskAndStageId);
   };
 
   /**
@@ -79,10 +76,16 @@ export class PendingTaskListItem extends React.Component<props, state> {
   handleTaskSelection = (taskAndStageId: object) => {
     switch (_get(taskAndStageId, DB_KEYS.PENDING_TASK.STAGE_ID, null)) {
       case STAGE_IDS.STAGE_ONE:
-        this.handleStageSelection(taskAndStageId);
+        this.handleStageSelection(
+          NAVIGATION_SCREEN_NAME.USER_PROFILE,
+          taskAndStageId,
+        );
         break;
       case STAGE_IDS.STAGE_TWO:
-        this.handleStageSelection(taskAndStageId);
+        this.handleStageSelection(
+          NAVIGATION_SCREEN_NAME.USER_ADDRESS,
+          taskAndStageId,
+        );
         break;
       default:
         //Default case for Stage related errors

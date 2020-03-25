@@ -60,4 +60,9 @@ export const COLOR = {
   MILD_BACKGROUND_BLACK: 'rgba(9, 36, 94, 0.05)',
   SALMON_RED: '#FF7474',
   AMBER: '#FFB400',
+  GHOST_WHITE: '#F2F3F9',
+  TRACK_BLUE: 'rgba(34, 49, 155, 0.5)',
+  GRADIENT_PRIMARY: 'rgba(221, 35, 113, 0.1)',
+  HUE_BLUE: '#09245E80',
+  CARIBBEAN_GREEN: '#00C1A4',
 };

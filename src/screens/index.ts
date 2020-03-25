@@ -22,3 +22,4 @@ export * from './userProfile';
 export * from './userAddress';
 export * from './searchAddress';
 export * from './userProfileViewMode';
+export * from './homeOwnerShip';

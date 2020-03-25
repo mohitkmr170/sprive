@@ -13,7 +13,7 @@ import {getUserInfo} from './src/store/reducers';
 import {NAVIGATION_SCREEN_NAME, DB_KEYS} from './src/utils/constants';
 import {get as _get} from 'lodash';
 import OneSignal from 'react-native-onesignal';
-import {notification} from './src/store/actions/actions';
+import {notification, policyUpdate} from './src/store/actions/actions';
 
 const ONE_SIGNAL_APP_ID = 'ce763fbb-0f60-4f44-b709-30eedbf62388'; //Should be moved to a saparate .env file
 const NOTIFICATION_DISPLAY = 2; //always display notification in shade.
@@ -149,6 +149,7 @@ class App extends React.Component<props, state> {
       'onReceived : Notification received : notification => ',
       notification,
     );
+    store.dispatch(policyUpdate());
   }
 
   /**

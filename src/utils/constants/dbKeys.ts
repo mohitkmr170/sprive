@@ -7,6 +7,7 @@ export const DB_KEYS = {
   ACCESS_DATA_TOKEN: 'response.data.accessToken',
   ACCESS_TOKEN: 'response.accessToken',
   IS_FETCHING: 'isFetching',
+  IS_POLICY_UPDATE_RECEIVED: 'isPolicyUpdateReceived',
   META_TOTAL: 'response.meta.total',
   META_SKIP: 'response.meta.skip',
   TOTAL_INTEREST: 'response.data.totalInterest',
@@ -31,6 +32,7 @@ export const DB_KEYS = {
   MONTHLY_TARGET: 'response.data.monthly_target',
   RESPONSE_DATA: 'response.data',
   CREATED_AT: 'response.data[0].createdAt',
+  UPDATE_AT: 'response.data[0].updatedAt',
   SNACKBAR_ERRORS: 'response.data.errors',
   BE_EMAIL_ERROR: 'response.response.data.errors.email',
   BE_PASSWORD_ERROR: 'response.response.data.errors.password',
@@ -41,6 +43,7 @@ export const DB_KEYS = {
   SIGNUP_PASSWORD: 'signup.values.password',
   SUCCESS: 'Success',
   VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
+  ADDRESS_RESPONSE: 'response.data.address',
   USER_ADDRESS_ID: 'response.data.address.id',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',

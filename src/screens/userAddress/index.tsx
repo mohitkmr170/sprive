@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  StatusBar,
+} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import {Field, reduxForm, formValues} from 'redux-form';
 import {connect} from 'react-redux';
@@ -62,6 +68,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     this.state = {
       postCode: '',
     };
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
   componentDidMount = () => {};
   getAddressPayload = (formValues: object, isEdit: boolean) => {

@@ -12,10 +12,14 @@ export const LOCAL_KEYS = {
   POST_CODE: 'item.post_code',
   DISPLAY_ADDRESS: 'item.display_address',
   DISPLAY_ADDRESS_KEY: 'display_address',
+  SWIPER_NAME: 'name',
 };
-
+export const NATIVE_EVENTS = {
+  WIDTH: 'width',
+};
 export const NUMERIC_FACTORS = {
   PERCENT_FACTOR: 100,
+  LTV_FRACTION_OFFSET: 5,
 };
 export const ICON = {
   UP: 'ios-arrow-round-up',
@@ -76,6 +80,7 @@ export const STAGE_NAME_INDEX = {
 };
 export const WEB_VIEW_PARAMS = {
   WEB_VIEW: 'state.params.webViewUri',
+  IS_POLICY: 'state.params.isPolicy',
   WEB_VIEW_URI:
     'https://drive.google.com/open?id=1245ani10Xj25jnGUyUYtaU5idZ2Je9LZ',
 };

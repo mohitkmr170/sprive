@@ -10,22 +10,16 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import {
-  dashBoardCard,
-  report,
-  plusIncome,
-  minusIncome,
-  correct,
-} from '../../assets';
+import {dashBoardCard, report, correct, iViewArrow} from '../../assets';
 import {connect} from 'react-redux';
 import {
-  StackBarGraph,
+  PolicyUpdate,
   StatusOverlay,
   LoadingModal,
   PendingTaskDrawer,
   GeneralStatusBar,
+  PaymentProgressCard,
 } from '../../components';
-import * as Progress from 'react-native-progress';
 import {get as _get, cloneDeep} from 'lodash';
 import {
   localeString,
@@ -46,6 +40,7 @@ import {
   getUserGoal,
   getPendingTask,
 } from '../../store/reducers';
+import {policyUpdate} from '../../store/actions/actions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
 
 const CURRENT_MONTH = new Date().getMonth();
@@ -54,7 +49,7 @@ interface NavigationParams {
 }
 interface props {
   navigation: {
-    navigate: (routeName: String) => void;
+    navigate: (routeName: String, params?: object) => void;
     goBack: () => void;
     state: {params?: {isUserDataChanged: boolean}};
     setParams: (params: NavigationParams) => void;
@@ -74,6 +69,8 @@ interface props {
   pushNotificationResponse: object;
   getPendingTask: (payload: object, extraPayload: object) => void;
   getPendingTaskResponse: object;
+  policyUpdate: () => void;
+  policyUpdateResponse: object;
 }
 
 interface state {
@@ -81,6 +78,7 @@ interface state {
   isGoalSet: boolean;
   loading: boolean;
   isPaymentComplete: boolean;
+  isPolicyUpdatePopupVisible: boolean;
 }
 export class UnconnectedDashBoard extends React.Component<props, state> {
   constructor(props: props) {
@@ -91,6 +89,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         ? true
         : props.navigation.state.params.isUserDataChanged,
       isPaymentComplete: false,
+      isPolicyUpdatePopupVisible: true,
     };
     StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
   }
@@ -104,6 +103,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   };
 
   componentDidMount = async () => {
+    console.log('asdhajvsdbhasd', this.props.policyUpdateResponse);
     // this.handleInitialMount();
     this.didFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
@@ -208,6 +208,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     this.didFocusListener.remove();
   }
 
+  hanldeHomeOwnerShip = () => {
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.HOME_OWNERSHIP);
+  };
+
   render() {
     console.log('Inside Dashboard Render');
     const {
@@ -264,7 +268,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       return <LoadingModal loadingText="Loading..." />;
     else
       return (
-        <View style={styles.mainContainer}>
+        <View>
           <ScrollView
             contentContainerStyle={styles.middleContainer}
             showsVerticalScrollIndicator={false}>
@@ -321,90 +325,38 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                 </Text>
               )}
             </ImageBackground>
-            <View style={styles.secondContainer}>
-              <View style={styles.statusContainer}>
-                <Text style={styles.statusLefttext}>
-                  {localeString(LOCALE_STRING.DASHBOARD_SCREEN.AMOUNT_LEFT)}{' '}
-                  <Text style={styles.innerFirstText}>£2,880</Text>
+            <Button
+              title={localeString(
+                LOCALE_STRING.DASHBOARD_SCREEN.MAKE_OVERPAYMENT,
+              )}
+              titleStyle={styles.buttonTitle}
+              buttonStyle={styles.button}
+              onPress={() => this.handleMakeOverPayment()}
+            />
+            <PaymentProgressCard
+              navigation={navigation}
+              currentMonthTarget={monthlyTarget}
+            />
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => this.hanldeHomeOwnerShip()}
+              hitSlop={APP_CONSTANTS.HIT_SLOP}
+              style={styles.homeOwnerShipCardContainer}>
+              <View>
+                <Text style={styles.ownerShipText}>
+                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)}
                 </Text>
-                <Text style={styles.statusRightText}>
-                  Spent £560 out of £3,440
-                </Text>
-              </View>
-              <View style={styles.passStrengthInnerContainer}>
-                <Progress.Bar
-                  progress={0.6}
-                  color={COLOR.DARKEST_YELLOW}
-                  height={10}
-                  width={null}
-                  borderRadius={5}
-                  unfilledColor={COLOR.LIGHTEST_YELLOW}
-                  borderWidth={0}
-                />
-              </View>
-            </View>
-            <View style={styles.incomeStatusContainer}>
-              <View style={styles.incomeInnerContainer}>
-                <View style={styles.rowParentContainer}>
-                  <View style={styles.incomeInnerContainers}>
-                    <View style={styles.rowParentContainer}>
-                      <Image source={plusIncome} height={18} width={18} />
-                      <Text style={styles.incomeText}>
-                        {localeString(LOCALE_STRING.DASHBOARD_SCREEN.INCOME)}
-                      </Text>
-                    </View>
-                    <Text style={styles.incomeSpentText}>£3,440</Text>
-                  </View>
-                  <View style={styles.incomeInnerContainers}>
-                    <View style={styles.rowParentContainer}>
-                      <Image source={minusIncome} height={18} width={18} />
-                      <Text style={styles.spentText}>
-                        {localeString(LOCALE_STRING.DASHBOARD_SCREEN.SPENT)}
-                      </Text>
-                    </View>
-                    <Text style={styles.incomeSpentText}>£3,440</Text>
-                  </View>
-                </View>
-                <Text style={styles.availableBalanceText}>
-                  {localeString(
-                    LOCALE_STRING.DASHBOARD_SCREEN.AVAILABLE_BALANCE,
-                  )}
-                </Text>
-                <Text style={styles.availableAmountText}>£21,312</Text>
-                <Button
-                  title={localeString(
-                    LOCALE_STRING.DASHBOARD_SCREEN.MAKE_OVERPAYMENT,
-                  )}
-                  titleStyle={styles.buttonTitle}
-                  buttonStyle={styles.button}
-                  onPress={() => this.handleMakeOverPayment()}
-                />
-              </View>
-            </View>
-            <View>
-              <View style={styles.myProgressContainer}>
-                <Text style={styles.myProgressText}>
-                  {localeString(LOCALE_STRING.DASHBOARD_SCREEN.MY_PROGRESS)}
-                </Text>
-                <Text style={styles.projectedText}>
-                  {localeString(
-                    LOCALE_STRING.DASHBOARD_SCREEN.PROJECTED_MORTGAGE,
-                  )}{' '}
-                  <Text style={styles.monthsLeftText}>
-                    {extimatedYears
-                      ? extimatedYears +
-                        (extimatedYears === 1 ? ' year' : ' years')
-                      : ''}{' '}
-                    {estimatedMonths
-                      ? estimatedMonths +
-                        (estimatedMonths === 1 ? ' month' : ' months')
-                      : ''}
-                    {!estimatedMonths && !extimatedYears && '-'}
-                  </Text>
+                <Text style={styles.ownerShipText}>
+                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.JOURNEY)}
                 </Text>
               </View>
-              <StackBarGraph currentMonthTarget={monthlyTarget} />
-            </View>
+              <View style={styles.viewContainer}>
+                <Text style={styles.viewText}>
+                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.VIEW)}
+                </Text>
+                <Image source={iViewArrow} />
+              </View>
+            </TouchableOpacity>
           </ScrollView>
           {(!_get(
             getMonthlyPaymentRecordResponse,
@@ -447,6 +399,16 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               )}
             />
           )}
+          {_get(
+            this.props.policyUpdateResponse,
+            DB_KEYS.IS_POLICY_UPDATE_RECEIVED,
+            false,
+          ) && (
+            <PolicyUpdate
+              navigation={navigation}
+              policyUpdate={this.props.policyUpdate}
+            />
+          )}
           {/* Condition to be added */}
           {_get(
             getPendingTaskResponse,
@@ -469,6 +431,7 @@ const mapStateToProps = state => ({
   getUserGoalResponse: state.getUserGoal,
   pushNotificationResponse: state.pushNotification,
   getPendingTaskResponse: state.getPendingTask,
+  policyUpdateResponse: state.policyUpdate,
 });
 
 const bindActions = dispatch => ({
@@ -484,6 +447,7 @@ const bindActions = dispatch => ({
     dispatch(getUserGoal.fetchCall(payload, extraPayload)),
   getPendingTask: (payload, extraPayload) =>
     dispatch(getPendingTask.fetchCall(payload, extraPayload)),
+  policyUpdate: () => dispatch(policyUpdate()),
 });
 
 export const DashBoard = connect(

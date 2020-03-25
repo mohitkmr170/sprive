@@ -348,6 +348,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
         style={styles.mainTopContainer}
         onPress={() => this.hideBarInfo()}>
         <View style={styles.mainContainer}>
+          {/* It is removed as of now, shall be kept for future reference */}
           <TouchableOpacity
             disabled={this.state.isLeftButtonActive}
             onPress={() => this.handleGraphLeftSwipe()}
@@ -418,70 +419,8 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
               <GraphDetails title={OVER_PAYMENT} color={COLOR.DARK_YELLOW} />
               <GraphDetails title={TARGET_MET} color={COLOR.SLIDER_COLOR} />
             </View>
-            <View style={styles.bottomContainer}>
-              <View style={styles.bottomLeftContainer}>
-                <View>
-                  <Text style={styles.projectedTimeText}>
-                    {localeString(LOCALE_STRING.GRAPH_COMPONENT.PROJECTED_TIME)}
-                  </Text>
-                  <Text style={styles.projectedTimeText}>
-                    {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
-                  </Text>
-                  <View style={{flexDirection: 'row'}}>
-                    {projectedYears ? (
-                      <Text style={styles.numberOfMonthText}>
-                        {projectedYears}{' '}
-                        <Text style={styles.monthsText}>
-                          {projectedYears === 1
-                            ? localeString(LOCALE_STRING.GRAPH_COMPONENT.YEAR)
-                            : localeString(
-                                LOCALE_STRING.GRAPH_COMPONENT.YEARS,
-                              )}{' '}
-                        </Text>
-                      </Text>
-                    ) : null}
-                    {projectedMonths ? (
-                      <Text style={styles.numberOfMonthText}>
-                        {projectedMonths}{' '}
-                        <Text style={styles.monthsText}>
-                          {projectedMonths === 1
-                            ? localeString(LOCALE_STRING.GRAPH_COMPONENT.MONTH)
-                            : localeString(
-                                LOCALE_STRING.GRAPH_COMPONENT.MONTHS,
-                              )}
-                        </Text>
-                      </Text>
-                    ) : null}
-                    {!projectedYears && !projectedMonths ? (
-                      <Text
-                        style={[styles.numberOfMonthText, styles.emptyText]}>
-                        -
-                      </Text>
-                    ) : null}
-                  </View>
-                </View>
-              </View>
-              <View style={styles.bottomRightContainer}>
-                <View>
-                  <Text style={styles.projectedInterestText}>
-                    {localeString(LOCALE_STRING.GRAPH_COMPONENT.PROJECTED_INT)}
-                  </Text>
-                  <Text style={styles.savingText}>
-                    {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
-                  </Text>
-                  {interestSavingWithCommas ? (
-                    <Text style={styles.projectSavingText}>
-                      £{interestSavingWithCommas}
-                    </Text>
-                  ) : (
-                    <Text style={[styles.projectSavingText, styles.emptyText]}>
-                      -
-                    </Text>
-                  )}
-                </View>
-              </View>
-            </View>
           </View>
+          {/* It is removed as of now, shall be kept for future reference */}
           <TouchableOpacity
             disabled={this.state.isRightButtonActive}
             onPress={() => this.handleGraphRightSwipe()}

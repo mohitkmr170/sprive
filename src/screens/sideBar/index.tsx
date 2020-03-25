@@ -54,6 +54,10 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     super(props);
     this.state = {};
   }
+  componentDidMount() {
+    //If Address Task is complete(means profile is also not complete for task user-profile) => Show Actual NAME & ADDRESS
+    // else as showing now
+  }
   handleStageNavigation = (routeName: string, taskAndStageId: object) => {
     this.props.navigation.navigate(routeName, taskAndStageId);
   };
@@ -101,7 +105,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
           [],
         ).find(
           (item: object) =>
-            _get(item, DB_KEYS.PENDING_TASK.ID, null) ===
+            _get(item, DB_KEYS.PENDING_TASK.TASK_ID, null) ===
             STAGE_NAME_INDEX.USER_PROFILE,
         );
         _get(
@@ -235,7 +239,11 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                     disabled={item.isDisabled}
                     onPress={item.action}
                     style={styles.sideBarDataListContainer}>
-                    <View style={styles.iconTextContainer}>
+                    <View
+                      style={[
+                        styles.iconTextContainer,
+                        {opacity: item.isDisabled ? 0.4 : 1}, //Graying out all non-working buttons
+                      ]}>
                       <Image
                         resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
                         style={styles.iconStyle}

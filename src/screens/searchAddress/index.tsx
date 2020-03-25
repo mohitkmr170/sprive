@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, StatusBar} from 'react-native';
 import {Input} from 'react-native-elements';
 import {chatIcon} from '../../assets';
 import {change} from 'redux-form';
@@ -46,6 +46,7 @@ export class UnconnectedSearchAddress extends React.Component<props, state> {
         [],
       ),
     };
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
   componentDidMount = () => {};
   hanldeAddressSelection = (selectedAddress: object) => {

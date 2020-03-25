@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {STYLE_CONSTANTS, COLOR} from '../../utils';
+import {StyleSheet, Platform} from 'react-native';
+import {STYLE_CONSTANTS, COLOR, APP_CONSTANTS} from '../../utils';
 
 export const styles = StyleSheet.create({
   floatingButtonContainer: {
@@ -50,8 +50,12 @@ export const styles = StyleSheet.create({
   },
   modalContainer: {
     justifyContent: 'flex-end',
-    marginBottom: STYLE_CONSTANTS.margin.HUGISH * 3,
     marginHorizontal: 0,
+    marginVertical: 0,
+    marginBottom:
+      Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_ANDROID
+        ? 2 * STYLE_CONSTANTS.margin.HUGE
+        : 3 * STYLE_CONSTANTS.margin.HUGE,
   },
   pendingTaskContainer: {
     backgroundColor: COLOR.WHITE,

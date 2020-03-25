@@ -4,7 +4,7 @@ import {get as _get} from 'lodash';
 import {COLOR} from '../utils/colors';
 import {change} from 'redux-form';
 import {store} from '../store/configStore';
-import {APP_CONSTANTS, DB_KEYS} from './constants';
+import {APP_CONSTANTS, DB_KEYS, LOCAL_KEYS, NUMERIC_FACTORS} from './constants';
 
 /**
  * Funtion to get password strength(out of 4)
@@ -180,4 +180,21 @@ export function mapFormValues(
   fieldValue: string,
 ) {
   store.dispatch(change(formName, formField, fieldValue));
+}
+
+/**
+ * Function to retrieve start_percentage, end_percentage and progress_Percentage for current_LTV
+ * @param currentLtv : number : current LTV percentage
+ */
+export function getLtvRangeAndPercentage(currentLtv: number) {
+  let ltv_mod_val = currentLtv % NUMERIC_FACTORS.LTV_FRACTION_OFFSET;
+  let start_percentage_val = currentLtv - ltv_mod_val;
+  let end_percentage_val =
+    start_percentage_val + NUMERIC_FACTORS.LTV_FRACTION_OFFSET;
+  let progress_percentage = ltv_mod_val / NUMERIC_FACTORS.LTV_FRACTION_OFFSET;
+  return {
+    startVal: start_percentage_val + ' %',
+    endVal: end_percentage_val + ' %',
+    percentage: progress_percentage,
+  };
 }
