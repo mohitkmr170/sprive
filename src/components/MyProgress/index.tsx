@@ -18,6 +18,7 @@ import {
   TASK_IDS,
   STAGE_IDS,
   NUMERIC_FACTORS,
+  NATIVE_EVENTS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 import {styles} from './styles';
@@ -26,6 +27,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import {TargetStepIndicator} from './targetStepIndicator';
 
 const CURRENT_LTV = 73;
+const PERCENTAGE_RANGE_VALUES = {
+  START_VAL: 'startVal',
+  END_VAL: 'endVal',
+  PERCENTAGE: 'percentage',
+};
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
@@ -113,11 +119,10 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
   };
   getNativeEvent = (width: object) => {
     if (!this.state.progressWidth) {
-      this.setState({progressWidth: _get(width, 'width', 0)});
+      this.setState({progressWidth: _get(width, NATIVE_EVENTS.WIDTH, 0)});
     } else return;
   };
   render() {
-    console.log('askjdbasjdnaskdjn123123', this.state.progressWidth);
     const {getUserInfoResponse} = this.props;
     const {isCheaperDealSelected, isMortgageSelected} = this.state;
     return (
@@ -147,7 +152,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                   color: isMortgageSelected ? COLOR.PRIMARY : COLOR.BLACK,
                   fontWeight: isMortgageSelected
                     ? STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD
-                    : 'normal',
+                    : STYLE_CONSTANTS.font.WEIGHT.NORMAL,
                 },
               ]}>
               {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.MORTGAGE)}
@@ -171,7 +176,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                   color: isCheaperDealSelected ? COLOR.PRIMARY : COLOR.BLACK,
                   fontWeight: isCheaperDealSelected
                     ? STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD
-                    : 'normal',
+                    : STYLE_CONSTANTS.font.WEIGHT.NORMAL,
                 },
               ]}>
               {localeString(
@@ -211,7 +216,11 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
             </Text>
             <View style={styles.progressBarContainer}>
               <Text style={styles.percentageText}>
-                {_get(getLtvRangeAndPercentage(CURRENT_LTV), 'startVal', '')}
+                {_get(
+                  getLtvRangeAndPercentage(CURRENT_LTV),
+                  PERCENTAGE_RANGE_VALUES.START_VAL,
+                  '',
+                )}
               </Text>
               <View
                 style={styles.progressContainer}
@@ -246,7 +255,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                 <Progress.Bar
                   progress={_get(
                     getLtvRangeAndPercentage(CURRENT_LTV),
-                    'percentage',
+                    PERCENTAGE_RANGE_VALUES.PERCENTAGE,
                     0,
                   )}
                   color={COLOR.DARKEST_YELLOW}
@@ -258,7 +267,11 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                 />
               </View>
               <Text style={styles.percentageText}>
-                {_get(getLtvRangeAndPercentage(CURRENT_LTV), 'endVal', '')}
+                {_get(
+                  getLtvRangeAndPercentage(CURRENT_LTV),
+                  PERCENTAGE_RANGE_VALUES.END_VAL,
+                  '',
+                )}
               </Text>
             </View>
             <Text style={styles.unlockbetterDealsText}>
