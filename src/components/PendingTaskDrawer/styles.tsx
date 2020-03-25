@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 0,
     marginVertical: 0,
     marginBottom:
-      Platform.OS === 'android'
+      Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_ANDROID
         ? 2 * STYLE_CONSTANTS.margin.HUGE
         : 3 * STYLE_CONSTANTS.margin.HUGE,
   },
