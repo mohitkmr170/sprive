@@ -14,7 +14,9 @@ export const LOCAL_KEYS = {
   DISPLAY_ADDRESS_KEY: 'display_address',
   SWIPER_NAME: 'name',
 };
-
+export const NATIVE_EVENTS = {
+  WIDTH: 'width',
+};
 export const NUMERIC_FACTORS = {
   PERCENT_FACTOR: 100,
   LTV_FRACTION_OFFSET: 5,
