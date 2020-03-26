@@ -15,7 +15,9 @@ export const LOCAL_KEYS = {
   SWIPER_NAME: 'name',
   PUSH_NOTIFICATION_ACCESS_GRANTED: 'granted',
 };
-
+export const NATIVE_EVENTS = {
+  WIDTH: 'width',
+};
 export const NUMERIC_FACTORS = {
   PERCENT_FACTOR: 100,
   LTV_FRACTION_OFFSET: 5,
