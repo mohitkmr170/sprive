@@ -13,6 +13,7 @@ interface props {
   icon: any;
   firstButtonText: string;
   secondButtonText: string;
+  mainMessageStyle: object;
 }
 interface state {}
 
@@ -29,7 +30,14 @@ export class StatusOverlay extends React.Component<props, state> {
             <Text style={styles.innerTitle}>{this.props.mainTitle}</Text>
           )}
           {this.props.mainMessage && (
-            <Text style={styles.mainMessage}>{this.props.mainMessage}</Text>
+            <Text
+              style={
+                this.props.mainMessageStyle
+                  ? this.props.mainMessageStyle
+                  : styles.mainMessage
+              }>
+              {this.props.mainMessage}
+            </Text>
           )}
           {this.props.infoTitle && (
             <Text style={styles.infoTitle}>{this.props.infoTitle}</Text>

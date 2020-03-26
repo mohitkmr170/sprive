@@ -25,6 +25,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  bottomImageCard: {
+    width:
+      10 * STYLE_CONSTANTS.margin.HUMONGOUS - STYLE_CONSTANTS.margin.LARGEST,
+    height:
+      5 * STYLE_CONSTANTS.margin.HUMONGOUS - STYLE_CONSTANTS.margin.SMALLISH,
+    justifyContent: 'center',
+  },
   paidButton: {
     height: STYLE_CONSTANTS.margin.LARGER,
     width: STYLE_CONSTANTS.margin.HUMONGOUS,
@@ -134,7 +141,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLOR.PRIMARY,
     borderRadius: 40,
     marginTop: STYLE_CONSTANTS.margin.HUGISH,
-    marginHorizontal: STYLE_CONSTANTS.margin.SMALLISH,
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
   },
   myProgressContainer: {
     marginLeft: STYLE_CONSTANTS.margin.HUGISH,
@@ -157,7 +164,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
     paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
-    backgroundColor: COLOR.VOILET,
+    // backgroundColor: COLOR.VOILET,
     marginVertical: STYLE_CONSTANTS.margin.LARGEST,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
     borderRadius: STYLE_CONSTANTS.margin.SMALL,
@@ -175,5 +182,58 @@ export const styles = StyleSheet.create({
     color: COLOR.WHITE,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     marginRight: STYLE_CONSTANTS.margin.SMALL,
+  },
+  mainMessageStyle: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGEST,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUMONGOUS,
+    color: COLOR.CARIBBEAN_GREEN,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+  },
+  paymentModalContainer: {
+    backgroundColor: COLOR.WHITE,
+    borderRadius: 14,
+  },
+  modalTopContainer: {
+    paddingVertical: STYLE_CONSTANTS.padding.SMALL,
+    alignItems: 'center',
+    paddingHorizontal: STYLE_CONSTANTS.padding.LARGEST,
+    borderBottomColor: COLOR.STEEL_GRAY,
+    borderBottomWidth: 1,
+  },
+  stayOnTrackText: {
+    textAlign: 'center',
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGER,
+    color: COLOR.SHADOW_BLUE,
+  },
+  overPaymentText: {fontWeight: 'bold'},
+  remindMeTomorrowText: {
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
+    alignItems: 'center',
+  },
+  laterOptionText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    color: COLOR.PRIMARY,
+  },
+  remindMeNextWeekText: {
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
+    alignItems: 'center',
+    borderTopColor: COLOR.STEEL_GRAY,
+    borderTopWidth: 1,
+  },
+  modalDismissContainer: {
+    backgroundColor: COLOR.WHITE,
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
+    borderRadius: 14,
+    marginTop: STYLE_CONSTANTS.margin.SMALL,
+    alignItems: 'center',
+    marginBottom: STYLE_CONSTANTS.margin.LARGEST,
+  },
+  dismissText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    color: COLOR.DARK_BLUE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
 });

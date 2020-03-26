@@ -10,7 +10,14 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
-import {dashBoardCard, report, correct, iViewArrow} from '../../assets';
+import {
+  dashBoardCard,
+  report,
+  correct,
+  iViewArrow,
+  questionMark,
+  homeOwnershipCard,
+} from '../../assets';
 import {connect} from 'react-redux';
 import {
   PolicyUpdate,
@@ -31,6 +38,7 @@ import {
   DB_KEYS,
   COLOR,
   PAYLOAD_KEYS,
+  STYLE_CONSTANTS,
 } from '../../utils';
 import {
   getMonthlyPaymentRecord,
@@ -42,6 +50,7 @@ import {
 } from '../../store/reducers';
 import {policyUpdate} from '../../store/actions/actions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
+import {PaymentReminderModal} from './paymentReminderModal';
 
 const CURRENT_MONTH = new Date().getMonth();
 interface NavigationParams {
@@ -79,6 +88,8 @@ interface state {
   loading: boolean;
   isPaymentComplete: boolean;
   isPolicyUpdatePopupVisible: boolean;
+  isPaymentReminderReceived: boolean;
+  isModalAlertVisible: boolean;
 }
 export class UnconnectedDashBoard extends React.Component<props, state> {
   constructor(props: props) {
@@ -90,6 +101,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         : props.navigation.state.params.isUserDataChanged,
       isPaymentComplete: false,
       isPolicyUpdatePopupVisible: true,
+      isPaymentReminderReceived: false,
+      isModalAlertVisible: false,
     };
     StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
   }
@@ -210,6 +223,18 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
 
   hanldeHomeOwnerShip = () => {
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.HOME_OWNERSHIP);
+  };
+
+  handlePaymentFirstButton = () => {
+    this.setState({isPaymentReminderReceived: false});
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
+  };
+
+  handlePaymentSecondButton = () => {
+    this.setState({
+      isPaymentReminderReceived: false,
+      isModalAlertVisible: true,
+    });
   };
 
   render() {
@@ -337,26 +362,30 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               navigation={navigation}
               currentMonthTarget={monthlyTarget}
             />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => this.hanldeHomeOwnerShip()}
-              hitSlop={APP_CONSTANTS.HIT_SLOP}
-              style={styles.homeOwnerShipCardContainer}>
-              <View>
-                <Text style={styles.ownerShipText}>
-                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)}
-                </Text>
-                <Text style={styles.ownerShipText}>
-                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.JOURNEY)}
-                </Text>
-              </View>
-              <View style={styles.viewContainer}>
-                <Text style={styles.viewText}>
-                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.VIEW)}
-                </Text>
-                <Image source={iViewArrow} />
-              </View>
-            </TouchableOpacity>
+            <ImageBackground
+              source={homeOwnershipCard}
+              style={styles.bottomImageCard}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => this.hanldeHomeOwnerShip()}
+                hitSlop={APP_CONSTANTS.HIT_SLOP}
+                style={styles.homeOwnerShipCardContainer}>
+                <View>
+                  <Text style={styles.ownerShipText}>
+                    {localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)}
+                  </Text>
+                  <Text style={styles.ownerShipText}>
+                    {localeString(LOCALE_STRING.HOME_OWNERSHIP.JOURNEY)}
+                  </Text>
+                </View>
+                <View style={styles.viewContainer}>
+                  <Text style={styles.viewText}>
+                    {localeString(LOCALE_STRING.HOME_OWNERSHIP.VIEW)}
+                  </Text>
+                  <Image source={iViewArrow} />
+                </View>
+              </TouchableOpacity>
+            </ImageBackground>
           </ScrollView>
           {(!_get(
             getMonthlyPaymentRecordResponse,
@@ -399,6 +428,29 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               )}
             />
           )}
+          {this.state.isPaymentReminderReceived && (
+            <StatusOverlay
+              icon={questionMark}
+              firstButtonText={localeString(
+                LOCALE_STRING.PAYMENT_REMINDER.PAY_NOW,
+              )}
+              secondButtonText={localeString(
+                LOCALE_STRING.PAYMENT_REMINDER.REMIND_ME_LATER,
+              )}
+              handleFirstButton={() => this.handlePaymentFirstButton()}
+              handleSecondButton={() => this.handlePaymentSecondButton()}
+              mainMessageStyle={styles.mainMessageStyle}
+              infoTitle={localeString(
+                LOCALE_STRING.PAYMENT_REMINDER.STAY_ON_TRACK_MORTGAGE,
+              )}
+              mainMessage={`£${monthlyTargetWithCommas}`} //To be fetched from payment pending
+            />
+          )}
+          <PaymentReminderModal
+            isVisible={this.state.isModalAlertVisible}
+            handleDismiss={() => this.setState({isModalAlertVisible: false})}
+            monthlyTarget={monthlyTargetWithCommas}
+          />
           {_get(
             this.props.policyUpdateResponse,
             DB_KEYS.IS_POLICY_UPDATE_RECEIVED,

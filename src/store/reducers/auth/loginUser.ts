@@ -1,6 +1,11 @@
 import {loginUser as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar, APP_CONSTANTS} from '../../../utils';
+import {
+  showSnackBar,
+  localeString,
+  APP_CONSTANTS,
+  LOCALE_STRING,
+} from '../../../utils';
 
 class loginUserData extends StoreFetchableData {
   constructor() {
@@ -12,6 +17,10 @@ class loginUserData extends StoreFetchableData {
       this.fetchData(data)
         .then((res: any) => {
           dispatch(this.actions.response(res));
+          showSnackBar(
+            {},
+            localeString(LOCALE_STRING.LOGIN_SCREEN.THANKS_FOR_LOGIN),
+          );
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));

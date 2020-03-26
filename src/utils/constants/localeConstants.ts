@@ -16,6 +16,7 @@ export const LOCALE_STRING = {
     SIGNUP: 'signUp.signUpText',
     LOGIN_SIGNIN: 'login.signIn',
     MORTGAGE_NOT_FOUND: 'login.mortgageNotFound',
+    THANKS_FOR_LOGIN: 'login.thanksForLogin',
   },
   SIGNUP_FORM: {
     SIGNUP_BUTTON: 'signUp.singUpButton',
@@ -75,6 +76,7 @@ export const LOCALE_STRING = {
     APLHABETS_WITH_SPACES: 'validationMessages.alphaBetsWithSpaces',
     INVALID_DOB: 'validationMessages.invalidDob',
     MINIMUM_REQ_AGE: 'validationMessages.minimumRequiredAge',
+    WEAK_PASSWORD: 'validationMessages.weakPassword',
   },
   SET_GOAL_SCREEN: {
     TITLE: 'setGoalScreen.title',
@@ -91,6 +93,7 @@ export const LOCALE_STRING = {
     SET_GOAL: 'setGoalScreen.setGoal',
     ERC_TITLE: 'setGoalScreen.ercTitle',
     ERC_MESSAGE: 'setGoalScreen.ercMessage',
+    SET_GOAL_UPDATE_POPUP: 'setGoalScreen.setGoalUpdatePopup',
   },
   GRAPH_COMPONENT: {
     PROJECTED_TIME: 'stackBarGraphComponent.projectedTime',
@@ -274,6 +277,11 @@ export const LOCALE_STRING = {
     HOME_OWNERSHIP: 'homeOwnership.homeOwnerShip',
     JOURNEY: 'homeOwnership.journey',
     VIEW: 'homeOwnership.view',
+    OF_MY_HOUSE: 'homeOwnerShip.ofMyHouse',
+    LOAN_TO_VALUE: 'homeOwnerShip.loanToValue',
+    UNLOCK_PERCENTAGE: 'homeOwnerShip.unlockPercentage',
+    AMOUNT_OWNED: 'homeOwnerShip.amountOwned',
+    ESTIMATED_VALUE: 'homeOwnerShip.estimatedValue',
   },
   POLICY_UPDATE: {
     HI_THERE: 'policyUpdate.hiThere',
@@ -282,5 +290,19 @@ export const LOCALE_STRING = {
     TAKE_A_LOOK: 'policyUpdate.takeALook',
     ALL_USERS: 'policyUpdate.alllUsers',
     OKAY: 'policyUpdate.okay',
+  },
+  PAYMENT_REMINDER: {
+    PAY_NOW: 'paymentReminder.payNow',
+    REMIND_ME_LATER: 'paymentReminder.remindMeLater',
+    STAY_ON_TRACK_MORTGAGE: 'paymentReminder.stayOnTrackMortgage',
+    STAY_ON_TRACK: 'paymentReminder.stayOnTrack',
+    TOWARDS_MORTGAGE: 'paymentReminder.towardsYourMortgage',
+    REMIND_ME_TOMORROW: 'paymentReminder.remindMeTomorrow',
+    REMIND_ME_NEXT_WEEK: 'paymentReminder.remindMeNextWeek',
+    DISMISS: 'paymentReminder.dismiss',
+  },
+  NOTIFICATION_PERMISSIONS: {
+    TURN_ON_NOTIFICATION: 'notificationPermission.pleaseTurnOnNotification',
+    ACCESS_TO_SPRIVE: 'notificationPermission.accessToSprive',
   },
 };

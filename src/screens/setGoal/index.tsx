@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, ScrollView, StatusBar} from 'react-native';
+import {View, Text, ScrollView, StatusBar, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import Slider from 'react-native-slider';
+import {checkNotifications} from 'react-native-permissions';
 import {styles} from './styles';
 import {Header, LoadingModal, GeneralStatusBar} from '../../components';
 import {
@@ -14,6 +15,7 @@ import {
   APP_CONSTANTS,
   COLOR,
   PAYLOAD_KEYS,
+  LOCAL_KEYS,
 } from '../../utils';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
@@ -279,7 +281,31 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
   onSlide = (newTerm: number) => {
     this.goalUpdate(newTerm);
   };
-
+  showModificationPopup = () => {
+    /*
+    NOTES : Further checks may be added based on setGoal for the first_time or updating previous value
+    */
+    const {getUserGoalResponse} = this.props;
+    if (
+      !(
+        getUserGoalResponse.response.data[0] &&
+        getUserGoalResponse.response.data[0].new_mortgage_term
+      )
+    ) {
+      this.handleSetGoal()
+    }else{
+      Alert.alert(
+        '',
+        localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL_UPDATE_POPUP),
+        [
+          {
+            text: localeString(LOCALE_STRING.EMAIL_VERIFICATION.OKAY),
+            onPress: () => this.handleSetGoal(),
+          },
+        ],
+      );
+    }
+  };
   /**
    * Function to be called on setGoal button press
    */
@@ -348,6 +374,19 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
           isUserDataChanged: true,
         });
     }
+  };
+
+  showNotificationAlert = () => {
+    Alert.alert(
+      localeString(LOCALE_STRING.NOTIFICATION_PERMISSIONS.TURN_ON_NOTIFICATION),
+      localeString(LOCALE_STRING.NOTIFICATION_PERMISSIONS.ACCESS_TO_SPRIVE),
+      [
+        {
+          text: localeString(LOCALE_STRING.EMAIL_VERIFICATION.OKAY),
+          onPress: () => this.showModificationPopup(),
+        },
+      ],
+    );
   };
 
   render() {
@@ -426,7 +465,13 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
               title={localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL)}
               titleStyle={styles.buttonTitleStyle}
               buttonStyle={styles.buttonStyle}
-              onPress={() => this.handleSetGoal()}
+              onPress={() => {
+                checkNotifications().then(({status, settings}) => {
+                  status === LOCAL_KEYS.PUSH_NOTIFICATION_ACCESS_GRANTED
+                    ? this.showModificationPopup()
+                    : this.showNotificationAlert();
+                });
+              }}
               disabled={
                 this.state.mortgageTerm ===
                 _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null)

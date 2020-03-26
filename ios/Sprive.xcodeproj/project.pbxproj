@@ -943,6 +943,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.geekyants.services.Sprive;
 				PRODUCT_NAME = Sprive;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1022,6 +1023,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.geekyants.services.Sprive;
 				PRODUCT_NAME = Sprive;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

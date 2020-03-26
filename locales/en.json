@@ -2,7 +2,7 @@
   "splashScreen": {
     "title": "Mortgage Free,",
     "subTitle": "Faster",
-    "info": "Sprive Limited is an appointed representative of ABCDE Limited which is authorised and regulated by the Financial Conduct Authority"
+    "info": "Sprive is an appointed representative of Albany Park Limited which is authorised and regulated by the Financial Conduct Authority"
   },
   "login": {
     "loginButton": "Login",
@@ -10,7 +10,8 @@
     "signInToAccount": "Sign in to your account",
     "forgotPassword": "Forgot Password?",
     "dontHaveAccount": "Don’t have an account?",
-    "mortgageNotFound": "Mortgage data not found, please set it to proceed!"
+    "mortgageNotFound": "Mortgage data not found, please set it to proceed!",
+    "thanksForLogin": "Thank you for trying out this app before it’s released!",
   },
   "global": {
     "backButton": "Back",
@@ -29,11 +30,11 @@
     "singUpButton": "Create Account",
     "regAndSec": "Registration & Security",
     "firstTitle": "Mortgage free, faster",
-    "firstSubTitle": "Imagine life without a mortgage. Millions of people will be paying their mortgage through retirement, don’t let that be you.",
+    "firstSubTitle": "Fancy retiring early, travelling the world, spending more time with loved ones?  Make it happen with Sprive!",
     "secondTitle": "Smarter monthly payments",
-    "secondSubTitle": "We suggest the optimal amount to pay. You save more by chipping away regularly rather than paying in big chunks.",
+    "secondSubTitle": "We suggest the optimal amount to pay, taking years off your mortgage and saving you thousands of pounds",
     "thirdTitle": "Always on the best deal",
-    "thirdSubTitle": "1.9 million of homeowners could save up to £3,942 annually by remortgaging to a better deal. We help you get it right.",
+    "thirdSubTitle": "Daily monitoring. Our free expert advisors could save you up to £300 per month by remortgaging to a better deal (coming soon)",
     "signUpForFree": "Sign up for free",
     "alreadyRegistered": "Already have an account? ",
     "setupAccc": "Set up your secure account",
@@ -81,7 +82,8 @@
     "whiteSpaces": "Whitespaces not allowed",
     "passwordNotMatched": "password did not match",
     "invalidDob": "Invalid Date of Birth",
-    "minimumRequiredAge": "Minimum age required is 18"
+    "minimumRequiredAge": "Minimum age required is 18",
+    "weakPassword": "Password too weak"
   },
   "setGoalScreen": {
     "title": "Set Goal",
@@ -97,7 +99,8 @@
     "savings": "Savings",
     "setGoal": "Set Goal",
     "ercTitle": "In potential breach of ERC limit",
-    "ercMessage": "While most lenders allow you to overpay up to 10% of your mortgage balance in a year without incurring Early Repayment Charges (ERC), please check with your lender if you are unsure"
+    "ercMessage": "While most lenders allow you to overpay up to 10% of your mortgage balance in a year without incurring Early Repayment Charges (ERC), please check with your lender if you are unsure",
+    "setGoalUpdatePopup": "Sprive assumes that you are on a repayment-only mortgage and that overpayments have the effect of reducing your mortgage term and not your future payments."
   },
   "stackBarGraphComponent": {
     "projectedTime": "Projected Time",
@@ -287,5 +290,26 @@
     "takeALook": "- Take a look \n and see what’s changed.",
     "alllUsers": "All users will be subject to our updated \n terms.",
     "okay": "Okay"
+  },
+  "homeOwnerShip": {
+    "ofMyHouse": "Of my house owned",
+    "loanToValue": "Loan to Value",
+    "unlockPercentage": "Unlock cheaper deals at {{percent}}% LTV",
+    "amountOwned": "Amount Owned",
+    "estimatedValue": "Estimated Value"
+  },
+  "paymentReminder": {
+    "payNow": "Pay Now",
+    "remindMeLater": "Remind me later",
+    "stayOnTrackMortgage": "Stay on track! Reminder to pay towards your mortgage today",
+    "stayOnTrack": "Stay on track! Reminder to pay",
+    "towardsYourMortgage": "towards your mortgage today",
+    "remindMeTomorrow": "Remind me tomorrow",
+    "remindMeNextWeek": "Remind me next week",
+    "dismiss": "Dismiss"
+  },
+  "notificationPermission" : {
+    "pleaseTurnOnNotification": "Please turn on notifications",
+    "accessToSprive": "Sprive would like to send you payment reminders. Please enable them from your mobile settings."
   }
 }
