@@ -197,3 +197,11 @@ export const passMatching = (value: any) => {
     ? localeString(LOCALE_STRING.VALIDATIONS.PASSWORD_NOT_MATCHED)
     : undefined;
 };
+
+export const minPasswordStrength = (value: any) => {
+  let zxcvbn = require('zxcvbn');
+  let passStrength = zxcvbn(value);
+  return passStrength.score < 2
+    ? localeString(LOCALE_STRING.VALIDATIONS.WEAK_PASSWORD)
+    : undefined;
+};

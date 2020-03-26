@@ -14,6 +14,7 @@ import {Field, reduxForm} from 'redux-form';
 import * as Progress from 'react-native-progress';
 import {logoutUser} from '../../store/actions/actions';
 import {
+  minPasswordStrength,
   minLength8,
   maxLength16,
   alphaNumeric,
@@ -223,6 +224,7 @@ export class UnconnectedUpdatePassword extends React.Component<props, state> {
                   maxLength16,
                   alphaNumeric,
                   required,
+                  minPasswordStrength,
                   noWhiteSpaces,
                 ]}
               />
