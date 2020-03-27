@@ -149,14 +149,19 @@ export const negativeValidation = (value: any) => {
  * Validation of DOB entered by User
  */
 export const dobValidation = (value: string) => {
-  let birthYear = Moment(value, 'DD/MM/YYYY').year();
-  let currentYear = new Date().getFullYear();
-  const age = currentYear - birthYear;
-  return value && !REGEX.DATE_OF_BIRTH.test(value)
-    ? localeString(LOCALE_STRING.VALIDATIONS.INVALID_DOB)
-    : age >= MINIMUM_AGE_CRITERION
-    ? undefined
-    : localeString(LOCALE_STRING.VALIDATIONS.MINIMUM_REQ_AGE);
+  if (value.length === 10) {
+    const birthDay = Moment(value, 'DD/MM/YYYY').toISOString();
+    const currentDay = Moment().toISOString();
+
+    const years = Moment(currentDay).diff(birthDay, 'year');
+    Moment(birthDay).add(years, 'years');
+
+    return value && !REGEX.DATE_OF_BIRTH.test(value)
+      ? localeString(LOCALE_STRING.VALIDATIONS.INVALID_DOB)
+      : years >= MINIMUM_AGE_CRITERION
+      ? undefined
+      : localeString(LOCALE_STRING.VALIDATIONS.MINIMUM_REQ_AGE);
+  }
 };
 /**
  *
