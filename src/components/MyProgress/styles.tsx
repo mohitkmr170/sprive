@@ -165,7 +165,7 @@ export const styles = StyleSheet.create({
   targetTooltipAdd: {
     backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
     marginTop: STYLE_CONSTANTS.margin.LARGER,
-    paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
+    paddingHorizontal: STYLE_CONSTANTS.padding.SMALL,
     paddingVertical: STYLE_CONSTANTS.padding.SMALLEST,
     borderRadius: 8,
   },
