@@ -23,7 +23,8 @@
     "currencyPound": "£",
     "invalidAmount": "Invalid Amount",
     "notification": "Notifications blocked, please enable it from settings",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "noDataFoundNotification": "Data not found in notification"
   },
   "signUp": {
     "signUpText": "Sign up",

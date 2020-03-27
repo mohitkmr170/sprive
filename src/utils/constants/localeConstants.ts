@@ -7,6 +7,7 @@ export const LOCALE_STRING = {
   GLOBAL: {
     NOTIFICATION: 'global.notification',
     NOTIFICATIONS: 'global.notifications',
+    NO_DATA_NOTIFICATION: 'global.noDataFoundNotification',
   },
   LOGIN_SCREEN: {
     LOGIN_BUTTON: 'login.loginButton',

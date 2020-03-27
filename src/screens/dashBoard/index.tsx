@@ -252,9 +252,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         isModalAlertVisible: false,
       },
       async () => {
+        const DAY_COUNT = 1;
         const payload = {
           [PAYLOAD_KEYS.OVERPAYMENT.SCHEDULE_NOTIFICATION_TIME]: Moment()
-            .add(1, 'days')
+            .add(DAY_COUNT, 'days')
             .toISOString(),
         };
         const qParams = {
@@ -287,9 +288,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         isModalAlertVisible: false,
       },
       async () => {
+        const WEEK_COUNT = 1;
         const payload = {
           [PAYLOAD_KEYS.OVERPAYMENT.SCHEDULE_NOTIFICATION_TIME]: Moment()
-            .add(1, 'weeks')
+            .add(WEEK_COUNT, 'weeks')
             .toISOString(),
         };
         const qParams = {
