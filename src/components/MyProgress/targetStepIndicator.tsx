@@ -157,9 +157,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               style={[
                 styles.projectedContainer,
                 {
-                  left:
-                    this.state.projectedYearPosition +
-                    STYLE_CONSTANTS.padding.BELOW_NORMAL,
+                  left: this.state.projectedYearPosition,
                 },
               ]}>
               <View style={styles.projectedInnerContainer}>

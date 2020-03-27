@@ -572,7 +572,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             getPendingTaskResponse,
             DB_KEYS.PENDING_TASK.IS_PENDING_TASK,
             false,
-          ) && this.state.isPendingTaskVisible ? (
+          ) ? (
+            /*
+            NOTES : This condition is to show/hide pendingTask popup
+            */
+            // && this.state.isPendingTaskVisible
             <Animatable.View animation="slideInUp">
               <PendingTaskDrawer navigation={navigation} />
             </Animatable.View>
