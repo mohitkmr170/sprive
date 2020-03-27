@@ -282,29 +282,16 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     this.goalUpdate(newTerm);
   };
   showModificationPopup = () => {
-    /*
-    NOTES : Further checks may be added based on setGoal for the first_time or updating previous value
-    */
-    const {getUserGoalResponse} = this.props;
-    if (
-      !(
-        getUserGoalResponse.response.data[0] &&
-        getUserGoalResponse.response.data[0].new_mortgage_term
-      )
-    ) {
-      this.handleSetGoal()
-    }else{
-      Alert.alert(
-        '',
-        localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL_UPDATE_POPUP),
-        [
-          {
-            text: localeString(LOCALE_STRING.EMAIL_VERIFICATION.OKAY),
-            onPress: () => this.handleSetGoal(),
-          },
-        ],
-      );
-    }
+    Alert.alert(
+      '',
+      localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL_UPDATE_POPUP),
+      [
+        {
+          text: localeString(LOCALE_STRING.EMAIL_VERIFICATION.OKAY),
+          onPress: () => this.handleSetGoal(),
+        },
+      ],
+    );
   };
   /**
    * Function to be called on setGoal button press
