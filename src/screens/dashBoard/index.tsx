@@ -39,6 +39,7 @@ import {
   COLOR,
   PAYLOAD_KEYS,
   STYLE_CONSTANTS,
+  showSnackBar,
 } from '../../utils';
 import {
   getMonthlyPaymentRecord,
@@ -48,7 +49,7 @@ import {
   getUserGoal,
   getPendingTask,
 } from '../../store/reducers';
-import {policyUpdate} from '../../store/actions/actions';
+import {policyUpdate, paymentReminder} from '../../store/actions/actions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
 import {PaymentReminderModal} from './paymentReminderModal';
 
@@ -80,6 +81,8 @@ interface props {
   getPendingTaskResponse: object;
   policyUpdate: () => void;
   policyUpdateResponse: object;
+  paymentReminder: () => void;
+  paymentReminderResponse: object;
 }
 
 interface state {
@@ -116,7 +119,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   };
 
   componentDidMount = async () => {
-    console.log('asdhajvsdbhasd', this.props.policyUpdateResponse);
     // this.handleInitialMount();
     this.didFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
@@ -227,14 +229,47 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
 
   handlePaymentFirstButton = () => {
     this.setState({isPaymentReminderReceived: false});
+    this.props.paymentReminder();
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
   };
 
   handlePaymentSecondButton = () => {
+    this.props.paymentReminder();
     this.setState({
       isPaymentReminderReceived: false,
       isModalAlertVisible: true,
     });
+  };
+
+  remindeMeTomorrow = () => {
+    this.setState(
+      {
+        isModalAlertVisible: false,
+      },
+      () => {
+        showSnackBar(
+          {},
+          localeString(
+            LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_TOMORROW,
+          ),
+        );
+      },
+    );
+  };
+  remindeMeNextWeek = () => {
+    this.setState(
+      {
+        isModalAlertVisible: false,
+      },
+      () => {
+        showSnackBar(
+          {},
+          localeString(
+            LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_NEXT_WEEK,
+          ),
+        );
+      },
+    );
   };
 
   render() {
@@ -333,7 +368,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                 )}
               </View>
               <Text style={styles.overPaymentTargetText}>
-                {localeString(LOCALE_STRING.DASHBOARD_SCREEN.OVER_PAYMENT)}
+                {APP_CONSTANTS.MONTH_NAMES[CURRENT_MONTH] +
+                  ' ' +
+                  new Date().getFullYear()}
               </Text>
               {balanceAmount === 0 ? (
                 <Text style={styles.dueReminderText}>
@@ -342,7 +379,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               ) : (
                 <Text style={styles.dueReminderText}>
                   {balanceAmount > 0 && balanceAmount < monthlyTarget
-                    ? `£${balanceAmountWithCommas} more to go!`
+                    ? `Stay on track. £${balanceAmountWithCommas} to go!`
                     : localeString(
                         LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
                         {month: APP_CONSTANTS.MONTH_NAMES[CURRENT_MONTH]},
@@ -364,9 +401,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             />
             <ImageBackground
               source={homeOwnershipCard}
-              style={styles.bottomImageCard}>
+              resizeMode="stretch"
+              style={styles.bottomCardOuterStyle}
+              imageStyle={styles.bottomCardInnerStyle}>
               <TouchableOpacity
-                activeOpacity={0.8}
                 onPress={() => this.hanldeHomeOwnerShip()}
                 hitSlop={APP_CONSTANTS.HIT_SLOP}
                 style={styles.homeOwnerShipCardContainer}>
@@ -428,7 +466,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               )}
             />
           )}
-          {this.state.isPaymentReminderReceived && (
+          {_get(
+            this.props.paymentReminderResponse,
+            DB_KEYS.IS_PAYMENT_REMINDER_RECEIVED,
+            false,
+          ) && (
             <StatusOverlay
               icon={questionMark}
               firstButtonText={localeString(
@@ -450,6 +492,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             isVisible={this.state.isModalAlertVisible}
             handleDismiss={() => this.setState({isModalAlertVisible: false})}
             monthlyTarget={monthlyTargetWithCommas}
+            remindeMeTomorrow={() => this.remindeMeTomorrow()}
+            remindeMeNextWeek={() => this.remindeMeNextWeek()}
           />
           {_get(
             this.props.policyUpdateResponse,
@@ -484,6 +528,7 @@ const mapStateToProps = state => ({
   pushNotificationResponse: state.pushNotification,
   getPendingTaskResponse: state.getPendingTask,
   policyUpdateResponse: state.policyUpdate,
+  paymentReminderResponse: state.paymentReminder,
 });
 
 const bindActions = dispatch => ({
@@ -500,6 +545,7 @@ const bindActions = dispatch => ({
   getPendingTask: (payload, extraPayload) =>
     dispatch(getPendingTask.fetchCall(payload, extraPayload)),
   policyUpdate: () => dispatch(policyUpdate()),
+  paymentReminder: () => dispatch(paymentReminder()),
 });
 
 export const DashBoard = connect(

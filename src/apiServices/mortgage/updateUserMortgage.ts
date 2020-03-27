@@ -1,7 +1,7 @@
 import apiConstants from '../../../config/apiConstants';
-import {putRequest} from '../requestServices';
+import {postRequest} from '../requestServices';
 
-const endPoint = apiConstants.API_END_POINTS.USER_MORTGAGE;
+const endPoint = apiConstants.API_END_POINTS.UPDATE_MORTGAGE;
 
 /**
  * Set Mortgage data to corresponding user
@@ -9,5 +9,5 @@ const endPoint = apiConstants.API_END_POINTS.USER_MORTGAGE;
  */
 
 export function updateUserMortgage(body: object, qParam: object) {
-  return putRequest(endPoint, body, qParam);
+  return postRequest(endPoint, body, qParam);
 }

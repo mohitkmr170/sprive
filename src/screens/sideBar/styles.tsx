@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     paddingLeft:
       STYLE_CONSTANTS.padding.HUGE + STYLE_CONSTANTS.padding.SMALLEST,
     borderBottomColor: COLOR.BLACK_OPACITY_TEN,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
   },
   userNameText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGER,
@@ -44,8 +44,8 @@ export const styles = StyleSheet.create({
     paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
     paddingLeft: STYLE_CONSTANTS.padding.HUGE,
     paddingRight: STYLE_CONSTANTS.padding.HUGE,
-    borderBottomColor: COLOR.BLACK_OPACITY_TEN,
-    borderBottomWidth: 1,
+    borderTopColor: COLOR.BLACK_OPACITY_TEN,
+    borderTopWidth: 1,
     justifyContent: 'space-between',
   },
   iconTextContainer: {flexDirection: 'row'},

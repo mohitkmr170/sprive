@@ -388,11 +388,14 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
               {this.state.month.map((item, index) => {
                 return (
                   <View
-                    style={{
-                      borderBottomColor: COLOR.VOILET,
-                      borderBottomWidth:
-                        this.state.activeGraphIndex === index ? 1 : 0,
-                    }}>
+                    style={[
+                      styles.monthOuterView,
+                      {
+                        borderBottomColor: COLOR.VOILET,
+                        borderBottomWidth:
+                          this.state.activeGraphIndex === index ? 1 : 0,
+                      },
+                    ]}>
                     <Text
                       style={[
                         styles.monthText,
@@ -403,7 +406,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
                               : COLOR.STEEL_GRAY,
                           fontWeight:
                             this.state.activeGraphIndex === index
-                              ? STYLE_CONSTANTS.font.WEIGHT.BOLD
+                              ? STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD
                               : STYLE_CONSTANTS.font.WEIGHT.NORMAL,
                         },
                       ]}

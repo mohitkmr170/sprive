@@ -149,7 +149,6 @@ class App extends React.Component<props, state> {
       'onReceived : Notification received : notification => ',
       notification,
     );
-    store.dispatch(policyUpdate());
   }
 
   /**

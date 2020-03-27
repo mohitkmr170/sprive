@@ -58,17 +58,29 @@ export class UnconnectedTargetStepIndicator extends React.Component<
       DB_KEYS.MORTGAGE_TERM,
       null,
     );
+    console.log(
+      'componentDidMount : mortgageCreatedYear, mortgageTerm => ',
+      mortgageCreatedYear,
+      mortgageTerm,
+    );
+    // This represents the Initial point of time-line representation
     let startYear = new Date().getFullYear();
+    /*
+    NOTES : It's the current time left to be mortgage free, if user pays more than expected, projected < target else projected > target, fetched from getProjectedData
+    */
     let targetYear =
+      mortgageCreatedYear +
+      _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null);
+    /*
+    NOTES : It's the latest year set by the user after setting goal(which is between today and mortgage_term), is fetched from getUserGoal API
+    */
+    let projectedYear =
       mortgageCreatedYear +
       _get(
         getProjectedDataResponse,
         DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
         null,
       );
-    let projectedYear =
-      mortgageCreatedYear +
-      _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null);
     let endYear = mortgageCreatedYear + mortgageTerm;
     const steps = endYear - startYear;
     const stepFactor =
@@ -87,9 +99,12 @@ export class UnconnectedTargetStepIndicator extends React.Component<
   render() {
     const {targetYear, projectedYear, endYear} = this.state;
     const {getUserGoalResponse, getProjectedDataResponse} = this.props;
+    /*
+    NOTES : BE-Month renges from [1-12], hence (-1) from all BE month response
+    */
     let projectedMonth =
       APP_CONSTANTS.MONTH_NAMES[
-        Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month()
+        Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month() - 1
       ];
     let targetMonth =
       APP_CONSTANTS.MONTH_NAMES[
@@ -97,7 +112,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
           getProjectedDataResponse,
           DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
           null,
-        )
+        ) - 1
       ];
     return (
       <View style={styles.mainContainerStepIndicator}>
@@ -108,7 +123,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
           </Text>
         </View>
         <View style={styles.trackStyle}>
-          {targetYear !== projectedYear && endYear !== projectedYear && (
+          {targetYear !== projectedYear && endYear !== targetYear && (
             <View
               style={[
                 styles.targetContainer,
@@ -129,7 +144,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               </View>
             </View>
           )}
-          {targetYear !== projectedYear && endYear !== projectedYear && (
+          {endYear !== projectedYear && (
             <View
               style={[
                 styles.projectedContainer,
@@ -207,7 +222,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
             </Text>
           )}
         </View>
-        {endYear !== projectedYear ? (
+        {endYear !== targetYear ? (
           <View style={styles.circularView} />
         ) : (
           <Icon

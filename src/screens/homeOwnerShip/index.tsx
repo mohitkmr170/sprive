@@ -1,5 +1,12 @@
 import React from 'react';
-import {ScrollView, View, Text, Image, TouchableOpacity} from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import * as Progress from 'react-native-progress';
 import {connect} from 'react-redux';
@@ -12,6 +19,7 @@ import Moment from 'moment';
 import {chatIcon, homeOwnership, iPadLocks} from '../../assets';
 import {GeneralStatusBar, Header} from '../../components';
 import {
+  getNumberWithCommas,
   localeString,
   showSnackBar,
   APP_CONSTANTS,
@@ -51,6 +59,10 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
     this.state = {};
   }
   componentDidMount = async () => {
+    StatusBar.setBackgroundColor(COLOR.WHITE, true);
+    /*
+    NOTES : To be Integrated with actual API(Mocked for now)
+    */
     const {getOutstandingMortgageBalance, getUserInfoResponse} = this.props;
     const qParam = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
@@ -79,10 +91,16 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
     ) {
       switch (_get(taskAndStageId, DB_KEYS.PENDING_TASK.STAGE_ID, null)) {
         case STAGE_IDS.STAGE_ONE:
-          this.handleStageNavigation(NAVIGATION_SCREEN_NAME.USER_PROFILE, {});
+          this.handleStageNavigation(
+            NAVIGATION_SCREEN_NAME.USER_PROFILE,
+            taskAndStageId,
+          );
           break;
         case STAGE_IDS.STAGE_TWO:
-          this.handleStageNavigation(NAVIGATION_SCREEN_NAME.USER_ADDRESS, {});
+          this.handleStageNavigation(
+            NAVIGATION_SCREEN_NAME.USER_ADDRESS,
+            taskAndStageId,
+          );
           break;
         default:
           showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
@@ -115,25 +133,27 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       getOutstandingMortgageBalanceResponse,
       getProjectedDataResponse,
     } = this.props;
-    const currentLtv = _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0);
+    const currentLtv = Math.round(
+      _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
+    );
     /*
     NOTES : data[0] to be changed later
     */
     const houseOwned = 100 - (currentLtv ? currentLtv : 0);
-    const homeValuation = _get(
-      getUserMortgageDataResponse,
-      DB_KEYS.HOME_VALUATION,
-      0,
+    const homeValuation = Math.round(
+      _get(getUserMortgageDataResponse, DB_KEYS.HOME_VALUATION, 0),
     );
     /*
-    NOTES : getOutstandingMortgageBalance API needs to be verified once deployed in Geeky-Dev
+    NOTES : getOutstandingMortgageBalanceResponse API needs to be verified once deployed in Geeky-Dev
     */
     const amountOwned = homeValuation
       ? homeValuation -
-        _get(
-          getOutstandingMortgageBalance,
-          DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
-          0,
+        Math.round(
+          _get(
+            getOutstandingMortgageBalanceResponse,
+            DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
+            0,
+          ),
         )
       : 0;
     let mortgageCreatedYear = Moment(
@@ -211,7 +231,13 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                   strokeWidth="2"
                 />
               </Svg>
-              <Text style={styles.percentageText}>{houseOwned}%</Text>
+              <Text
+                style={[
+                  styles.percentageText,
+                  {paddingLeft: STYLE_CONSTANTS.padding.SMALL},
+                ]}>
+                {houseOwned}%
+              </Text>
               <Svg height="80" width="80">
                 <Line
                   /*
@@ -253,7 +279,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
               </View>
               <Text style={styles.unlockCheaperDealsText}>
                 {localeString(LOCALE_STRING.HOME_OWNERSHIP.UNLOCK_PERCENTAGE, {
-                  percent: 75,
+                  percent: currentLtv - (currentLtv % 5), //To check previous factor of 5
                 })}
               </Text>
             </View>
@@ -262,13 +288,17 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                 <Text style={styles.amountOwnedText}>
                   {localeString(LOCALE_STRING.HOME_OWNERSHIP.AMOUNT_OWNED)}
                 </Text>
-                <Text style={styles.amountText}>£{amountOwned}</Text>
+                <Text style={styles.amountText}>
+                  £{getNumberWithCommas(amountOwned)}
+                </Text>
               </View>
               <View style={styles.estimatedValueContainer}>
                 <Text style={styles.amountOwnedText}>
                   {localeString(LOCALE_STRING.HOME_OWNERSHIP.ESTIMATED_VALUE)}
                 </Text>
-                <Text style={styles.amountText}>£{homeValuation}</Text>
+                <Text style={styles.amountText}>
+                  £{getNumberWithCommas(homeValuation)}
+                </Text>
               </View>
             </View>
           </ScrollView>

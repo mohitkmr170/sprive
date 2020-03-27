@@ -26,7 +26,6 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import {TargetStepIndicator} from './targetStepIndicator';
 
-const CURRENT_LTV = 73;
 const PERCENTAGE_RANGE_VALUES = {
   START_VAL: 'startVal',
   END_VAL: 'endVal',
@@ -39,6 +38,7 @@ interface props {
   };
   getUserInfoResponse: object;
   getPendingTaskResponse: object;
+  getUserMortgageDataResponse: object;
 }
 
 interface state {
@@ -87,10 +87,16 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
     ) {
       switch (_get(taskAndStageId, DB_KEYS.PENDING_TASK.STAGE_ID, null)) {
         case STAGE_IDS.STAGE_ONE:
-          this.handleStageNavigation(NAVIGATION_SCREEN_NAME.USER_PROFILE, {});
+          this.handleStageNavigation(
+            NAVIGATION_SCREEN_NAME.USER_PROFILE,
+            taskAndStageId,
+          );
           break;
         case STAGE_IDS.STAGE_TWO:
-          this.handleStageNavigation(NAVIGATION_SCREEN_NAME.USER_ADDRESS, {});
+          this.handleStageNavigation(
+            NAVIGATION_SCREEN_NAME.USER_ADDRESS,
+            taskAndStageId,
+          );
           break;
         default:
           showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
@@ -123,8 +129,11 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
     } else return;
   };
   render() {
-    const {getUserInfoResponse} = this.props;
+    const {getUserInfoResponse, getUserMortgageDataResponse} = this.props;
     const {isCheaperDealSelected, isMortgageSelected} = this.state;
+    const CURRENT_LTV = Math.round(
+      _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
+    );
     return (
       <Animatable.View
         animation="fadeIn"
@@ -291,6 +300,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getPendingTaskResponse: state.getPendingTask,
+  getUserMortgageDataResponse: state.getUserMortgageData,
 });
 
 const bindActions = dispatch => ({});

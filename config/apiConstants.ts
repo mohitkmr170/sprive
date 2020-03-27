@@ -11,6 +11,7 @@ export default {
     LOGIN: '/authentication',
     SIGNUP: '/register',
     USER_MORTGAGE: '/mortgage',
+    UPDATE_MORTGAGE: '/update-mortgage',
     GOAL: '/goal',
     GET_GRAPH_DATA: '/monthly-payment-record',
     OVERPAYMENT: '/overpayment',
@@ -27,6 +28,6 @@ export default {
     TASK_HANDLER: '/task-handler',
     GET_USER_ADDRESS: '/addresses',
     UPDATE_USER_PROFILE: '/users',
-    OUTSTANDING_MORTGAGE_BALABCE: '/outstanding_mortgage_balance',
+    OUTSTANDING_MORTGAGE_BALABCE: '/outstanding-mortgage-balance-calculator',
   },
 };

@@ -1,6 +1,7 @@
 import {taskHandler as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar} from '../../../utils';
+import {get as _get} from 'lodash';
+import {showSnackBar, DB_KEYS} from '../../../utils';
 
 class taskHandlerData extends StoreFetchableData {
   constructor() {
@@ -15,7 +16,7 @@ class taskHandlerData extends StoreFetchableData {
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));
-          showSnackBar(err);
+          showSnackBar({}, _get(err, DB_KEYS.ERROR_MESSAGE, ''));
         });
   }
 }

@@ -26,8 +26,7 @@ export const styles = StyleSheet.create({
   },
   PaginationContainerStyle: {
     justifyContent: 'center',
-    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
-    marginBottom: -STYLE_CONSTANTS.margin.LARGER,
+    bottom: 0,
   },
   swiperCardContainer: {
     backgroundColor: COLOR.WHITE,

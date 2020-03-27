@@ -326,7 +326,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
               }
               autoCapitalize="characters"
               autoCorrect={false}
-              maxLength={7}
+              maxLength={8}
               containerStyle={styles.inputContainerWrapper}
               inputContainerStyle={styles.inputContainer}
               leftIconContainerStyle={styles.leftIconContainer}
@@ -438,6 +438,7 @@ const mapStateToProps = (state: object) => ({
   reducerResponse: state.form,
   getAddressResponse: state.getAddress,
   getUserInfoResponse: state.getUserInfo,
+  taskHandlerResponse: state.taskHandler,
   updateUserAddressResponse: state.updateUserAddress,
 });
 

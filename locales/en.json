@@ -22,7 +22,7 @@
     "calculateNow": "Calculate Now",
     "currencyPound": "£",
     "invalidAmount": "Invalid Amount",
-    "notification": "Notification sent successfully",
+    "notification": "Notifications blocked, please enable it from settings",
     "notifications": "Notifications"
   },
   "signUp": {
@@ -83,7 +83,8 @@
     "passwordNotMatched": "password did not match",
     "invalidDob": "Invalid Date of Birth",
     "minimumRequiredAge": "Minimum age required is 18",
-    "weakPassword": "Password too weak"
+    "weakPassword": "Password too weak",
+    "maxAgeLimit": "Age cannot be greater than 120"
   },
   "setGoalScreen": {
     "title": "Set Goal",
@@ -112,14 +113,14 @@
     "projectInterested": "Projected Interest"
   },
   "dashBoard": {
-    "thisMonth": "This Month",
+    "thisMonth": "My Target",
     "overPaymentTarget": "Your overpayment target",
     "paymentReminder": "Next payment reminder due on {{month}} 25th",
     "amountLeft": "Amount Left:",
     "income": "Income",
     "spent": "Spent",
     "avaialbleBalance": "Available Balance",
-    "makeOverPayment": "Make an Overpayment",
+    "makeOverPayment": "Record a Payment",
     "myProgress": "My Progress",
     "projectedMortgage": "Projected: Mortgage free in",
     "keepItUp": "You’re on track. Keep it up"
@@ -176,7 +177,8 @@
     "support": "Support",
     "inviteFriends": "Invite Friends",
     "updatePassword": "Update Password",
-    "logOut": "Log out"
+    "logOut": "Log out",
+    "paymentReminder": "Payment Reminder"
   },
   "emailVerification": {
     "okay": "Okay",
@@ -275,8 +277,8 @@
     "target": "Target",
     "projected": "Projected",
     "completeYourprofile": "Complete your profile",
-    "currentLtv": "Current LTV",
-    "unlockBetterDeals": "Unlock better deals the next time you re-mortgage"
+    "currentLtv": "Loan-to-Value (LTV)",
+    "unlockBetterDeals": "Unlock better deals the next time you remortgage"
   },
   "homeOwnership": {
     "homeOwnerShip": "Home Ownership",
@@ -310,6 +312,8 @@
   },
   "notificationPermission" : {
     "pleaseTurnOnNotification": "Please turn on notifications",
-    "accessToSprive": "Sprive would like to send you payment reminders. Please enable them from your mobile settings."
+    "accessToSprive": "Sprive would like to send you payment reminders. Please enable them from your mobile settings.",
+    "rescheduledTomorrow": "Reminder reschedule for tomorrow",
+    "rescheduledNextWeek": "Reminder reschedule for next week"
   }
 }

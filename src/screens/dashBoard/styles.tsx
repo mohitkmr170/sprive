@@ -161,14 +161,16 @@ export const styles = StyleSheet.create({
   monthsLeftText: {color: COLOR.VOILET},
   homeOwnerShipCardContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
-    paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
-    // backgroundColor: COLOR.VOILET,
-    marginVertical: STYLE_CONSTANTS.margin.LARGEST,
-    marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
-    borderRadius: STYLE_CONSTANTS.margin.SMALL,
+    paddingVertical: STYLE_CONSTANTS.padding.LARGER,
+    justifyContent: 'space-between',
   },
+  bottomCardOuterStyle: {
+    flex: 1,
+    marginHorizontal: STYLE_CONSTANTS.margin.NORMAL,
+    marginVertical: STYLE_CONSTANTS.margin.LARGEST,
+  },
+  bottomCardInnerStyle: {borderRadius: STYLE_CONSTANTS.margin.SMALL},
   ownerShipText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGER,

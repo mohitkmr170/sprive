@@ -1,8 +1,13 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
-import {logoutUser} from '../../store/actions/actions';
+import {checkNotifications} from 'react-native-permissions';
+import {
+  logoutUser,
+  paymentReminder,
+  policyUpdate,
+} from '../../store/actions/actions';
 import {
   localeString,
   setAuthToken,
@@ -17,6 +22,7 @@ import {
   STAGE_IDS,
   STAGE_NAME_INDEX,
   APP_KEYS,
+  LOCAL_KEYS,
 } from '../../utils';
 import {
   iNotification,
@@ -33,6 +39,7 @@ import {closeDrawer} from '../../navigation/navigationService';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
 import OneSignal from 'react-native-onesignal';
+
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
@@ -43,6 +50,8 @@ interface props {
   logoutUserAction: () => void;
   pushNotification: () => void;
   pushNotificationResponse: object;
+  policyUpdate: () => void;
+  paymentReminder: () => void;
 }
 
 const CLOSE_ICON_NAME = 'close';
@@ -124,13 +133,42 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       title: localeString(LOCALE_STRING.SIDE_BAR.NOTIFICATION),
       icon: iNotification,
       action: async () => {
-        closeDrawer();
-        const {pushNotification} = this.props;
-        await pushNotification();
-        const {pushNotificationResponse} = this.props;
-        if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
-          showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
-        }
+        checkNotifications().then(async ({status, settings}) => {
+          if (status === LOCAL_KEYS.PUSH_NOTIFICATION_ACCESS_GRANTED) {
+            closeDrawer();
+            const {pushNotification} = this.props;
+            await pushNotification();
+            const {pushNotificationResponse} = this.props;
+            if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
+              this.props.policyUpdate();
+            }
+          } else
+            showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
+        });
+      },
+      isDisabled: _get(
+        this.props.pushNotificationResponse,
+        DB_KEYS.IS_FETCHING,
+        false,
+      ),
+    },
+    {
+      title: localeString(LOCALE_STRING.SIDE_BAR.PAYMENT_REMINDER),
+      icon: iNotification,
+      action: async () => {
+        checkNotifications().then(async ({status, settings}) => {
+          if (status === LOCAL_KEYS.PUSH_NOTIFICATION_ACCESS_GRANTED) {
+            closeDrawer();
+            const {pushNotification} = this.props;
+            await pushNotification();
+            const {pushNotificationResponse} = this.props;
+            if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
+              this.props.paymentReminder();
+            }
+          } else {
+            showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
+          }
+        });
       },
       isDisabled: _get(
         this.props.pushNotificationResponse,
@@ -226,13 +264,15 @@ export class UnconnectedSideBar extends React.Component<props, state> {
             <View style={styles.profileContainer}>
               {/* Conditions to be added to displat NAME/SPRIVE */}
               <Text style={styles.userNameText}>
-                {userName ? userName : APP_KEYS.APP_NAME}
+                {userName ? userName : ''}
               </Text>
               <Text style={styles.userLocationText}>
                 {userLocation ? userLocation : ''}
               </Text>
             </View>
-            <View style={styles.centerContainer}>
+            <ScrollView
+              contentContainerStyle={{flexGrow: 1}}
+              showsVerticalScrollIndicator={false}>
               {this.SIDEBAR_DATA.map((item, index) => {
                 return (
                   <TouchableOpacity
@@ -257,7 +297,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                   </TouchableOpacity>
                 );
               })}
-            </View>
+            </ScrollView>
             <View>
               <View style={styles.logOutContainer}>
                 <TouchableOpacity
@@ -293,6 +333,8 @@ const mapStateToProps = state => ({
 });
 
 const bindActions = dispatch => ({
+  paymentReminder: () => dispatch(paymentReminder()),
+  policyUpdate: () => dispatch(policyUpdate()),
   logoutUserAction: () => dispatch(logoutUser()),
   pushNotification: () => dispatch(pushNotification.fetchCall()),
 });

@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   },
   monthView: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     paddingTop: STYLE_CONSTANTS.padding.SMALLISH,
   },
   monthDetails: {
@@ -54,8 +54,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: STYLE_CONSTANTS.margin.SMALLEST,
   },
+  monthOuterView: {
+    marginLeft: STYLE_CONSTANTS.margin.SMALLEST / 2,
+  },
   monthText: {
-    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
   },
   graphDetails: {

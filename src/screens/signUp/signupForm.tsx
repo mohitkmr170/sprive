@@ -163,7 +163,9 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
   minPasswordStrength = (value: any) => {
     let zxcvbn = require('zxcvbn');
     let passStrength = zxcvbn(value);
-    return passStrength.score < 2 ? localeString(LOCALE_STRING.VALIDATIONS.WEAK_PASSWORD) : undefined;
+    return passStrength.score < 2
+      ? localeString(LOCALE_STRING.VALIDATIONS.WEAK_PASSWORD)
+      : undefined;
   };
 
   render() {
@@ -210,7 +212,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                     props={{
                       keyboardType: 'email-address',
                       style: styles.emailInput,
-                      autoCapitalize: false,
+                      autoCapitalize: 'none',
                       placeholder: 'Email',
                     }}
                     onFocus={() => this.hideServerError()}
@@ -240,7 +242,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
                       maxLength: 16,
                       style: styles.emailInput,
                       secureTextEntry: passwordVisibility,
-                      autoCapitalize: false,
+                      autoCapitalize: 'none',
                       returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
                       placeholder: 'Password',
                       onChangeText: (password: string) =>
