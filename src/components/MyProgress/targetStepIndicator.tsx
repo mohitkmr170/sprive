@@ -128,7 +128,11 @@ export class UnconnectedTargetStepIndicator extends React.Component<
             <View
               style={[
                 styles.targetContainer,
-                {left: this.state.targetYearPosition},
+                {
+                  left:
+                    this.state.targetYearPosition -
+                    STYLE_CONSTANTS.padding.BELOW_NORMAL,
+                },
               ]}>
               <Image
                 source={iPointer}
@@ -152,7 +156,11 @@ export class UnconnectedTargetStepIndicator extends React.Component<
             <View
               style={[
                 styles.projectedContainer,
-                {left: this.state.projectedYearPosition},
+                {
+                  left:
+                    this.state.projectedYearPosition +
+                    STYLE_CONSTANTS.padding.BELOW_NORMAL,
+                },
               ]}>
               <View style={styles.projectedInnerContainer}>
                 <Text style={styles.targetText}>
