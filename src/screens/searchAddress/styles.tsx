@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
   },
   noAddressFoundText: {
     textAlign: 'center',
-    marginTop: STYLE_CONSTANTS.margin.HUGISH,
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
     color: COLOR.VOILET,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
