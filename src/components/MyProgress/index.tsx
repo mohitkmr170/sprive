@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Platform} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {iPadLocks} from '../../assets';
 import {connect} from 'react-redux';
@@ -41,7 +41,14 @@ interface state {
 }
 
 let ltvProgressBarPosition = 0;
-const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.GRADIENT_PRIMARY];
+
+function getSecondGradientColor() {
+  if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_IOS) {
+    return COLOR.GRADIENT_PRIMARY;
+  } else return COLOR.PRIMARY_THIRD_PART;
+}
+
+const BLOCK_GRADIENT = [COLOR.WHITE, getSecondGradientColor()];
 
 export class UnconnectedMyProgress extends React.Component<props, state> {
   constructor(props: props) {

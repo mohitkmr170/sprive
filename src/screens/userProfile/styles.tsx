@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: COLOR.PRIMARY,
-    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
+    marginHorizontal: STYLE_CONSTANTS.margin.SMALLISH,
     borderRadius: STYLE_CONSTANTS.margin.HUMONGOUS,
     marginBottom: STYLE_CONSTANTS.margin.NORMAL,
   },
