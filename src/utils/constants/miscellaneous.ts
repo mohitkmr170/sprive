@@ -20,6 +20,9 @@ export const NOTIFICATION_TYPES = {
   USER_FEEDBACK: 'user_feedback',
   PAYMENT_REMINDER: 'payment_reminder',
 };
+export const NATIVE_EVENTS = {
+  WIDTH: 'width',
+};
 export const NUMERIC_FACTORS = {
   PERCENT_FACTOR: 100,
   LTV_FRACTION_OFFSET: 5,

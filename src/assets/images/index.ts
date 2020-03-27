@@ -23,4 +23,4 @@ export const paymentFail = require('../images/paymentFail.png');
 export const paymentSuccess = require('../images/paymentSuccess.png');
 export const homeOwnership = require('../images/homeOwnership.png');
 export const questionMark = require('../images/questionstate.png');
-export const homeOwnershipCard = require('../images/card.png');
+export const homeOwnershipCard = require('../images/Card.png');
