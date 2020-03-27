@@ -54,7 +54,6 @@ import {
 import {policyUpdate, paymentReminder} from '../../store/actions/actions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
 import {PaymentReminderModal} from './paymentReminderModal';
-import * as Animatable from 'react-native-animatable';
 
 const CURRENT_MONTH = new Date().getMonth();
 interface NavigationParams {
@@ -572,14 +571,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             getPendingTaskResponse,
             DB_KEYS.PENDING_TASK.IS_PENDING_TASK,
             false,
-          ) ? (
+          ) && this.state.isPendingTaskVisible ? (
             /*
             NOTES : This condition is to show/hide pendingTask popup
             */
-            // && this.state.isPendingTaskVisible
-            <Animatable.View animation="slideInUp">
-              <PendingTaskDrawer navigation={navigation} />
-            </Animatable.View>
+            <PendingTaskDrawer navigation={navigation} />
           ) : null}
         </View>
       );
