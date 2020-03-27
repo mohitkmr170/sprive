@@ -31,7 +31,7 @@ import OneSignal from 'react-native-onesignal';
 const VERIFYING_LOADING = 'Verifying...';
 interface props {
   navigation: {
-    navigate: (routeName: string) => void;
+    navigate: (routeName: string, navParams?: object) => void;
     goBack: () => void;
   };
   verifyEmail: (payload: object) => void;
@@ -182,12 +182,18 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
   }
   handleFailPress = async () => {
     const {getUserInfo} = this.props;
-    getUserInfo();
+    await getUserInfo();
     this.setState({isVerifyApicalled: false});
     const {getUserInfoResponse} = this.props;
     if (_get(getUserInfoResponse, DB_KEYS.ERROR)) {
       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
-    } else this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+    } else {
+      if (_get(getUserInfoResponse, DB_KEYS.VERIFICATION_FLOW.IS_BLOCKED, true))
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED, {
+          blockedType: DB_KEYS.RESET_PASSWORD.MALICIOUS_ATTEMPT,
+        });
+      else this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+    }
   };
   render() {
     const {isVerifyApicalled} = this.state;

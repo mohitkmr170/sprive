@@ -26,27 +26,15 @@ interface props {
     goBack: () => void;
   };
 }
-interface state {
-  isBlockedFromPasswordReset: boolean;
-}
+interface state {}
 
 export class UnconnectedAccountBlocked extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {
-      isBlockedFromPasswordReset: false,
-    };
+    this.state = {};
   }
 
   async componentDidMount() {
-    const blockedType = _get(
-      this.props,
-      DB_KEYS.RESET_PASSWORD.BLOCKED_TYPE,
-      '',
-    );
-    if (blockedType === DB_KEYS.RESET_PASSWORD.PASSWORD_RESET) {
-      this.setState({isBlockedFromPasswordReset: true});
-    }
     BackHandler.addEventListener(
       APP_CONSTANTS.HARD_BACK_PRESS,
       this.handleBackButton,
@@ -68,7 +56,25 @@ export class UnconnectedAccountBlocked extends React.Component<props, state> {
       `mailto:${CONTACT_ADMIN_SUPPORT.SUPPORT_MAIL_ID}?subject=${CONTACT_ADMIN_SUPPORT.SUBJECT}&body=${CONTACT_ADMIN_SUPPORT.BODY}`,
     );
   };
+  getAccountBlockedReason = (blockedType: string) => {
+    switch (blockedType) {
+      case DB_KEYS.RESET_PASSWORD.PASSWORD_RESET:
+        return localeString(LOCALE_STRING.ACCOUNT_LOCKED.CASE_RESET_PASSWORD);
+      case DB_KEYS.RESET_PASSWORD.MALICIOUS_ATTEMPT:
+        return localeString(LOCALE_STRING.ACCOUNT_LOCKED.MALICIOUS_ATTEMPT);
+      case DB_KEYS.RESET_PASSWORD.VERIFICATION_FAIL:
+        return localeString(LOCALE_STRING.ACCOUNT_LOCKED.CASE_VERIFICATION);
+      default:
+        return localeString(LOCALE_STRING.ACCOUNT_LOCKED.GENERAL);
+    }
+  };
   render() {
+    const blockedType = _get(
+      this.props,
+      DB_KEYS.RESET_PASSWORD.BLOCKED_TYPE,
+      '',
+    );
+    let blockedReasonText = this.getAccountBlockedReason(blockedType);
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
@@ -83,11 +89,7 @@ export class UnconnectedAccountBlocked extends React.Component<props, state> {
             <Text style={styles.pleaseCheckText}>
               {localeString(LOCALE_STRING.ACCOUNT_LOCKED.ACCOUNT_LOCKED)}
             </Text>
-            <Text style={styles.emailSentText}>
-              {this.state.isBlockedFromPasswordReset
-                ? localeString(LOCALE_STRING.ACCOUNT_LOCKED.CASE_RESET_PASSWORD)
-                : localeString(LOCALE_STRING.ACCOUNT_LOCKED.CASE_VERIFICATION)}
-            </Text>
+            <Text style={styles.emailSentText}>{blockedReasonText}</Text>
           </View>
         </View>
         <View>

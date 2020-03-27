@@ -204,6 +204,8 @@
     "accountLocked": "Account Locked",
     "caseVerification": "We detected more than 10 unsuccessful attempts to verify your email address",
     "casePasswordReset": "We detected more than 10 unsuccessful attempts to reset your password",
+    "maliciousAttempt": "We detected a malicious attempt to sign into this account",
+    "general": "Your account has been locked, please contant admin",
     "contactAdmin": "Contact Admin"
   },
   "forgotPassword": {

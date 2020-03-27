@@ -198,6 +198,8 @@ export const LOCALE_STRING = {
     CASE_VERIFICATION: 'accountLocked.caseVerification',
     CASE_RESET_PASSWORD: 'accountLocked.casePasswordReset',
     CONTACT_ADMIN: 'accountLocked.contactAdmin',
+    MALICIOUS_ATTEMPT: 'accountLocked.maliciousAttempt',
+    GENERAL: 'accountLocked.general',
   },
   FORGOT_PASSWORD: {
     FORGOT_PASSWORD: 'forgotPassword.forgotPassword',

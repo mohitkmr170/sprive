@@ -103,7 +103,9 @@ export const DB_KEYS = {
     PASSWORD: 'password',
     CONFIRM_PASSWORD: 'confirmPassword',
     BLOCKED_TYPE: 'navigation.state.params.blockedType',
+    VERIFICATION_FAIL: 'verification_fail',
     PASSWORD_RESET: 'password_reset',
+    MALICIOUS_ATTEMPT: 'malicious_attempt',
   },
   UPDATE_PASSWORD: {
     EXISTING_PASSWORD: 'exitingPassword',
