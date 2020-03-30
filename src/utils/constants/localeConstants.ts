@@ -157,6 +157,7 @@ export const LOCALE_STRING = {
     CHAR_LEFT: 'reportIssue.chLeft',
     REPORT_ISSUE: 'reportIssue.reportIssue',
     BUG_REPORTED: 'reportIssue.bugReported',
+    LOVE_TO_HEAR: 'reportIssue.loveToHear',
   },
   UPDATE_MORTGAGE: {
     UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',

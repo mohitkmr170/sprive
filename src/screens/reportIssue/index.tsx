@@ -160,7 +160,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
             leftIconPresent
             title={
               isUserFeedbackNotificationReceived
-                ? 'We’d love to hear your feedback'
+                ? localeString(LOCALE_STRING.REPORT_ISSUE.LOVE_TO_HEAR)
                 : localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_AN_ISSUE)
             }
             rightIconPresent
