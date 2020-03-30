@@ -5,6 +5,7 @@ export const LOCALE_STRING = {
     INFO: 'splashScreen.info',
   },
   GLOBAL: {
+    OKAY: 'global.okay',
     NOTIFICATION: 'global.notification',
     NOTIFICATIONS: 'global.notifications',
     NO_DATA_NOTIFICATION: 'global.noDataFoundNotification',
@@ -148,6 +149,7 @@ export const LOCALE_STRING = {
     YEAR: 'overPaymentHistory.year',
   },
   REPORT_ISSUE: {
+    LOVE_TO_HEAR: 'reportIssue.loveToHear',
     PLACEHOLDER: 'reportIssue.placeHolder',
     REPORT_AN_ISSUE: 'reportIssue.reportAnIssue',
     HAVE_AN_ISSUE: 'reportIssue.haveAnIssue',
@@ -174,6 +176,10 @@ export const LOCALE_STRING = {
     INVITE_FRIENDS: 'sideBar.inviteFriends',
     UPDATE_PASSWORD: 'sideBar.updatePassword',
     LOG_OUT: 'sideBar.logOut',
+    PROFILE_SUB_LIST: 'sideBar.aboutYou',
+    SETTINGS_SUB_LIST: 'sideBar.settings',
+    SECURITY: 'sideBar.security',
+    PERSONAL_DETAILS: 'sideBar.personalDetails',
   },
   EMAIL_VERIFICATION: {
     EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',
@@ -196,6 +202,8 @@ export const LOCALE_STRING = {
     CASE_VERIFICATION: 'accountLocked.caseVerification',
     CASE_RESET_PASSWORD: 'accountLocked.casePasswordReset',
     CONTACT_ADMIN: 'accountLocked.contactAdmin',
+    MALICIOUS_ATTEMPT: 'accountLocked.maliciousAttempt',
+    GENERAL: 'accountLocked.general',
   },
   FORGOT_PASSWORD: {
     FORGOT_PASSWORD: 'forgotPassword.forgotPassword',
@@ -259,6 +267,7 @@ export const LOCALE_STRING = {
     FLAT_NUMBER: 'userProfile.flatNumber',
     STREET_NAME: 'userProfile.streetName',
     CITY: 'userProfile.city',
+    COUNTY: 'userProfile.county',
     POST_CODE: 'userProfile.postCode',
     SEARCH_FLAT: 'userProfile.searchFlat',
     NO_ADDRESS_FOUND: 'userProfile.noAddressFound',

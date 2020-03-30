@@ -50,7 +50,7 @@ export class UnconnectedProjectedDataContainer extends React.Component<
             <Text style={styles.projectedTimeText}>
               {localeString(LOCALE_STRING.GRAPH_COMPONENT.SAVING)}
             </Text>
-            <View style={{flexDirection: 'row'}}>
+            <View style={styles.projectedDataTopContainer}>
               {projectedYears ? (
                 <Text style={styles.numberOfMonthText}>
                   {projectedYears}{' '}
@@ -80,7 +80,7 @@ export class UnconnectedProjectedDataContainer extends React.Component<
           </View>
         </View>
         <View style={styles.bottomRightContainer}>
-          <View>
+          <View style={{alignItems: 'center'}}>
             <Text style={styles.projectedInterestText}>
               {localeString(LOCALE_STRING.GRAPH_COMPONENT.PROJECTED_INT)}
             </Text>

@@ -148,9 +148,6 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
       DB_KEYS.IS_NOTIFICATION_RECEIVED,
       false,
     );
-    const preselectedIndex = isUserFeedbackNotificationReceived
-      ? DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_FEEDBACK_VALUE - 1
-      : 0;
     if (this.state.loading) return <LoadingModal loadingText="Loading..." />;
     else
       return (
@@ -180,9 +177,9 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
                   BUG_CATEGORY &&
                   BUG_CATEGORY[0] &&
                   BUG_CATEGORY[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
-                    ? BUG_CATEGORY[preselectedIndex][
-                        DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY
-                      ]
+                    ? BUG_CATEGORY[
+                        DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE
+                      ][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
                     : DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE
                 }
                 animationDuration={0}

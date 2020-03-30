@@ -12,11 +12,26 @@ import * as Progress from 'react-native-progress';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import LinearGradient from 'react-native-linear-gradient';
-import {Svg, Circle, Line} from 'react-native-svg';
+import {
+  Svg,
+  Circle,
+  Line,
+  Image as SvgImage,
+  Text as SvgText,
+} from 'react-native-svg';
 import {getOutstandingMortgageBalance} from '../../store/reducers';
 import {styles} from './styles';
+import {
+  chatIcon,
+  iPadLocks,
+  zeroComplete,
+  twentyComplete,
+  fourtyComplete,
+  sixtyComplete,
+  eightyComplete,
+  hundredComplete,
+} from '../../assets';
 import Moment from 'moment';
-import {chatIcon, homeOwnership, iPadLocks} from '../../assets';
 import {GeneralStatusBar, Header} from '../../components';
 import {
   getNumberWithCommas,
@@ -36,6 +51,8 @@ import {
 } from '../../utils';
 
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.PRIMARY_THIRD_PART];
+const totalAngleCovered = 360;
+const totalPercentageOwned = 100;
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
@@ -126,6 +143,30 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       ? this.getTargetNavigation(found)
       : null;
   };
+  getHomeownershipImage = () => {
+    const {getUserMortgageDataResponse} = this.props;
+    const currentLtv = Math.round(
+      _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
+    );
+    const houseOwned = 100 - (currentLtv ? currentLtv : 0);
+    if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.ZERO && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.TWENTY)
+      return <Image style={styles.centerImage} source={zeroComplete} />;
+    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.TWENTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.FOURTY)
+      return <Image style={styles.centerImage} source={twentyComplete} />;
+    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.FOURTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.SIXTY)
+      return <Image style={styles.centerImage} source={fourtyComplete} />;
+    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.SIXTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.EIGHTY)
+      return <Image style={styles.centerImage} source={sixtyComplete} />;
+    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.EIGHTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.HUNDRED)
+      return <Image style={styles.centerImage} source={eightyComplete} />;
+    else if (houseOwned === APP_CONSTANTS.HOME_OWNERSHIP_RANGES.HUNDRED)
+      return <Image style={styles.centerImage} source={hundredComplete} />;
+    else return;
+  };
+  getRotationAngle = (houseOwned: number) => {
+    let angle = (totalAngleCovered / totalPercentageOwned) * houseOwned;
+    return angle;
+  };
   render() {
     const {
       getUserInfoResponse,
@@ -139,7 +180,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
     /*
     NOTES : data[0] to be changed later
     */
-    const houseOwned = 100 - (currentLtv ? currentLtv : 0);
+    const houseOwned = NUMERIC_FACTORS.PERCENT_FACTOR - (currentLtv ? currentLtv : 0);
     const homeValuation = Math.round(
       _get(getUserMortgageDataResponse, DB_KEYS.HOME_VALUATION, 0),
     );
@@ -203,16 +244,34 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                 rotation={0} //Starting point of progress
                 dashedBackground={{width: 10, gap: 12}}
                 backgroundColor={COLOR.CARIBBEAN_GREEN_ONE_THIRD}
+                padding={STYLE_CONSTANTS.margin.SMALLER}
                 renderCap={({center}) => (
-                  <Circle
-                    cx={center.x}
-                    cy={center.y}
-                    r={STYLE_CONSTANTS.margin.SMALL}
-                    fill={COLOR.CARIBBEAN_GREEN}
-                  />
-                )}
-                lineCap="butt">
-                {() => <Image source={homeOwnership} />}
+                  <Svg
+                    height={STYLE_CONSTANTS.device.SCREEN_HEIGHT}
+                    width={STYLE_CONSTANTS.device.SCREEN_WIDTH}>
+                    <Circle
+                      cx={center.x}
+                      cy={center.y}
+                      r={STYLE_CONSTANTS.margin.SMALL}
+                      fill={COLOR.CARIBBEAN_GREEN}
+                    />
+                    <SvgText
+                      x={center.x}
+                      y={center.y + STYLE_CONSTANTS.margin.SMALLEST}
+                      fill={COLOR.WHITE}
+                      fontSize={STYLE_CONSTANTS.font.SIZE.LARGE}
+                      fontWeight="600"
+                      textAnchor="middle"
+                      transform={{
+                        rotation: this.getRotationAngle(houseOwned),
+                        originX: center.x,
+                        originY: center.y,
+                      }}>
+                      >
+                    </SvgText>
+                  </Svg>
+                )}>
+                {() => this.getHomeownershipImage()}
               </AnimatedCircularProgress>
             </View>
             <View style={styles.bottomContainer}>

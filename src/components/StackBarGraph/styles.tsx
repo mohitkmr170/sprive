@@ -79,13 +79,14 @@ export const styles = StyleSheet.create({
   },
   projectedTimeText: {
     color: COLOR.VOILET,
+    textAlign: 'center',
     opacity: 0.4,
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
   },
   numberOfMonthText: {
     color: COLOR.SLIDER_COLOR,
-    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
   monthsText: {fontSize: STYLE_CONSTANTS.font.SIZE.LARGE},
@@ -107,8 +108,12 @@ export const styles = StyleSheet.create({
   },
   projectSavingText: {
     color: COLOR.SLIDER_COLOR,
-    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
   rightButton: {alignSelf: 'center'},
+  projectedDataTopContainer: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
 });

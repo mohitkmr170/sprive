@@ -41,6 +41,7 @@ import {
   PAYLOAD_KEYS,
   STYLE_CONSTANTS,
   showSnackBar,
+  NATIVE_EVENTS,
 } from '../../utils';
 import {
   getMonthlyPaymentRecord,
@@ -56,6 +57,7 @@ import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-a
 import {PaymentReminderModal} from './paymentReminderModal';
 
 const CURRENT_MONTH = new Date().getMonth();
+const SCREEN_Y_OFFSET_NINETY_PERCENT = 0.9;
 interface NavigationParams {
   isUserDataChanged: boolean;
 }
@@ -97,6 +99,7 @@ interface state {
   isPolicyUpdatePopupVisible: boolean;
   isPaymentReminderReceived: boolean;
   isModalAlertVisible: boolean;
+  isPendingTaskVisible: boolean;
 }
 export class UnconnectedDashBoard extends React.Component<props, state> {
   constructor(props: props) {
@@ -110,6 +113,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       isPolicyUpdatePopupVisible: true,
       isPaymentReminderReceived: false,
       isModalAlertVisible: false,
+      isPendingTaskVisible: true,
     };
     StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
   }
@@ -282,6 +286,22 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     );
   };
 
+  onCloseToBottom = (nativeEvent: {
+    layoutMeasurement: object;
+    contentOffset: object;
+    contentSize: object;
+  }) => {
+    const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
+    if (
+      _get(layoutMeasurement, NATIVE_EVENTS.HEIGHT, 0) +
+        _get(contentOffset, NATIVE_EVENTS.Y_OFFSET, 0) >=
+      SCREEN_Y_OFFSET_NINETY_PERCENT *
+        _get(contentSize, NATIVE_EVENTS.HEIGHT, 0)
+    ) {
+      this.setState({isPendingTaskVisible: false});
+    } else this.setState({isPendingTaskVisible: true});
+  };
+
   render() {
     console.log('Inside Dashboard Render');
     const {
@@ -341,7 +361,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         <View>
           <ScrollView
             contentContainerStyle={styles.middleContainer}
-            showsVerticalScrollIndicator={false}>
+            showsVerticalScrollIndicator={false}
+            onScroll={({nativeEvent}) => this.onCloseToBottom(nativeEvent)}>
             <GeneralStatusBar
               backgroundColor={COLOR.DARK_BLUE}
               barStyle="light-content"
@@ -520,7 +541,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             getPendingTaskResponse,
             DB_KEYS.PENDING_TASK.IS_PENDING_TASK,
             false,
-          ) ? (
+          ) && this.state.isPendingTaskVisible ? (
+            /*
+            NOTES : This condition is to show/hide pendingTask popup
+            */
             <PendingTaskDrawer navigation={navigation} />
           ) : null}
         </View>

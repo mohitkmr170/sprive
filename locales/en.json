@@ -15,6 +15,7 @@
   },
   "global": {
     "backButton": "Back",
+    "okay": "Okay",
     "email": "Email",
     "e-mail": "email",
     "password": "Password",
@@ -107,10 +108,10 @@
   "stackBarGraphComponent": {
     "projectedTime": "Projected Time",
     "saving": "Saving",
-    "months": "months",
-    "month": "month",
-    "year": "year",
-    "years": "years",
+    "months": "m",
+    "month": "m",
+    "year": "yr",
+    "years": "yrs",
     "projectInterested": "Projected Interest"
   },
   "dashBoard": {
@@ -155,13 +156,16 @@
     "year": "Year"
   },
   "reportIssue": {
-    "placeHolder": "Describe your issue here",
-    "reportAnIssue": "Report an Issue",
-    "haveAnIssue": "Have an issue you want us to look into?",
-    "bugCategory": "Issue Category",
-    "issue": "Issue",
+    "loveToHear": "We’d love to hear your feedback",
+    "placeHolder": "Enter your feedback here",
+    "reportAnIssue": "Feedback",
+    "haveAnIssue": "Help us be better",
+    "bugCategory": "Category",
+    "issue": "Description",
     "characterLimit": "",
     "chLeft": "characters left",
+    "reportIssue": "Send",
+    "bugReported": "Feedback submitted successfully",
     "reportIssue": "Report Issue",
     "bugReported": "Issue reported successfully!",
     "loveToHear": "We’d love to hear your feedback"
@@ -180,7 +184,11 @@
     "inviteFriends": "Invite Friends",
     "updatePassword": "Update Password",
     "logOut": "Log out",
-    "paymentReminder": "Payment Reminder"
+    "paymentReminder": "Payment Reminder",
+    "aboutYou": "About You",
+    "settings": "Settings",
+    "security": "Security",
+    "personalDetails": "Personal Details"
   },
   "emailVerification": {
     "okay": "Okay",
@@ -202,6 +210,8 @@
     "accountLocked": "Account Locked",
     "caseVerification": "We detected more than 10 unsuccessful attempts to verify your email address",
     "casePasswordReset": "We detected more than 10 unsuccessful attempts to reset your password",
+    "maliciousAttempt": "We detected a malicious attempt to sign into this account",
+    "general": "Your account has been locked, please contant admin",
     "contactAdmin": "Contact Admin"
   },
   "forgotPassword": {
@@ -260,11 +270,12 @@
     "findAddress": "Find my address",
     "enterManually": "Or enter it manually:",
     "enterResidentialAddress": "Please enter your residential address",
-    "searchPostCode": "Search Post Code",
-    "flatNumber": "House or Flat Number",
-    "streetName": "Street Name",
-    "city": "City",
-    "postCode": "PostCode",
+    "searchPostCode": "Search Postcode",
+    "flatNumber": "Address Line 1",
+    "streetName": "Address Line 2 (Optional)",
+    "city": "Town or City",
+    "county": "County or Region (Optional)",
+    "postCode": "Postcode",
     "searchFlat": "Search house or flat number",
     "noAddressFound": "No Address Found!",
     "done": "Done",
@@ -273,7 +284,7 @@
   "myProgressAndPayment": {
     "myPayments": "My Payments",
     "myProgress": "My Progress",
-    "mortgage": "Mortgage",
+    "mortgage": "Mortgage Free",
     "cheaperDeals": "Cheaper Deals",
     "today": "Today",
     "target": "Target",
@@ -296,8 +307,8 @@
     "okay": "Okay"
   },
   "homeOwnerShip": {
-    "ofMyHouse": "Of my house owned",
-    "loanToValue": "Loan to Value",
+    "ofMyHouse": "of my house owned",
+    "loanToValue": "Loan-to-Value (LTV)",
     "unlockPercentage": "Unlock cheaper deals at {{percent}}% LTV",
     "amountOwned": "Amount Owned",
     "estimatedValue": "Estimated Value"

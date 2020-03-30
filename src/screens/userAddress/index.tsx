@@ -80,14 +80,14 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           DB_KEYS.DATA_ID,
           null,
         ),
-        [PAYLOAD_KEYS.PENDING_TASK.HOUSE_NUMBER]: _get(
+        [PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_1]: _get(
           formValues,
-          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE1,
           '',
         ),
-        [PAYLOAD_KEYS.PENDING_TASK.STREET_NAME]: _get(
+        [PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_2]: _get(
           formValues,
-          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE2,
           '',
         ),
         [PAYLOAD_KEYS.PENDING_TASK.CITY]: _get(
@@ -95,12 +95,21 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
           '',
         ),
+        [PAYLOAD_KEYS.PENDING_TASK.COUNTY]: _get(
+          formValues,
+          FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.COUNTY,
+          '',
+        ),
         [PAYLOAD_KEYS.PENDING_TASK.POST_CODE]: _get(
           formValues,
           FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE,
           '',
-        ).replace(/ /g, ''), //To match BE_validation(without White-spaces)
+        ),
       };
+      if (!updatePayload[PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_2])
+        delete updatePayload[PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_2];
+      if (!updatePayload[PAYLOAD_KEYS.PENDING_TASK.COUNTY])
+        delete updatePayload[PAYLOAD_KEYS.PENDING_TASK.COUNTY];
       return updatePayload;
     } else {
       const payload = {
@@ -113,19 +122,24 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           PENDING_TASK_IDS.TASKS.USER_PROFILE,
         [PAYLOAD_KEYS.PENDING_TASK.STAGE_ID]: PENDING_TASK_IDS.STAGES.ADDRESS,
         [PAYLOAD_KEYS.PENDING_TASK.DATA]: {
-          [PAYLOAD_KEYS.PENDING_TASK.HOUSE_NUMBER]: _get(
+          [PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_1]: _get(
             formValues,
-            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.FLAT_NUMBER,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE1,
             '',
           ),
-          [PAYLOAD_KEYS.PENDING_TASK.STREET_NAME]: _get(
+          [PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_2]: _get(
             formValues,
-            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.STREET_NAME,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE2,
             '',
           ),
           [PAYLOAD_KEYS.PENDING_TASK.CITY]: _get(
             formValues,
             FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY,
+            '',
+          ),
+          [PAYLOAD_KEYS.PENDING_TASK.COUNTY]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.COUNTY,
             '',
           ),
           [PAYLOAD_KEYS.PENDING_TASK.POST_CODE]: _get(
@@ -135,6 +149,22 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           ),
         },
       };
+      if (
+        !payload[PAYLOAD_KEYS.PENDING_TASK.DATA][
+          PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_2
+        ]
+      )
+        delete payload[PAYLOAD_KEYS.PENDING_TASK.DATA][
+          PAYLOAD_KEYS.PENDING_TASK.ADD_LINE_2
+        ];
+      if (
+        !payload[PAYLOAD_KEYS.PENDING_TASK.DATA][
+          PAYLOAD_KEYS.PENDING_TASK.COUNTY
+        ]
+      )
+        delete payload[PAYLOAD_KEYS.PENDING_TASK.DATA][
+          PAYLOAD_KEYS.PENDING_TASK.COUNTY
+        ];
       return payload;
     }
   };
@@ -252,7 +282,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
         //As per postCode rules in UK
         //API call to search address based on Post Code
         const payload = {
-          post_code: postCode,
+          postcode: postCode,
         };
         await getAddress(payload);
         const {getAddressResponse} = this.props;
@@ -282,12 +312,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     const isFormValuesFilled =
       _get(
         this.props.reducerResponse,
-        DB_KEYS.USER_ADDRESS.FLAT_NUMBER,
-        null,
-      ) &&
-      _get(
-        this.props.reducerResponse,
-        DB_KEYS.USER_ADDRESS.STREET_NAME,
+        DB_KEYS.USER_ADDRESS.ADDRESS_LINE_1,
         null,
       ) &&
       _get(this.props.reducerResponse, DB_KEYS.USER_ADDRESS.CITY, null) &&
@@ -352,7 +377,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
               {localeString(LOCALE_STRING.USER_PROFILE.ENTER_MANUALLY)}
             </Text>
             <Field
-              name="flatNumber"
+              name="address_line_1"
               label={localeString(LOCALE_STRING.USER_PROFILE.FLAT_NUMBER)}
               fieldLabelStyle={styles.fieldLabelStyle}
               component={ReduxFormField}
@@ -364,7 +389,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
               validate={[alphaNumeric, required]}
             />
             <Field
-              name="streetName"
+              name="address_line_2"
               label={localeString(LOCALE_STRING.USER_PROFILE.STREET_NAME)}
               fieldLabelStyle={styles.fieldLabelStyle}
               component={ReduxFormField}
@@ -373,10 +398,10 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
                 autoCapitalize: false,
                 returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
               }}
-              validate={[alphaNumeric, required]}
+              validate={[alphaNumeric]}
             />
             <Field
-              name="city"
+              name="town_or_city"
               label={localeString(LOCALE_STRING.USER_PROFILE.CITY)}
               fieldLabelStyle={styles.fieldLabelStyle}
               component={ReduxFormField}
@@ -388,7 +413,19 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
               validate={[alphaNumeric, required]}
             />
             <Field
-              name="postCode"
+              name="county_or_region"
+              label={localeString(LOCALE_STRING.USER_PROFILE.COUNTY)}
+              fieldLabelStyle={styles.fieldLabelStyle}
+              component={ReduxFormField}
+              props={{
+                style: styles.formInput,
+                autoCapitalize: false,
+                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+              }}
+              validate={[alphaNumeric]}
+            />
+            <Field
+              name="postcode"
               label={localeString(LOCALE_STRING.USER_PROFILE.POST_CODE)}
               fieldLabelStyle={styles.fieldLabelStyle}
               component={ReduxFormField}

@@ -123,18 +123,25 @@ export class UnconnectedTargetStepIndicator extends React.Component<
           </Text>
         </View>
         <View style={styles.trackStyle}>
+          {/* Target */}
           {targetYear !== projectedYear && endYear !== targetYear && (
             <View
               style={[
                 styles.targetContainer,
-                {left: this.state.targetYearPosition},
+                {
+                  left:
+                    this.state.targetYearPosition -
+                    STYLE_CONSTANTS.padding.BELOW_NORMAL,
+                },
               ]}>
               <Image
                 source={iPointer}
                 style={styles.pointerStyle}
                 resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
               />
-              <View style={styles.targetInnerContainer}>
+              <View style={styles.targetTooltip} />
+              <View
+                style={[styles.targetInnerContainer, styles.targetTooltipAdd]}>
                 <Text style={styles.targetText}>
                   {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.TARGET)}
                 </Text>
@@ -144,11 +151,14 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               </View>
             </View>
           )}
+          {/* Projected */}
           {endYear !== projectedYear && (
             <View
               style={[
                 styles.projectedContainer,
-                {left: this.state.projectedYearPosition},
+                {
+                  left: this.state.projectedYearPosition,
+                },
               ]}>
               <View style={styles.projectedInnerContainer}>
                 <Text style={styles.targetText}>
@@ -208,18 +218,31 @@ export class UnconnectedTargetStepIndicator extends React.Component<
             </View>
           )}
           {targetYear === projectedYear && (
-            <Text
-              style={[
-                styles.targetDateStyle,
-                styles.onTrackText,
-                {
-                  left:
-                    this.state.projectedYearPosition -
-                    STYLE_CONSTANTS.margin.NORMAL,
-                },
-              ]}>
-              On track
-            </Text>
+            <View>
+              <View
+                style={[
+                  {
+                    left:
+                      this.state.projectedYearPosition +
+                      STYLE_CONSTANTS.margin.SMALLER,
+                  },
+                  styles.onTrackTrackLine,
+                ]}
+              />
+              <Text
+                style={[
+                  styles.targetDateStyle,
+                  styles.onTrackText,
+                  {
+                    left:
+                      this.state.projectedYearPosition -
+                      STYLE_CONSTANTS.margin.HUMONGOUS,
+                  },
+                  styles.onTrackView,
+                ]}>
+                On track
+              </Text>
+            </View>
           )}
         </View>
         {endYear !== targetYear ? (

@@ -4,6 +4,7 @@ import {LOCALE_STRING, DB_KEYS} from '../utils';
 import {store} from '../store/configStore';
 import {get as _get} from 'lodash';
 import Moment from 'moment';
+import {APP_LEVEL_REQUIRES} from './require';
 
 const MORTGAGE_LIMIT = 10000000,
   MONTHLY_MORTGAGE_LIMIT = 10000,
@@ -151,14 +152,19 @@ export const negativeValidation = (value: any) => {
  * Validation of DOB entered by User
  */
 export const dobValidation = (value: string) => {
-  let birthYear = Moment(value, DATE_FORMAT_DDMMYYYY).year();
-  let currentYear = new Date().getFullYear();
-  const age = currentYear - birthYear;
-  return value && !REGEX.DATE_OF_BIRTH.test(value)
-    ? localeString(LOCALE_STRING.VALIDATIONS.INVALID_DOB)
-    : age >= MINIMUM_AGE_CRITERION
-    ? undefined
-    : localeString(LOCALE_STRING.VALIDATIONS.MINIMUM_REQ_AGE);
+  if (value.length === 10) {
+    const birthDay = Moment(value, DATE_FORMAT_DDMMYYYY).toISOString();
+    const currentDay = Moment().toISOString();
+
+    const years = Moment(currentDay).diff(birthDay, 'year');
+    Moment(birthDay).add(years, 'years');
+
+    return value && !REGEX.DATE_OF_BIRTH.test(value)
+      ? localeString(LOCALE_STRING.VALIDATIONS.INVALID_DOB)
+      : years >= MINIMUM_AGE_CRITERION
+      ? undefined
+      : localeString(LOCALE_STRING.VALIDATIONS.MINIMUM_REQ_AGE);
+  }
 };
 /**
  *
@@ -197,5 +203,13 @@ export const passMatching = (value: any) => {
   );
   return value && previousPassword !== value
     ? localeString(LOCALE_STRING.VALIDATIONS.PASSWORD_NOT_MATCHED)
+    : undefined;
+};
+
+export const minPasswordStrength = (value: any) => {
+  let zxcvbn = APP_LEVEL_REQUIRES.zxcvbn;
+  let passStrength = zxcvbn(value);
+  return passStrength.score < 2
+    ? localeString(LOCALE_STRING.VALIDATIONS.WEAK_PASSWORD)
     : undefined;
 };

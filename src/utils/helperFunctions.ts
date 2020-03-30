@@ -4,6 +4,7 @@ import {get as _get} from 'lodash';
 import {COLOR} from '../utils/colors';
 import {change} from 'redux-form';
 import {store} from '../store/configStore';
+import {APP_LEVEL_REQUIRES} from '../utils';
 import {APP_CONSTANTS, DB_KEYS, LOCAL_KEYS, NUMERIC_FACTORS} from './constants';
 
 /**
@@ -12,7 +13,7 @@ import {APP_CONSTANTS, DB_KEYS, LOCAL_KEYS, NUMERIC_FACTORS} from './constants';
  */
 
 export async function getPasswordStrength(password: string) {
-  let zxcvbn = require('zxcvbn');
+  let zxcvbn = APP_LEVEL_REQUIRES.zxcvbn;
   try {
     let passStrength = await zxcvbn(password);
     console.log('getPasswordStrength : passStrength =>', passStrength.score);

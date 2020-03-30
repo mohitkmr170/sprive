@@ -47,14 +47,15 @@ interface state {
   progressWidth: number;
 }
 
+let ltvProgressBarPosition = 0;
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.GRADIENT_PRIMARY];
 
 export class UnconnectedMyProgress extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
     this.state = {
-      isCheaperDealSelected: false,
-      isMortgageSelected: true,
+      isCheaperDealSelected: true,
+      isMortgageSelected: false,
       progressWidth: 0,
     };
   }
@@ -124,6 +125,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
       : null;
   };
   getNativeEvent = (width: object) => {
+    ltvProgressBarPosition = _get(width, 'width', 0);
     if (!this.state.progressWidth) {
       this.setState({progressWidth: _get(width, NATIVE_EVENTS.WIDTH, 0)});
     } else return;
@@ -134,6 +136,14 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
     const CURRENT_LTV = Math.round(
       _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
     );
+    let toolTipPosition =
+      (ltvProgressBarPosition / NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
+        (CURRENT_LTV % NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
+      STYLE_CONSTANTS.padding.BELOW_NORMAL;
+    let toolTipBasePosition =
+      (ltvProgressBarPosition / NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
+        (CURRENT_LTV % NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
+      STYLE_CONSTANTS.padding.ABOVE_SMALLEST;
     return (
       <Animatable.View
         animation="fadeIn"
@@ -143,30 +153,6 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
           {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.MY_PRGRESS)}
         </Text>
         <View style={styles.tabSelectionButtonContainer}>
-          <TouchableOpacity
-            hitSlop={APP_CONSTANTS.HIT_SLOP}
-            onPress={() => this.handleMortgageClick()}
-            style={[
-              styles.buttonContainer,
-              {
-                backgroundColor: isMortgageSelected
-                  ? COLOR.WHITE
-                  : COLOR.GHOST_WHITE,
-              },
-            ]}>
-            <Text
-              style={[
-                styles.selectorButtonText,
-                {
-                  color: isMortgageSelected ? COLOR.PRIMARY : COLOR.BLACK,
-                  fontWeight: isMortgageSelected
-                    ? STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD
-                    : STYLE_CONSTANTS.font.WEIGHT.NORMAL,
-                },
-              ]}>
-              {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.MORTGAGE)}
-            </Text>
-          </TouchableOpacity>
           <TouchableOpacity
             hitSlop={APP_CONSTANTS.HIT_SLOP}
             onPress={() => this.handleCheaperDealsClick()}
@@ -191,6 +177,30 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
               {localeString(
                 LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.CHEAPER_DEALS,
               )}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            hitSlop={APP_CONSTANTS.HIT_SLOP}
+            onPress={() => this.handleMortgageClick()}
+            style={[
+              styles.buttonContainer,
+              {
+                backgroundColor: isMortgageSelected
+                  ? COLOR.WHITE
+                  : COLOR.GHOST_WHITE,
+              },
+            ]}>
+            <Text
+              style={[
+                styles.selectorButtonText,
+                {
+                  color: isMortgageSelected ? COLOR.PRIMARY : COLOR.BLACK,
+                  fontWeight: isMortgageSelected
+                    ? STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD
+                    : STYLE_CONSTANTS.font.WEIGHT.NORMAL,
+                },
+              ]}>
+              {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.MORTGAGE)}
             </Text>
           </TouchableOpacity>
         </View>
@@ -239,11 +249,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                 <View
                   style={[
                     {
-                      left:
-                        (this.state.progressWidth /
-                          NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
-                          (CURRENT_LTV % NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
-                        STYLE_CONSTANTS.padding.BELOW_NORMAL,
+                      right: toolTipPosition,
                     },
                     styles.toolTipTopContainer,
                   ]}>
@@ -252,11 +258,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                 <View
                   style={[
                     {
-                      left:
-                        (this.state.progressWidth /
-                          NUMERIC_FACTORS.LTV_FRACTION_OFFSET) *
-                          (CURRENT_LTV % NUMERIC_FACTORS.LTV_FRACTION_OFFSET) -
-                        STYLE_CONSTANTS.padding.ABOVE_SMALLEST,
+                      right: toolTipBasePosition,
                     },
                     styles.toolTipBottomContainer,
                   ]}
