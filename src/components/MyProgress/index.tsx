@@ -244,7 +244,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
               <Text style={styles.percentageText}>
                 {_get(
                   getLtvRangeAndPercentage(CURRENT_LTV),
-                  PERCENTAGE_RANGE_VALUES.START_VAL,
+                  PERCENTAGE_RANGE_VALUES.END_VAL,
                   '',
                 )}
               </Text>
@@ -271,11 +271,14 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                   ]}
                 />
                 <Progress.Bar
-                  progress={_get(
-                    getLtvRangeAndPercentage(CURRENT_LTV),
-                    PERCENTAGE_RANGE_VALUES.PERCENTAGE,
-                    0,
-                  )}
+                  progress={
+                    1 -
+                    _get(
+                      getLtvRangeAndPercentage(CURRENT_LTV),
+                      PERCENTAGE_RANGE_VALUES.PERCENTAGE,
+                      0,
+                    )
+                  }
                   color={COLOR.DARKEST_YELLOW}
                   height={10}
                   width={null}
@@ -287,7 +290,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
               <Text style={styles.percentageText}>
                 {_get(
                   getLtvRangeAndPercentage(CURRENT_LTV),
-                  PERCENTAGE_RANGE_VALUES.END_VAL,
+                  PERCENTAGE_RANGE_VALUES.START_VAL,
                   '',
                 )}
               </Text>
