@@ -7,8 +7,8 @@ export const STYLE_CONSTANTS = {
     SCREEN_WIDTH: Dimensions.get('screen').width,
     WINDOW_HEIGHT: Dimensions.get('window').height,
     WINDOW_WIDTH: Dimensions.get('window').width,
-    DEVICE_TYPE_ANDROID: 'Android',
-    DEVICE_TYPE_IOS: 'IOS',
+    DEVICE_TYPE_ANDROID: 'android',
+    DEVICE_TYPE_IOS: 'ios',
     MAX_WIDTH: '100%',
   },
   elevation: {

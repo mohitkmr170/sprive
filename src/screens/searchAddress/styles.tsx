@@ -12,13 +12,23 @@ export const styles = StyleSheet.create({
   },
   noAddressFoundText: {
     textAlign: 'center',
-    marginTop: STYLE_CONSTANTS.margin.HUGISH,
+    paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
     color: COLOR.VOILET,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
   },
   flatListContainer: {
+    marginBottom: STYLE_CONSTANTS.margin.HUGER,
     borderRadius: STYLE_CONSTANTS.padding.SMALLEST,
+    shadowColor: COLOR.SHADOW_COLOR_LATEST,
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 10, // Reuired for Andorid
+    backgroundColor: COLOR.WHITE, // Compulsory to pass in view-having shadow
   },
   inputStyle: {
     marginLeft: STYLE_CONSTANTS.margin.NORMAL,

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {COLOR, STYLE_CONSTANTS} from '../../utils';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 
@@ -46,7 +46,10 @@ export const styles = StyleSheet.create({
   },
   ercLimitContainer: {
     position: 'absolute',
-    top: getStatusBarHeight(),
+    top:
+      Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_IOS
+        ? getStatusBarHeight() + STYLE_CONSTANTS.margin.NORMAL
+        : STYLE_CONSTANTS.margin.NORMAL,
     left: STYLE_CONSTANTS.padding.BELOW_NORMAL,
     right: STYLE_CONSTANTS.padding.BELOW_NORMAL,
     zIndex: 1,
@@ -57,10 +60,14 @@ export const styles = StyleSheet.create({
     paddingVertical: STYLE_CONSTANTS.padding.NORMAL,
     backgroundColor: COLOR.WHITE,
     borderRadius: STYLE_CONSTANTS.padding.SMALL,
-    shadowColor: 'black',
-    shadowOffset: {height: 2, width: 2},
-    shadowOpacity: 10,
+    shadowColor: COLOR.BLACK,
+    shadowOffset: {
+      width: 5,
+      height: 5,
+    },
+    shadowOpacity: 1,
     shadowRadius: 10,
+    elevation: 10,
   },
   mortgageTextData: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,

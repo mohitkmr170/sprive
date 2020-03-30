@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Platform} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {iPadLocks} from '../../assets';
 import {connect} from 'react-redux';
@@ -48,7 +48,14 @@ interface state {
 }
 
 let ltvProgressBarPosition = 0;
-const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.GRADIENT_PRIMARY];
+
+function getSecondGradientColor() {
+  if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_IOS) {
+    return COLOR.GRADIENT_PRIMARY;
+  } else return COLOR.PRIMARY_THIRD_PART;
+}
+
+const BLOCK_GRADIENT = [COLOR.WHITE, getSecondGradientColor()];
 
 export class UnconnectedMyProgress extends React.Component<props, state> {
   constructor(props: props) {
@@ -237,7 +244,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
               <Text style={styles.percentageText}>
                 {_get(
                   getLtvRangeAndPercentage(CURRENT_LTV),
-                  PERCENTAGE_RANGE_VALUES.START_VAL,
+                  PERCENTAGE_RANGE_VALUES.END_VAL,
                   '',
                 )}
               </Text>
@@ -264,11 +271,14 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
                   ]}
                 />
                 <Progress.Bar
-                  progress={_get(
-                    getLtvRangeAndPercentage(CURRENT_LTV),
-                    PERCENTAGE_RANGE_VALUES.PERCENTAGE,
-                    0,
-                  )}
+                  progress={
+                    1 -
+                    _get(
+                      getLtvRangeAndPercentage(CURRENT_LTV),
+                      PERCENTAGE_RANGE_VALUES.PERCENTAGE,
+                      0,
+                    )
+                  }
                   color={COLOR.DARKEST_YELLOW}
                   height={10}
                   width={null}
@@ -280,7 +290,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
               <Text style={styles.percentageText}>
                 {_get(
                   getLtvRangeAndPercentage(CURRENT_LTV),
-                  PERCENTAGE_RANGE_VALUES.END_VAL,
+                  PERCENTAGE_RANGE_VALUES.START_VAL,
                   '',
                 )}
               </Text>
