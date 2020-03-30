@@ -1,6 +1,10 @@
 export const DB_KEYS = {
   USER_INFO_NAME: 'response.data.name',
   USER_INFO: 'getUserInfo.response',
+  NOTIFICATION_TYPE: 'payload.additionalData.notification_type',
+  IS_POLICY_UPDATE_RECEIVED_FLAG: 'policyUpdate.isPolicyUpdateReceived',
+  IS_PAYMENT_REMINDER_RECEIVED_FLAG:
+    'paymentReminder.isPaymentReminderReceived',
   USER_INFO_EMAIL: 'getUserInfo.response.data.email',
   RESPONSE_MESSAGE: 'response.message',
   NAVIGATION_PARAMS: 'state.params',
@@ -77,6 +81,7 @@ export const DB_KEYS = {
   REPORT_ISSUE: {
     ISSUE_CATEGORY_BUG: 'Issue/Bug',
     ISSUE_CATEGORY_BUG_VALUE: 1,
+    ISSUE_CATEGORY_FEEDBACK_VALUE: 3,
     ISSUE_CATEGORY_LABEL_KEY: 'label',
     ISSUE_CATEGORY_ID_KEY: 'id',
     ISSUE_CATEGORY_VALUE_KEY: 'value',

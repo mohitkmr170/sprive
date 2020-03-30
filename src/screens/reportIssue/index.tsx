@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import KeyboardManager from 'react-native-keyboard-manager';
 import {getIssueCategories, setIssue} from '../../store/reducers';
+import {notification} from '../../store/actions/actions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   _gaSetCurrentScreen,
@@ -33,6 +34,8 @@ interface props {
   setIssue: (payload: object) => void;
   setIssueResponse: object;
   getUserInfoResponse: object;
+  notification: () => void;
+  notificationResponse: object;
 }
 interface state {
   issue: string;
@@ -94,7 +97,17 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
    * Function called on Submit
    */
   handleSubmit = async () => {
-    const {setIssue, getUserInfoResponse} = this.props;
+    const {
+      setIssue,
+      getUserInfoResponse,
+      notificationResponse,
+      notification,
+    } = this.props;
+    const isUserFeedbackNotificationReceived = _get(
+      notificationResponse,
+      DB_KEYS.IS_NOTIFICATION_RECEIVED,
+      false,
+    );
     const payload = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
       [PAYLOAD_KEYS.ISSUE.CATEGORY_ID]: this.state.issue,
@@ -109,11 +122,35 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
     if (!_get(setIssueResponse, DB_KEYS.ERROR, true)) {
       showSnackBar({}, localeString(LOCALE_STRING.REPORT_ISSUE.BUG_REPORTED));
       this.props.navigation.goBack();
+      if (isUserFeedbackNotificationReceived) {
+        notification();
+      }
       // this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
     }
   };
+  handleBackPress = () => {
+    const {notificationResponse, notification} = this.props;
+    const isUserFeedbackNotificationReceived = _get(
+      notificationResponse,
+      DB_KEYS.IS_NOTIFICATION_RECEIVED,
+      false,
+    );
+    if (isUserFeedbackNotificationReceived) {
+      notification();
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+    } else this.props.navigation.goBack();
+  };
   render() {
     const {BUG_CATEGORY} = this.state;
+    const {notificationResponse, notification, setIssueResponse} = this.props;
+    const isUserFeedbackNotificationReceived = _get(
+      notificationResponse,
+      DB_KEYS.IS_NOTIFICATION_RECEIVED,
+      false,
+    );
+    const preselectedIndex = isUserFeedbackNotificationReceived
+      ? DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_FEEDBACK_VALUE - 1
+      : 0;
     if (this.state.loading) return <LoadingModal loadingText="Loading..." />;
     else
       return (
@@ -121,9 +158,13 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
           <GeneralStatusBar />
           <Header
             leftIconPresent
-            title={localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_AN_ISSUE)}
+            title={
+              isUserFeedbackNotificationReceived
+                ? localeString(LOCALE_STRING.REPORT_ISSUE.LOVE_TO_HEAR)
+                : localeString(LOCALE_STRING.REPORT_ISSUE.REPORT_AN_ISSUE)
+            }
             rightIconPresent
-            onBackPress={() => this.props.navigation.goBack()}
+            onBackPress={() => this.handleBackPress()}
           />
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
@@ -139,7 +180,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
                   BUG_CATEGORY &&
                   BUG_CATEGORY[0] &&
                   BUG_CATEGORY[0][DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY]
-                    ? BUG_CATEGORY[0][
+                    ? BUG_CATEGORY[preselectedIndex][
                         DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_VALUE_KEY
                       ]
                     : DB_KEYS.REPORT_ISSUE.ISSUE_CATEGORY_BUG_VALUE
@@ -185,6 +226,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
               disabled={!(this.state.description && this.state.issue)}
               buttonStyle={styles.button}
               onPress={() => this.handleSubmit()}
+              loading={_get(setIssueResponse, DB_KEYS.IS_FETCHING, false)}
             />
           </KeyboardAwareScrollView>
         </View>
@@ -196,11 +238,13 @@ const mapStateToProps = (state: object) => ({
   getIssueCategoriesResponse: state.getIssueCategories,
   setIssueResponse: state.setIssue,
   getUserInfoResponse: state.getUserInfo,
+  notificationResponse: state.notification,
 });
 
 const bindActions = dispatch => ({
   getIssueCategories: () => dispatch(getIssueCategories.fetchCall()),
   setIssue: payload => dispatch(setIssue.fetchCall(payload)),
+  notification: () => dispatch(notification()),
 });
 
 export const ReportIssue = connect(

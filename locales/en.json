@@ -23,7 +23,8 @@
     "currencyPound": "£",
     "invalidAmount": "Invalid Amount",
     "notification": "Notifications blocked, please enable it from settings",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "noDataFoundNotification": "Data not found in notification"
   },
   "signUp": {
     "signUpText": "Sign up",
@@ -162,7 +163,8 @@
     "characterLimit": "",
     "chLeft": "characters left",
     "reportIssue": "Report Issue",
-    "bugReported": "Issue reported successfully!"
+    "bugReported": "Issue reported successfully!",
+    "loveToHear": "We’d love to hear your feedback"
     },
   "updateMortgage": {
     "updateMortgage": "Update Mortgage",

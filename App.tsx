@@ -10,10 +10,20 @@ import {setNavigator} from './src/navigation/navigationService';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {navigate} from './src/navigation/navigationService';
 import {getUserInfo} from './src/store/reducers';
-import {NAVIGATION_SCREEN_NAME, DB_KEYS} from './src/utils/constants';
+import {
+  NAVIGATION_SCREEN_NAME,
+  DB_KEYS,
+  NOTIFICATION_TYPES,
+  LOCALE_STRING,
+} from './src/utils/constants';
 import {get as _get} from 'lodash';
 import OneSignal from 'react-native-onesignal';
-import {notification, policyUpdate} from './src/store/actions/actions';
+import {
+  notification,
+  policyUpdate,
+  paymentReminder,
+} from './src/store/actions/actions';
+import {showSnackBar, localeString} from './src/utils';
 
 const ONE_SIGNAL_APP_ID = 'ce763fbb-0f60-4f44-b709-30eedbf62388'; //Should be moved to a saparate .env file
 const NOTIFICATION_DISPLAY = 2; //always display notification in shade.
@@ -144,11 +154,32 @@ class App extends React.Component<props, state> {
    *
    * @param notification : object : contains complete notification info and status
    */
-  onReceived(notification: any) {
+  async onReceived(notification: any) {
     console.log(
       'onReceived : Notification received : notification => ',
       notification,
     );
+
+    if (_get(store.getState(), DB_KEYS.USER_INFO, null)) {
+      const notificationType = _get(
+        notification,
+        DB_KEYS.NOTIFICATION_TYPE,
+        '',
+      );
+      switch (notificationType) {
+        case NOTIFICATION_TYPES.PRIVACY_POLICY:
+          await store.dispatch(policyUpdate());
+          break;
+        case NOTIFICATION_TYPES.PAYMENT_REMINDER:
+          await store.dispatch(paymentReminder());
+          break;
+        default:
+          showSnackBar(
+            {},
+            localeString(LOCALE_STRING.GLOBAL.NO_DATA_NOTIFICATION),
+          );
+      }
+    }
   }
 
   /**
@@ -156,9 +187,41 @@ class App extends React.Component<props, state> {
    * @param openResult : object : contains notification info(body, additional data)
    */
   async onOpened(openResult: any) {
-    if (_get(store.getState(), DB_KEYS.USER_INFO, null))
-      navigate(NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION, {});
-    else await store.dispatch(notification());
+    const notificationType = _get(
+      openResult.notification,
+      DB_KEYS.NOTIFICATION_TYPE,
+      '',
+    );
+    switch (notificationType) {
+      case NOTIFICATION_TYPES.PRIVACY_POLICY:
+        if (
+          !_get(store.getState(), DB_KEYS.IS_POLICY_UPDATE_RECEIVED_FLAG, true)
+        )
+          await store.dispatch(policyUpdate());
+        break;
+      case NOTIFICATION_TYPES.USER_FEEDBACK:
+        if (_get(store.getState(), DB_KEYS.USER_INFO, null)) {
+          await store.dispatch(notification());
+          navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE, {});
+        } else await store.dispatch(notification());
+        break;
+      case NOTIFICATION_TYPES.PAYMENT_REMINDER:
+        if (
+          !_get(
+            store.getState(),
+            DB_KEYS.IS_PAYMENT_REMINDER_RECEIVED_FLAG,
+            true,
+          )
+        )
+          await store.dispatch(paymentReminder());
+        break;
+      default:
+        showSnackBar(
+          {},
+          localeString(LOCALE_STRING.GLOBAL.NO_DATA_NOTIFICATION),
+        );
+    }
+
     console.log(
       'onOpened : Message =>',
       _get(openResult.notification, DB_KEYS.ONE_SIGNAL_NOTIFICATION.BODY, ''),

@@ -15,6 +15,11 @@ export const LOCAL_KEYS = {
   SWIPER_NAME: 'name',
   PUSH_NOTIFICATION_ACCESS_GRANTED: 'granted',
 };
+export const NOTIFICATION_TYPES = {
+  PRIVACY_POLICY: 'privacy_policy',
+  USER_FEEDBACK: 'user_feedback',
+  PAYMENT_REMINDER: 'payment_reminder',
+};
 export const NATIVE_EVENTS = {
   WIDTH: 'width',
 };

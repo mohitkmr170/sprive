@@ -180,7 +180,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
       reset(
         isNotificationReceived
-          ? NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION
+          ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
         {
           isUserDataChanged: true,
@@ -200,7 +200,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     if (!_get(getUserGoalResponse, DB_KEYS.RESPONSE_DATA, []).length) {
       reset(
         isNotificationReceived
-          ? NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION
+          ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
         {
           isUserDataChanged: true,
@@ -236,7 +236,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       }
       reset(
         isNotificationReceived
-          ? NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION
+          ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
         {
           isUserDataChanged: false,
@@ -245,7 +245,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     } else
       reset(
         isNotificationReceived
-          ? NAVIGATION_SCREEN_NAME.PUSH_NOTIFICATION
+          ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
         {
           isUserDataChanged: true,

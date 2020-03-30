@@ -34,7 +34,6 @@ import {
   iRight,
   iLogOut,
 } from '../../assets';
-import {pushNotification} from '../../store/reducers';
 import {closeDrawer} from '../../navigation/navigationService';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -48,8 +47,6 @@ interface props {
   getPendingTaskResponse: object;
   getUserInfoResponse: object;
   logoutUserAction: () => void;
-  pushNotification: () => void;
-  pushNotificationResponse: object;
   policyUpdate: () => void;
   paymentReminder: () => void;
 }
@@ -128,53 +125,6 @@ export class UnconnectedSideBar extends React.Component<props, state> {
             );
       },
       isDisabled: false,
-    },
-    {
-      title: localeString(LOCALE_STRING.SIDE_BAR.NOTIFICATION),
-      icon: iNotification,
-      action: async () => {
-        checkNotifications().then(async ({status, settings}) => {
-          if (status === LOCAL_KEYS.PUSH_NOTIFICATION_ACCESS_GRANTED) {
-            closeDrawer();
-            const {pushNotification} = this.props;
-            await pushNotification();
-            const {pushNotificationResponse} = this.props;
-            if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
-              this.props.policyUpdate();
-            }
-          } else
-            showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
-        });
-      },
-      isDisabled: _get(
-        this.props.pushNotificationResponse,
-        DB_KEYS.IS_FETCHING,
-        false,
-      ),
-    },
-    {
-      title: localeString(LOCALE_STRING.SIDE_BAR.PAYMENT_REMINDER),
-      icon: iNotification,
-      action: async () => {
-        checkNotifications().then(async ({status, settings}) => {
-          if (status === LOCAL_KEYS.PUSH_NOTIFICATION_ACCESS_GRANTED) {
-            closeDrawer();
-            const {pushNotification} = this.props;
-            await pushNotification();
-            const {pushNotificationResponse} = this.props;
-            if (!_get(pushNotificationResponse, DB_KEYS.ERROR, true)) {
-              this.props.paymentReminder();
-            }
-          } else {
-            showSnackBar({}, localeString(LOCALE_STRING.GLOBAL.NOTIFICATION));
-          }
-        });
-      },
-      isDisabled: _get(
-        this.props.pushNotificationResponse,
-        DB_KEYS.IS_FETCHING,
-        false,
-      ),
     },
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.OVER_PAYMENT_HISTORY),
@@ -328,7 +278,6 @@ export class UnconnectedSideBar extends React.Component<props, state> {
 
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
-  pushNotificationResponse: state.pushNotification,
   getPendingTaskResponse: state.getPendingTask,
 });
 
@@ -336,7 +285,6 @@ const bindActions = dispatch => ({
   paymentReminder: () => dispatch(paymentReminder()),
   policyUpdate: () => dispatch(policyUpdate()),
   logoutUserAction: () => dispatch(logoutUser()),
-  pushNotification: () => dispatch(pushNotification.fetchCall()),
 });
 
 export const SideBar = connect(
