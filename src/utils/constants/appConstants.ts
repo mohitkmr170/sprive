@@ -63,4 +63,12 @@ export const APP_CONSTANTS = {
   HARD_BACK_PRESS: 'hardwareBackPress',
   MIN_MORTGAGE_TERM: 1,
   MAX_MORTGAGE_TERM: 35,
+  HOME_OWNERSHIP_RANGES: {
+    ZERO: 0,
+    TWENTY: 20,
+    FOURTY: 40,
+    SIXTY: 60,
+    EIGHTY: 80,
+    HUNDRED: 100,
+  },
 };

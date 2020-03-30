@@ -4,11 +4,14 @@ import {LOCALE_STRING, DB_KEYS} from '../utils';
 import {store} from '../store/configStore';
 import {get as _get} from 'lodash';
 import Moment from 'moment';
+import {APP_LEVEL_REQUIRES} from './require';
 
 const MORTGAGE_LIMIT = 10000000,
   MONTHLY_MORTGAGE_LIMIT = 10000,
   MINIMUM_AGE_CRITERION = 18,
   MAX_AGE_CRITERION = 1900;
+
+const DATE_FORMAT_DDMMYYYY = 'DD/MM/YYYY';
 
 const REGEX = {
   NUMERIC: /[^0-9]/i,
@@ -150,7 +153,7 @@ export const negativeValidation = (value: any) => {
  */
 export const dobValidation = (value: string) => {
   if (value.length === 10) {
-    const birthDay = Moment(value, 'DD/MM/YYYY').toISOString();
+    const birthDay = Moment(value, DATE_FORMAT_DDMMYYYY).toISOString();
     const currentDay = Moment().toISOString();
 
     const years = Moment(currentDay).diff(birthDay, 'year');
@@ -169,7 +172,7 @@ export const dobValidation = (value: string) => {
  * Validation of DOB for maximum age allowed
  */
 export const maxAgeCritereon = (value: string) => {
-  let birthYear = Moment(value, 'DD/MM/YYYY').year();
+  let birthYear = Moment(value, DATE_FORMAT_DDMMYYYY).year();
   return value && birthYear < MAX_AGE_CRITERION
     ? localeString(LOCALE_STRING.VALIDATIONS.MAX_AGE_LIMIT)
     : undefined;
@@ -204,7 +207,7 @@ export const passMatching = (value: any) => {
 };
 
 export const minPasswordStrength = (value: any) => {
-  let zxcvbn = require('zxcvbn');
+  let zxcvbn = APP_LEVEL_REQUIRES.zxcvbn;
   let passStrength = zxcvbn(value);
   return passStrength.score < 2
     ? localeString(LOCALE_STRING.VALIDATIONS.WEAK_PASSWORD)

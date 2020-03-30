@@ -31,6 +31,7 @@ import {
   eightyComplete,
   hundredComplete,
 } from '../../assets';
+import Moment from 'moment';
 import {GeneralStatusBar, Header} from '../../components';
 import {
   getNumberWithCommas,
@@ -46,6 +47,7 @@ import {
   TASK_IDS,
   STAGE_IDS,
   PAYLOAD_KEYS,
+  NUMERIC_FACTORS,
 } from '../../utils';
 
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.PRIMARY_THIRD_PART];
@@ -64,6 +66,7 @@ interface props {
     extraPayload: object,
   ) => void;
   getOutstandingMortgageBalanceResponse: object;
+  getProjectedDataResponse: object;
 }
 interface state {}
 
@@ -146,17 +149,17 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
     );
     const houseOwned = 100 - (currentLtv ? currentLtv : 0);
-    if (houseOwned >= 0 && houseOwned < 20)
+    if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.ZERO && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.TWENTY)
       return <Image style={styles.centerImage} source={zeroComplete} />;
-    else if (houseOwned >= 20 && houseOwned < 40)
+    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.TWENTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.FOURTY)
       return <Image style={styles.centerImage} source={twentyComplete} />;
-    else if (houseOwned >= 40 && houseOwned < 60)
+    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.FOURTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.SIXTY)
       return <Image style={styles.centerImage} source={fourtyComplete} />;
-    else if (houseOwned >= 60 && houseOwned < 80)
+    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.SIXTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.EIGHTY)
       return <Image style={styles.centerImage} source={sixtyComplete} />;
-    else if (houseOwned >= 80 && houseOwned < 100)
+    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.EIGHTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.HUNDRED)
       return <Image style={styles.centerImage} source={eightyComplete} />;
-    else if (houseOwned === 100)
+    else if (houseOwned === APP_CONSTANTS.HOME_OWNERSHIP_RANGES.HUNDRED)
       return <Image style={styles.centerImage} source={hundredComplete} />;
     else return;
   };
@@ -169,6 +172,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       getUserInfoResponse,
       getUserMortgageDataResponse,
       getOutstandingMortgageBalanceResponse,
+      getProjectedDataResponse,
     } = this.props;
     const currentLtv = Math.round(
       _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
@@ -176,7 +180,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
     /*
     NOTES : data[0] to be changed later
     */
-    const houseOwned = 100 - (currentLtv ? currentLtv : 0);
+    const houseOwned = NUMERIC_FACTORS.PERCENT_FACTOR - (currentLtv ? currentLtv : 0);
     const homeValuation = Math.round(
       _get(getUserMortgageDataResponse, DB_KEYS.HOME_VALUATION, 0),
     );
@@ -193,6 +197,25 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
           ),
         )
       : 0;
+    let mortgageCreatedYear = Moment(
+      _get(getUserMortgageDataResponse, DB_KEYS.CREATED_AT, null),
+    ).year();
+    const targetMonth =
+      APP_CONSTANTS.MONTH_NAMES[
+        _get(
+          getProjectedDataResponse,
+          DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
+          null,
+        )
+      ];
+    let targetYear =
+      mortgageCreatedYear +
+      _get(
+        getProjectedDataResponse,
+        DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+        null,
+      );
+    targetYear = targetYear % NUMERIC_FACTORS.PERCENT_FACTOR;
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
@@ -288,9 +311,9 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                   strokeWidth="2"
                 />
               </Svg>
+              {/* This is to be tested */}
               <Text style={styles.dateText}>
-                {/* This is Mock data, to be changed later */}
-                Jun 27’
+                {targetMonth} {targetYear}’
               </Text>
             </View>
             <Text style={styles.myHouseText}>
@@ -365,6 +388,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getPendingTaskResponse: state.getPendingTask,
+  getProjectedDataResponse: state.getProjectedData,
   getUserMortgageDataResponse: state.getUserMortgageData,
   getOutstandingMortgageBalanceResponse: state.getOutstandingMortgageBalance,
 });

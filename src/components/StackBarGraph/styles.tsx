@@ -112,4 +112,8 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
   rightButton: {alignSelf: 'center'},
+  projectedDataTopContainer: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
 });

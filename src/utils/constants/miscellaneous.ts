@@ -21,6 +21,11 @@ export const NOTIFICATION_TYPES = {
   USER_FEEDBACK: 'user_feedback',
   PAYMENT_REMINDER: 'payment_reminder',
 };
+export const NATIVE_EVENTS = {
+  WIDTH: 'width',
+  HEIGHT: 'height',
+  Y_OFFSET: 'y',
+};
 export const NUMERIC_FACTORS = {
   PERCENT_FACTOR: 100,
   LTV_FRACTION_OFFSET: 5,
@@ -104,5 +109,10 @@ export const PENDING_TASK_IDS = {
   STAGES: {
     ABOUT_YOU: 1,
     ADDRESS: 2,
+  },
+};
+export const ANIMATION_CONSTANTS = {
+  TIMING: {
+    NORMAL: 350,
   },
 };

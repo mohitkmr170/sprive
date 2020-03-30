@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     alignSelf: 'center',
   },
-  subListeHaderText: {
+  subListHeaderText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
     color: COLOR.VOILET,

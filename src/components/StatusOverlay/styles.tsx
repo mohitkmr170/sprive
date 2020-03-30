@@ -13,7 +13,10 @@ export const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1,
     backgroundColor: COLOR.LIGHT_OPACITY_BLACK,
-    paddingTop: Platform.OS === 'android' ? 0 : getStatusBarHeight(),
+    paddingTop:
+      Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_ANDROID
+        ? 0
+        : getStatusBarHeight(),
     justifyContent: 'center',
     alignItems: 'center',
   },

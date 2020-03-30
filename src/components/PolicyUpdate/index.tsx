@@ -48,7 +48,7 @@ export class PolicyUpdate extends React.Component<props, state> {
           </Text>
           <TouchableOpacity onPress={() => this.props.policyUpdate()}>
             <Text style={styles.okayText}>
-              {localeString(LOCALE_STRING.POLICY_UPDATE.OKAY)}
+              {localeString(LOCALE_STRING.GLOBAL.OKAY)}
             </Text>
           </TouchableOpacity>
         </View>

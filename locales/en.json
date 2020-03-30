@@ -15,6 +15,7 @@
   },
   "global": {
     "backButton": "Back",
+    "okay": "Okay",
     "email": "Email",
     "e-mail": "email",
     "password": "Password",
@@ -23,7 +24,8 @@
     "currencyPound": "£",
     "invalidAmount": "Invalid Amount",
     "notification": "Notifications blocked, please enable it from settings",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "noDataFoundNotification": "Data not found in notification"
   },
   "signUp": {
     "signUpText": "Sign up",
@@ -106,10 +108,10 @@
   "stackBarGraphComponent": {
     "projectedTime": "Projected Time",
     "saving": "Saving",
-    "months": "months",
-    "month": "month",
-    "year": "year",
-    "years": "years",
+    "months": "m",
+    "month": "m",
+    "year": "yr",
+    "years": "yrs",
     "projectInterested": "Projected Interest"
   },
   "dashBoard": {
@@ -163,7 +165,10 @@
     "characterLimit": "",
     "chLeft": "characters left",
     "reportIssue": "Send",
-    "bugReported": "Feedback submitted successfully"
+    "bugReported": "Feedback submitted successfully",
+    "reportIssue": "Report Issue",
+    "bugReported": "Issue reported successfully!",
+    "loveToHear": "We’d love to hear your feedback"
     },
   "updateMortgage": {
     "updateMortgage": "Update Mortgage",
@@ -182,7 +187,8 @@
     "paymentReminder": "Payment Reminder",
     "aboutYou": "About You",
     "settings": "Settings",
-    "security": "Security"
+    "security": "Security",
+    "personalDetails": "Personal Details"
   },
   "emailVerification": {
     "okay": "Okay",

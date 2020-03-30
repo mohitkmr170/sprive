@@ -5,8 +5,10 @@ export const LOCALE_STRING = {
     INFO: 'splashScreen.info',
   },
   GLOBAL: {
+    OKAY: 'global.okay',
     NOTIFICATION: 'global.notification',
     NOTIFICATIONS: 'global.notifications',
+    NO_DATA_NOTIFICATION: 'global.noDataFoundNotification',
   },
   LOGIN_SCREEN: {
     LOGIN_BUTTON: 'login.loginButton',
@@ -157,6 +159,7 @@ export const LOCALE_STRING = {
     CHAR_LEFT: 'reportIssue.chLeft',
     REPORT_ISSUE: 'reportIssue.reportIssue',
     BUG_REPORTED: 'reportIssue.bugReported',
+    LOVE_TO_HEAR: 'reportIssue.loveToHear',
   },
   UPDATE_MORTGAGE: {
     UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',
@@ -176,6 +179,7 @@ export const LOCALE_STRING = {
     PROFILE_SUB_LIST: 'sideBar.aboutYou',
     SETTINGS_SUB_LIST: 'sideBar.settings',
     SECURITY: 'sideBar.security',
+    PERSONAL_DETAILS: 'sideBar.personalDetails',
   },
   EMAIL_VERIFICATION: {
     EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',

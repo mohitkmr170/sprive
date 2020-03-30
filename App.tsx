@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {StyleSheet, View, Alert} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
@@ -14,6 +14,7 @@ import {
   NAVIGATION_SCREEN_NAME,
   DB_KEYS,
   NOTIFICATION_TYPES,
+  LOCALE_STRING,
 } from './src/utils/constants';
 import {get as _get} from 'lodash';
 import OneSignal from 'react-native-onesignal';
@@ -22,6 +23,7 @@ import {
   policyUpdate,
   paymentReminder,
 } from './src/store/actions/actions';
+import {showSnackBar, localeString} from './src/utils';
 
 const ONE_SIGNAL_APP_ID = 'ce763fbb-0f60-4f44-b709-30eedbf62388'; //Should be moved to a saparate .env file
 const NOTIFICATION_DISPLAY = 2; //always display notification in shade.
@@ -172,7 +174,10 @@ class App extends React.Component<props, state> {
           await store.dispatch(paymentReminder());
           break;
         default:
-          console.log('No data in notification');
+          showSnackBar(
+            {},
+            localeString(LOCALE_STRING.GLOBAL.NO_DATA_NOTIFICATION),
+          );
       }
     }
   }
@@ -211,7 +216,10 @@ class App extends React.Component<props, state> {
           await store.dispatch(paymentReminder());
         break;
       default:
-        console.log('No data in notification');
+        showSnackBar(
+          {},
+          localeString(LOCALE_STRING.GLOBAL.NO_DATA_NOTIFICATION),
+        );
     }
 
     console.log(

@@ -287,7 +287,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       localeString(LOCALE_STRING.SET_GOAL_SCREEN.SET_GOAL_UPDATE_POPUP),
       [
         {
-          text: localeString(LOCALE_STRING.EMAIL_VERIFICATION.OKAY),
+          text: localeString(LOCALE_STRING.GLOBAL.OKAY),
           onPress: () => this.handleSetGoal(),
         },
       ],
@@ -369,7 +369,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       localeString(LOCALE_STRING.NOTIFICATION_PERMISSIONS.ACCESS_TO_SPRIVE),
       [
         {
-          text: localeString(LOCALE_STRING.EMAIL_VERIFICATION.OKAY),
+          text: localeString(LOCALE_STRING.GLOBAL.OKAY),
           onPress: () => this.showModificationPopup(),
         },
       ],

@@ -14,6 +14,7 @@ import {
   LOCALE_STRING,
   DB_KEYS,
   NUMERIC_FACTORS,
+  ANIMATION_CONSTANTS,
 } from '../../utils';
 import {PendingTaskListItem} from './PendingTaskListItem';
 import {styles} from './styles';
@@ -119,9 +120,9 @@ export class UnconnectedPendingTaskDrawer extends React.Component<
             <Modal
               isVisible={this.state.isModalVisible}
               animationIn="slideInUp"
-              animationInTiming={350}
+              animationInTiming={ANIMATION_CONSTANTS.TIMING.NORMAL}
               animationOut="slideOutDown"
-              animationOutTiming={350}
+              animationOutTiming={ANIMATION_CONSTANTS.TIMING.NORMAL}
               swipeDirection="up"
               deviceHeight={STYLE_CONSTANTS.device.SCREEN_HEIGHT / 1.2} //For layover
               onBackdropPress={() => this.onSwipeDown()}
