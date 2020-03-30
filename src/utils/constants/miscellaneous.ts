@@ -23,6 +23,8 @@ export const NOTIFICATION_TYPES = {
 };
 export const NATIVE_EVENTS = {
   WIDTH: 'width',
+  HEIGHT: 'height',
+  Y_OFFSET: 'y',
 };
 export const NUMERIC_FACTORS = {
   PERCENT_FACTOR: 100,
@@ -107,5 +109,10 @@ export const PENDING_TASK_IDS = {
   STAGES: {
     ABOUT_YOU: 1,
     ADDRESS: 2,
+  },
+};
+export const ANIMATION_CONSTANTS = {
+  TIMING: {
+    NORMAL: 350,
   },
 };

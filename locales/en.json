@@ -15,6 +15,7 @@
   },
   "global": {
     "backButton": "Back",
+    "okay": "Okay",
     "email": "Email",
     "e-mail": "email",
     "password": "Password",
@@ -107,10 +108,10 @@
   "stackBarGraphComponent": {
     "projectedTime": "Projected Time",
     "saving": "Saving",
-    "months": "months",
-    "month": "month",
-    "year": "year",
-    "years": "years",
+    "months": "m",
+    "month": "m",
+    "year": "yr",
+    "years": "yrs",
     "projectInterested": "Projected Interest"
   },
   "dashBoard": {
@@ -186,7 +187,8 @@
     "paymentReminder": "Payment Reminder",
     "aboutYou": "About You",
     "settings": "Settings",
-    "security": "Security"
+    "security": "Security",
+    "personalDetails": "Personal Details"
   },
   "emailVerification": {
     "okay": "Okay",

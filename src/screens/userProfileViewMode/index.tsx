@@ -285,19 +285,21 @@ const mapStateToProps = (state: object) => ({
     NOTES : //data[0] to be changed later after BE update
     */
     address:
-      _get(state, DB_KEYS.GET_USER_INFO.HOUSE_NUMBER, '') +
-      ', ' +
+      (_get(state, DB_KEYS.GET_USER_INFO.HOUSE_NUMBER, '')
+        ? _get(state, DB_KEYS.GET_USER_INFO.HOUSE_NUMBER, '') + ', '
+        : '') +
       (_get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '')
-        ? _get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '')
+        ? _get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '') + ', '
         : '') +
-      (_get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '') ? ',  ' : '') +
       (_get(state, DB_KEYS.GET_USER_INFO.COUNTY, '')
-        ? _get(state, DB_KEYS.GET_USER_INFO.COUNTY, '')
+        ? _get(state, DB_KEYS.GET_USER_INFO.COUNTY, '') + ', '
         : '') +
-      (_get(state, DB_KEYS.GET_USER_INFO.COUNTY, '') ? ', ' : '') +
-      _get(state, DB_KEYS.GET_USER_INFO.CITY, '') +
-      ', ' +
-      _get(state, DB_KEYS.GET_USER_INFO.POST_CODE, ''),
+      (_get(state, DB_KEYS.GET_USER_INFO.CITY, '')
+        ? _get(state, DB_KEYS.GET_USER_INFO.CITY, '') + ', '
+        : '') +
+      (_get(state, DB_KEYS.GET_USER_INFO.POST_CODE, '')
+        ? _get(state, DB_KEYS.GET_USER_INFO.POST_CODE, '')
+        : ''),
   },
   reducerResponse: state.form,
   getUserInfoResponse: state.getUserInfo,

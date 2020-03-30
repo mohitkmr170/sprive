@@ -108,7 +108,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
   };
   SIDEBAR_SUBLIST_DATA = [
     {
-      title: 'Personal Details',
+      title: localeString(LOCALE_STRING.SIDE_BAR.PERSONAL_DETAILS),
       icon: iAvatar,
       action: () => {
         const {getPendingTaskResponse} = this.props;
@@ -260,7 +260,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
             )}
             {this.state.isSubListOpened ||
             this.state.isPasswordSectionClicked ? (
-              <Text style={styles.subListeHaderText}>
+              <Text style={styles.subListHeaderText}>
                 {this.state.isSubListOpened
                   ? localeString(LOCALE_STRING.SIDE_BAR.PROFILE_SUB_LIST)
                   : localeString(LOCALE_STRING.SIDE_BAR.SECURITY)}

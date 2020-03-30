@@ -5,6 +5,7 @@ export const LOCALE_STRING = {
     INFO: 'splashScreen.info',
   },
   GLOBAL: {
+    OKAY: 'global.okay',
     NOTIFICATION: 'global.notification',
     NOTIFICATIONS: 'global.notifications',
     NO_DATA_NOTIFICATION: 'global.noDataFoundNotification',
@@ -178,6 +179,7 @@ export const LOCALE_STRING = {
     PROFILE_SUB_LIST: 'sideBar.aboutYou',
     SETTINGS_SUB_LIST: 'sideBar.settings',
     SECURITY: 'sideBar.security',
+    PERSONAL_DETAILS: 'sideBar.personalDetails',
   },
   EMAIL_VERIFICATION: {
     EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',

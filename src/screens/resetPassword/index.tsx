@@ -300,9 +300,7 @@ export class UnconnectedResetPassword extends React.Component<props, state> {
         {this.state.passwordResetDeeplinkKeyIssue && (
           <StatusOverlay
             icon={iFail}
-            firstButtonText={localeString(
-              LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
-            )}
+            firstButtonText={localeString(LOCALE_STRING.GLOBAL.OKAY)}
             handleFirstButton={() => {
               this.setState({passwordResetDeeplinkKeyIssue: false});
               reset(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);

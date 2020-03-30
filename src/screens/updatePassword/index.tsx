@@ -291,9 +291,7 @@ export class UnconnectedUpdatePassword extends React.Component<props, state> {
         {this.state.isUpdateComplete && (
           <StatusOverlay
             icon={isUpdatePasswordFailed ? iFail : iVerify}
-            firstButtonText={localeString(
-              LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
-            )}
+            firstButtonText={localeString(LOCALE_STRING.GLOBAL.OKAY)}
             handleFirstButton={() => {
               isUpdatePasswordFailed
                 ? this.props.navigation.navigate(

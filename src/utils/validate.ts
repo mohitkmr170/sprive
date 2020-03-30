@@ -4,6 +4,7 @@ import {LOCALE_STRING, DB_KEYS} from '../utils';
 import {store} from '../store/configStore';
 import {get as _get} from 'lodash';
 import Moment from 'moment';
+import {APP_LEVEL_REQUIRES} from './require';
 
 const MORTGAGE_LIMIT = 10000000,
   MONTHLY_MORTGAGE_LIMIT = 10000,
@@ -206,7 +207,7 @@ export const passMatching = (value: any) => {
 };
 
 export const minPasswordStrength = (value: any) => {
-  let zxcvbn = require('zxcvbn');
+  let zxcvbn = APP_LEVEL_REQUIRES.zxcvbn;
   let passStrength = zxcvbn(value);
   return passStrength.score < 2
     ? localeString(LOCALE_STRING.VALIDATIONS.WEAK_PASSWORD)

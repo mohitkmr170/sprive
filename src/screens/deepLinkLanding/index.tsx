@@ -220,9 +220,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
           {isVerifyApicalled && !isNotVerified && (
             <StatusOverlay
               icon={iVerify}
-              firstButtonText={localeString(
-                LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
-              )}
+              firstButtonText={localeString(LOCALE_STRING.GLOBAL.OKAY)}
               handleFirstButton={() => {
                 const externalUserId = _get(
                   getUserInfoResponse,
@@ -245,9 +243,7 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
           {isNotVerified && isVerifyApicalled && (
             <StatusOverlay
               icon={iFail}
-              firstButtonText={localeString(
-                LOCALE_STRING.EMAIL_VERIFICATION.OKAY,
-              )}
+              firstButtonText={localeString(LOCALE_STRING.GLOBAL.OKAY)}
               handleFirstButton={() => this.handleFailPress()}
               mainMessage={localeString(
                 LOCALE_STRING.EMAIL_VERIFICATION.FAIL_TITLE,

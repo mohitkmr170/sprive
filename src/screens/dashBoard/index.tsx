@@ -41,6 +41,7 @@ import {
   PAYLOAD_KEYS,
   STYLE_CONSTANTS,
   showSnackBar,
+  NATIVE_EVENTS,
 } from '../../utils';
 import {
   getMonthlyPaymentRecord,
@@ -56,6 +57,7 @@ import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-a
 import {PaymentReminderModal} from './paymentReminderModal';
 
 const CURRENT_MONTH = new Date().getMonth();
+const SCREEN_Y_OFFSET_NINETY_PERCENT = 0.9;
 interface NavigationParams {
   isUserDataChanged: boolean;
 }
@@ -291,8 +293,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   }) => {
     const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
     if (
-      _get(layoutMeasurement, 'height', 0) + _get(contentOffset, 'y', 0) >=
-      0.9 * _get(contentSize, 'height', 0)
+      _get(layoutMeasurement, NATIVE_EVENTS.HEIGHT, 0) +
+        _get(contentOffset, NATIVE_EVENTS.Y_OFFSET, 0) >=
+      SCREEN_Y_OFFSET_NINETY_PERCENT *
+        _get(contentSize, NATIVE_EVENTS.HEIGHT, 0)
     ) {
       this.setState({isPendingTaskVisible: false});
     } else this.setState({isPendingTaskVisible: true});
