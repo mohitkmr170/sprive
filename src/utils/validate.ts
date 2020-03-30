@@ -10,6 +10,8 @@ const MORTGAGE_LIMIT = 10000000,
   MINIMUM_AGE_CRITERION = 18,
   MAX_AGE_CRITERION = 1900;
 
+const DATE_FORMAT_DDMMYYYY = 'DD/MM/YYYY';
+
 const REGEX = {
   NUMERIC: /[^0-9]/i,
   EMAIL: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
@@ -150,7 +152,7 @@ export const negativeValidation = (value: any) => {
  */
 export const dobValidation = (value: string) => {
   if (value.length === 10) {
-    const birthDay = Moment(value, 'DD/MM/YYYY').toISOString();
+    const birthDay = Moment(value, DATE_FORMAT_DDMMYYYY).toISOString();
     const currentDay = Moment().toISOString();
 
     const years = Moment(currentDay).diff(birthDay, 'year');
@@ -169,7 +171,7 @@ export const dobValidation = (value: string) => {
  * Validation of DOB for maximum age allowed
  */
 export const maxAgeCritereon = (value: string) => {
-  let birthYear = Moment(value, 'DD/MM/YYYY').year();
+  let birthYear = Moment(value, DATE_FORMAT_DDMMYYYY).year();
   return value && birthYear < MAX_AGE_CRITERION
     ? localeString(LOCALE_STRING.VALIDATIONS.MAX_AGE_LIMIT)
     : undefined;

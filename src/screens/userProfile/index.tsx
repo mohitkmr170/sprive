@@ -282,7 +282,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
                 {localeString(LOCALE_STRING.USER_PROFILE.ABOUT_YOU)}
               </Text>
               <Field
-                name="firstName"
+                name={FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME}
                 label={localeString(LOCALE_STRING.USER_PROFILE.FIRST_NAME)}
                 fieldLabelStyle={styles.fieldLabelStyle}
                 component={ReduxFormField}
@@ -295,7 +295,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
                 validate={[alphaBets, required]}
               />
               <Field
-                name="lastName"
+                name={FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME}
                 label={localeString(LOCALE_STRING.USER_PROFILE.LAST_NAME)}
                 fieldLabelStyle={styles.fieldLabelStyle}
                 component={ReduxFormField}
@@ -308,7 +308,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
                 validate={[alphaBets, required]}
               />
               <Field
-                name="dateOfBirth"
+                name={FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH}
                 label={localeString(LOCALE_STRING.USER_PROFILE.DOB)}
                 fieldLabelStyle={styles.fieldLabelStyle}
                 component={ReduxFormField}

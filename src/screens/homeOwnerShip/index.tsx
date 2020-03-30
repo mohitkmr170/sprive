@@ -31,6 +31,7 @@ import {
   eightyComplete,
   hundredComplete,
 } from '../../assets';
+import Moment from 'moment';
 import {GeneralStatusBar, Header} from '../../components';
 import {
   getNumberWithCommas,
@@ -46,6 +47,7 @@ import {
   TASK_IDS,
   STAGE_IDS,
   PAYLOAD_KEYS,
+  NUMERIC_FACTORS,
 } from '../../utils';
 
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.PRIMARY_THIRD_PART];
@@ -64,6 +66,7 @@ interface props {
     extraPayload: object,
   ) => void;
   getOutstandingMortgageBalanceResponse: object;
+  getProjectedDataResponse: object;
 }
 interface state {}
 
@@ -169,6 +172,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       getUserInfoResponse,
       getUserMortgageDataResponse,
       getOutstandingMortgageBalanceResponse,
+      getProjectedDataResponse,
     } = this.props;
     const currentLtv = Math.round(
       _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
@@ -193,6 +197,25 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
           ),
         )
       : 0;
+    let mortgageCreatedYear = Moment(
+      _get(getUserMortgageDataResponse, DB_KEYS.CREATED_AT, null),
+    ).year();
+    const targetMonth =
+      APP_CONSTANTS.MONTH_NAMES[
+        _get(
+          getProjectedDataResponse,
+          DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
+          null,
+        )
+      ];
+    let targetYear =
+      mortgageCreatedYear +
+      _get(
+        getProjectedDataResponse,
+        DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+        null,
+      );
+    targetYear = targetYear % NUMERIC_FACTORS.PERCENT_FACTOR;
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
@@ -288,9 +311,9 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
                   strokeWidth="2"
                 />
               </Svg>
+              {/* This is to be tested */}
               <Text style={styles.dateText}>
-                {/* This is Mock data, to be changed later */}
-                Jun 27’
+                {targetMonth} {targetYear}’
               </Text>
             </View>
             <Text style={styles.myHouseText}>
@@ -365,6 +388,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getPendingTaskResponse: state.getPendingTask,
+  getProjectedDataResponse: state.getProjectedData,
   getUserMortgageDataResponse: state.getUserMortgageData,
   getOutstandingMortgageBalanceResponse: state.getOutstandingMortgageBalance,
 });
