@@ -38,6 +38,7 @@ import {verticalScale} from 'react-native-size-matters/extend';
 import {reset} from '../navigation/navigationService';
 import Snackbar from 'react-native-snackbar';
 import OneSignal from 'react-native-onesignal';
+import FingerprintScanner from 'react-native-fingerprint-scanner';
 import {notification} from '../store/actions/actions';
 const codePush = require('react-native-code-push');
 const APP_UPDATED_SUCCESS: string = 'App has been updated.';
@@ -72,6 +73,7 @@ interface props {
   notificationResponse: object;
   getPendingTask: (payload: object, extraPayload: object) => void;
   getPendingTaskResponse: object;
+  handlePopupDismissed: () => void;
 }
 
 interface state {}
@@ -107,8 +109,31 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     });
   };
 
+  biometricAuthentication = () => {
+    FingerprintScanner.isSensorAvailable()
+      .then(biometrictype => {
+        console.log('biometrictype success ::', biometrictype);
+        const description: string = `Scan you ${biometrictype} to proceed`;
+        FingerprintScanner.authenticate({
+          description: description,
+        })
+          .then(() => {
+            this.props.handlePopupDismissed();
+            Alert.alert('Authenticated successfully');
+          })
+          .catch((error: object) => {
+            this.props.handlePopupDismissed();
+            Alert.alert(_get(error, 'message', ''));
+          });
+      })
+      .catch(error => {
+        console.log('biometrictype error ::', error);
+      });
+  };
+
   async componentDidMount() {
     StatusBar.setHidden(true, 'fade');
+    this.biometricAuthentication();
     this.authFlowCheck();
     /*
     NOTES : Remember to update the current version to be updated => CFBundleShortVersionString
