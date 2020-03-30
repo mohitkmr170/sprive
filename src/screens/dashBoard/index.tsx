@@ -247,51 +247,17 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     });
   };
 
-  remindeMeTomorrow = () => {
+  remindMeLater = (timeWindowType: string) => {
     const {paymentRescheduleReminder, getUserInfoResponse} = this.props;
     this.setState(
       {
         isModalAlertVisible: false,
       },
       async () => {
+        const DAY_COUNT = 1;
         const payload = {
           [PAYLOAD_KEYS.OVERPAYMENT.SCHEDULE_NOTIFICATION_TIME]: Moment()
-            .add(1, 'days')
-            .toISOString(),
-        };
-        const qParams = {
-          [PAYLOAD_KEYS.USER_ID]: _get(
-            getUserInfoResponse,
-            DB_KEYS.DATA_ID,
-            null,
-          ),
-        };
-        await paymentRescheduleReminder(payload, qParams);
-        const {paymentRescheduleReminderResponse} = this.props;
-        if (!_get(paymentRescheduleReminderResponse, DB_KEYS.ERROR, true))
-          showSnackBar(
-            {},
-            _get(
-              paymentRescheduleReminderResponse,
-              DB_KEYS.RESPONSE_MESSAGE,
-              localeString(
-                LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_TOMORROW,
-              ),
-            ),
-          );
-      },
-    );
-  };
-  remindeMeNextWeek = () => {
-    const {paymentRescheduleReminder, getUserInfoResponse} = this.props;
-    this.setState(
-      {
-        isModalAlertVisible: false,
-      },
-      async () => {
-        const payload = {
-          [PAYLOAD_KEYS.OVERPAYMENT.SCHEDULE_NOTIFICATION_TIME]: Moment()
-            .add(1, 'weeks')
+            .add(DAY_COUNT, timeWindowType)
             .toISOString(),
         };
         const qParams = {
@@ -553,8 +519,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             isVisible={this.state.isModalAlertVisible}
             handleDismiss={() => this.setState({isModalAlertVisible: false})}
             monthlyTarget={monthlyTargetWithCommas}
-            remindeMeTomorrow={() => this.remindeMeTomorrow()}
-            remindeMeNextWeek={() => this.remindeMeNextWeek()}
+            remindeMeTomorrow={() => this.remindMeLater('days')}
+            remindeMeNextWeek={() => this.remindMeLater('weeks')}
           />
           {_get(
             this.props.policyUpdateResponse,
