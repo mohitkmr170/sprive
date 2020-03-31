@@ -59,6 +59,7 @@ export const FE_FORM_VALUE_CONSTANTS = {
   },
 };
 export const STATE_PARAMS = {
+  NAV_PARAMS: 'navigation.state.params',
   SELECTED_SEARCH_ADDRESS_INDEX: 'state.params.selectedAddressIndex',
   DETAILED_USER_ADDRESS: 'state.params.detailedAddress',
   TASK_ID: 'state.params.taskId',
@@ -115,4 +116,8 @@ export const ANIMATION_CONSTANTS = {
   TIMING: {
     NORMAL: 350,
   },
+};
+export const SECURITY_TYPE = {
+  PIN: 'pin',
+  FACE: 'face',
 };

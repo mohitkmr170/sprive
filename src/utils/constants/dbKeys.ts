@@ -53,6 +53,8 @@ export const DB_KEYS = {
   USER_ADDRESS_ID: 'response.data.address.id',
   LTV: 'response.data[0].ltv',
   HOME_VALUATION: 'response.data[0].home_valuation',
+  IS_TOGGLE_ENABLED: 'isToggleEnabled',
+  TWO_FACTOR_AUTH_TYPE: 'type',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',

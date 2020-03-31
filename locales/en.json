@@ -25,7 +25,9 @@
     "invalidAmount": "Invalid Amount",
     "notification": "Notifications blocked, please enable it from settings",
     "notifications": "Notifications",
-    "noDataFoundNotification": "Data not found in notification"
+    "noDataFoundNotification": "Data not found in notification",
+    "no": "No",
+    "yes": "Yes"
   },
   "signUp": {
     "signUpText": "Sign up",
@@ -188,7 +190,9 @@
     "aboutYou": "About You",
     "settings": "Settings",
     "security": "Security",
-    "personalDetails": "Personal Details"
+    "personalDetails": "Personal Details",
+    "secureLogin": "Secure Login",
+    "enableFaceId": "Enable Face ID"
   },
   "emailVerification": {
     "okay": "Okay",
@@ -328,5 +332,13 @@
     "accessToSprive": "Sprive would like to send you payment reminders. Please enable them from your mobile settings.",
     "rescheduledTomorrow": "Reminder reschedule for tomorrow",
     "rescheduledNextWeek": "Reminder reschedule for next week"
+  },
+  "secureLogin": {
+    "createHeader": "Let’s create a PIN for your account",
+    "createInfo": "You’ll be able to login with this PIN, hereafter",
+    "verifyHeader": "Please confirm your PIN",
+    "verifyInfo": "Please type in your PIN to verify",
+    "doYouWantToEnableFaceId": "Do you want to enable Face-ID?",
+    "pinNotMatched": "Pin did not match"
   }
 }

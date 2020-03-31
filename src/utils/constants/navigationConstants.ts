@@ -27,4 +27,6 @@ export const NAVIGATION_SCREEN_NAME = {
   USER_PROFILE_VIEW_MODE: 'UserProfileViewModeScreen',
   GENERIC_WEB_VIEW: 'GenericWebViewScreen',
   HOME_OWNERSHIP: 'HomeOwnerShipScreen',
+  CREATE_PIN: 'CreateSecurityPinScreen',
+  VERIFY_PIN: 'VerifySecurityPinScreen',
 };
