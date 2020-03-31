@@ -23,3 +23,5 @@ export * from './userAddress';
 export * from './searchAddress';
 export * from './userProfileViewMode';
 export * from './homeOwnerShip';
+export * from './createSecurityPin';
+export * from './verifySecurityPin';
