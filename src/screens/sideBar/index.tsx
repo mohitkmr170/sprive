@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Switch,
+  Alert,
+} from 'react-native';
 import {styles} from '../sideBar/styles';
 import {connect} from 'react-redux';
 import {Header} from '../../components';
@@ -24,6 +32,7 @@ import {
   STAGE_NAME_INDEX,
   APP_KEYS,
   LOCAL_KEYS,
+  SECURITY_TYPE,
 } from '../../utils';
 import {
   iNotification,
@@ -57,6 +66,8 @@ const COUNTRY = 'UK';
 interface state {
   isSubListOpened: boolean;
   isPasswordSectionClicked: boolean;
+  isSecureLoginEnabled: boolean;
+  isFaceIdEnabled: boolean;
 }
 
 export class UnconnectedSideBar extends React.Component<props, state> {
@@ -65,6 +76,8 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     this.state = {
       isSubListOpened: false,
       isPasswordSectionClicked: false,
+      isSecureLoginEnabled: false,
+      isFaceIdEnabled: false,
     };
   }
   componentDidMount() {
@@ -192,6 +205,18 @@ export class UnconnectedSideBar extends React.Component<props, state> {
         ) && this.setState({isPasswordSectionClicked: false}),
       isDisabled: false,
     },
+    {
+      title: localeString(LOCALE_STRING.SIDE_BAR.SECURE_LOGIN),
+      type: SECURITY_TYPE.PIN,
+      action: () => {},
+      isToggleEnabled: false,
+    },
+    {
+      title: localeString(LOCALE_STRING.SIDE_BAR.FACE_ID),
+      type: SECURITY_TYPE.FACE,
+      action: () => {},
+      isToggleEnabled: false,
+    },
   ];
   handleLogOut = async () => {
     OneSignal.removeExternalUserId();
@@ -209,8 +234,47 @@ export class UnconnectedSideBar extends React.Component<props, state> {
         showSnackBar(APP_CONSTANTS.GENERAL_ERROR);
       });
   };
+
+  hanldeSecureLoginToggle = (index: number) => {
+    const settingsData = this.SETTINGS_DATA;
+    settingsData[index].isToggleEnabled = !settingsData[index].isToggleEnabled;
+    this.setState(
+      {isSecureLoginEnabled: !this.state.isSecureLoginEnabled},
+      () => {
+        //API call to toggle isSecureLoginEnabled && route to create PIN screen to setup
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CREATE_PIN)
+      },
+    );
+  };
+
+  handleFaceIdToggle = (index: number) => {
+    const settingsData = this.SETTINGS_DATA;
+    settingsData[index].isToggleEnabled = !settingsData[index].isToggleEnabled;
+    this.setState({isFaceIdEnabled: !this.state.isFaceIdEnabled}, () => {
+      //API call to toggle isFaceIdEnabled
+    });
+  };
+
+  handleToggleSwitch = (item: object, index: number) => {
+    switch (_get(item, DB_KEYS.TWO_FACTOR_AUTH_TYPE, null)) {
+      case SECURITY_TYPE.PIN:
+        this.hanldeSecureLoginToggle(index);
+        break;
+      case SECURITY_TYPE.FACE:
+        this.handleFaceIdToggle(index);
+        break;
+      default:
+        null;
+    }
+  };
+
+  handleSwitchButtonValue() {
+    return true;
+  }
+
   render() {
     const {getUserInfoResponse} = this.props;
+    const {isSecureLoginEnabled, isFaceIdEnabled} = this.state;
     let userName =
       _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.F_NAME, '') ||
       _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.L_NAME, '')
@@ -231,7 +295,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
         ', ' +
         COUNTRY
       : '';
-    const currentRenderingList = this.state.isSubListOpened
+    const currentRenderingList: any = this.state.isSubListOpened
       ? this.SIDEBAR_SUBLIST_DATA
       : this.state.isPasswordSectionClicked
       ? this.SETTINGS_DATA
@@ -279,30 +343,50 @@ export class UnconnectedSideBar extends React.Component<props, state> {
             <ScrollView
               contentContainerStyle={{flexGrow: 1}}
               showsVerticalScrollIndicator={false}>
-              {currentRenderingList.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    disabled={item.isDisabled}
-                    onPress={item.action}
-                    style={styles.sideBarDataListContainer}>
-                    <View
-                      style={[
-                        styles.iconTextContainer,
-                        {opacity: item.isDisabled ? 0.4 : 1}, //Graying out all non-working buttons
-                      ]}>
-                      <Image
-                        resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
-                        style={styles.iconStyle}
-                        source={item.icon}
-                      />
-                      <Text key={index} style={styles.titleText}>
-                        {item.title}
-                      </Text>
-                    </View>
-                    <Image source={iRight} />
-                  </TouchableOpacity>
-                );
-              })}
+              {currentRenderingList
+                ? currentRenderingList.map((item: object, index: number) => {
+                    return (
+                      <TouchableOpacity
+                        disabled={item.isDisabled}
+                        onPress={
+                          'isToggleEnabled' in item
+                            ? () => this.handleToggleSwitch(item, index)
+                            : item.action
+                        }
+                        style={styles.sideBarDataListContainer}>
+                        <View
+                          style={[
+                            styles.iconTextContainer,
+                            {opacity: item.isDisabled ? 0.4 : 1}, //Graying out all non-working buttons
+                          ]}>
+                          <Image
+                            resizeMode={
+                              STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN
+                            }
+                            style={styles.iconStyle}
+                            source={item.icon}
+                          />
+                          <Text key={index} style={styles.titleText}>
+                            {item.title}
+                          </Text>
+                        </View>
+                        {_get(item, DB_KEYS.IS_TOGGLE_ENABLED, false) ||
+                        !_get(item, DB_KEYS.IS_TOGGLE_ENABLED, true) ? (
+                          <Switch
+                            trackColor={{
+                              false: COLOR.TOGGLE_DISABLED_GRAY,
+                              true: COLOR.TOGGLE_ENABLED_GREEN,
+                            }}
+                            thumbColor={COLOR.WHITE}
+                            value={_get(item, DB_KEYS.IS_TOGGLE_ENABLED, false)}
+                          />
+                        ) : (
+                          <Image source={iRight} />
+                        )}
+                      </TouchableOpacity>
+                    );
+                  })
+                : null}
             </ScrollView>
             {!this.state.isPasswordSectionClicked &&
               !this.state.isSubListOpened && (
