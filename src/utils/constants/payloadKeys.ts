@@ -72,5 +72,6 @@ export const PAYLOAD_KEYS: any = {
   TWO_FACTOR_AUTH: {
     IS_PIN_ENABLED: 'is_pin_enabled',
     IS_FACE_ID_ENABLED: 'is_face_id_enabled',
+    PIN: 'pin',
   },
 };
