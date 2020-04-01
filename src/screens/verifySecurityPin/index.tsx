@@ -14,10 +14,13 @@ import {
   localeString,
   showSnackBar,
   COLOR,
+  DB_KEYS,
+  PAYLOAD_KEYS,
   STATE_PARAMS,
   LOCALE_STRING,
   NAVIGATION_SCREEN_NAME,
 } from '../../utils';
+import {updateUserProfile} from '../../store/reducers';
 import {get as _get} from 'lodash';
 
 interface props {
@@ -25,6 +28,9 @@ interface props {
     navigate: (routeName: string, navigationParam?: object) => void;
     goBack: () => void;
   };
+  updateUserProfile: (payload: object, qParams: object) => void;
+  updateUserProfileResponse: object;
+  getUserInfoResponse: object;
 }
 interface state {
   verifyCodeValue: string;
@@ -43,6 +49,7 @@ export class UnconnectedVerifySecurityPin extends React.Component<
   }
 
   handleCode = (code: string) => {
+    const {updateUserProfile, getUserInfoResponse} = this.props;
     const prevCode = _get(this.props, STATE_PARAMS.NAV_PARAMS, null)
       ? _get(this.props, STATE_PARAMS.NAV_PARAMS, null).code
       : '';
@@ -58,6 +65,7 @@ export class UnconnectedVerifySecurityPin extends React.Component<
             {
               text: localeString(LOCALE_STRING.GLOBAL.NO),
               onPress: () => {
+                //API call to set User PIN
                 this.props.navigation.navigate(
                   NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
                 );
@@ -65,11 +73,20 @@ export class UnconnectedVerifySecurityPin extends React.Component<
             },
             {
               text: localeString(LOCALE_STRING.GLOBAL.YES),
-              onPress: () => {
-                //Enable faceID - API call to set faceId flag to true
-                this.props.navigation.navigate(
-                  NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-                );
+              onPress: async () => {
+                const payload = {
+                  [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_FACE_ID_ENABLED]: 1,
+                };
+                await updateUserProfile(payload, {
+                  id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+                });
+                const {updateUserProfileResponse} = this.props;
+                if (!_get(updateUserProfileResponse, DB_KEYS.ERROR, true)) {
+                  //API call to set user PIN
+                  this.props.navigation.navigate(
+                    NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+                  );
+                }
               },
             },
           ],
@@ -110,9 +127,15 @@ export class UnconnectedVerifySecurityPin extends React.Component<
     );
   }
 }
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  getUserInfoResponse: state.getUserInfo,
+  updateUserProfileResponse: state.updateUserProfile,
+});
 
-const bindActions = dispatch => ({});
+const bindActions = dispatch => ({
+  updateUserProfile: (payload, extraPayload) =>
+    dispatch(updateUserProfile.fetchCall(payload, extraPayload)),
+});
 
 export const VerifySecurityPin = connect(
   mapStateToProps,

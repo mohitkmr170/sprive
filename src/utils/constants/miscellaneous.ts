@@ -120,4 +120,6 @@ export const ANIMATION_CONSTANTS = {
 export const SECURITY_TYPE = {
   PIN: 'pin',
   FACE: 'face',
+  PIN_INDEX: 1,
+  FACE_INDEX: 2
 };

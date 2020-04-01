@@ -33,6 +33,7 @@ import {
   APP_KEYS,
   LOCAL_KEYS,
   SECURITY_TYPE,
+  PAYLOAD_KEYS,
 } from '../../utils';
 import {
   iNotification,
@@ -44,6 +45,7 @@ import {
   iRight,
   iLogOut,
 } from '../../assets';
+import {updateUserProfile, getUserInfo} from '../../store/reducers';
 import {closeDrawer} from '../../navigation/navigationService';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -59,6 +61,9 @@ interface props {
   logoutUserAction: () => void;
   policyUpdate: () => void;
   paymentReminder: () => void;
+  updateUserProfile: (payload: object, qParams: object) => void;
+  updateUserProfileResponse: object;
+  getUserInfo: () => void;
 }
 
 const CLOSE_ICON_NAME = 'close';
@@ -76,11 +81,21 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     this.state = {
       isSubListOpened: false,
       isPasswordSectionClicked: false,
-      isSecureLoginEnabled: false,
-      isFaceIdEnabled: false,
+      isSecureLoginEnabled:
+        _get(
+          this.props.getUserInfoResponse,
+          'response.data.is_pin_enabled',
+          false,
+        ) && true,
+      isFaceIdEnabled:
+        _get(
+          this.props.getUserInfoResponse,
+          'response.data.is_face_id_enabled',
+          false,
+        ) && true,
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     //If Address Task is complete(means profile is also not complete for task user-profile) => Show Actual NAME & ADDRESS
     // else as showing now
   }
@@ -208,13 +223,13 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.SECURE_LOGIN),
       type: SECURITY_TYPE.PIN,
-      action: () => {},
+      action: () => this.hanldeSecureLoginToggle(),
       isToggleEnabled: false,
     },
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.FACE_ID),
       type: SECURITY_TYPE.FACE,
-      action: () => {},
+      action: () => this.handleFaceIdToggle(),
       isToggleEnabled: false,
     },
   ];
@@ -235,37 +250,28 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       });
   };
 
-  hanldeSecureLoginToggle = (index: number) => {
-    const settingsData = this.SETTINGS_DATA;
-    settingsData[index].isToggleEnabled = !settingsData[index].isToggleEnabled;
-    this.setState(
-      {isSecureLoginEnabled: !this.state.isSecureLoginEnabled},
-      () => {
-        //API call to toggle isSecureLoginEnabled && route to create PIN screen to setup
-        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CREATE_PIN)
-      },
-    );
-  };
-
-  handleFaceIdToggle = (index: number) => {
-    const settingsData = this.SETTINGS_DATA;
-    settingsData[index].isToggleEnabled = !settingsData[index].isToggleEnabled;
-    this.setState({isFaceIdEnabled: !this.state.isFaceIdEnabled}, () => {
-      //API call to toggle isFaceIdEnabled
+  hanldeSecureLoginToggle = async () => {
+    const payload = {
+      [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_PIN_ENABLED]: !this.state
+        .isSecureLoginEnabled,
+    };
+    await this.props.updateUserProfile(payload, {
+      id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
     });
+    this.setState({isSecureLoginEnabled: !this.state.isSecureLoginEnabled});
+    this.state.isSecureLoginEnabled &&
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CREATE_PIN);
   };
 
-  handleToggleSwitch = (item: object, index: number) => {
-    switch (_get(item, DB_KEYS.TWO_FACTOR_AUTH_TYPE, null)) {
-      case SECURITY_TYPE.PIN:
-        this.hanldeSecureLoginToggle(index);
-        break;
-      case SECURITY_TYPE.FACE:
-        this.handleFaceIdToggle(index);
-        break;
-      default:
-        null;
-    }
+  handleFaceIdToggle = async () => {
+    const payload = {
+      [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_FACE_ID_ENABLED]: !this.state
+        .isFaceIdEnabled,
+    };
+    await this.props.updateUserProfile(payload, {
+      id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
+    });
+    this.setState({isFaceIdEnabled: !this.state.isFaceIdEnabled});
   };
 
   handleSwitchButtonValue() {
@@ -348,11 +354,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                     return (
                       <TouchableOpacity
                         disabled={item.isDisabled}
-                        onPress={
-                          'isToggleEnabled' in item
-                            ? () => this.handleToggleSwitch(item, index)
-                            : item.action
-                        }
+                        onPress={item.action}
                         style={styles.sideBarDataListContainer}>
                         <View
                           style={[
@@ -377,8 +379,20 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                               false: COLOR.TOGGLE_DISABLED_GRAY,
                               true: COLOR.TOGGLE_ENABLED_GREEN,
                             }}
+                            onValueChange={() => {
+                              if (index === SECURITY_TYPE.PIN_INDEX)
+                                this.hanldeSecureLoginToggle();
+                              if (index === SECURITY_TYPE.FACE_INDEX)
+                                this.handleFaceIdToggle();
+                            }}
                             thumbColor={COLOR.WHITE}
-                            value={_get(item, DB_KEYS.IS_TOGGLE_ENABLED, false)}
+                            value={
+                              index === SECURITY_TYPE.PIN_INDEX
+                                ? this.state.isSecureLoginEnabled
+                                : index === SECURITY_TYPE.FACE_INDEX
+                                ? this.state.isFaceIdEnabled
+                                : null
+                            }
                           />
                         ) : (
                           <Image source={iRight} />
@@ -428,6 +442,9 @@ const bindActions = dispatch => ({
   paymentReminder: () => dispatch(paymentReminder()),
   policyUpdate: () => dispatch(policyUpdate()),
   logoutUserAction: () => dispatch(logoutUser()),
+  updateUserProfile: (payload, extraPayload) =>
+    dispatch(updateUserProfile.fetchCall(payload, extraPayload)),
+  getUserInfo: () => dispatch(getUserInfo()),
 });
 
 export const SideBar = connect(

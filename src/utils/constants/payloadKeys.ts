@@ -69,4 +69,8 @@ export const PAYLOAD_KEYS: any = {
     COUNTY: 'county_or_region',
     POST_CODE: 'postcode',
   },
+  TWO_FACTOR_AUTH: {
+    IS_PIN_ENABLED: 'is_pin_enabled',
+    IS_FACE_ID_ENABLED: 'is_face_id_enabled',
+  },
 };
