@@ -82,15 +82,12 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       isSubListOpened: false,
       isPasswordSectionClicked: false,
       isSecureLoginEnabled:
-        _get(
-          this.props.getUserInfoResponse,
-          'response.data.is_pin_enabled',
-          false,
-        ) && true,
+        _get(this.props.getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, false) &&
+        true,
       isFaceIdEnabled:
         _get(
           this.props.getUserInfoResponse,
-          'response.data.is_face_id_enabled',
+          DB_KEYS.IS_FACE_ID_ENABLED,
           false,
         ) && true,
     };
@@ -258,7 +255,18 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     await this.props.updateUserProfile(payload, {
       id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
     });
-    this.setState({isSecureLoginEnabled: !this.state.isSecureLoginEnabled});
+    await this.props.getUserInfo();
+    const {getUserInfoResponse} = this.props;
+    if (
+      !_get(getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, false) &&
+      _get(getUserInfoResponse, DB_KEYS.IS_FACE_ID_ENABLED, false)
+    ) {
+      this.handleFaceIdToggle();
+    }
+    this.setState({
+      isSecureLoginEnabled:
+        _get(getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, false) && true,
+    });
     this.state.isSecureLoginEnabled &&
       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CREATE_PIN);
   };
@@ -271,7 +279,12 @@ export class UnconnectedSideBar extends React.Component<props, state> {
     await this.props.updateUserProfile(payload, {
       id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
     });
-    this.setState({isFaceIdEnabled: !this.state.isFaceIdEnabled});
+    await this.props.getUserInfo();
+    const {getUserInfoResponse} = this.props;
+    this.setState({
+      isFaceIdEnabled:
+        _get(getUserInfoResponse, DB_KEYS.IS_FACE_ID_ENABLED, false) && true,
+    });
   };
 
   handleSwitchButtonValue() {
@@ -281,6 +294,11 @@ export class UnconnectedSideBar extends React.Component<props, state> {
   render() {
     const {getUserInfoResponse} = this.props;
     const {isSecureLoginEnabled, isFaceIdEnabled} = this.state;
+    const isPinEnabledFlag = _get(
+      this.props.getUserInfoResponse,
+      DB_KEYS.IS_PIN_ENABLED,
+      false,
+    );
     let userName =
       _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.F_NAME, '') ||
       _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.L_NAME, '')
@@ -353,13 +371,24 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                 ? currentRenderingList.map((item: object, index: number) => {
                     return (
                       <TouchableOpacity
-                        disabled={item.isDisabled}
+                        disabled={
+                          item.type === SECURITY_TYPE.FACE
+                            ? !isPinEnabledFlag
+                            : item.isDisabled
+                        }
                         onPress={item.action}
                         style={styles.sideBarDataListContainer}>
                         <View
                           style={[
                             styles.iconTextContainer,
-                            {opacity: item.isDisabled ? 0.4 : 1}, //Graying out all non-working buttons
+                            {
+                              opacity:
+                                item.isDisabled ||
+                                (item.type === SECURITY_TYPE.FACE &&
+                                  !isPinEnabledFlag)
+                                  ? 0.4
+                                  : 1,
+                            }, //Graying out all non-working buttons
                           ]}>
                           <Image
                             resizeMode={
@@ -385,6 +414,11 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                               if (index === SECURITY_TYPE.FACE_INDEX)
                                 this.handleFaceIdToggle();
                             }}
+                            disabled={
+                              item.type === SECURITY_TYPE.FACE
+                                ? !isPinEnabledFlag
+                                : item.isDisabled
+                            }
                             thumbColor={COLOR.WHITE}
                             value={
                               index === SECURITY_TYPE.PIN_INDEX
@@ -444,7 +478,7 @@ const bindActions = dispatch => ({
   logoutUserAction: () => dispatch(logoutUser()),
   updateUserProfile: (payload, extraPayload) =>
     dispatch(updateUserProfile.fetchCall(payload, extraPayload)),
-  getUserInfo: () => dispatch(getUserInfo()),
+  getUserInfo: () => dispatch(getUserInfo.fetchCall()),
 });
 
 export const SideBar = connect(

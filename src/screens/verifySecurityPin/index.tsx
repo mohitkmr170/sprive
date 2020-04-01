@@ -20,7 +20,7 @@ import {
   LOCALE_STRING,
   NAVIGATION_SCREEN_NAME,
 } from '../../utils';
-import {updateUserProfile} from '../../store/reducers';
+import {updateUserProfile, getUserInfo} from '../../store/reducers';
 import {get as _get} from 'lodash';
 
 interface props {
@@ -31,6 +31,7 @@ interface props {
   updateUserProfile: (payload: object, qParams: object) => void;
   updateUserProfileResponse: object;
   getUserInfoResponse: object;
+  getUserInfo: () => void;
 }
 interface state {
   verifyCodeValue: string;
@@ -74,19 +75,12 @@ export class UnconnectedVerifySecurityPin extends React.Component<
             {
               text: localeString(LOCALE_STRING.GLOBAL.YES),
               onPress: async () => {
-                const payload = {
-                  [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_FACE_ID_ENABLED]: 1,
-                };
-                await updateUserProfile(payload, {
-                  id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-                });
-                const {updateUserProfileResponse} = this.props;
-                if (!_get(updateUserProfileResponse, DB_KEYS.ERROR, true)) {
-                  //API call to set user PIN
-                  this.props.navigation.navigate(
-                    NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-                  );
-                }
+                //Device face_id permissions check
+                //API call to set user PIN
+                await this.props.getUserInfo();
+                this.props.navigation.navigate(
+                  NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+                );
               },
             },
           ],
@@ -135,6 +129,7 @@ const mapStateToProps = state => ({
 const bindActions = dispatch => ({
   updateUserProfile: (payload, extraPayload) =>
     dispatch(updateUserProfile.fetchCall(payload, extraPayload)),
+  getUserInfo: () => dispatch(getUserInfo.fetchCall()),
 });
 
 export const VerifySecurityPin = connect(
