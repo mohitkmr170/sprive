@@ -121,5 +121,8 @@ export const SECURITY_TYPE = {
   PIN: 'pin',
   FACE: 'face',
   PIN_INDEX: 1,
-  FACE_INDEX: 2
+  FACE_INDEX: 2,
+};
+export const BIOMETRY_TYPE = {
+  FACE_ID: 'Face ID',
 };

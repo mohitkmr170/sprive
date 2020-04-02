@@ -25,3 +25,5 @@ export * from './userProfileViewMode';
 export * from './homeOwnerShip';
 export * from './createSecurityPin';
 export * from './verifySecurityPin';
+export * from './Profile';
+export * from './Settings';

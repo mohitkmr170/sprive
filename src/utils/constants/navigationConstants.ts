@@ -29,4 +29,6 @@ export const NAVIGATION_SCREEN_NAME = {
   HOME_OWNERSHIP: 'HomeOwnerShipScreen',
   CREATE_PIN: 'CreateSecurityPinScreen',
   VERIFY_PIN: 'VerifySecurityPinScreen',
+  PROFILE_SCREEN: 'ProfileScreen',
+  SETTINGS_SCREEN: 'SettingsScreen',
 };

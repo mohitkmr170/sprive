@@ -38,6 +38,8 @@ import {
   HomeOwnerShip,
   CreateSecurityPin,
   VerifySecurityPin,
+  Profile,
+  Settings,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 import {GenericWebView} from '../components';
@@ -207,6 +209,12 @@ const AppStackNavigator = createStackNavigator(
     },
     VerifySecurityPinScreen: {
       screen: VerifySecurityPin,
+    },
+    ProfileScreen: {
+      screen: Profile,
+    },
+    SettingsScreen: {
+      screen: Settings,
     },
   },
   {

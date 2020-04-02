@@ -133,7 +133,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
 
   async componentDidMount() {
     StatusBar.setHidden(true, 'fade');
-    this.biometricAuthentication();
+    // this.biometricAuthentication();
     this.authFlowCheck();
     /*
     NOTES : Remember to update the current version to be updated => CFBundleShortVersionString
