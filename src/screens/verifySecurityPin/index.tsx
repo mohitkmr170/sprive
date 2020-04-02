@@ -27,6 +27,8 @@ import {
   NAVIGATION_SCREEN_NAME,
   BIOMETRIC_KEYS,
   BIOMETRY_TYPE,
+  APP_CONSTANTS,
+  STYLE_CONSTANTS,
 } from '../../utils';
 import {
   updateUserProfile,
@@ -77,18 +79,23 @@ export class UnconnectedVerifySecurityPin extends React.Component<
   };
 
   handleCode = (code: string) => {
-    const {updateUserProfile, getUserInfoResponse} = this.props;
     const prevCode = _get(this.props, STATE_PARAMS.NAV_PARAMS, null)
       ? _get(this.props, STATE_PARAMS.NAV_PARAMS, null).code
       : '';
-    if (code.length === 5) {
+    if (code.length === APP_CONSTANTS.PIN_CELL_COUNT) {
       if (prevCode === code) {
         this.setState({verifyCodeValue: code}, () => {});
-        if (Platform.OS === 'ios') {
+        if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_IOS) {
           FingerprintScanner.isSensorAvailable()
             .then(biometrictype => {
               console.log('biometric support', biometrictype);
-              if (biometrictype === 'Face ID') {
+              if (biometrictype !== BIOMETRY_TYPE.FACE_ID) {
+                console.log(
+                  'handleCode : biometric type Face ID not enrolled',
+                  biometrictype,
+                );
+                this.setSecurePin(code);
+              } else {
                 console.log('biometric type Face ID enrolled', biometrictype);
                 Alert.alert(
                   '',
@@ -112,12 +119,6 @@ export class UnconnectedVerifySecurityPin extends React.Component<
                     },
                   ],
                 );
-              } else {
-                console.log(
-                  'handleCode : biometric type Face ID not enrolled',
-                  biometrictype,
-                );
-                this.setSecurePin(code);
               }
             })
             .catch(error => {
@@ -126,12 +127,12 @@ export class UnconnectedVerifySecurityPin extends React.Component<
                 'handleCode : biometrictype not supported ::',
                 biometricError,
               );
-              if (
+              let faceIdEnrolmentFlag =
                 _get(biometricError, BIOMETRIC_KEYS.NAME, '') ===
                   BIOMETRIC_KEYS.ERROR_KEY.NOT_ENROLLED &&
                 _get(biometricError, BIOMETRIC_KEYS.BIOMETRIC, '') ===
-                  BIOMETRY_TYPE.FACE_ID
-              ) {
+                  BIOMETRY_TYPE.FACE_ID;
+              if (faceIdEnrolmentFlag) {
                 Alert.alert(
                   '',
                   localeString(LOCALE_STRING.SECURE_LOGIN.FACE_ID_NOT_ENROLLED),
@@ -160,16 +161,21 @@ export class UnconnectedVerifySecurityPin extends React.Component<
     const payload = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
       [PAYLOAD_KEYS.TWO_FACTOR_AUTH.PIN]: pin,
+      [PAYLOAD_KEYS.EMAIL]: _get(
+        getUserInfoResponse,
+        DB_KEYS.CURRENT_USER_EMAIL,
+        null,
+      ),
     };
     await setUserAuthPin(payload);
     const {setUserAuthPinResponse} = this.props;
-    const payloadUpdateProfile = {
-      [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_PIN_ENABLED]: true,
-    };
-    await this.props.updateUserProfile(payloadUpdateProfile, {
-      id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
-    });
-    await this.props.getUserInfo();
+    // const payloadUpdateProfile = {
+    //   [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_PIN_ENABLED]: true,
+    // };
+    // await this.props.updateUserProfile(payloadUpdateProfile, {
+    //   id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
+    // });
+    await this.props.getUserInfo(); //To get updated user-data on dashboard
     if (!_get(setUserAuthPinResponse, DB_KEYS.ERROR, true)) {
       Keyboard.dismiss();
       // this.setState({loading: false});

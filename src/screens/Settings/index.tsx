@@ -28,6 +28,7 @@ import {getUserInfo, updateUserProfile} from '../../store/reducers';
 import {get as _get} from 'lodash';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 
+const TOGGLE_KEY = 'isToggleEnabled';
 interface props {
   navigation: {
     navigate: (routeName: string, navigationParam?: object) => void;
@@ -84,12 +85,12 @@ export class UnconnectedSettings extends React.Component<props, state> {
             'componentDidMount : biometrictype not supported ::',
             biometricError,
           );
-          if (
+          let faceIdEnrolmentFlag =
             _get(biometricError, BIOMETRIC_KEYS.NAME, '') ===
               BIOMETRIC_KEYS.ERROR_KEY.NOT_ENROLLED &&
             _get(biometricError, BIOMETRIC_KEYS.BIOMETRIC, '') ===
-              BIOMETRY_TYPE.FACE_ID
-          ) {
+              BIOMETRY_TYPE.FACE_ID;
+          if (faceIdEnrolmentFlag) {
             this.setState({isFaceIdEnrolled: false, isFaceIdSupported: true});
           } else {
             this.setState({isFaceIdSupported: false});
@@ -123,7 +124,10 @@ export class UnconnectedSettings extends React.Component<props, state> {
 
   hanldeSecureLoginToggle = async () => {
     const {getUserInfoResponse} = this.props;
-    if (_get(getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, null)) {
+    if (!_get(getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, null)) {
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CREATE_PIN);
+      return;
+    } else {
       const payload = {
         [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_PIN_ENABLED]: false,
       };
@@ -141,7 +145,7 @@ export class UnconnectedSettings extends React.Component<props, state> {
       ) {
         this.handleFaceIdToggle();
       }
-    } else this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CREATE_PIN);
+    }
   };
 
   handleFaceIdToggle = async () => {
@@ -210,7 +214,7 @@ export class UnconnectedSettings extends React.Component<props, state> {
                         : item.isDisabled
                     }>
                     <Text style={styles.listItemText}>{item.title}</Text>
-                    {'isToggleEnabled' in item && (
+                    {TOGGLE_KEY in item && (
                       <Switch
                         style={styles.switchContainer}
                         trackColor={{

@@ -13,6 +13,7 @@ export const APP_CONSTANTS = {
   LOG_OUT: 'Logged Out!',
   NOT_AUTHENTICATED_CLASS_NAME: 'NotAuthenticated',
   FALSE_TOKEN: 'FALSE TOKEN',
+  PIN_CELL_COUNT: 5,
   MONTH_NAMES: [
     'Jan',
     'Feb',

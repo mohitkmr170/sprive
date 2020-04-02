@@ -112,27 +112,34 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
   biometricAuthentication = () => {
     FingerprintScanner.isSensorAvailable()
       .then(biometrictype => {
-        console.log('biometrictype success ::', biometrictype);
-        const description: string = `Scan you ${biometrictype} to proceed`;
+        console.log(
+          'biometricAuthentication : biometrictype => ',
+          biometrictype,
+        );
+        const description: string = `Scan your ${biometrictype} to proceed`;
         FingerprintScanner.authenticate({
           description: description,
+          fallbackEnabled: true,
         })
           .then(() => {
             this.props.handlePopupDismissed();
-            Alert.alert('Authenticated successfully');
+            console.log('Authenticated successfully');
           })
           .catch((error: object) => {
             this.props.handlePopupDismissed();
-            Alert.alert(_get(error, 'message', ''));
+            console.log(_get(error, 'message', ''));
           });
       })
       .catch(error => {
-        console.log('biometrictype error ::', error);
+        console.log('biometricAuthentication : error =>', error);
       });
   };
 
   async componentDidMount() {
     StatusBar.setHidden(true, 'fade');
+    /*
+    NOTES : This will be used for biometric authentication flow, commented for now
+    */
     // this.biometricAuthentication();
     this.authFlowCheck();
     /*
