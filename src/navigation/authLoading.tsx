@@ -109,31 +109,73 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     });
   };
 
+  handleUserInfo = () => {
+    const {getUserInfoResponse, navigation} = this.props;
+    /*
+        TODO : Below condition should be reviewed later
+        */
+    StatusBar.setHidden(false, 'fade');
+    if (
+      !_get(getUserInfoResponse, DB_KEYS.VERIFICATION_FLOW.IS_VERIFIED, true)
+    ) {
+      if (
+        _get(getUserInfoResponse, DB_KEYS.VERIFICATION_FLOW.IS_BLOCKED, true)
+      ) {
+        navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED);
+      } else navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+    } else {
+      this.preApiCalls();
+    }
+  };
+
   biometricAuthentication = () => {
     FingerprintScanner.isSensorAvailable()
       .then(biometrictype => {
-        console.log('biometrictype success ::', biometrictype);
+        console.log(
+          'biometrictype success ::',
+          JSON.parse(JSON.stringify(biometrictype)),
+        );
         const description: string = `Scan you ${biometrictype} to proceed`;
         FingerprintScanner.authenticate({
           description: description,
+          fallbackEnabled: true,
         })
           .then(() => {
+            this.handleUserInfo();
             this.props.handlePopupDismissed();
-            Alert.alert('Authenticated successfully');
           })
           .catch((error: object) => {
-            this.props.handlePopupDismissed();
-            Alert.alert(_get(error, 'message', ''));
+            // this.props.handlePopupDismissed();
+            const biometricValidaitionError = JSON.parse(JSON.stringify(error));
+            console.log(
+              'biometric validation error',
+              JSON.parse(JSON.stringify(error)),
+            );
+            if (
+              biometricValidaitionError.name === 'UserFallback' ||
+              biometricValidaitionError.name === 'UserCancel'
+            )
+              this.handleUserInfo();
           });
       })
       .catch(error => {
-        console.log('biometrictype error ::', error);
+        const sensorError = JSON.parse(JSON.stringify(error));
+        console.log('biometrictype error ::', sensorError);
+        if (sensorError.name === 'FingerprintScannerNotEnrolled')
+          Alert.alert('Face ID not enrolled', '', [
+            {
+              text: 'Enter PIN',
+              onPress: () => {
+                //Navigate to PIN screen and verifyPin API call
+                this.handleUserInfo();
+              },
+            },
+          ]);
       });
   };
 
   async componentDidMount() {
     StatusBar.setHidden(true, 'fade');
-    this.biometricAuthentication();
     this.authFlowCheck();
     /*
     NOTES : Remember to update the current version to be updated => CFBundleShortVersionString
@@ -290,30 +332,24 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     else {
       const {getUserInfo} = this.props;
       await getUserInfo();
-      const {getUserInfoResponse} = this.props;
+      const {getUserInfoResponse, getUserInfoResponses} = this.props;
       if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
-        /*
-        TODO : Below condition should be reviewed later
-        */
-        StatusBar.setHidden(false, 'fade');
         if (
-          !_get(
-            getUserInfoResponse,
-            DB_KEYS.VERIFICATION_FLOW.IS_VERIFIED,
-            true,
-          )
+          !_get(getUserInfoResponses, DB_KEYS.IS_FACE_ID_ENABLED, false) &&
+          !_get(getUserInfoResponses, DB_KEYS.IS_PIN_ENABLED, false)
         ) {
-          if (
-            _get(
-              getUserInfoResponse,
-              DB_KEYS.VERIFICATION_FLOW.IS_BLOCKED,
-              true,
-            )
-          ) {
-            navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED);
-          } else navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+          console.log('here1');
+          this.handleUserInfo();
+        } else if (
+          _get(getUserInfoResponses, DB_KEYS.IS_PIN_ENABLED, false) &&
+          _get(getUserInfoResponses, DB_KEYS.IS_FACE_ID_ENABLED, false)
+        ) {
+          console.log('here2');
+          this.biometricAuthentication();
         } else {
-          this.preApiCalls();
+          console.log('here3');
+          //handle PIN auth
+          this.handleUserInfo();
         }
       } else {
         StatusBar.setHidden(false, 'fade');
