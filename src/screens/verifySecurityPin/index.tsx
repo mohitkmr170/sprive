@@ -25,6 +25,8 @@ import {
   STATE_PARAMS,
   LOCALE_STRING,
   NAVIGATION_SCREEN_NAME,
+  BIOMETRIC_KEYS,
+  BIOMETRY_TYPE,
 } from '../../utils';
 import {
   updateUserProfile,
@@ -112,15 +114,35 @@ export class UnconnectedVerifySecurityPin extends React.Component<
                 );
               } else {
                 console.log(
-                  'biometric type Face ID not enrolled',
+                  'handleCode : biometric type Face ID not enrolled',
                   biometrictype,
                 );
                 this.setSecurePin(code);
               }
             })
             .catch(error => {
-              console.log('biometrictype not supported ::', error);
-              this.setSecurePin(code);
+              const biometricError = JSON.parse(JSON.stringify(error));
+              console.log(
+                'handleCode : biometrictype not supported ::',
+                biometricError,
+              );
+              if (
+                _get(biometricError, BIOMETRIC_KEYS.NAME, '') ===
+                  BIOMETRIC_KEYS.ERROR_KEY.NOT_ENROLLED &&
+                _get(biometricError, BIOMETRIC_KEYS.BIOMETRIC, '') ===
+                  BIOMETRY_TYPE.FACE_ID
+              ) {
+                Alert.alert(
+                  '',
+                  localeString(LOCALE_STRING.SECURE_LOGIN.FACE_ID_NOT_ENROLLED),
+                  [
+                    {
+                      text: localeString(LOCALE_STRING.GLOBAL.OKAY),
+                      onPress: () => this.setSecurePin(code),
+                    },
+                  ],
+                );
+              }
             });
         } else this.setSecurePin(code);
       } else {

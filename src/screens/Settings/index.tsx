@@ -21,6 +21,8 @@ import {
   NAVIGATION_SCREEN_NAME,
   BIOMETRY_TYPE,
   STYLE_CONSTANTS,
+  showSnackBar,
+  BIOMETRIC_KEYS,
 } from '../../utils';
 import {getUserInfo, updateUserProfile} from '../../store/reducers';
 import {get as _get} from 'lodash';
@@ -41,6 +43,7 @@ interface state {
   isFaceIdSupported: boolean;
   isSecureLoginEnabled: boolean;
   isFaceIdEnabled: boolean;
+  isFaceIdEnrolled: boolean;
 }
 
 export class UnconnectedSettings extends React.Component<props, state> {
@@ -48,6 +51,7 @@ export class UnconnectedSettings extends React.Component<props, state> {
     super(props);
     this.state = {
       isFaceIdSupported: false,
+      isFaceIdEnrolled: true,
       isSecureLoginEnabled:
         _get(this.props.getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, false) &&
         true,
@@ -65,15 +69,31 @@ export class UnconnectedSettings extends React.Component<props, state> {
     if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_IOS) {
       FingerprintScanner.isSensorAvailable()
         .then(biometrictype => {
-          console.log('biometric support', biometrictype);
+          console.log(
+            'componentDidMount : biometric support',
+            JSON.parse(JSON.stringify(biometrictype)),
+          );
           if (biometrictype === BIOMETRY_TYPE.FACE_ID) {
             console.log('biometric type Face ID enrolled', biometrictype);
             this.setState({isFaceIdSupported: true});
           }
         })
         .catch(error => {
-          console.log('biometrictype not supported ::', error);
-          this.setState({isFaceIdSupported: false});
+          const biometricError = JSON.parse(JSON.stringify(error));
+          console.log(
+            'componentDidMount : biometrictype not supported ::',
+            biometricError,
+          );
+          if (
+            _get(biometricError, BIOMETRIC_KEYS.NAME, '') ===
+              BIOMETRIC_KEYS.ERROR_KEY.NOT_ENROLLED &&
+            _get(biometricError, BIOMETRIC_KEYS.BIOMETRIC, '') ===
+              BIOMETRY_TYPE.FACE_ID
+          ) {
+            this.setState({isFaceIdEnrolled: false, isFaceIdSupported: true});
+          } else {
+            this.setState({isFaceIdSupported: false});
+          }
         });
     } else {
       this.setState({isFaceIdSupported: false});
@@ -83,7 +103,6 @@ export class UnconnectedSettings extends React.Component<props, state> {
   SETTINGS_DATA = [
     {
       title: localeString(LOCALE_STRING.SIDE_BAR.UPDATE_PASSWORD),
-      icon: iUpdate,
       action: () =>
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.UPDATE_PASSWORD),
       isDisabled: false,
@@ -126,19 +145,23 @@ export class UnconnectedSettings extends React.Component<props, state> {
   };
 
   handleFaceIdToggle = async () => {
-    const payload = {
-      [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_FACE_ID_ENABLED]: !this.state
-        .isFaceIdEnabled,
-    };
-    await this.props.updateUserProfile(payload, {
-      id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
-    });
-    await this.props.getUserInfo();
-    const {getUserInfoResponse} = this.props;
-    this.setState({
-      isFaceIdEnabled:
-        _get(getUserInfoResponse, DB_KEYS.IS_FACE_ID_ENABLED, false) && true,
-    });
+    if (!this.state.isFaceIdEnrolled) {
+      showSnackBar({}, 'Face ID not enrolled, please enroll it from settings');
+    } else {
+      const payload = {
+        [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_FACE_ID_ENABLED]: !this.state
+          .isFaceIdEnabled,
+      };
+      await this.props.updateUserProfile(payload, {
+        id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      });
+      await this.props.getUserInfo();
+      const {getUserInfoResponse} = this.props;
+      this.setState({
+        isFaceIdEnabled:
+          _get(getUserInfoResponse, DB_KEYS.IS_FACE_ID_ENABLED, false) && true,
+      });
+    }
   };
 
   render() {
@@ -187,35 +210,34 @@ export class UnconnectedSettings extends React.Component<props, state> {
                         : item.isDisabled
                     }>
                     <Text style={styles.listItemText}>{item.title}</Text>
-                    {_get(item, DB_KEYS.IS_TOGGLE_ENABLED, false) ||
-                      (!_get(item, DB_KEYS.IS_TOGGLE_ENABLED, true) && (
-                        <Switch
-                          style={styles.switchContainer}
-                          trackColor={{
-                            false: COLOR.TOGGLE_DISABLED_GRAY,
-                            true: COLOR.TOGGLE_ENABLED_GREEN,
-                          }}
-                          onValueChange={() => {
-                            if (index === SECURITY_TYPE.PIN_INDEX)
-                              this.hanldeSecureLoginToggle();
-                            if (index === SECURITY_TYPE.FACE_INDEX)
-                              this.handleFaceIdToggle();
-                          }}
-                          disabled={
-                            item.type === SECURITY_TYPE.FACE
-                              ? !isPinEnabledFlag
-                              : item.isDisabled
-                          }
-                          thumbColor={COLOR.WHITE}
-                          value={
-                            index === SECURITY_TYPE.PIN_INDEX
-                              ? this.state.isSecureLoginEnabled
-                              : index === SECURITY_TYPE.FACE_INDEX
-                              ? this.state.isFaceIdEnabled
-                              : null
-                          }
-                        />
-                      ))}
+                    {'isToggleEnabled' in item && (
+                      <Switch
+                        style={styles.switchContainer}
+                        trackColor={{
+                          false: COLOR.TOGGLE_DISABLED_GRAY,
+                          true: COLOR.TOGGLE_ENABLED_GREEN,
+                        }}
+                        onValueChange={() => {
+                          if (item.type === SECURITY_TYPE.PIN)
+                            this.hanldeSecureLoginToggle();
+                          if (item.type === SECURITY_TYPE.FACE)
+                            this.handleFaceIdToggle();
+                        }}
+                        disabled={
+                          item.type === SECURITY_TYPE.FACE
+                            ? !isPinEnabledFlag
+                            : item.isDisabled
+                        }
+                        thumbColor={COLOR.WHITE}
+                        value={
+                          item.type === SECURITY_TYPE.PIN
+                            ? this.state.isSecureLoginEnabled
+                            : item.type === SECURITY_TYPE.FACE
+                            ? this.state.isFaceIdEnabled
+                            : null
+                        }
+                      />
+                    )}
                   </TouchableOpacity>
                 );
               })}
