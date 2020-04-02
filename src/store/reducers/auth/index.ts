@@ -7,3 +7,4 @@ export * from './resetPasswordLink';
 export * from './signUpUser';
 export * from './verifyEmail';
 export * from './updatePassword';
+export * from './setUserAuthPin';

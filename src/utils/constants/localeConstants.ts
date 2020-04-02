@@ -9,6 +9,8 @@ export const LOCALE_STRING = {
     NOTIFICATION: 'global.notification',
     NOTIFICATIONS: 'global.notifications',
     NO_DATA_NOTIFICATION: 'global.noDataFoundNotification',
+    YES: 'global.yes',
+    NO: 'global.no',
   },
   LOGIN_SCREEN: {
     LOGIN_BUTTON: 'login.loginButton',
@@ -180,6 +182,8 @@ export const LOCALE_STRING = {
     SETTINGS_SUB_LIST: 'sideBar.settings',
     SECURITY: 'sideBar.security',
     PERSONAL_DETAILS: 'sideBar.personalDetails',
+    SECURE_LOGIN: 'sideBar.secureLogin',
+    FACE_ID: 'sideBar.enableFaceId',
   },
   EMAIL_VERIFICATION: {
     EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',
@@ -319,5 +323,14 @@ export const LOCALE_STRING = {
     ACCESS_TO_SPRIVE: 'notificationPermission.accessToSprive',
     RESCHEDULED_TOMORROW: 'notificationPermission.rescheduledTomorrow',
     RESCHEDULED_NEXT_WEEK: 'notificationPermission.rescheduledNextWeek',
+  },
+  SECURE_LOGIN: {
+    CREATE_HEADER: 'secureLogin.createHeader',
+    CREATE_INFO: 'secureLogin.createInfo',
+    VERIFY_HEADER: 'secureLogin.verifyHeader',
+    VERIFY_INFO: 'secureLogin.verifyInfo',
+    DO_YOU_WANT_TO_ENABLE_FACE_ID: 'secureLogin.doYouWantToEnableFaceId',
+    PIN_NOT_MATCHED: 'secureLogin.pinNotMatched',
+    FACE_ID_NOT_ENROLLED: 'secureLogin.faceIdNotEnrolled',
   },
 };
