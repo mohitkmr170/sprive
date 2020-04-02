@@ -172,7 +172,7 @@ export class UnconnectedVerifySecurityPin extends React.Component<
     await this.props.getUserInfo();
     if (!_get(setUserAuthPinResponse, DB_KEYS.ERROR, true)) {
       Keyboard.dismiss();
-      this.setState({loading: false});
+      // this.setState({loading: false});
       showSnackBar(
         {},
         _get(setUserAuthPinResponse, DB_KEYS.RESPONSE_MESSAGE, ''),
