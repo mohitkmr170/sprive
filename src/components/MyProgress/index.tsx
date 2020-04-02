@@ -298,6 +298,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
             <Text style={styles.unlockbetterDealsText}>
               {localeString(
                 LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.UNLOCK_DEALS,
+                {ltv: CURRENT_LTV},
               )}
             </Text>
           </Animatable.View>

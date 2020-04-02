@@ -295,7 +295,7 @@
     "projected": "Projected",
     "completeYourprofile": "Complete your profile",
     "currentLtv": "Loan-to-Value (LTV)",
-    "unlockBetterDeals": "Unlock better deals the next time you remortgage"
+    "unlockBetterDeals": "Unlock cheaper deals at {{ltv}}% the next time you remortgage"
   },
   "homeOwnership": {
     "homeOwnerShip": "Home Ownership",
