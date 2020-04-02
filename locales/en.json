@@ -339,6 +339,7 @@
     "verifyHeader": "Please confirm your PIN",
     "verifyInfo": "Please type in your PIN to verify",
     "doYouWantToEnableFaceId": "Do you want to enable Face-ID?",
-    "pinNotMatched": "Pin did not match"
+    "pinNotMatched": "Pin did not match",
+    "faceIdNotEnrolled": "Face ID not enrolled, please enroll it from settings"
   }
 }

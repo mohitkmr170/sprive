@@ -126,3 +126,10 @@ export const SECURITY_TYPE = {
 export const BIOMETRY_TYPE = {
   FACE_ID: 'Face ID',
 };
+export const BIOMETRIC_KEYS = {
+  NAME: 'name',
+  BIOMETRIC: 'biometric',
+  ERROR_KEY: {
+    NOT_ENROLLED: 'FingerprintScannerNotEnrolled',
+  },
+};

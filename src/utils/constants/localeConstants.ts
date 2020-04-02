@@ -331,5 +331,6 @@ export const LOCALE_STRING = {
     VERIFY_INFO: 'secureLogin.verifyInfo',
     DO_YOU_WANT_TO_ENABLE_FACE_ID: 'secureLogin.doYouWantToEnableFaceId',
     PIN_NOT_MATCHED: 'secureLogin.pinNotMatched',
+    FACE_ID_NOT_ENROLLED: 'secureLogin.faceIdNotEnrolled',
   },
 };
