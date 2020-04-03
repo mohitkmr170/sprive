@@ -74,6 +74,41 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
   getAddressPayload = (formValues: object, isEdit: boolean) => {
     const {getUserInfoResponse} = this.props;
     if (isEdit) {
+      let isAddressChanged =
+        _get(getUserInfoResponse, DB_KEYS.ADDRESS_LINE_1, '') ===
+          _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE1,
+            '',
+          ) &&
+        _get(getUserInfoResponse, DB_KEYS.ADDRESS_LINE_2, '') ===
+          (_get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE2,
+            '',
+          ) === ''
+            ? null
+            : _get(
+                formValues,
+                FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.ADDRESS_LINE2,
+                '',
+              )) &&
+        _get(getUserInfoResponse, DB_KEYS.CITY, '') ===
+          _get(formValues, FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.CITY, '') &&
+        _get(getUserInfoResponse, DB_KEYS.COUNTY, '') ===
+          (_get(formValues, FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.COUNTY, '') ===
+          ''
+            ? null
+            : _get(
+                formValues,
+                FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.COUNTY,
+                '',
+              )) &&
+        _get(getUserInfoResponse, DB_KEYS.POST_CODE, '') ===
+          _get(formValues, FE_FORM_VALUE_CONSTANTS.GET_ADDRESS.POST_CODE, '');
+      if (isAddressChanged) {
+        return null;
+      }
       const updatePayload = {
         [PAYLOAD_KEYS.USER_ID]: _get(
           getUserInfoResponse,
@@ -185,12 +220,16 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
       )
     ) {
       const payload = this.getAddressPayload(formValues, true);
-      await updateUserAddress(payload, {
-        id: _get(getUserInfoResponse, DB_KEYS.USER_ADDRESS_ID, null),
-      });
+      if (payload) {
+        await updateUserAddress(payload, {
+          id: _get(getUserInfoResponse, DB_KEYS.USER_ADDRESS_ID, null),
+        });
+      }
     } else {
       const payload = this.getAddressPayload(formValues, false);
-      await taskHandler(payload);
+      if (payload) {
+        await taskHandler(payload);
+      }
     }
     const {taskHandlerResponse, updateUserAddressResponse} = this.props;
     console.log('TASK SUBMISSION : TASK-1 : STAGE-2 :', taskHandlerResponse);
@@ -308,15 +347,21 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
       getAddressResponse,
       taskHandlerResponse,
       updateUserAddressResponse,
+      getUserInfoResponse,
     } = this.props;
     const isFormValuesFilled =
-      _get(
+      (_get(
         this.props.reducerResponse,
         DB_KEYS.USER_ADDRESS.ADDRESS_LINE_1,
         null,
       ) &&
-      _get(this.props.reducerResponse, DB_KEYS.USER_ADDRESS.CITY, null) &&
-      _get(this.props.reducerResponse, DB_KEYS.USER_ADDRESS.POST_CODE, null);
+        _get(this.props.reducerResponse, DB_KEYS.USER_ADDRESS.CITY, null) &&
+        _get(
+          this.props.reducerResponse,
+          DB_KEYS.USER_ADDRESS.POST_CODE,
+          null,
+        )) ||
+      _get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, false);
     return (
       <View style={styles.mainContainer}>
         <GeneralStatusBar />
@@ -472,6 +517,23 @@ export const UserAddressForm = reduxForm({
 })(UnConnectedUserAddress);
 
 const mapStateToProps = (state: object) => ({
+  initialValues: {
+    address_line_1: _get(state, DB_KEYS.GET_USER_INFO.HOUSE_NUMBER, '')
+      ? _get(state, DB_KEYS.GET_USER_INFO.HOUSE_NUMBER, '')
+      : '',
+    address_line_2: _get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '')
+      ? _get(state, DB_KEYS.GET_USER_INFO.STREET_NAME, '')
+      : '',
+    town_or_city: _get(state, DB_KEYS.GET_USER_INFO.CITY, '')
+      ? _get(state, DB_KEYS.GET_USER_INFO.CITY, '')
+      : '',
+    county_or_region: _get(state, DB_KEYS.GET_USER_INFO.COUNTY, '')
+      ? _get(state, DB_KEYS.GET_USER_INFO.COUNTY, '')
+      : '',
+    postcode: _get(state, DB_KEYS.GET_USER_INFO.POST_CODE, '')
+      ? _get(state, DB_KEYS.GET_USER_INFO.POST_CODE, '')
+      : '',
+  },
   reducerResponse: state.form,
   getAddressResponse: state.getAddress,
   getUserInfoResponse: state.getUserInfo,
