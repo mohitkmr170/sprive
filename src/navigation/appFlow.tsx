@@ -42,6 +42,7 @@ import {
   Settings,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
+import {VerifyPin} from '../navigation/verifyPin';
 import {GenericWebView} from '../components';
 
 /**
@@ -249,13 +250,13 @@ const DeepLinkStack = createStackNavigator(
     headerMode: 'none',
   },
 );
-
 /**
  * Switch navigator to switch between AppStack and AuthStack based on Auth status
  */
 
 const AppNavigator = createSwitchNavigator({
   AuthLoading: AuthLoading,
+  VerifyPinScreen: VerifyPin,
   App: AppStackWithDrawer,
   Auth: AuthStackNavigator,
   DeepLink: DeepLinkStack,
