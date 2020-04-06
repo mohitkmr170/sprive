@@ -133,4 +133,8 @@ export const BIOMETRIC_KEYS = {
     NOT_ENROLLED: 'FingerprintScannerNotEnrolled',
     NOT_AVAILABLE: 'FingerprintScannerNotAvailable',
   },
+  CTA: {
+    USER_FALLBACK: 'UserFallback',
+    CANCEL: 'UserCancel',
+  },
 };

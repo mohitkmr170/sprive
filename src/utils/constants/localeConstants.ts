@@ -333,5 +333,9 @@ export const LOCALE_STRING = {
     PIN_NOT_MATCHED: 'secureLogin.pinNotMatched',
     FACE_ID_NOT_ENROLLED: 'secureLogin.faceIdNotEnrolled',
     VERIFY_PIN_HEADER: 'secureLogin.verifyPinHeader',
+    FACE_NOT_ENROLLED: 'secureLogin.faceNotEnrolled',
+    FACE_NOT_AVAILABLE: 'secureLogin.faceNotAvailable',
+    GENERAL_FACE_ID_ERROR: 'secureLogin.generalFaceIdError',
+    ENTER_PIN: 'secureLogin.enterPin',
   },
 };
