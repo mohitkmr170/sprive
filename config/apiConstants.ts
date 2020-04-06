@@ -31,5 +31,6 @@ export default {
     OUTSTANDING_MORTGAGE_BALABCE: '/outstanding-mortgage-balance-calculator',
     PAYMENT_SCHEDULE_REMINDER: '/payment-schedule-reminder',
     PIN_AUTH: '/pin_auth',
+    VERIFY_PIN: '/verify-pin',
   },
 };
