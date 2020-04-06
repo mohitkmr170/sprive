@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StatusBar} from 'react-native';
+import {View, Text, TouchableOpacity, Platform, Alert} from 'react-native';
 import {styles} from './styles';
 import {Button} from 'react-native-elements';
 import {
@@ -29,8 +29,12 @@ import {
   LOCALE_STRING,
   DB_KEYS,
   PAYLOAD_KEYS,
+  BIOMETRIC_KEYS,
+  BIOMETRY_TYPE,
+  STYLE_CONSTANTS,
 } from '../../utils';
 import OneSignal from 'react-native-onesignal';
+import FingerprintScanner from 'react-native-fingerprint-scanner';
 interface props {
   navigation: {
     navigate: (routeName: String) => void;
@@ -42,6 +46,7 @@ interface props {
   loginUserResponse: object;
   loginUser: (payload: object) => void;
   reducerResponse: object;
+  handlePopupDismissed: () => void;
 }
 interface state {
   passwordVisibility: boolean;
@@ -63,8 +68,116 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
     };
   }
 
+  handleFaceIdError = (errorKey: string) => {
+    Alert.alert(errorKey, '', [
+      {
+        text: localeString(LOCALE_STRING.SECURE_LOGIN.ENTER_PIN),
+        onPress: () => {
+          this.handlePinVerification();
+        },
+      },
+    ]);
+  };
+
+  biometricAuthentication = () => {
+    FingerprintScanner.isSensorAvailable()
+      .then(biometrictype => {
+        console.log(
+          'biometrictype success ::',
+          JSON.parse(JSON.stringify(biometrictype)),
+        );
+        const description: string = `Scan you ${biometrictype} to proceed`;
+        console.log('login screen');
+        FingerprintScanner.authenticate({
+          description: description,
+          fallbackEnabled: true,
+        })
+          .then(() => {
+            this.handleLogin();
+            this.props.handlePopupDismissed();
+          })
+          .catch((error: object) => {
+            // this.props.handlePopupDismissed();
+            const biometricValidaitionError = JSON.parse(JSON.stringify(error));
+            console.log(
+              'biometric validation error',
+              JSON.parse(JSON.stringify(error)),
+            );
+            if (
+              biometricValidaitionError.name ===
+                BIOMETRIC_KEYS.CTA.USER_FALLBACK ||
+              biometricValidaitionError.name === BIOMETRIC_KEYS.CTA.CANCEL
+            )
+              this.handlePinVerification();
+          });
+      })
+      .catch(error => {
+        const sensorError = JSON.parse(JSON.stringify(error));
+        console.log('biometrictype error ::', sensorError);
+        if (
+          _get(sensorError, BIOMETRIC_KEYS.BIOMETRIC, '') ===
+          BIOMETRY_TYPE.FACE_ID
+        ) {
+          let faceIdError = _get(sensorError, BIOMETRIC_KEYS.NAME, '');
+          switch (faceIdError) {
+            case BIOMETRIC_KEYS.ERROR_KEY.NOT_ENROLLED:
+              this.handleFaceIdError(
+                localeString(LOCALE_STRING.SECURE_LOGIN.FACE_ID_NOT_ENROLLED),
+              );
+              break;
+            case BIOMETRIC_KEYS.ERROR_KEY.NOT_AVAILABLE:
+              this.handleFaceIdError(
+                localeString(LOCALE_STRING.SECURE_LOGIN.FACE_NOT_AVAILABLE),
+              );
+              break;
+            default:
+              this.handleFaceIdError(
+                localeString(LOCALE_STRING.SECURE_LOGIN.GENERAL_FACE_ID_ERROR),
+              );
+          }
+        }
+      });
+  };
+
   handleBackPress = () => {
     resetNavigation(NAVIGATION_SCREEN_NAME.INTRO_CAROUSEL);
+  };
+
+  handlePinVerification = () => {
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.VERIFY_PIN_SCREEN);
+  };
+
+  handleLogin = () => {
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+  };
+
+  biometricCheck = () => {
+    const {getUserInfoResponse} = this.props;
+    if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_ANDROID) {
+      if (_get(getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, false)) {
+        // pinAuth = true
+        this.handlePinVerification();
+      } else {
+        this.handleLogin();
+      }
+    } else {
+      if (
+        !_get(getUserInfoResponse, DB_KEYS.IS_FACE_ID_ENABLED, false) &&
+        !_get(getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, false)
+      ) {
+        // Two factor auth not enabled
+        this.handleLogin();
+      } else if (
+        // pinAuth = true && faceID = true
+        _get(getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, false) &&
+        _get(getUserInfoResponse, DB_KEYS.IS_FACE_ID_ENABLED, false)
+      ) {
+        this.biometricAuthentication();
+      } else {
+        //pinAuth = true
+        this.handlePinVerification();
+      }
+    }
   };
 
   preLoginCheck = async () => {
@@ -87,7 +200,7 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
         if (externalUserId) {
           OneSignal.setExternalUserId(externalUserId);
         }
-        navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
+        this.biometricCheck();
       } else {
         const {reducerResponse} = this.props;
         if (
