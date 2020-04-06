@@ -8,18 +8,18 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import {styles} from './styles';
-import {COLOR} from '../../utils';
-
-const CELL_COUNT = 5;
+import {COLOR, APP_CONSTANTS} from '../../utils';
 
 interface CodeInputProps {
   getCompleteCode: (params?: string) => void;
 }
 
 export const CodeInput = (codeInputProps: CodeInputProps) => {
-  console.log('asdkjabskdasd', codeInputProps);
   const [value, setValue] = useState('');
-  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const ref = useBlurOnFulfill({
+    value,
+    cellCount: APP_CONSTANTS.PIN_CELL_COUNT,
+  });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
@@ -31,7 +31,7 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
         {...props}
         value={value}
         onChangeText={setValue}
-        cellCount={CELL_COUNT}
+        cellCount={APP_CONSTANTS.PIN_CELL_COUNT}
         onEndEditing={() => codeInputProps.getCompleteCode(value)}
         rootStyle={styles.codeFiledRoot}
         keyboardType="number-pad"
@@ -40,13 +40,6 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
         secureTextEntry={true}
         autoFocus={true}
         renderCell={({index, symbol, isFocused}) => {
-          console.log(
-            'render : index, symbol, isFocused --> ',
-            index,
-            symbol,
-            isFocused,
-            value,
-          );
           return (
             <View style={styles.externalContainer}>
               <View

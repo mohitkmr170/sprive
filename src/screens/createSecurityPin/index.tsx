@@ -14,6 +14,7 @@ import {
   localeString,
   LOCALE_STRING,
   NAVIGATION_SCREEN_NAME,
+  APP_CONSTANTS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 
@@ -40,7 +41,7 @@ export class UnconnectedCreateSecurityPin extends React.Component<
   }
 
   handleCode = (code: string) => {
-    if (code.length === 5) {
+    if (code.length === APP_CONSTANTS.PIN_CELL_COUNT) {
       this.setState({value: code}, () => {
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.VERIFY_PIN, {
           code: code,

@@ -9,6 +9,7 @@
 export const PAYLOAD_KEYS: any = {
   USER_ID: 'user_id',
   ID: 'id',
+  EMAIL: 'email',
   OVERPAYMENT: {
     OVERPAYMENT_AMOUNT: 'amount',
     PAGE: 'page',

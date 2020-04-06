@@ -295,7 +295,7 @@
     "projected": "Projected",
     "completeYourprofile": "Complete your profile",
     "currentLtv": "Loan-to-Value (LTV)",
-    "unlockBetterDeals": "Unlock better deals the next time you remortgage"
+    "unlockBetterDeals": "Unlock cheaper deals at {{ltv}}% the next time you remortgage"
   },
   "homeOwnership": {
     "homeOwnerShip": "Home Ownership",
@@ -339,6 +339,7 @@
     "verifyHeader": "Please confirm your PIN",
     "verifyInfo": "Please type in your PIN to verify",
     "doYouWantToEnableFaceId": "Do you want to enable Face-ID?",
-    "pinNotMatched": "Pin did not match"
+    "pinNotMatched": "Pin did not match",
+    "faceIdNotEnrolled": "Face ID not enrolled, please enroll it from settings"
   }
 }
