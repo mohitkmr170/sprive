@@ -124,18 +124,8 @@ export class UnConnectedUserProfileViewMode extends React.Component<
     );
   };
   handleDonePressed = () => {
-    const {
-      taskHandlerResponse,
-      updateUserProfileResponse,
-      updateUserAddressResponse,
-    } = this.props;
-    reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
-      isUserDataChanged:
-        _get(taskHandlerResponse, DB_KEYS.RESPONSE, null) ||
-        _get(updateUserProfileResponse, DB_KEYS.RESPONSE, null) ||
-        _get(updateUserAddressResponse, DB_KEYS.RESPONSE, null)
-          ? true
-          : false,
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.HOME_OWNERSHIP, {
+      lastRouteName: NAVIGATION_SCREEN_NAME.USER_ADDRESS,
     });
   };
   handleEditPress = () => {
