@@ -207,6 +207,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     formValues: object,
     selectedAddressIndex: number,
   ) => {
+    let isAddressChanged = true;
     const {
       taskHandler,
       getUserInfo,
@@ -224,6 +225,8 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
         await updateUserAddress(payload, {
           id: _get(getUserInfoResponse, DB_KEYS.USER_ADDRESS_ID, null),
         });
+      } else {
+        isAddressChanged = false;
       }
     } else {
       const payload = this.getAddressPayload(formValues, false);
@@ -242,7 +245,10 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
       await getUserInfo();
       this.props.navigation.navigate(
         NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
-        {selectedAddressIndex: selectedAddressIndex},
+        {
+          selectedAddressIndex: selectedAddressIndex,
+          isAddressChanged: isAddressChanged,
+        },
       );
     }
   };
