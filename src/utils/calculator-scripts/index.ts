@@ -1,6 +1,7 @@
 const rateCalc = require('./v2/rateCalc.js');
 const overpaymentCalc = require('./v2/SimpleOverpaymentCalc.js');
 const overpaymentAmtCalc = require('./v2/OverpaymentAmountCalc.js');
+var monthlyOverpaymentCalc = require('./v2/SimpleMonthlyOverpaymentCalc');
 
 /**
  *
@@ -46,4 +47,42 @@ export function calculateGoal(
     ),
   };
   return newGoal;
+}
+
+/**
+ *
+ * @param outstandingLoan : number : Total Mortgage Amount
+ * @param outstandingTermYrs : number : Mortgage term
+ * @param monthlyPayment : number : Monthly mortgage payment
+ */
+
+export function getErcBreach(
+  outstandingLoan: number,
+  outstandingTermYrs: number,
+  monthlyPayment: number,
+) {
+  //calculate the number of years that might cause an ERC breach
+  const maxAnnualOverpayment = outstandingLoan / 10; //10 %
+  const maxMonthlyOverpayment = maxAnnualOverpayment / 12;
+
+  let numberPayments = outstandingTermYrs * 12;
+  let interestRate =
+    rateCalc(numberPayments, monthlyPayment, -outstandingLoan) * 12;
+
+  //Calculate the period which might trigger an ERC breach - ***add a buffer of 1 year in the UI***
+  var ercCalcM = monthlyOverpaymentCalc.calculatePayments(
+    outstandingLoan,
+    outstandingTermYrs,
+    interestRate * 100,
+    maxMonthlyOverpayment,
+  );
+  var minErcYrsM = ercCalcM.monthlypayments
+    .filter(z => z.balance === 0)
+    .reduce((x, y) => (x.year < y.year || x.month < y.month ? x : y));
+  console.log(
+    'Min years before risk of triggering ERC: %s years %s months',
+    minErcYrsM.year,
+    minErcYrsM.month,
+  );
+  return minErcYrsM;
 }

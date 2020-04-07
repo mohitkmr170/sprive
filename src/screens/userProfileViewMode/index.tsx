@@ -146,6 +146,11 @@ export class UnConnectedUserProfileViewMode extends React.Component<
       _get(reducerResponse, DB_KEYS.USER_PROFILE_VIEW_MODE.LAST_NAME, false) &&
       _get(reducerResponse, DB_KEYS.USER_PROFILE_VIEW_MODE.DOB, false) &&
       _get(reducerResponse, DB_KEYS.USER_PROFILE_VIEW_MODE.ADDRESS, false);
+    const isAddressChanged = _get(
+      this.props,
+      STATE_PARAMS.IS_ADDRESS_CHANGED,
+      false,
+    );
     if (loading) return <LoadingModal loadingText="Loading..." />;
     else
       return (
@@ -246,7 +251,11 @@ export class UnConnectedUserProfileViewMode extends React.Component<
               </View>
             </KeyboardAwareScrollView>
             <Button
-              title={localeString(LOCALE_STRING.USER_PROFILE.DONE)}
+              title={
+                isAddressChanged
+                  ? localeString(LOCALE_STRING.GLOBAL.OKAY)
+                  : localeString(LOCALE_STRING.USER_PROFILE.DONE)
+              }
               titleStyle={styles.buttonTextStyle}
               onPress={() => this.handleDonePressed()}
               buttonStyle={styles.buttonStyle}
