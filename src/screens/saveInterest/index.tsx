@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StatusBar, Image} from 'react-native';
+import {View, Text, StatusBar, Image, Linking, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Header, GeneralStatusBar} from '../../components';
 import {styles} from './styles';
@@ -20,6 +20,8 @@ import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
 import {getUserInfo, setUserMortgage} from '../../store/reducers';
+import {SaveInterestOverlay} from './overlay';
+import {url} from '../../../config/urlEndPoints';
 
 interface props {
   navigation: {
@@ -34,12 +36,16 @@ interface props {
   setUserMortgageResponse: object;
 }
 
-interface state {}
+interface state {
+  showSaveInterestOverlay: boolean;
+}
 
 class UnconnectedSaveInterest extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showSaveInterestOverlay: false,
+    };
   }
 
   componentDidMount = async () => {
@@ -101,12 +107,21 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     //       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
     //     }
     //   })
-    //   .catch(err => {
+    //   .catch(err =>
     //     // CASE-: Token Error, KeyChain Corrupted or couldn't be fetched
     //     // HANDLE-: Route to SignUp Screen
     //   });
+
+    this.setState({
+      showSaveInterestOverlay: true,
+    });
+  };
+
+  handleSaveWithSpriveRedirection = async () => {
+    console.log('handleLinkButton cliked');
+
     getAuthToken()
-      .then(async res => {
+      .then(async (res) => {
         const {getUserInfo} = this.props;
         /*
         NOTES : This condition is added to handle concurrent device login for unverified user
@@ -125,7 +140,17 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
         } else
           this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
       })
-      .catch(err => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
+      .catch((err) => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
+  };
+
+  handleRegisterLinkButton = async () => {
+    const supported = await Linking.canOpenURL(url.websiteUrl);
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened by some browser in the mobile
+      await Linking.openURL(url.websiteUrl);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${url.websiteUrl}`);
+    }
   };
 
   render() {
@@ -160,21 +185,27 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
           onPress={() => this.handleSaveWithSprive()}
           loading={_get(setUserMortgage, DB_KEYS.IS_FETCHING, false)}
         />
+        {this.state.showSaveInterestOverlay ? (
+          <SaveInterestOverlay
+            handleFirstButton={() => this.handleSaveWithSpriveRedirection()}
+            handleLinkButton={() => this.handleRegisterLinkButton()}
+          />
+        ) : null}
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   getCumulativeInterestResponse: state.getCumulativeInterest,
   getUserInfoResponse: state.getUserInfo,
   reducerResponse: state.form,
   setUserMortgageResponse: state.setUserMortgage,
 });
 
-const bindActions = dispatch => ({
+const bindActions = (dispatch) => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
-  setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
+  setUserMortgage: (payload) => dispatch(setUserMortgage.fetchCall(payload)),
 });
 
 export const SaveInterest = connect(
