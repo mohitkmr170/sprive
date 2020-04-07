@@ -6,7 +6,12 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {Header, GeneralStatusBar, CodeInput} from '../../components';
+import {
+  Header,
+  GeneralStatusBar,
+  CodeInput,
+  LoadingModal,
+} from '../../components';
 import {styles} from './styles';
 import {
   getUserInfo,
@@ -58,6 +63,7 @@ interface props {
 }
 interface state {
   value: string;
+  loading: boolean;
 }
 
 export class UnconnectedVerifyPin extends React.Component<props, state> {
@@ -65,15 +71,17 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
     super(props);
     this.state = {
       value: '',
+      loading: false,
     };
+    StatusBar.setHidden(false);
     StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
 
   handleUserInfo = () => {
     const {getUserInfoResponse, navigation} = this.props;
     /*
-        TODO : Below condition should be reviewed later
-        */
+      TODO : Below condition should be reviewed later
+    */
     StatusBar.setHidden(false, 'fade');
     if (
       !_get(getUserInfoResponse, DB_KEYS.VERIFICATION_FLOW.IS_VERIFIED, true)
@@ -81,8 +89,14 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
       if (
         _get(getUserInfoResponse, DB_KEYS.VERIFICATION_FLOW.IS_BLOCKED, true)
       ) {
-        navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED);
-      } else navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+        this.setState({loading: false}, () => {
+          navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED);
+        });
+      } else {
+        this.setState({loading: false}, () => {
+          navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+        });
+      }
     } else {
       this.preApiCalls();
     }
@@ -105,8 +119,11 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
       DB_KEYS.IS_NOTIFICATION_RECEIVED,
       false,
     );
-    if (!getUserInfoResponses || !userId)
-      navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+    if (!getUserInfoResponses || !userId) {
+      this.setState({loading: false}, () => {
+        navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
+      });
+    }
     const qParamsInfo = {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
@@ -117,14 +134,16 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
-      navigation.navigate(
-        isNotificationReceived
-          ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
-          : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-        {
-          isUserDataChanged: true,
-        },
-      );
+      this.setState({loading: false}, () => {
+        navigation.navigate(
+          isNotificationReceived
+            ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+            : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+          {
+            isUserDataChanged: true,
+          },
+        );
+      });
       return;
     }
     const qParam_monthly_payment_record = {
@@ -137,14 +156,16 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
     await getUserGoal({}, qParam_get_user_goal);
     const {getUserGoalResponse} = this.props;
     if (!_get(getUserGoalResponse, DB_KEYS.RESPONSE_DATA, []).length) {
-      navigation.navigate(
-        isNotificationReceived
-          ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
-          : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-        {
-          isUserDataChanged: true,
-        },
-      );
+      this.setState({loading: false}, () => {
+        navigation.navigate(
+          isNotificationReceived
+            ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+            : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+          {
+            isUserDataChanged: true,
+          },
+        );
+      });
       return;
     }
     const mortgageTerm = _get(
@@ -173,23 +194,29 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
       if (externalUserId) {
         OneSignal.setExternalUserId(externalUserId);
       }
-      navigation.navigate(
-        isNotificationReceived
-          ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
-          : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-        {
-          isUserDataChanged: false,
-        },
-      );
+      {
+        this.setState({loading: false}, () => {
+          navigation.navigate(
+            isNotificationReceived
+              ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+              : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+            {
+              isUserDataChanged: false,
+            },
+          );
+        });
+      }
     } else {
-      navigation.navigate(
-        isNotificationReceived
-          ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
-          : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
-        {
-          isUserDataChanged: true,
-        },
-      );
+      this.setState({loading: false}, () => {
+        navigation.navigate(
+          isNotificationReceived
+            ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+            : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
+          {
+            isUserDataChanged: true,
+          },
+        );
+      });
     }
   };
 
@@ -203,39 +230,39 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
           null,
         ),
         [PAYLOAD_KEYS.TWO_FACTOR_AUTH.PIN]: code,
-        [PAYLOAD_KEYS.EMAIL]: _get(
-          getUserInfoResponses,
-          DB_KEYS.CURRENT_USER_EMAIL,
-          null,
-        ),
       };
       await verifyUserPin(payload);
       const {verifyUserPinResponse} = this.props;
       if (!_get(verifyUserPinResponse, DB_KEYS.ERROR, true)) {
-        this.handleUserInfo();
+        this.setState({loading: true}, () => {
+          this.handleUserInfo();
+        });
       }
     }
   };
 
   render() {
-    return (
-      <TouchableWithoutFeedback
-        style={styles.mainContainer}
-        onPress={() => Keyboard.dismiss()}>
-        <View style={styles.mainContainer}>
-          <GeneralStatusBar />
-          <Header />
-          <View style={styles.centerContainer}>
-            <Text style={styles.headerText}>
-              {localeString(LOCALE_STRING.SECURE_LOGIN.VERIFY_PIN_HEADER)}
-            </Text>
-            <View style={styles.codeInputContainer}>
-              <CodeInput getCompleteCode={this.handleCode} />
+    if (this.state.loading) {
+      return <LoadingModal loadingText="Loading..." />;
+    } else
+      return (
+        <TouchableWithoutFeedback
+          style={styles.mainContainer}
+          onPress={() => Keyboard.dismiss()}>
+          <View style={styles.mainContainer}>
+            <GeneralStatusBar />
+            <Header />
+            <View style={styles.centerContainer}>
+              <Text style={styles.headerText}>
+                {localeString(LOCALE_STRING.SECURE_LOGIN.VERIFY_PIN_HEADER)}
+              </Text>
+              <View style={styles.codeInputContainer}>
+                <CodeInput getCompleteCode={this.handleCode} />
+              </View>
             </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    );
+        </TouchableWithoutFeedback>
+      );
   }
 }
 const mapStateToProps = state => ({
