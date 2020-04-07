@@ -1,5 +1,5 @@
 import {StyleSheet, Platform} from 'react-native';
-import {COLOR, STYLE_CONSTANTS} from '../../../utils';
+import {COLOR, STYLE_CONSTANTS} from '../../utils';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 export const styles = StyleSheet.create({
@@ -46,11 +46,11 @@ export const styles = StyleSheet.create({
   },
   descriptionText: {
     color: COLOR.VOILET,
+    opacity: 0.7,
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     marginTop: STYLE_CONSTANTS.margin.LARGER,
     textAlign: 'center',
-    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   descriptionTextLink: {
     color: COLOR.PRIMARY,
@@ -58,17 +58,15 @@ export const styles = StyleSheet.create({
   listView: {
     marginTop: STYLE_CONSTANTS.margin.HUGER,
   },
-  listIcon: {
-    marginRight: STYLE_CONSTANTS.margin.HUMONGOUS,
-    marginTop: STYLE_CONSTANTS.margin.HUMONGOUS,
-  },
   list: {
     marginBottom: STYLE_CONSTANTS.margin.SMALL,
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGER,
+    flexDirection: 'row',
   },
   listText: {
     color: COLOR.VOILET,
     opacity: 0.5,
+    paddingLeft: 8,
   },
 });

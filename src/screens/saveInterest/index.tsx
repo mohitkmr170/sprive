@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StatusBar, Image, Linking, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
-import {Header, GeneralStatusBar} from '../../components';
+import {Header, GeneralStatusBar, SaveInterestOverlay} from '../../components';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import {
@@ -20,7 +20,6 @@ import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
 import {getUserInfo, setUserMortgage} from '../../store/reducers';
-import {SaveInterestOverlay} from './overlay';
 import {url} from '../../../config/urlEndPoints';
 
 interface props {
@@ -118,29 +117,32 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   };
 
   handleSaveWithSpriveRedirection = async () => {
-    console.log('handleLinkButton cliked');
-
-    getAuthToken()
-      .then(async (res) => {
-        const {getUserInfo} = this.props;
-        /*
+    this.setState({showSaveInterestOverlay: false}, () => {
+      getAuthToken()
+        .then(async res => {
+          const {getUserInfo} = this.props;
+          /*
         NOTES : This condition is added to handle concurrent device login for unverified user
         */
-
-        console.log('AUTH_TOKE_IN_SAVE_INTEREST :::', res);
-        if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
-          await getUserInfo();
-          const {getUserInfoResponse} = this.props;
-          if (!_get(getUserInfoResponse, DB_KEYS.ERROR, true))
-            this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
-          else
+          console.log('AUTH_TOKE_IN_SAVE_INTEREST :::', res);
+          if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
+            await getUserInfo();
+            const {getUserInfoResponse} = this.props;
+            if (!_get(getUserInfoResponse, DB_KEYS.ERROR, true))
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.CHECK_EMAIL,
+              );
+            else
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN,
+              );
+          } else
             this.props.navigation.navigate(
               NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN,
             );
-        } else
-          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
-      })
-      .catch((err) => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
+        })
+        .catch(err => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
+    });
   };
 
   handleRegisterLinkButton = async () => {
@@ -196,16 +198,16 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   getCumulativeInterestResponse: state.getCumulativeInterest,
   getUserInfoResponse: state.getUserInfo,
   reducerResponse: state.form,
   setUserMortgageResponse: state.setUserMortgage,
 });
 
-const bindActions = (dispatch) => ({
+const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
-  setUserMortgage: (payload) => dispatch(setUserMortgage.fetchCall(payload)),
+  setUserMortgage: payload => dispatch(setUserMortgage.fetchCall(payload)),
 });
 
 export const SaveInterest = connect(

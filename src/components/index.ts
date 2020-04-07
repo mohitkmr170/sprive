@@ -14,3 +14,4 @@ export * from './MyProgress';
 export * from './MyPayments';
 export * from './PolicyUpdate';
 export * from './CodeInput';
+export * from './InterestOverlay';

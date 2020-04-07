@@ -47,7 +47,7 @@
     "andOur": "and our",
     "privacyPolicy": "Privacy Policy",
     "accountAlreadyExist": "Already have an account?",
-    "emailClients": "Email Clients found on your device"
+    "emailClients": "Email Clients found on your device",
   },
   "mortgageForm": {
     "title": "Your Mortgage",
@@ -67,7 +67,14 @@
     "secondListOne": "Pay off your mortgage as quickly as you can",
     "secondListTwo": "Chip away without impacting your lifestyle",
     "buttonText": "Start saving with Sprive",
-    "negativeInterest": "Interest cannot be negative"
+    "negativeInterest": "Interest cannot be negative",
+    "currentlySupports": "Sprive currently supports",
+    "residential": "Residential mortgages",
+    "repayment": "Repayment mortgages",
+    "continue": "Continue",
+    "notYou": "Not you? ",
+    "register": "Register interest ",
+    "readyForYou": "and we’ll let you know as soon as we’re ready for you"
   },
   "validationMessages": {
     "required": "Required",
