@@ -99,8 +99,19 @@ export const styles = StyleSheet.create({
     color: COLOR.VOILET,
     opacity: 0.5,
   },
+  buttonStyle: {
+    backgroundColor: COLOR.PRIMARY,
+    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
+    borderRadius: STYLE_CONSTANTS.margin.HUMONGOUS,
+    marginBottom: STYLE_CONSTANTS.margin.HUGE,
+  },
+  buttonTextStyle: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    paddingVertical: STYLE_CONSTANTS.margin.NORMAL,
+  },
   amountContainer: {
-    marginTop: STYLE_CONSTANTS.margin.LARGEST,
+    marginTop: STYLE_CONSTANTS.margin.NORMAL,
     paddingVertical: STYLE_CONSTANTS.padding.LARGISH,
     marginHorizontal: STYLE_CONSTANTS.margin.NORMAL,
     borderRadius: 8,

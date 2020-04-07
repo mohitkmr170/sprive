@@ -7,32 +7,21 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import * as Progress from 'react-native-progress';
+import {Button} from 'react-native-elements';
+import {reset} from '../../navigation/navigationService';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  Svg,
-  Circle,
-  Line,
-  Image as SvgImage,
-  Text as SvgText,
-} from 'react-native-svg';
 import {getOutstandingMortgageBalance} from '../../store/reducers';
 import {styles} from './styles';
-import {
-  chatIcon,
-  iPadLocks,
-  zeroComplete,
-  twentyComplete,
-  fourtyComplete,
-  sixtyComplete,
-  eightyComplete,
-  hundredComplete,
-} from '../../assets';
+import {chatIcon, iPadLocks} from '../../assets';
 import Moment from 'moment';
-import {GeneralStatusBar, Header} from '../../components';
+import {
+  GeneralStatusBar,
+  Header,
+  AnimatedCircularProgressBar,
+} from '../../components';
 import {
   getNumberWithCommas,
   localeString,
@@ -48,11 +37,10 @@ import {
   STAGE_IDS,
   PAYLOAD_KEYS,
   NUMERIC_FACTORS,
+  STATE_PARAMS,
 } from '../../utils';
 
 const BLOCK_GRADIENT = [COLOR.WHITE, COLOR.PRIMARY_THIRD_PART];
-const totalAngleCovered = 360;
-const totalPercentageOwned = 100;
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
@@ -67,6 +55,9 @@ interface props {
   ) => void;
   getOutstandingMortgageBalanceResponse: object;
   getProjectedDataResponse: object;
+  taskHandlerResponse: object;
+  updateUserProfileResponse: object;
+  updateUserAddressResponse: object;
 }
 interface state {}
 
@@ -86,6 +77,23 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
     };
     await getOutstandingMortgageBalance({}, qParam);
   };
+
+  handleDonePressed = () => {
+    const {
+      taskHandlerResponse,
+      updateUserProfileResponse,
+      updateUserAddressResponse,
+    } = this.props;
+    reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+      isUserDataChanged:
+        _get(taskHandlerResponse, DB_KEYS.RESPONSE, null) ||
+        _get(updateUserProfileResponse, DB_KEYS.RESPONSE, null) ||
+        _get(updateUserAddressResponse, DB_KEYS.RESPONSE, null)
+          ? true
+          : false,
+    });
+  };
+
   handleBackPress = () => {
     this.props.navigation.goBack();
   };
@@ -143,31 +151,11 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       ? this.getTargetNavigation(found)
       : null;
   };
-  getHomeownershipImage = () => {
-    const {getUserMortgageDataResponse} = this.props;
-    const currentLtv = Math.round(
-      _get(getUserMortgageDataResponse, DB_KEYS.LTV, 0),
-    );
-    const houseOwned = 100 - (currentLtv ? currentLtv : 0);
-    if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.ZERO && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.TWENTY)
-      return <Image style={styles.centerImage} source={zeroComplete} />;
-    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.TWENTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.FOURTY)
-      return <Image style={styles.centerImage} source={twentyComplete} />;
-    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.FOURTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.SIXTY)
-      return <Image style={styles.centerImage} source={fourtyComplete} />;
-    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.SIXTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.EIGHTY)
-      return <Image style={styles.centerImage} source={sixtyComplete} />;
-    else if (houseOwned >= APP_CONSTANTS.HOME_OWNERSHIP_RANGES.EIGHTY && houseOwned < APP_CONSTANTS.HOME_OWNERSHIP_RANGES.HUNDRED)
-      return <Image style={styles.centerImage} source={eightyComplete} />;
-    else if (houseOwned === APP_CONSTANTS.HOME_OWNERSHIP_RANGES.HUNDRED)
-      return <Image style={styles.centerImage} source={hundredComplete} />;
-    else return;
-  };
-  getRotationAngle = (houseOwned: number) => {
-    let angle = (totalAngleCovered / totalPercentageOwned) * houseOwned;
-    return angle;
-  };
+
   render() {
+    const isLastRouteProfile = _get(this.props, STATE_PARAMS.NAV_PARAMS, null)
+      ? true
+      : false;
     const {
       getUserInfoResponse,
       getUserMortgageDataResponse,
@@ -180,7 +168,8 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
     /*
     NOTES : data[0] to be changed later
     */
-    const houseOwned = NUMERIC_FACTORS.PERCENT_FACTOR - (currentLtv ? currentLtv : 0);
+    const houseOwned =
+      NUMERIC_FACTORS.PERCENT_FACTOR - (currentLtv ? currentLtv : 0);
     const homeValuation = Math.round(
       _get(getUserMortgageDataResponse, DB_KEYS.HOME_VALUATION, 0),
     );
@@ -229,119 +218,43 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
           onBackPress={() => this.handleBackPress()}
         />
         <View style={styles.nonHeaderContainer}>
-          <ScrollView contentContainerStyle={styles.scrollableMainContainer}>
-            <View style={styles.innerMainContainer}>
-              <View style={styles.startPointDot} />
-              <AnimatedCircularProgress
-                size={
-                  STYLE_CONSTANTS.device.SCREEN_WIDTH -
-                  2 * STYLE_CONSTANTS.margin.HUMONGOUS
-                }
-                width={STYLE_CONSTANTS.margin.LARGISH} //Width of stroke
-                fill={houseOwned} //Progress percent to be filled
-                tintColor={COLOR.CARIBBEAN_GREEN}
-                backgroundWidth={STYLE_CONSTANTS.margin.SMALLEST / 2}
-                rotation={0} //Starting point of progress
-                dashedBackground={{width: 10, gap: 12}}
-                backgroundColor={COLOR.CARIBBEAN_GREEN_ONE_THIRD}
-                padding={STYLE_CONSTANTS.margin.SMALLER}
-                renderCap={({center}) => (
-                  <Svg
-                    height={STYLE_CONSTANTS.device.SCREEN_HEIGHT}
-                    width={STYLE_CONSTANTS.device.SCREEN_WIDTH}>
-                    <Circle
-                      cx={center.x}
-                      cy={center.y}
-                      r={STYLE_CONSTANTS.margin.SMALL}
-                      fill={COLOR.CARIBBEAN_GREEN}
+          <ScrollView
+            contentContainerStyle={styles.scrollableMainContainer}
+            showsVerticalScrollIndicator={false}>
+            <AnimatedCircularProgressBar
+              houseOwned={houseOwned}
+              getUserMortgageDataResponse={getUserMortgageDataResponse}
+              targetMonth={targetMonth}
+              targetYear={targetYear}
+            />
+            {isLastRouteProfile ? null : (
+              <View style={styles.loadToValueContainer}>
+                <Text style={styles.loanToValueText}>
+                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.LOAN_TO_VALUE)}
+                </Text>
+                <View style={styles.progressBarContainer}>
+                  <View style={styles.progressBarInnerContainer}>
+                    <Progress.Bar
+                      progress={currentLtv / 100}
+                      color={COLOR.DARK_YELLOW}
+                      height={STYLE_CONSTANTS.margin.SMALLISH}
+                      width={null}
+                      unfilledColor={COLOR.LIGHTEST_YELLOW}
+                      borderWidth={0}
                     />
-                    <SvgText
-                      x={center.x}
-                      y={center.y + STYLE_CONSTANTS.margin.SMALLEST}
-                      fill={COLOR.WHITE}
-                      fontSize={STYLE_CONSTANTS.font.SIZE.LARGE}
-                      fontWeight="600"
-                      textAnchor="middle"
-                      transform={{
-                        rotation: this.getRotationAngle(houseOwned),
-                        originX: center.x,
-                        originY: center.y,
-                      }}>
-                      >
-                    </SvgText>
-                  </Svg>
-                )}>
-                {() => this.getHomeownershipImage()}
-              </AnimatedCircularProgress>
-            </View>
-            <View style={styles.bottomContainer}>
-              <View style={styles.ownedPercentageContainer} />
-              <Svg height="80" width="80" style={styles.svgLineStyle}>
-                <Line
-                  /*
-                  NOTES : Plotting values
-                  */
-                  x1="0"
-                  y1="40"
-                  x2="80"
-                  y2="40"
-                  stroke={COLOR.VOILET_ONE_THIRD}
-                  strokeDasharray="8, 8"
-                  strokeWidth="2"
-                />
-              </Svg>
-              <Text
-                style={[
-                  styles.percentageText,
-                  {paddingLeft: STYLE_CONSTANTS.padding.SMALL},
-                ]}>
-                {houseOwned}%
-              </Text>
-              <Svg height="80" width="80">
-                <Line
-                  /*
-                  NOTES : Plotting values
-                  */
-                  x1="16"
-                  y1="40"
-                  x2="80"
-                  y2="40"
-                  stroke={COLOR.VOILET_ONE_THIRD}
-                  strokeDasharray="8, 8"
-                  strokeWidth="2"
-                />
-              </Svg>
-              {/* This is to be tested */}
-              <Text style={styles.dateText}>
-                {targetMonth} {targetYear}’
-              </Text>
-            </View>
-            <Text style={styles.myHouseText}>
-              {localeString(LOCALE_STRING.HOME_OWNERSHIP.OF_MY_HOUSE)}
-            </Text>
-            <View style={styles.loadToValueContainer}>
-              <Text style={styles.loanToValueText}>
-                {localeString(LOCALE_STRING.HOME_OWNERSHIP.LOAN_TO_VALUE)}
-              </Text>
-              <View style={styles.progressBarContainer}>
-                <View style={styles.progressBarInnerContainer}>
-                  <Progress.Bar
-                    progress={currentLtv / 100}
-                    color={COLOR.DARK_YELLOW}
-                    height={STYLE_CONSTANTS.margin.SMALLISH}
-                    width={null}
-                    unfilledColor={COLOR.LIGHTEST_YELLOW}
-                    borderWidth={0}
-                  />
+                  </View>
+                  <Text style={styles.ltvPercentageText}>{currentLtv}%</Text>
                 </View>
-                <Text style={styles.ltvPercentageText}>{currentLtv}%</Text>
+                <Text style={styles.unlockCheaperDealsText}>
+                  {localeString(
+                    LOCALE_STRING.HOME_OWNERSHIP.UNLOCK_PERCENTAGE,
+                    {
+                      percent: currentLtv - (currentLtv % 5), //To check previous factor of 5
+                    },
+                  )}
+                </Text>
               </View>
-              <Text style={styles.unlockCheaperDealsText}>
-                {localeString(LOCALE_STRING.HOME_OWNERSHIP.UNLOCK_PERCENTAGE, {
-                  percent: currentLtv - (currentLtv % 5), //To check previous factor of 5
-                })}
-              </Text>
-            </View>
+            )}
             <View style={styles.amountContainer}>
               <View style={styles.amountOwnerContainer}>
                 <Text style={styles.amountOwnedText}>
@@ -380,6 +293,14 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
               </LinearGradient>
             </TouchableOpacity>
           )}
+          {isLastRouteProfile ? (
+            <Button
+              title={localeString(LOCALE_STRING.GLOBAL.OKAY)}
+              titleStyle={styles.buttonTextStyle}
+              onPress={() => this.handleDonePressed()}
+              buttonStyle={styles.buttonStyle}
+            />
+          ) : null}
         </View>
       </View>
     );
@@ -390,6 +311,9 @@ const mapStateToProps = state => ({
   getPendingTaskResponse: state.getPendingTask,
   getProjectedDataResponse: state.getProjectedData,
   getUserMortgageDataResponse: state.getUserMortgageData,
+  taskHandlerResponse: state.taskHandler,
+  updateUserProfileResponse: state.updateUserProfile,
+  updateUserAddressResponse: state.updateUserAddress,
   getOutstandingMortgageBalanceResponse: state.getOutstandingMortgageBalance,
 });
 
