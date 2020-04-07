@@ -15,12 +15,12 @@ import {
   DB_KEYS,
   APP_CONSTANTS,
   COLOR,
+  APP_KEYS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {interestBanner} from '../../assets';
 import {getUserInfo, setUserMortgage} from '../../store/reducers';
-import {url} from '../../../config/urlEndPoints';
 
 interface props {
   navigation: {
@@ -146,12 +146,14 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
   };
 
   handleRegisterLinkButton = async () => {
-    const supported = await Linking.canOpenURL(url.websiteUrl);
+    const supported = await Linking.canOpenURL(APP_KEYS.SPRIVE_WEB_URL);
     if (supported) {
       // Opening the link with some app, if the URL scheme is "http" the web link should be opened by some browser in the mobile
-      await Linking.openURL(url.websiteUrl);
+      await Linking.openURL(APP_KEYS.SPRIVE_WEB_URL);
     } else {
-      Alert.alert(`Don't know how to open this URL: ${url.websiteUrl}`);
+      Alert.alert(
+        `Don't know how to open this URL: ${APP_KEYS.SPRIVE_WEB_URL}`,
+      );
     }
   };
 
