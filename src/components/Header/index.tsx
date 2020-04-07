@@ -44,7 +44,17 @@ export class Header extends React.Component<props, state> {
           <View style={styles.emptyLeftContainer} />
         )}
         {rightIconPresent && (
-          <Text style={styles.middleContainer}>{this.props.title}</Text>
+          <Text
+            style={[
+              styles.middleContainer,
+              {
+                paddingLeft: leftIconPresent
+                  ? 0
+                  : STYLE_CONSTANTS.margin.LARGER,
+              },
+            ]}>
+            {this.props.title}
+          </Text>
         )}
         {rightIconPresent && (
           <TouchableOpacity

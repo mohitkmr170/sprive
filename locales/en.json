@@ -315,7 +315,8 @@
     "loanToValue": "Loan-to-Value (LTV)",
     "unlockPercentage": "Unlock cheaper deals at {{percent}}% LTV",
     "amountOwned": "Amount Owned",
-    "estimatedValue": "Estimated Value"
+    "estimatedValue": "Estimated Value",
+    "myHome": "My Home"
   },
   "paymentReminder": {
     "payNow": "Pay Now",

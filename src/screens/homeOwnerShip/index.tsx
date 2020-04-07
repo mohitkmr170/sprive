@@ -13,7 +13,10 @@ import {reset} from '../../navigation/navigationService';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import LinearGradient from 'react-native-linear-gradient';
-import {getOutstandingMortgageBalance} from '../../store/reducers';
+import {
+  getOutstandingMortgageBalance,
+  getUserMortgageData,
+} from '../../store/reducers';
 import {styles} from './styles';
 import {chatIcon, iPadLocks} from '../../assets';
 import Moment from 'moment';
@@ -21,6 +24,7 @@ import {
   GeneralStatusBar,
   Header,
   AnimatedCircularProgressBar,
+  LoadingModal,
 } from '../../components';
 import {
   getNumberWithCommas,
@@ -58,24 +62,41 @@ interface props {
   taskHandlerResponse: object;
   updateUserProfileResponse: object;
   updateUserAddressResponse: object;
+  getUserMortgageData: (payload: object, extraPayload: object) => void;
 }
-interface state {}
+interface state {
+  loading: boolean;
+}
 
 export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: true,
+    };
   }
   componentDidMount = async () => {
     StatusBar.setBackgroundColor(COLOR.WHITE, true);
     /*
     NOTES : To be Integrated with actual API(Mocked for now)
     */
-    const {getOutstandingMortgageBalance, getUserInfoResponse} = this.props;
+    const {
+      getOutstandingMortgageBalance,
+      getUserInfoResponse,
+      getUserMortgageData,
+    } = this.props;
     const qParam = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
     };
     await getOutstandingMortgageBalance({}, qParam);
+    if (_get(this.props, STATE_PARAMS.NAV_PARAMS, null)) {
+      const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
+      const qParamsInfo = {
+        [PAYLOAD_KEYS.USER_ID]: userId,
+      };
+      await getUserMortgageData({}, qParamsInfo);
+    }
+    this.setState({loading: false});
   };
 
   handleDonePressed = () => {
@@ -205,105 +226,113 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
         null,
       );
     targetYear = targetYear % NUMERIC_FACTORS.PERCENT_FACTOR;
-    return (
-      <View style={styles.mainContainer}>
-        <GeneralStatusBar />
-        <Header
-          leftIconPresent
-          title={localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)}
-          rightIconPresent
-          iconName={chatIcon}
-          iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
-          navigation={this.props.navigation}
-          onBackPress={() => this.handleBackPress()}
-        />
-        <View style={styles.nonHeaderContainer}>
-          <ScrollView
-            contentContainerStyle={styles.scrollableMainContainer}
-            showsVerticalScrollIndicator={false}>
-            <AnimatedCircularProgressBar
-              houseOwned={houseOwned}
-              getUserMortgageDataResponse={getUserMortgageDataResponse}
-              targetMonth={targetMonth}
-              targetYear={targetYear}
-            />
-            {isLastRouteProfile ? null : (
-              <View style={styles.loadToValueContainer}>
-                <Text style={styles.loanToValueText}>
-                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.LOAN_TO_VALUE)}
-                </Text>
-                <View style={styles.progressBarContainer}>
-                  <View style={styles.progressBarInnerContainer}>
-                    <Progress.Bar
-                      progress={currentLtv / 100}
-                      color={COLOR.DARK_YELLOW}
-                      height={STYLE_CONSTANTS.margin.SMALLISH}
-                      width={null}
-                      unfilledColor={COLOR.LIGHTEST_YELLOW}
-                      borderWidth={0}
-                    />
+    if (this.state.loading) {
+      return <LoadingModal loadingText="Loading..." />;
+    } else
+      return (
+        <View style={styles.mainContainer}>
+          <GeneralStatusBar />
+          <Header
+            leftIconPresent={isLastRouteProfile ? false : true}
+            title={
+              isLastRouteProfile
+                ? localeString(LOCALE_STRING.HOME_OWNERSHIP.MY_HOME)
+                : localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)
+            }
+            rightIconPresent
+            iconName={chatIcon}
+            iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
+            navigation={this.props.navigation}
+            onBackPress={() => this.handleBackPress()}
+          />
+          <View style={styles.nonHeaderContainer}>
+            <ScrollView
+              contentContainerStyle={styles.scrollableMainContainer}
+              showsVerticalScrollIndicator={false}>
+              <AnimatedCircularProgressBar
+                houseOwned={houseOwned}
+                getUserMortgageDataResponse={getUserMortgageDataResponse}
+                targetMonth={targetMonth}
+                targetYear={targetYear}
+              />
+              {isLastRouteProfile ? null : (
+                <View style={styles.loadToValueContainer}>
+                  <Text style={styles.loanToValueText}>
+                    {localeString(LOCALE_STRING.HOME_OWNERSHIP.LOAN_TO_VALUE)}
+                  </Text>
+                  <View style={styles.progressBarContainer}>
+                    <View style={styles.progressBarInnerContainer}>
+                      <Progress.Bar
+                        progress={currentLtv / 100}
+                        color={COLOR.DARK_YELLOW}
+                        height={STYLE_CONSTANTS.margin.SMALLISH}
+                        width={null}
+                        unfilledColor={COLOR.LIGHTEST_YELLOW}
+                        borderWidth={0}
+                      />
+                    </View>
+                    <Text style={styles.ltvPercentageText}>{currentLtv}%</Text>
                   </View>
-                  <Text style={styles.ltvPercentageText}>{currentLtv}%</Text>
+                  <Text style={styles.unlockCheaperDealsText}>
+                    {localeString(
+                      LOCALE_STRING.HOME_OWNERSHIP.UNLOCK_PERCENTAGE,
+                      {
+                        percent: currentLtv - (currentLtv % 5), //To check previous factor of 5
+                      },
+                    )}
+                  </Text>
                 </View>
-                <Text style={styles.unlockCheaperDealsText}>
-                  {localeString(
-                    LOCALE_STRING.HOME_OWNERSHIP.UNLOCK_PERCENTAGE,
-                    {
-                      percent: currentLtv - (currentLtv % 5), //To check previous factor of 5
-                    },
-                  )}
-                </Text>
+              )}
+              <View style={styles.amountContainer}>
+                <View style={styles.amountOwnerContainer}>
+                  <Text style={styles.amountOwnedText}>
+                    {localeString(LOCALE_STRING.HOME_OWNERSHIP.AMOUNT_OWNED)}
+                  </Text>
+                  <Text style={styles.amountText}>
+                    £{getNumberWithCommas(amountOwned)}
+                  </Text>
+                </View>
+                <View style={styles.estimatedValueContainer}>
+                  <Text style={styles.amountOwnedText}>
+                    {localeString(LOCALE_STRING.HOME_OWNERSHIP.ESTIMATED_VALUE)}
+                  </Text>
+                  <Text style={styles.amountText}>
+                    £{getNumberWithCommas(homeValuation)}
+                  </Text>
+                </View>
               </View>
+            </ScrollView>
+            {!Object.keys(
+              _get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}),
+            ).length && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => this.hanldeCompleteYourProfileClick()}
+                style={styles.blockedViewContainer}>
+                <LinearGradient
+                  colors={BLOCK_GRADIENT}
+                  style={styles.blockedInnerContainer}>
+                  <Image source={iPadLocks} style={{opacity: 1}} />
+                  <Text style={styles.completeYourProfileText}>
+                    {localeString(
+                      LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS
+                        .COMPLETE_YOUR_PROFILE,
+                    )}
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
             )}
-            <View style={styles.amountContainer}>
-              <View style={styles.amountOwnerContainer}>
-                <Text style={styles.amountOwnedText}>
-                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.AMOUNT_OWNED)}
-                </Text>
-                <Text style={styles.amountText}>
-                  £{getNumberWithCommas(amountOwned)}
-                </Text>
-              </View>
-              <View style={styles.estimatedValueContainer}>
-                <Text style={styles.amountOwnedText}>
-                  {localeString(LOCALE_STRING.HOME_OWNERSHIP.ESTIMATED_VALUE)}
-                </Text>
-                <Text style={styles.amountText}>
-                  £{getNumberWithCommas(homeValuation)}
-                </Text>
-              </View>
-            </View>
-          </ScrollView>
-          {!Object.keys(_get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}))
-            .length && (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => this.hanldeCompleteYourProfileClick()}
-              style={styles.blockedViewContainer}>
-              <LinearGradient
-                colors={BLOCK_GRADIENT}
-                style={styles.blockedInnerContainer}>
-                <Image source={iPadLocks} style={{opacity: 1}} />
-                <Text style={styles.completeYourProfileText}>
-                  {localeString(
-                    LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS
-                      .COMPLETE_YOUR_PROFILE,
-                  )}
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          )}
-          {isLastRouteProfile ? (
-            <Button
-              title={localeString(LOCALE_STRING.GLOBAL.OKAY)}
-              titleStyle={styles.buttonTextStyle}
-              onPress={() => this.handleDonePressed()}
-              buttonStyle={styles.buttonStyle}
-            />
-          ) : null}
+            {isLastRouteProfile ? (
+              <Button
+                title={localeString(LOCALE_STRING.GLOBAL.OKAY)}
+                titleStyle={styles.buttonTextStyle}
+                onPress={() => this.handleDonePressed()}
+                buttonStyle={styles.buttonStyle}
+              />
+            ) : null}
+          </View>
         </View>
-      </View>
-    );
+      );
   }
 }
 const mapStateToProps = state => ({
@@ -320,6 +349,8 @@ const mapStateToProps = state => ({
 const bindActions = dispatch => ({
   getOutstandingMortgageBalance: (payload, extraPayload) =>
     dispatch(getOutstandingMortgageBalance.fetchCall(payload, extraPayload)),
+  getUserMortgageData: (payload, extraPayload) =>
+    dispatch(getUserMortgageData.fetchCall(payload, extraPayload)),
 });
 export const HomeOwnerShip = connect(
   mapStateToProps,
