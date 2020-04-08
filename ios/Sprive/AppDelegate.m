@@ -22,7 +22,7 @@
 {
   NSURL *jsCodeLocation;
   self.oneSignal = [[RCTOneSignal alloc] initWithLaunchOptions:launchOptions
-                                                       appId:@"ce763fbb-0f60-4f44-b709-30eedbf62388"];
+                                                       appId:@"7813aa25-8bd8-41e5-9d3f-387e6fd48a9f"];
   if ([FIRApp defaultApp] == nil) {
       [FIRApp configure];
   }
