@@ -25,13 +25,15 @@ import {
   getAuthToken,
   resetAuthToken,
   localeString,
-  DB_KEYS,
-  NAVIGATION_SCREEN_NAME,
-  STYLE_CONSTANTS,
-  LOCALE_STRING,
-  APP_CONSTANTS,
-  PAYLOAD_KEYS,
   COLOR,
+  DB_KEYS,
+  PAYLOAD_KEYS,
+  APP_CONSTANTS,
+  LOCALE_STRING,
+  BIOMETRY_TYPE,
+  BIOMETRIC_KEYS,
+  STYLE_CONSTANTS,
+  NAVIGATION_SCREEN_NAME,
 } from '../utils';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {verticalScale} from 'react-native-size-matters/extend';
@@ -109,38 +111,101 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     });
   };
 
+  handleUserInfo = () => {
+    const {getUserInfoResponse, navigation} = this.props;
+    /*
+        TODO : Below condition should be reviewed later
+        */
+    StatusBar.setHidden(false, 'fade');
+    if (
+      !_get(getUserInfoResponse, DB_KEYS.VERIFICATION_FLOW.IS_VERIFIED, true)
+    ) {
+      if (
+        _get(getUserInfoResponse, DB_KEYS.VERIFICATION_FLOW.IS_BLOCKED, true)
+      ) {
+        navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED);
+      } else navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+    } else {
+      this.preApiCalls();
+    }
+  };
+
+  handlePinVerification = () => {
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.VERIFY_PIN_SCREEN);
+  };
+
+  handleFaceIdError = (errorKey: string) => {
+    Alert.alert(errorKey, '', [
+      {
+        text: localeString(LOCALE_STRING.SECURE_LOGIN.ENTER_PIN),
+        onPress: () => {
+          this.handlePinVerification();
+        },
+      },
+    ]);
+  };
+
   biometricAuthentication = () => {
     FingerprintScanner.isSensorAvailable()
       .then(biometrictype => {
         console.log(
-          'biometricAuthentication : biometrictype => ',
-          biometrictype,
+          'biometrictype success ::',
+          JSON.parse(JSON.stringify(biometrictype)),
         );
-        const description: string = `Scan your ${biometrictype} to proceed`;
+        const description: string = `Scan you ${biometrictype} to proceed`;
         FingerprintScanner.authenticate({
           description: description,
           fallbackEnabled: true,
         })
           .then(() => {
+            this.handleUserInfo();
             this.props.handlePopupDismissed();
-            console.log('Authenticated successfully');
           })
           .catch((error: object) => {
-            this.props.handlePopupDismissed();
-            console.log(_get(error, 'message', ''));
+            // this.props.handlePopupDismissed();
+            const biometricValidaitionError = JSON.parse(JSON.stringify(error));
+            console.log(
+              'biometric validation error',
+              JSON.parse(JSON.stringify(error)),
+            );
+            if (
+              biometricValidaitionError.name ===
+                BIOMETRIC_KEYS.CTA.USER_FALLBACK ||
+              biometricValidaitionError.name === BIOMETRIC_KEYS.CTA.CANCEL
+            )
+              this.handlePinVerification();
           });
       })
       .catch(error => {
-        console.log('biometricAuthentication : error =>', error);
+        const sensorError = JSON.parse(JSON.stringify(error));
+        console.log('biometrictype error ::', sensorError);
+        if (
+          _get(sensorError, BIOMETRIC_KEYS.BIOMETRIC, '') ===
+          BIOMETRY_TYPE.FACE_ID
+        ) {
+          let faceIdError = _get(sensorError, BIOMETRIC_KEYS.NAME, '');
+          switch (faceIdError) {
+            case BIOMETRIC_KEYS.ERROR_KEY.NOT_ENROLLED:
+              this.handleFaceIdError(
+                localeString(LOCALE_STRING.SECURE_LOGIN.FACE_ID_NOT_ENROLLED),
+              );
+              break;
+            case BIOMETRIC_KEYS.ERROR_KEY.NOT_AVAILABLE:
+              this.handleFaceIdError(
+                localeString(LOCALE_STRING.SECURE_LOGIN.FACE_NOT_AVAILABLE),
+              );
+              break;
+            default:
+              this.handleFaceIdError(
+                localeString(LOCALE_STRING.SECURE_LOGIN.GENERAL_FACE_ID_ERROR),
+              );
+          }
+        }
       });
   };
 
   async componentDidMount() {
     StatusBar.setHidden(true, 'fade');
-    /*
-    NOTES : This will be used for biometric authentication flow, commented for now
-    */
-    // this.biometricAuthentication();
     this.authFlowCheck();
     /*
     NOTES : Remember to update the current version to be updated => CFBundleShortVersionString
@@ -210,7 +275,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
-      reset(
+      navigation.navigate(
         isNotificationReceived
           ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
@@ -230,7 +295,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     await getUserGoal({}, qParam_get_user_goal);
     const {getUserGoalResponse} = this.props;
     if (!_get(getUserGoalResponse, DB_KEYS.RESPONSE_DATA, []).length) {
-      reset(
+      navigation.navigate(
         isNotificationReceived
           ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
@@ -266,7 +331,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       if (externalUserId) {
         OneSignal.setExternalUserId(externalUserId);
       }
-      reset(
+      navigation.navigate(
         isNotificationReceived
           ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
@@ -275,7 +340,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
         },
       );
     } else
-      reset(
+      navigation.navigate(
         isNotificationReceived
           ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
@@ -297,30 +362,31 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     else {
       const {getUserInfo} = this.props;
       await getUserInfo();
-      const {getUserInfoResponse} = this.props;
+      const {getUserInfoResponse, getUserInfoResponses} = this.props;
       if (_get(getUserInfoResponse, DB_KEYS.AUTH_STATUS, false)) {
-        /*
-        TODO : Below condition should be reviewed later
-        */
-        StatusBar.setHidden(false, 'fade');
-        if (
-          !_get(
-            getUserInfoResponse,
-            DB_KEYS.VERIFICATION_FLOW.IS_VERIFIED,
-            true,
-          )
-        ) {
-          if (
-            _get(
-              getUserInfoResponse,
-              DB_KEYS.VERIFICATION_FLOW.IS_BLOCKED,
-              true,
-            )
-          ) {
-            navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED);
-          } else navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
+        if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_ANDROID) {
+          if (_get(getUserInfoResponses, DB_KEYS.IS_PIN_ENABLED, false)) {
+            // pinAuth = true
+            this.handlePinVerification();
+          } else {
+            this.handleUserInfo();
+          }
         } else {
-          this.preApiCalls();
+          if (
+            !_get(getUserInfoResponses, DB_KEYS.IS_FACE_ID_ENABLED, false) &&
+            !_get(getUserInfoResponses, DB_KEYS.IS_PIN_ENABLED, false)
+          ) {
+            // Two factor auth not enabled
+            this.handleUserInfo();
+          } else if (
+            // pinAuth = true && faceID = true
+            _get(getUserInfoResponses, DB_KEYS.IS_PIN_ENABLED, false) &&
+            _get(getUserInfoResponses, DB_KEYS.IS_FACE_ID_ENABLED, false)
+          ) {
+            this.biometricAuthentication();
+          } else {
+            this.handlePinVerification();
+          }
         }
       } else {
         StatusBar.setHidden(false, 'fade');

@@ -340,6 +340,11 @@
     "verifyInfo": "Please type in your PIN to verify",
     "doYouWantToEnableFaceId": "Do you want to enable Face-ID?",
     "pinNotMatched": "Pin did not match",
-    "faceIdNotEnrolled": "Face ID not enrolled, please enroll it from settings"
+    "faceIdNotEnrolled": "Face ID not enrolled, please enroll it from settings",
+    "verifyPinHeader": "Hello! Please enter your PIN",
+    "faceNotEnrolled": "Face ID not enrolled",
+    "faceNotAvailable": "Face ID not available",
+    "generalFaceIdError": "Something went wrong with FaceID",
+    "enterPin": "Enter PIN"
   }
 }

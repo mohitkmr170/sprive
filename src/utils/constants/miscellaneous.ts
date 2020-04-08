@@ -65,6 +65,7 @@ export const STATE_PARAMS = {
   TASK_ID: 'state.params.taskId',
   STAGE_ID: 'state.params.stageId',
   IS_FIRST_ROUTE: 'state.params.isFirstRoute',
+  IS_ADDRESS_CHANGED: 'navigation.state.params.isAddressChanged',
 };
 /*
 NOTES : This data will be obtained from Backend API
@@ -131,5 +132,10 @@ export const BIOMETRIC_KEYS = {
   BIOMETRIC: 'biometric',
   ERROR_KEY: {
     NOT_ENROLLED: 'FingerprintScannerNotEnrolled',
+    NOT_AVAILABLE: 'FingerprintScannerNotAvailable',
+  },
+  CTA: {
+    USER_FALLBACK: 'UserFallback',
+    CANCEL: 'UserCancel',
   },
 };

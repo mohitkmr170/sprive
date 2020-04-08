@@ -57,6 +57,11 @@ export const DB_KEYS = {
   IS_PIN_ENABLED: 'response.data.is_pin_enabled',
   IS_FACE_ID_ENABLED: 'response.data.is_face_id_enabled',
   TWO_FACTOR_AUTH_TYPE: 'type',
+  ADDRESS_LINE_1: 'response.data.address.address_line_1',
+  ADDRESS_LINE_2: 'response.data.address.address_line_2',
+  CITY: 'response.data.address.town_or_city',
+  COUNTY: 'response.data.address.county_or_region',
+  POST_CODE: 'response.data.address.postcode',
   PROJECTED: {
     INTEREST_SAVING: 'response.data.projected_data.projected_interest_savings',
     YEARS_SAVED: 'response.data.projected_data.projected_time_savings.years',
