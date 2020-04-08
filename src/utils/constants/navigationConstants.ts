@@ -31,4 +31,5 @@ export const NAVIGATION_SCREEN_NAME = {
   VERIFY_PIN: 'VerifySecurityPinScreen',
   PROFILE_SCREEN: 'ProfileScreen',
   SETTINGS_SCREEN: 'SettingsScreen',
+  VERIFY_PIN_SCREEN: 'VerifyPinScreen',
 };
