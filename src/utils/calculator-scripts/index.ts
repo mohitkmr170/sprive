@@ -51,7 +51,7 @@ export function calculateGoal(
 
 /**
  *
- * @param outstandingLoan : number : Total Mortgage Amount
+ * @param outstandingLoan : number : outstanding Mortgage Amount
  * @param outstandingTermYrs : number : Mortgage term
  * @param monthlyPayment : number : Monthly mortgage payment
  */

@@ -9,7 +9,6 @@ import {
   _gaSetCurrentScreen,
   localeString,
   calculateGoal,
-  getErcBreach,
   LOCALE_STRING,
   DB_KEYS,
   NAVIGATION_SCREEN_NAME,
@@ -120,19 +119,15 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
+    const qParam = {
+      [PAYLOAD_KEYS.USER_ID]: userId,
+    };
+    await getOutstandingMortgageBalance({}, qParam);
     const qParams = {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserGoal({}, qParams);
-    const qParam = {
-      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
-    };
-    await getOutstandingMortgageBalance({}, qParam);
-    const {
-      getUserGoalResponse,
-      getUserMortgageDataResponse,
-      getOutstandingMortgageBalanceResponse,
-    } = this.props;
+    const {getUserGoalResponse, getUserMortgageDataResponse} = this.props;
     //To update previously set goal
     if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
       // UPDATE MODE
@@ -170,22 +165,18 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         DB_KEYS.GOAL_INTEREST_SAVED,
         null,
       );
-
-      let mortgageErc = (currentMortgageAmount / oldMortgageTerm) * ERC_FACTOR;
+      const {getOutstandingMortgageBalanceResponse} = this.props;
+      let mortgageErc =
+        _get(
+          getOutstandingMortgageBalanceResponse,
+          DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
+          0,
+        ) * ERC_FACTOR;
       let desiredTerm: Number;
       let newGoal;
       // const desiredTerm = !monthlyOverPayment && mortgageTerm===APP_CONSTANTS.MIN_GOAL_VALUE ? Math.ceil(oldMortgageTerm / 2) : mortgageTerm;
 
       //INTERNAL GOAL RESET CASE
-      let ercBreachPoint = getErcBreach(
-        _get(
-          getOutstandingMortgageBalanceResponse,
-          DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
-          null,
-        ),
-        oldMortgageTerm,
-        currentMonthlyMortgageAmount,
-      );
       if (
         !monthlyOverPayment &&
         mortgageTerm === APP_CONSTANTS.MIN_GOAL_VALUE
@@ -203,11 +194,15 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
             monthlyOverPayment: newGoal.monthlyOverPayment,
             interestSaving: newGoal.totalSavings,
             loading: false,
-            ercLimitCrossed: ercBreachPoint.year >= mortgageTerm,
-          } /*, ()=>{
+            ercLimitCrossed: newGoal.monthlyOverPayment * 12 > mortgageErc,
+          },
+          /*
+          NOTES : ercLimitCrossed is a boolean value, hence conditioned according to that
+          */
+          /*, ()=>{
             console.log('SetGoal:: handleInitialMount:: INTERNAL GOAL RESET CASE:: CHECK:: STATE -->', {...this.state});
             console.log('SetGoal:: handleInitialMount:: INTERNAL GOAL RESET CASE:: CHECK:: mortgageErc -->', mortgageErc);
-        }*/,
+        }*/
         );
       } else {
         //NORMAL UPDATE CASE
@@ -218,7 +213,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
             monthlyOverPayment: monthlyOverPayment,
             interestSaving: totalInterest,
             loading: false,
-            ercLimitCrossed: ercBreachPoint.year >= mortgageTerm,
+            ercLimitCrossed: monthlyOverPayment * 12 > mortgageErc,
           } /*, ()=>{
             console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: STATE -->', {...this.state});
             console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: mortgageErc -->', mortgageErc);
@@ -246,10 +241,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
    */
   goalUpdate = async (newTerm?: number) => {
     // console.log('goalUpdate:: newTerm -->', newTerm)
-    const {
-      getUserMortgageDataResponse,
-      getOutstandingMortgageBalanceResponse,
-    } = this.props;
+    const {getUserMortgageDataResponse} = this.props;
     const {loading} = this.state;
     let currentMortgageAmount = _get(
       getUserMortgageDataResponse,
@@ -271,15 +263,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     // console.log('goalUpdate:: desiredTerm -->', desiredTerm)
     // }
     //calculating using calculatorJS
-    let ercBreachPoint = getErcBreach(
-      _get(
-        getOutstandingMortgageBalanceResponse,
-        DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
-        null,
-      ),
-      currentMortgageTerm,
-      currentMonthlyMortgageAmount,
-    );
     let newGoal = calculateGoal(
       currentMortgageAmount,
       currentMonthlyMortgageAmount,
@@ -287,9 +270,14 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       desiredTerm,
     );
     //Calculating ERC Limit
+    const {getOutstandingMortgageBalanceResponse} = this.props;
     let mortgageErc =
-      (currentMortgageAmount / currentMortgageTerm) * ERC_FACTOR;
-
+      _get(
+        getOutstandingMortgageBalanceResponse,
+        DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
+        0,
+      ) * ERC_FACTOR;
+    console.log('ashdjvasdasdas', mortgageErc, newGoal.monthlyOverPayment * 12);
     // console.log('****************** UPDATE CHECK *****************');
     // console.log('SetGoal:: handleInitialMount:: CHECK:: currentMortgageAmount -->', currentMortgageAmount);
     // console.log('SetGoal:: handleInitialMount:: CHECK:: currentMortgageTerm -->', currentMortgageTerm);
@@ -305,7 +293,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         monthlyOverPayment: newGoal.monthlyOverPayment,
         interestSaving: newGoal.totalSavings,
         loading: false,
-        ercLimitCrossed: ercBreachPoint.year >= newTerm,
+        ercLimitCrossed: newGoal.monthlyOverPayment * 12 > mortgageErc,
       } /*, ()=>{
       console.log('SetGoal:: goalUpdate:: CHECK:: STATE AFTER -->', {...this.state});
     }*/,
