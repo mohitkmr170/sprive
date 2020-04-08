@@ -299,6 +299,7 @@ export const LOCALE_STRING = {
     UNLOCK_PERCENTAGE: 'homeOwnerShip.unlockPercentage',
     AMOUNT_OWNED: 'homeOwnerShip.amountOwned',
     ESTIMATED_VALUE: 'homeOwnerShip.estimatedValue',
+    MY_HOME: 'homeOwnerShip.myHome',
   },
   POLICY_UPDATE: {
     HI_THERE: 'policyUpdate.hiThere',

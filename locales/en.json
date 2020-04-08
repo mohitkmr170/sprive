@@ -282,7 +282,7 @@
     "postCode": "Postcode",
     "searchFlat": "Search house or flat number",
     "noAddressFound": "No Address Found!",
-    "done": "Done",
+    "done": "Find out your home value",
     "edit": "Edit"
   },
   "myProgressAndPayment": {
@@ -315,7 +315,8 @@
     "loanToValue": "Loan-to-Value (LTV)",
     "unlockPercentage": "Unlock cheaper deals at {{percent}}% LTV",
     "amountOwned": "Amount Owned",
-    "estimatedValue": "Estimated Value"
+    "estimatedValue": "Estimated Value",
+    "myHome": "My Home"
   },
   "paymentReminder": {
     "payNow": "Pay Now",
