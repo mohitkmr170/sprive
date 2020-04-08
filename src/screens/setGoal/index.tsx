@@ -76,7 +76,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       loading: true,
       ercLimit: 0,
       ercLimitCrossed: false,
-      minYearLimit: 1,
+      minYearLimit: SLIDER_START_VALUE,
     };
     StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
@@ -89,7 +89,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       loading: true,
       ercLimit: 0,
       ercLimitCrossed: false,
-      minYearLimit: 1,
+      minYearLimit: SLIDER_START_VALUE,
     });
   };
 
@@ -132,15 +132,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     };
     await getUserGoal({}, qParams);
     const {getUserGoalResponse, getUserMortgageDataResponse} = this.props;
-    let minYearLimit = getErcBreach(
-      _get(
-        this.props.getOutstandingMortgageBalanceResponse,
-        DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
-        0,
-      ),
-      _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null),
-      _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_PAYMENT, null),
-    );
     //To update previously set goal
     if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
       // UPDATE MODE
@@ -179,6 +170,15 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         null,
       );
       const {getOutstandingMortgageBalanceResponse} = this.props;
+      let minYearLimit = getErcBreach(
+        _get(
+          getOutstandingMortgageBalanceResponse,
+          DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
+          0,
+        ),
+        mortgageTerm,
+        currentMonthlyMortgageAmount,
+      );
       let mortgageErc =
         _get(
           getOutstandingMortgageBalanceResponse,
@@ -208,7 +208,11 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
             interestSaving: newGoal.totalSavings,
             loading: false,
             ercLimitCrossed: newGoal.monthlyOverPayment * 12 > mortgageErc,
-            minYearLimit: _get(minYearLimit, 'year', 1),
+            minYearLimit: _get(
+              minYearLimit,
+              LOCAL_KEYS.YEAR,
+              SLIDER_START_VALUE,
+            ),
           },
           /*
           NOTES : ercLimitCrossed is a boolean value, hence conditioned according to that
@@ -228,7 +232,11 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
             interestSaving: totalInterest,
             loading: false,
             ercLimitCrossed: monthlyOverPayment * 12 > mortgageErc,
-            minYearLimit: _get(minYearLimit, 'year', 1),
+            minYearLimit: _get(
+              minYearLimit,
+              LOCAL_KEYS.YEAR,
+              SLIDER_START_VALUE,
+            ),
           } /*, ()=>{
             console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: STATE -->', {...this.state});
             console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: mortgageErc -->', mortgageErc);
@@ -273,6 +281,16 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       DB_KEYS.MORTGAGE_TERM,
       null,
     );
+    const {getOutstandingMortgageBalanceResponse} = this.props;
+    let minYearLimit = getErcBreach(
+      _get(
+        getOutstandingMortgageBalanceResponse,
+        DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
+        0,
+      ),
+      currentMortgageTerm,
+      currentMonthlyMortgageAmount,
+    );
     let desiredTerm = currentMortgageTerm;
     desiredTerm = newTerm ? newTerm : Math.ceil(currentMortgageTerm / 2);
     // console.log('goalUpdate:: desiredTerm -->', desiredTerm)
@@ -285,7 +303,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       desiredTerm,
     );
     //Calculating ERC Limit
-    const {getOutstandingMortgageBalanceResponse} = this.props;
     let mortgageErc =
       _get(
         getOutstandingMortgageBalanceResponse,
@@ -308,6 +325,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         interestSaving: newGoal.totalSavings,
         loading: false,
         ercLimitCrossed: newGoal.monthlyOverPayment * 12 > mortgageErc,
+        minYearLimit: _get(minYearLimit, LOCAL_KEYS.YEAR, SLIDER_START_VALUE),
       } /*, ()=>{
       console.log('SetGoal:: goalUpdate:: CHECK:: STATE AFTER -->', {...this.state});
     }*/,
