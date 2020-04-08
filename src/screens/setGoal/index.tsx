@@ -8,6 +8,7 @@ import {Header, LoadingModal, GeneralStatusBar} from '../../components';
 import {
   _gaSetCurrentScreen,
   localeString,
+  getErcBreach,
   calculateGoal,
   LOCALE_STRING,
   DB_KEYS,
@@ -63,6 +64,7 @@ interface state {
   loading: boolean;
   ercLimit: number;
   ercLimitCrossed: boolean;
+  minYearLimit: number;
 }
 export class UnconnectedSetGoal extends React.Component<props, state> {
   constructor(props: props) {
@@ -74,6 +76,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       loading: true,
       ercLimit: 0,
       ercLimitCrossed: false,
+      minYearLimit: 1,
     };
     StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
@@ -86,6 +89,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
       loading: true,
       ercLimit: 0,
       ercLimitCrossed: false,
+      minYearLimit: 1,
     });
   };
 
@@ -128,6 +132,15 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
     };
     await getUserGoal({}, qParams);
     const {getUserGoalResponse, getUserMortgageDataResponse} = this.props;
+    let minYearLimit = getErcBreach(
+      _get(
+        this.props.getOutstandingMortgageBalanceResponse,
+        DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
+        0,
+      ),
+      _get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, null),
+      _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_PAYMENT, null),
+    );
     //To update previously set goal
     if (_get(getUserGoalResponse, DB_KEYS.NEW_MORTGAGE_TERM, false)) {
       // UPDATE MODE
@@ -195,6 +208,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
             interestSaving: newGoal.totalSavings,
             loading: false,
             ercLimitCrossed: newGoal.monthlyOverPayment * 12 > mortgageErc,
+            minYearLimit: _get(minYearLimit, 'year', 1),
           },
           /*
           NOTES : ercLimitCrossed is a boolean value, hence conditioned according to that
@@ -214,6 +228,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
             interestSaving: totalInterest,
             loading: false,
             ercLimitCrossed: monthlyOverPayment * 12 > mortgageErc,
+            minYearLimit: _get(minYearLimit, 'year', 1),
           } /*, ()=>{
             console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: STATE -->', {...this.state});
             console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: mortgageErc -->', mortgageErc);
@@ -277,7 +292,6 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
         0,
       ) * ERC_FACTOR;
-    console.log('ashdjvasdasdas', mortgageErc, newGoal.monthlyOverPayment * 12);
     // console.log('****************** UPDATE CHECK *****************');
     // console.log('SetGoal:: handleInitialMount:: CHECK:: currentMortgageAmount -->', currentMortgageAmount);
     // console.log('SetGoal:: handleInitialMount:: CHECK:: currentMortgageTerm -->', currentMortgageTerm);
@@ -447,10 +461,12 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
                 <Text style={styles.currentYearText}>{mortgageTerm}</Text>
               </View>
               <View style={styles.sliderContainer}>
-                <Text style={styles.sliderLeftText}>{SLIDER_START_VALUE}</Text>
+                <Text style={styles.sliderLeftText}>
+                  {this.state.minYearLimit}
+                </Text>
                 <Slider
                   style={styles.sliderInternalStyles}
-                  minimumValue={SLIDER_START_VALUE}
+                  minimumValue={this.state.minYearLimit}
                   maximumValue={_get(
                     getUserMortgageDataResponse,
                     DB_KEYS.MORTGAGE_TERM,
