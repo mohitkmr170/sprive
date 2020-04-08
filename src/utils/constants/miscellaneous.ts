@@ -4,6 +4,7 @@ NOTES : This is kept here temporarily, will be modified later
 
 export const APP_KEYS = {
   APP_NAME: 'Sprive',
+  SPRIVE_WEB_URL: 'http://www.sprive.com',
 };
 export const LOCAL_KEYS = {
   ADDRESS_LINE1: 'item.address_line_1',

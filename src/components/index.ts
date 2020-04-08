@@ -15,3 +15,4 @@ export * from './MyPayments';
 export * from './PolicyUpdate';
 export * from './CodeInput';
 export * from './AnimatedCircularProgressBar';
+export * from './InterestOverlay';
