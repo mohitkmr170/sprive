@@ -54,9 +54,9 @@ export const styles = StyleSheet.create({
     marginTop: STYLE_CONSTANTS.margin.SMALLEST,
     alignItems: 'center',
   },
+  button: {flex: 1, justifyContent: 'flex-end'},
   buttonInteriorStyle: {
     backgroundColor: COLOR.PRIMARY,
-    marginHorizontal: STYLE_CONSTANTS.margin.HUGISH,
     borderRadius: 2 * STYLE_CONSTANTS.padding.LARGEST,
     marginBottom: STYLE_CONSTANTS.margin.HUGISH,
     marginTop: STYLE_CONSTANTS.margin.SMALL,
@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
     paddingVertical: STYLE_CONSTANTS.margin.NORMAL,
+    alignSelf: 'flex-end',
   },
   staticText: {
     //Font size to be added here
