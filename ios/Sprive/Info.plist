@@ -30,7 +30,7 @@
 				<key>CFBundleTypeRole</key>
 				<string>Editor</string>
 				<key>CFBundleURLName</key>
-				<string>com.geekyants.services.Sprive</string>
+				<string>com.sprive.mobile.ios</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
 					<string>sprive.page.link</string>

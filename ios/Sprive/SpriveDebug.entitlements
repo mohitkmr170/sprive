@@ -6,12 +6,12 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:com.geekyants.services.Sprive.app.goo.gl</string>
+		<string>applinks:com.sprive.mobile.ios.app.goo.gl</string>
 		<string>applinks:sprive.page.link</string>
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.geekyants.services.Sprive.onesignal</string>
+		<string>group.com.sprive.mobile.ios.onesignal</string>
 	</array>
 </dict>
 </plist>
