@@ -48,14 +48,16 @@ export const styles = StyleSheet.create({
     zIndex: 1,
   },
   leftSwipeButton: {
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
+    marginLeft: STYLE_CONSTANTS.margin.SMALLEST,
+    marginBottom: STYLE_CONSTANTS.margin.HUGE,
   },
   mainStackbarContainer: {
     flex: 1,
     marginHorizontal: STYLE_CONSTANTS.margin.SMALLEST,
   },
   monthOuterView: {
-    marginLeft: STYLE_CONSTANTS.margin.SMALLEST / 2,
+    marginLeft: STYLE_CONSTANTS.margin.SMALLEST,
   },
   monthText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
@@ -111,7 +113,11 @@ export const styles = StyleSheet.create({
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGEST,
   },
-  rightButton: {alignSelf: 'center'},
+  rightButton: {
+    alignSelf: 'flex-end',
+    marginRight: STYLE_CONSTANTS.margin.SMALLEST,
+    marginBottom: STYLE_CONSTANTS.margin.HUGE,
+  },
   projectedDataTopContainer: {
     flexDirection: 'row',
     alignSelf: 'center',

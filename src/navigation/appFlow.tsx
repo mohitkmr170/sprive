@@ -62,7 +62,7 @@ const TabNavigator = createBottomTabNavigator(
     SetGoalScreen: {
       screen: SetGoal,
       navigationOptions: {
-        tabBarLabel: 'Goals',
+        tabBarLabel: 'Goal',
         tabBarIcon: ({tintColor}) => (
           <IconAnt name="flag" size={24} color={tintColor} />
         ),

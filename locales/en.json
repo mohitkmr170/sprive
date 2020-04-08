@@ -175,7 +175,8 @@
   "updateMortgage": {
     "updateMortgage": "Update Mortgage",
     "info": "Information",
-    "update": "Update"
+    "update": "Update",
+    "mortgageInfo": "Mortgage Information"
   },
   "sideBar": {
     "userProfile": "Profile",

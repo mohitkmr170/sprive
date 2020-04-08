@@ -36,8 +36,8 @@ export const ICON = {
   DOWN: 'ios-arrow-round-down',
 };
 export const ICON_NAME = {
-  LEFT_ICON: 'chevrons-left',
-  RIGHT_ICON: 'chevrons-right',
+  LEFT_ICON: 'angle-left',
+  RIGHT_ICON: 'angle-right',
 };
 export const FE_FORM_VALUE_CONSTANTS = {
   MORTGAGE_INPUT: {

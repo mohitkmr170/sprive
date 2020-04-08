@@ -167,6 +167,7 @@ export const LOCALE_STRING = {
     UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',
     INFO: 'updateMortgage.info',
     UPDATE: 'updateMortgage.update',
+    MORTGAGE_INFO: 'updateMortgage.mortgageInfo',
   },
   SIDE_BAR: {
     USER_PROFILE: 'sideBar.userProfile',
