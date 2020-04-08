@@ -33,7 +33,7 @@
 				<string>com.geekyants.services.Sprive</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>sprivenew.page.link</string>
+					<string>sprive.page.link</string>
 				</array>
 			</dict>
 		</array>
@@ -41,7 +41,7 @@
 		<string>$(CURRENT_PROJECT_VERSION)</string>
 		<key>FirebaseDynamicLinksCustomDomains</key>
 		<array>
-			<string>https://sprivenew.page.link</string>
+			<string>https://sprive.page.link</string>
 		</array>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
