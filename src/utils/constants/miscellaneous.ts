@@ -17,6 +17,7 @@ export const LOCAL_KEYS = {
   SWIPER_NAME: 'name',
   YEAR: 'year',
   PUSH_NOTIFICATION_ACCESS_GRANTED: 'granted',
+  DATE_FORMAT_SLASH: 'DD/MM/YYYY',
 };
 export const NOTIFICATION_TYPES = {
   PRIVACY_POLICY: 'privacy_policy',
