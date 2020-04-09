@@ -34,6 +34,7 @@ export class SaveInterestOverlay extends React.Component<props, state> {
                 name="check-circle"
                 size={STYLE_CONSTANTS.margin.LARGISH}
                 color={COLOR.CARIBBEAN_GREEN}
+                style={styles.iconStyle}
               />
               <Text style={styles.listText}>
                 {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.RESIDENTIAL)}
@@ -44,6 +45,7 @@ export class SaveInterestOverlay extends React.Component<props, state> {
                 name="check-circle"
                 size={STYLE_CONSTANTS.margin.LARGISH}
                 color={COLOR.CARIBBEAN_GREEN}
+                style={styles.iconStyle}
               />
               <Text style={styles.listText}>
                 {localeString(LOCALE_STRING.SHOW_INTEREST_SCREEN.REPAYMENT)}

@@ -64,7 +64,9 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGER,
     flexDirection: 'row',
   },
+  iconStyle: {alignSelf: 'center'},
   listText: {
+    alignSelf: 'center',
     color: COLOR.VOILET,
     opacity: 0.5,
     paddingLeft: 8,

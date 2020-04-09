@@ -162,9 +162,10 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               <View style={styles.targetTooltip} />
               <View
                 style={{
-                  flexWrap: isTargetPositionLeft && 'wrap',
-                  right:
-                    isTargetPositionRight && STYLE_CONSTANTS.margin.LARGEST,
+                  flexWrap: isTargetPositionLeft ? 'wrap' : 'nowrap',
+                  right: isTargetPositionRight
+                    ? STYLE_CONSTANTS.margin.LARGEST
+                    : 0,
                 }}>
                 <View
                   style={[
@@ -190,7 +191,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
                 styles.projectedContainer,
                 {
                   left: this.state.projectedYearPosition,
-                  flexWrap: isProjectedPositionLeft && 'wrap',
+                  flexWrap: isProjectedPositionLeft ? 'wrap' : 'nowrap',
                 },
               ]}>
               <View
