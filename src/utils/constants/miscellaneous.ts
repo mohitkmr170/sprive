@@ -4,6 +4,7 @@ NOTES : This is kept here temporarily, will be modified later
 
 export const APP_KEYS = {
   APP_NAME: 'Sprive',
+  SPRIVE_WEB_URL: 'https://www.sprive.co.uk',
 };
 export const LOCAL_KEYS = {
   ADDRESS_LINE1: 'item.address_line_1',
@@ -14,7 +15,9 @@ export const LOCAL_KEYS = {
   DISPLAY_ADDRESS: 'item.display_address',
   DISPLAY_ADDRESS_KEY: 'display_address',
   SWIPER_NAME: 'name',
+  YEAR: 'year',
   PUSH_NOTIFICATION_ACCESS_GRANTED: 'granted',
+  DATE_FORMAT_SLASH: 'DD/MM/YYYY',
 };
 export const NOTIFICATION_TYPES = {
   PRIVACY_POLICY: 'privacy_policy',
@@ -35,8 +38,8 @@ export const ICON = {
   DOWN: 'ios-arrow-round-down',
 };
 export const ICON_NAME = {
-  LEFT_ICON: 'chevrons-left',
-  RIGHT_ICON: 'chevrons-right',
+  LEFT_ICON: 'angle-left',
+  RIGHT_ICON: 'angle-right',
 };
 export const FE_FORM_VALUE_CONSTANTS = {
   MORTGAGE_INPUT: {

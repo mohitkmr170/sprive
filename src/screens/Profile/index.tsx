@@ -100,7 +100,7 @@ export class UnconnectedProfile extends React.Component<props, state> {
       isDisabled: false,
     },
     {
-      title: localeString(LOCALE_STRING.UPDATE_MORTGAGE.UPDATE_MORTGAGE),
+      title: localeString(LOCALE_STRING.UPDATE_MORTGAGE.MORTGAGE_INFO),
       icon: iUpdate,
       action: () => {
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.UPDATE_MORTGAGE);

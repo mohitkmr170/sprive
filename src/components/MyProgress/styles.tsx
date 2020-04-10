@@ -115,10 +115,14 @@ export const styles = StyleSheet.create({
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
-  targetContainer: {position: 'absolute', top: -STYLE_CONSTANTS.margin.SMALLER},
+  targetContainer: {
+    position: 'absolute',
+    top: -STYLE_CONSTANTS.margin.SMALLER,
+  },
   projectedContainer: {
     position: 'absolute',
     bottom: -STYLE_CONSTANTS.margin.SMALLER,
+    // flexWrap: 'wrap',
   },
   targetText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
@@ -191,7 +195,7 @@ export const styles = StyleSheet.create({
     color: COLOR.LIGHT_TEXT_GREEN,
     textAlign: 'center',
   },
-  pointerStyle: {backgroundColor: COLOR.WHITE},
+  pointerStyle: {},
   toolTipTopContainer: {
     position: 'absolute',
     bottom: STYLE_CONSTANTS.margin.HUGISH,

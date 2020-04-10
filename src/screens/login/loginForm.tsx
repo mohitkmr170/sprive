@@ -87,7 +87,6 @@ class UnConnectedLoginScreen extends React.Component<props, state> {
           JSON.parse(JSON.stringify(biometrictype)),
         );
         const description: string = `Scan you ${biometrictype} to proceed`;
-        console.log('login screen');
         FingerprintScanner.authenticate({
           description: description,
           fallbackEnabled: true,

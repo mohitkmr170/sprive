@@ -40,6 +40,7 @@ import {AmountContainer} from './amountContainer';
 import {CardDetails} from './cardDetails';
 
 const INC_DEC_OFFSET = 10;
+const ACCOUNT_BALANCE = '21,312';
 const EDIT_ICON_NAME = 'pencil';
 const OVERPAYMENT_MAX_CAP = 10000;
 const OVERPAYMENT_MIN_CAP = 0;
@@ -226,83 +227,93 @@ class UnconnectedOverPayment extends React.Component<props, state> {
             style={{
               flex: 1,
             }}>
-            <View style={styles.cardContainer}>
-              <View style={styles.innerLeftContainer}>
-                <Text style={styles.overPaymentOfText}>
-                  {localeString(
-                    LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT_OF,
-                  )}
-                </Text>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.poundText}>£</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    ref={input => {
-                      this.textInputBox = input;
-                    }}
-                    maxLength={6}
-                    onChangeText={text => this.setState({amount: text})}
-                    keyboardType="number-pad"
-                    returnKeyType={APP_CONSTANTS.KEYBOARD_RETURN_TYPE.DONE}
-                    placeholder="0"
-                    placeholderTextColor={COLOR.REDUX_TEXTINPUT_TEXT}>
-                    {amountWithCommas}
-                  </TextInput>
-                  <TouchableOpacity
-                    onPress={() => this.handleEdit()}
-                    hitSlop={APP_CONSTANTS.HIT_SLOP}>
-                    <Icon
-                      name={EDIT_ICON_NAME}
-                      size={STYLE_CONSTANTS.font.SIZE.NORMAL}
-                      color={COLOR.WHITE}
-                      style={{opacity: 0.5}}
-                    />
-                  </TouchableOpacity>
+            <View>
+              <View style={styles.cardContainer}>
+                <View style={styles.innerLeftContainer}>
+                  <Text style={styles.overPaymentOfText}>
+                    {localeString(
+                      LOCALE_STRING.OVER_PAYMENT_HISTORY.OVER_PAYMENT_OF,
+                    )}
+                  </Text>
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.poundText}>£</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      ref={input => {
+                        this.textInputBox = input;
+                      }}
+                      maxLength={6}
+                      onChangeText={text => this.setState({amount: text})}
+                      keyboardType="number-pad"
+                      returnKeyType={APP_CONSTANTS.KEYBOARD_RETURN_TYPE.DONE}
+                      placeholder="0"
+                      placeholderTextColor={COLOR.REDUX_TEXTINPUT_TEXT}>
+                      {amountWithCommas}
+                    </TextInput>
+                    <TouchableOpacity
+                      onPress={() => this.handleEdit()}
+                      hitSlop={APP_CONSTANTS.HIT_SLOP}>
+                      <Icon
+                        name={EDIT_ICON_NAME}
+                        size={STYLE_CONSTANTS.font.SIZE.NORMAL}
+                        color={COLOR.WHITE}
+                        style={{opacity: 0.5}}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <Text style={styles.overPaymentOfText}>
+                    {currentRemainingBalance
+                      ? `£${currentRemainingBalance} more to go`
+                      : localeString(
+                          LOCALE_STRING.OVER_PAYMENT_HISTORY.ON_TARCK,
+                        )}
+                  </Text>
                 </View>
-                <Text style={styles.overPaymentOfText}>
-                  {currentRemainingBalance
-                    ? `£${currentRemainingBalance} more to go`
-                    : localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.ON_TARCK)}
-                </Text>
+                <IncDecCounter
+                  onIncrementPress={() => this.handleIncPress()}
+                  onDecrementPress={() => this.handleDecPress()}
+                />
               </View>
-              <IncDecCounter
-                onIncrementPress={() => this.handleIncPress()}
-                onDecrementPress={() => this.handleDecPress()}
+              <View style={styles.amountContainer}>
+                <View style={styles.leftContainer}>
+                  <AmountContainer
+                    title={localeString(
+                      LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
+                    )}
+                    monthlyTarget={ACCOUNT_BALANCE}
+                  />
+                </View>
+                <View style={styles.rightContainer}>
+                  <AmountContainer
+                    title={localeString(
+                      LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
+                    )}
+                    monthlyTarget={getNumberWithCommas(String(monthlyTarget))}
+                  />
+                </View>
+              </View>
+              <View style={styles.cardDetailsContainer}>
+                <CardDetails />
+              </View>
+              <Text style={styles.staticText}>
+                {localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.BASIC_INFO)}
+              </Text>
+            </View>
+            <View style={styles.button}>
+              <Button
+                title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.PAY_NOW)}
+                onPress={() => this.handlePayNow()}
+                titleStyle={styles.buttonExteriorStyle}
+                buttonStyle={styles.buttonInteriorStyle}
+                loading={_get(
+                  setOverpaymentResponse,
+                  DB_KEYS.IS_FETCHING,
+                  false,
+                )}
               />
             </View>
-            <View style={styles.amountContainer}>
-              <View style={styles.leftContainer}>
-                <AmountContainer
-                  title={localeString(
-                    LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
-                  )}
-                  monthlyTarget={'21,312'}
-                />
-              </View>
-              <View style={styles.rightContainer}>
-                <AmountContainer
-                  title={localeString(
-                    LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
-                  )}
-                  monthlyTarget={getNumberWithCommas(String(monthlyTarget))}
-                />
-              </View>
-            </View>
-            <View style={styles.cardDetailsContainer}>
-              <CardDetails />
-            </View>
-            <Text style={styles.staticText}>
-              {localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.BASIC_INFO)}
-            </Text>
           </View>
         </View>
-        <Button
-          title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.PAY_NOW)}
-          onPress={() => this.handlePayNow()}
-          titleStyle={styles.buttonExteriorStyle}
-          buttonStyle={styles.buttonInteriorStyle}
-          loading={_get(setOverpaymentResponse, DB_KEYS.IS_FETCHING, false)}
-        />
         {isPaymentDone && (
           <StatusOverlay
             icon={!error ? paymentSuccess : paymentFail}
