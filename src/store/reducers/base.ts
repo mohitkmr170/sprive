@@ -32,7 +32,11 @@ export class StoreFetchableData {
 
     this.reducers = handleActions(
       {
-        [this.actions.fetch]: state => ({...state, isFetching: true}),
+        [this.actions.fetch]: state => ({
+          ...state,
+          isFetching: true,
+          error: false,
+        }),
         [this.actions.response]: (state, action) => ({
           ...state,
           isFetching: false,

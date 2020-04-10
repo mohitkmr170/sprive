@@ -257,7 +257,10 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
                 {localeString(LOCALE_STRING.SECURE_LOGIN.VERIFY_PIN_HEADER)}
               </Text>
               <View style={styles.codeInputContainer}>
-                <CodeInput getCompleteCode={this.handleCode} />
+                <CodeInput
+                  verifyUserPinResponse={this.props.verifyUserPinResponse}
+                  getCompleteCode={this.handleCode}
+                />
               </View>
             </View>
           </View>

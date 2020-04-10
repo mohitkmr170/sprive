@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Keyboard, Alert} from 'react-native';
 
 import {
@@ -8,13 +8,19 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import {styles} from './styles';
-import {COLOR, APP_CONSTANTS} from '../../utils';
+import {get as _get} from 'lodash';
+import {COLOR, APP_CONSTANTS, DB_KEYS} from '../../utils';
 
 interface CodeInputProps {
   getCompleteCode: (params?: string) => void;
+  verifyUserPinResponse: object;
 }
 
 export const CodeInput = (codeInputProps: CodeInputProps) => {
+  const {verifyUserPinResponse} = codeInputProps;
+  const clearCodeInput = () => {
+    setValue('');
+  };
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({
     value,
@@ -24,10 +30,14 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
     value,
     setValue,
   });
+  useEffect(() => {
+    if (_get(verifyUserPinResponse, DB_KEYS.ERROR, false)) {
+      clearCodeInput();
+    }
+  }, [_get(verifyUserPinResponse, DB_KEYS.ERROR, '')]);
   return (
     <View style={styles.root}>
       <CodeField
-        ref={ref}
         {...props}
         value={value}
         onChangeText={setValue}
