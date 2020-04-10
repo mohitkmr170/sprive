@@ -299,6 +299,7 @@ export const LOCALE_STRING = {
     UNLOCK_PERCENTAGE: 'homeOwnerShip.unlockPercentage',
     AMOUNT_OWNED: 'homeOwnerShip.amountOwned',
     ESTIMATED_VALUE: 'homeOwnerShip.estimatedValue',
+    MY_HOME: 'homeOwnerShip.myHome',
   },
   POLICY_UPDATE: {
     HI_THERE: 'policyUpdate.hiThere',
@@ -332,5 +333,10 @@ export const LOCALE_STRING = {
     DO_YOU_WANT_TO_ENABLE_FACE_ID: 'secureLogin.doYouWantToEnableFaceId',
     PIN_NOT_MATCHED: 'secureLogin.pinNotMatched',
     FACE_ID_NOT_ENROLLED: 'secureLogin.faceIdNotEnrolled',
+    VERIFY_PIN_HEADER: 'secureLogin.verifyPinHeader',
+    FACE_NOT_ENROLLED: 'secureLogin.faceNotEnrolled',
+    FACE_NOT_AVAILABLE: 'secureLogin.faceNotAvailable',
+    GENERAL_FACE_ID_ERROR: 'secureLogin.generalFaceIdError',
+    ENTER_PIN: 'secureLogin.enterPin',
   },
 };

@@ -129,14 +129,23 @@ export class UnConnectedUserProfileViewMode extends React.Component<
       updateUserProfileResponse,
       updateUserAddressResponse,
     } = this.props;
-    reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
-      isUserDataChanged:
-        _get(taskHandlerResponse, DB_KEYS.RESPONSE, null) ||
-        _get(updateUserProfileResponse, DB_KEYS.RESPONSE, null) ||
-        _get(updateUserAddressResponse, DB_KEYS.RESPONSE, null)
-          ? true
-          : false,
-    });
+    const isAddressChanged = _get(
+      this.props,
+      STATE_PARAMS.IS_ADDRESS_CHANGED,
+      false,
+    );
+    isAddressChanged
+      ? this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.HOME_OWNERSHIP, {
+          lastRouteName: NAVIGATION_SCREEN_NAME.USER_ADDRESS,
+        })
+      : reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+          isUserDataChanged:
+            _get(taskHandlerResponse, DB_KEYS.RESPONSE, null) ||
+            _get(updateUserProfileResponse, DB_KEYS.RESPONSE, null) ||
+            _get(updateUserAddressResponse, DB_KEYS.RESPONSE, null)
+              ? true
+              : false,
+        });
   };
   handleEditPress = () => {
     const {navigation, getUserAddressResponse} = this.props;
@@ -156,6 +165,11 @@ export class UnConnectedUserProfileViewMode extends React.Component<
       _get(reducerResponse, DB_KEYS.USER_PROFILE_VIEW_MODE.LAST_NAME, false) &&
       _get(reducerResponse, DB_KEYS.USER_PROFILE_VIEW_MODE.DOB, false) &&
       _get(reducerResponse, DB_KEYS.USER_PROFILE_VIEW_MODE.ADDRESS, false);
+    const isAddressChanged = _get(
+      this.props,
+      STATE_PARAMS.IS_ADDRESS_CHANGED,
+      false,
+    );
     if (loading) return <LoadingModal loadingText="Loading..." />;
     else
       return (
@@ -256,7 +270,11 @@ export class UnConnectedUserProfileViewMode extends React.Component<
               </View>
             </KeyboardAwareScrollView>
             <Button
-              title={localeString(LOCALE_STRING.USER_PROFILE.DONE)}
+              title={
+                isAddressChanged
+                  ? localeString(LOCALE_STRING.USER_PROFILE.DONE)
+                  : localeString(LOCALE_STRING.GLOBAL.OKAY)
+              }
               titleStyle={styles.buttonTextStyle}
               onPress={() => this.handleDonePressed()}
               buttonStyle={styles.buttonStyle}

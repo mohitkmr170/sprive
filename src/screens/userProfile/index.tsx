@@ -9,6 +9,7 @@ import {
   updateUserProfile,
   getPendingTask,
 } from '../../store/reducers';
+import Moment from 'moment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
 import {chatIcon} from '../../assets';
@@ -79,26 +80,52 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
       _get(navigation, STATE_PARAMS.TASK_ID, null) &&
       _get(navigation, STATE_PARAMS.STAGE_ID, null);
     if (!taskAndStage) {
-      const updatePayload = {
-        [PAYLOAD_KEYS.PENDING_TASK.FIRST_NAME]: _get(
-          formValues,
-          FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
-          '',
-        ),
-        [PAYLOAD_KEYS.PENDING_TASK.LAST_NAME]: _get(
-          formValues,
-          FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME,
-          '',
-        ),
-        [PAYLOAD_KEYS.PENDING_TASK.DOB]: _get(
-          formValues,
-          FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,
-          '',
-        ),
-      };
-      await updateUserProfile(updatePayload, {
-        id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-      });
+      let isUserProfileChanged =
+        _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.F_NAME) ===
+          _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
+            '',
+          ) &&
+        _get(getUserInfoResponse, DB_KEYS.PENDING_TASK.USER_INFO.L_NAME) ===
+          _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME,
+            '',
+          ) &&
+        Moment(
+          _get(
+            getUserInfoResponse,
+            DB_KEYS.PENDING_TASK.USER_INFO.DATE_OF_BIRTH,
+          ),
+        ).format('DD/MM/YYYY') ===
+          _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,
+            '',
+          );
+      if (!isUserProfileChanged) {
+        const updatePayload = {
+          [PAYLOAD_KEYS.PENDING_TASK.FIRST_NAME]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.USER_PROFILE.FIRST_NAME,
+            '',
+          ),
+          [PAYLOAD_KEYS.PENDING_TASK.LAST_NAME]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.USER_PROFILE.LAST_NAME,
+            '',
+          ),
+          [PAYLOAD_KEYS.PENDING_TASK.DOB]: _get(
+            formValues,
+            FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,
+            '',
+          ),
+        };
+        await updateUserProfile(updatePayload, {
+          id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+        });
+      }
     } else {
       const payload = {
         [PAYLOAD_KEYS.PENDING_TASK.USER_ID]: _get(
