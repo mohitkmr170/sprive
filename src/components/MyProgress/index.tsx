@@ -298,7 +298,13 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
             <Text style={styles.unlockbetterDealsText}>
               {localeString(
                 LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.UNLOCK_DEALS,
-                {ltv: CURRENT_LTV},
+                {
+                  ltv: _get(
+                    getLtvRangeAndPercentage(CURRENT_LTV),
+                    PERCENTAGE_RANGE_VALUES.START_VAL,
+                    '',
+                  ),
+                },
               )}
             </Text>
           </Animatable.View>

@@ -31,6 +31,7 @@ import {
   PENDING_TASK_IDS,
   PAYLOAD_KEYS,
   COLOR,
+  LOCAL_KEYS,
 } from '../../utils';
 import {styles} from './styles';
 
@@ -98,7 +99,7 @@ export class UnConnectedUserProfile extends React.Component<props, state> {
             getUserInfoResponse,
             DB_KEYS.PENDING_TASK.USER_INFO.DATE_OF_BIRTH,
           ),
-        ).format('DD/MM/YYYY') ===
+        ).format(LOCAL_KEYS.DATE_FORMAT_SLASH) ===
           _get(
             formValues,
             FE_FORM_VALUE_CONSTANTS.USER_PROFILE.DATE_OF_BIRTH,

@@ -28,7 +28,7 @@ import {
   getUserMortgageData,
   getProjectedData,
 } from '../../store/reducers';
-import Icons from 'react-native-vector-icons/Feather';
+import Icons from 'react-native-vector-icons/FontAwesome';
 import {graphData} from './helpers';
 import {ToolTip} from './toolTip';
 
@@ -358,7 +358,7 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
               name={ICON_NAME.LEFT_ICON}
               size={STYLE_CONSTANTS.margin.LARGER}
               color={
-                this.state.isLeftButtonActive ? COLOR.LIGHT_GRAY : COLOR.BLACK
+                this.state.isLeftButtonActive ? COLOR.LIGHT_GRAY : COLOR.VOILET
               }
             />
           </TouchableOpacity>

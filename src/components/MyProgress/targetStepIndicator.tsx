@@ -15,6 +15,8 @@ import {
 import {styles} from './styles';
 import {iPointer} from '../../assets';
 
+const MAX_LIMIT_FACTOR = 0.8;
+const MIN_LIMIT_FACTOR = 0.2;
 interface props {
   getUserMortgageDataResponse: object;
   getProjectedDataResponse: object;
@@ -97,7 +99,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
     let endYear = mortgageCreatedYear + mortgageTerm;
     const steps = endYear - startYear;
     const stepFactor =
-      (STYLE_CONSTANTS.device.SCREEN_WIDTH - 4 * STYLE_CONSTANTS.margin.LARGE) /
+      (STYLE_CONSTANTS.device.SCREEN_WIDTH - 5 * STYLE_CONSTANTS.margin.LARGE) /
       steps;
     const targetYearPosition = stepFactor * (targetYear - startYear);
     const projectedYearPosition = stepFactor * (projectedYear - startYear);
@@ -127,6 +129,26 @@ export class UnconnectedTargetStepIndicator extends React.Component<
           null,
         ) - 1
       ];
+    const isTargetPositionLeft =
+      (this.state.targetYearPosition - STYLE_CONSTANTS.padding.BELOW_NORMAL) /
+        (STYLE_CONSTANTS.device.SCREEN_WIDTH -
+          5 * STYLE_CONSTANTS.margin.LARGE) <
+      MIN_LIMIT_FACTOR;
+    const isTargetPositionRight =
+      (this.state.targetYearPosition - STYLE_CONSTANTS.padding.BELOW_NORMAL) /
+        (STYLE_CONSTANTS.device.SCREEN_WIDTH -
+          5 * STYLE_CONSTANTS.margin.LARGE) >
+      MAX_LIMIT_FACTOR;
+    const isProjectedPositionLeft =
+      this.state.projectedYearPosition /
+        (STYLE_CONSTANTS.device.SCREEN_WIDTH -
+          5 * STYLE_CONSTANTS.margin.LARGE) <
+      MIN_LIMIT_FACTOR;
+    const isProjectedPositionRight =
+      this.state.projectedYearPosition /
+        (STYLE_CONSTANTS.device.SCREEN_WIDTH -
+          5 * STYLE_CONSTANTS.margin.LARGE) >
+      MAX_LIMIT_FACTOR;
     return (
       <View style={styles.mainContainerStepIndicator}>
         <View style={styles.circularView} />
@@ -142,9 +164,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               style={[
                 styles.targetContainer,
                 {
-                  left:
-                    this.state.targetYearPosition -
-                    STYLE_CONSTANTS.padding.BELOW_NORMAL,
+                  left: this.state.targetYearPosition,
                 },
               ]}>
               <Image
@@ -154,13 +174,26 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               />
               <View style={styles.targetTooltip} />
               <View
-                style={[styles.targetInnerContainer, styles.targetTooltipAdd]}>
-                <Text style={styles.targetText}>
-                  {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.TARGET)}
-                </Text>
-                <Text style={styles.targetDateStyle}>
-                  {targetMonth + ' ' + this.state.targetYear}
-                </Text>
+                style={{
+                  flexWrap: isTargetPositionLeft ? 'wrap' : 'nowrap',
+                  right: isTargetPositionRight
+                    ? STYLE_CONSTANTS.margin.LARGEST
+                    : 0,
+                }}>
+                <View
+                  style={[
+                    styles.targetInnerContainer,
+                    styles.targetTooltipAdd,
+                  ]}>
+                  <Text style={styles.targetText}>
+                    {localeString(
+                      LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.TARGET,
+                    )}
+                  </Text>
+                  <Text style={styles.targetDateStyle}>
+                    {targetMonth + ' ' + this.state.targetYear}
+                  </Text>
+                </View>
               </View>
             </View>
           )}
@@ -171,9 +204,18 @@ export class UnconnectedTargetStepIndicator extends React.Component<
                 styles.projectedContainer,
                 {
                   left: this.state.projectedYearPosition,
+                  flexWrap: isProjectedPositionLeft ? 'wrap' : 'nowrap',
                 },
               ]}>
-              <View style={styles.projectedInnerContainer}>
+              <View
+                style={[
+                  styles.projectedInnerContainer,
+                  {
+                    right: isProjectedPositionRight
+                      ? STYLE_CONSTANTS.margin.HUMONGOUS
+                      : STYLE_CONSTANTS.margin.LARGEST,
+                  },
+                ]}>
                 <Text style={styles.targetText}>
                   {localeString(
                     LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.PROJECTED,

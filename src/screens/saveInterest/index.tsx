@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, StatusBar, Image} from 'react-native';
+import {View, Text, StatusBar, Image, Linking, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
-import {Header, GeneralStatusBar} from '../../components';
+import {Header, GeneralStatusBar, SaveInterestOverlay} from '../../components';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import {
@@ -15,6 +15,7 @@ import {
   DB_KEYS,
   APP_CONSTANTS,
   COLOR,
+  APP_KEYS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -34,12 +35,16 @@ interface props {
   setUserMortgageResponse: object;
 }
 
-interface state {}
+interface state {
+  showSaveInterestOverlay: boolean;
+}
 
 class UnconnectedSaveInterest extends React.Component<props, state> {
   constructor(props: props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showSaveInterestOverlay: false,
+    };
   }
 
   componentDidMount = async () => {
@@ -101,31 +106,55 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
     //       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
     //     }
     //   })
-    //   .catch(err => {
+    //   .catch(err =>
     //     // CASE-: Token Error, KeyChain Corrupted or couldn't be fetched
     //     // HANDLE-: Route to SignUp Screen
     //   });
-    getAuthToken()
-      .then(async res => {
-        const {getUserInfo} = this.props;
-        /*
+
+    this.setState({
+      showSaveInterestOverlay: true,
+    });
+  };
+
+  handleSaveWithSpriveRedirection = async () => {
+    this.setState({showSaveInterestOverlay: false}, () => {
+      getAuthToken()
+        .then(async res => {
+          const {getUserInfo} = this.props;
+          /*
         NOTES : This condition is added to handle concurrent device login for unverified user
         */
-
-        console.log('AUTH_TOKE_IN_SAVE_INTEREST :::', res);
-        if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
-          await getUserInfo();
-          const {getUserInfoResponse} = this.props;
-          if (!_get(getUserInfoResponse, DB_KEYS.ERROR, true))
-            this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CHECK_EMAIL);
-          else
+          console.log('AUTH_TOKE_IN_SAVE_INTEREST :::', res);
+          if (res && res !== APP_CONSTANTS.FALSE_TOKEN) {
+            await getUserInfo();
+            const {getUserInfoResponse} = this.props;
+            if (!_get(getUserInfoResponse, DB_KEYS.ERROR, true))
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.CHECK_EMAIL,
+              );
+            else
+              this.props.navigation.navigate(
+                NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN,
+              );
+          } else
             this.props.navigation.navigate(
               NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN,
             );
-        } else
-          this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.SIGNUP_SCREEN);
-      })
-      .catch(err => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
+        })
+        .catch(err => showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR));
+    });
+  };
+
+  handleRegisterLinkButton = async () => {
+    const supported = await Linking.canOpenURL(APP_KEYS.SPRIVE_WEB_URL);
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened by some browser in the mobile
+      await Linking.openURL(APP_KEYS.SPRIVE_WEB_URL);
+    } else {
+      Alert.alert(
+        `Don't know how to open this URL: ${APP_KEYS.SPRIVE_WEB_URL}`,
+      );
+    }
   };
 
   render() {
@@ -160,6 +189,12 @@ class UnconnectedSaveInterest extends React.Component<props, state> {
           onPress={() => this.handleSaveWithSprive()}
           loading={_get(setUserMortgage, DB_KEYS.IS_FETCHING, false)}
         />
+        {this.state.showSaveInterestOverlay ? (
+          <SaveInterestOverlay
+            handleFirstButton={() => this.handleSaveWithSpriveRedirection()}
+            handleLinkButton={() => this.handleRegisterLinkButton()}
+          />
+        ) : null}
       </View>
     );
   }

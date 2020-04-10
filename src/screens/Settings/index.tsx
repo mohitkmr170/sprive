@@ -181,14 +181,14 @@ export class UnconnectedSettings extends React.Component<props, state> {
           <GeneralStatusBar />
           <Header
             leftIconPresent
-            title={localeString(LOCALE_STRING.SIDE_BAR.USER_PROFILE)}
+            title={localeString(LOCALE_STRING.SIDE_BAR.SETTINGS)}
             rightIconPresent
             onBackPress={() => this.props.navigation.goBack()}
           />
           <View style={styles.centerContainer}>
             <View style={styles.topViewContainer}>
               <Text style={styles.titleText}>
-                {localeString(LOCALE_STRING.SIDE_BAR.PROFILE_SUB_LIST)}
+                {localeString(LOCALE_STRING.SIDE_BAR.SECURITY)}
               </Text>
             </View>
             <View style={styles.listContainer}>
