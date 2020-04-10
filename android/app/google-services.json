@@ -1,35 +1,43 @@
 {
   "project_info": {
-    "project_number": "762821429649",
-    "firebase_url": "https://geeky-sprive.firebaseio.com",
-    "project_id": "geeky-sprive",
-    "storage_bucket": "geeky-sprive.appspot.com"
+    "project_number": "829478865658",
+    "firebase_url": "https://sprive-6c737.firebaseio.com",
+    "project_id": "sprive-6c737",
+    "storage_bucket": "sprive-6c737.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:762821429649:android:1b4756f8b8e6a47325b230",
+        "mobilesdk_app_id": "1:829478865658:android:bb5c35c33bd4d16f8e9743",
         "android_client_info": {
           "package_name": "com.sprive"
         }
       },
       "oauth_client": [
         {
-          "client_id": "762821429649-me76miff0lhsvrrki6fa0j2533573089.apps.googleusercontent.com",
+          "client_id": "829478865658-tgm1111qoma0nssb51qpfnh0in565i3d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBdmiQQ5jfp2excd72a422syQNjsIPSoKc"
+          "current_key": "AIzaSyCnNobyf-JNErKkZ1scBlPzJQ9kPtfIwg0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "762821429649-me76miff0lhsvrrki6fa0j2533573089.apps.googleusercontent.com",
+              "client_id": "829478865658-tgm1111qoma0nssb51qpfnh0in565i3d.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "829478865658-hnf68k8eqks759ot2l4ea2kgnridvdhl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sprive.mobile.ios",
+                "app_store_id": "1504836142"
+              }
             }
           ]
         }

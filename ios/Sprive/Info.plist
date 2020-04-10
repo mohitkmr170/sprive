@@ -30,10 +30,10 @@
 				<key>CFBundleTypeRole</key>
 				<string>Editor</string>
 				<key>CFBundleURLName</key>
-				<string>com.geekyants.services.Sprive</string>
+				<string>com.sprive.mobile.ios</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>sprivenew.page.link</string>
+					<string>sprive.page.link</string>
 				</array>
 			</dict>
 		</array>
@@ -41,7 +41,7 @@
 		<string>$(CURRENT_PROJECT_VERSION)</string>
 		<key>FirebaseDynamicLinksCustomDomains</key>
 		<array>
-			<string>https://sprivenew.page.link</string>
+			<string>https://sprive.page.link</string>
 		</array>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>

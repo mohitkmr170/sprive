@@ -151,7 +151,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        manifestPlaceholders = [onesignal_app_id: "ce763fbb-0f60-4f44-b709-30eedbf62388",
+        manifestPlaceholders = [onesignal_app_id: "7813aa25-8bd8-41e5-9d3f-387e6fd48a9f",
                                 onesignal_google_project_number: "REMOTE"]
 
     }

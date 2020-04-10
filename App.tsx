@@ -25,7 +25,7 @@ import {
 } from './src/store/actions/actions';
 import {showSnackBar, localeString} from './src/utils';
 
-const ONE_SIGNAL_APP_ID = 'ce763fbb-0f60-4f44-b709-30eedbf62388'; //Should be moved to a saparate .env file
+const ONE_SIGNAL_APP_ID = '7813aa25-8bd8-41e5-9d3f-387e6fd48a9f'; //Should be moved to a saparate .env file
 const NOTIFICATION_DISPLAY = 2; //always display notification in shade.
 
 const codePush = require('react-native-code-push');

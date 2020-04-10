@@ -78,13 +78,26 @@ export class UnconnectedTargetStepIndicator extends React.Component<
     /*
     NOTES : It's the latest year set by the user after setting goal(which is between today and mortgage_term), is fetched from getUserGoal API
     */
-    let projectedYear =
-      mortgageCreatedYear +
+    /*
+   NOTES : This is case handled for month = 12, year+=1
+   */
+    let projectedYears =
       _get(
         getProjectedDataResponse,
-        DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+        DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
         null,
-      );
+      ) === 12
+        ? _get(
+            getProjectedDataResponse,
+            DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+            null,
+          ) + 1
+        : _get(
+            getProjectedDataResponse,
+            DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+            null,
+          );
+    let projectedYear = mortgageCreatedYear + projectedYears;
     let endYear = mortgageCreatedYear + mortgageTerm;
     const steps = endYear - startYear;
     const stepFactor =

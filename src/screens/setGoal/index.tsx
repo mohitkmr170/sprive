@@ -176,7 +176,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
           DB_KEYS.OUTSTANDING_MORTGAGE_BALANCE,
           0,
         ),
-        mortgageTerm,
+        oldMortgageTerm,
         currentMonthlyMortgageAmount,
       );
       let mortgageErc =
