@@ -17,6 +17,8 @@ import {iPointer} from '../../assets';
 
 const MAX_LIMIT_FACTOR = 0.8;
 const MIN_LIMIT_FACTOR = 0.2;
+const WIDTH_STYLE_FACTOR = 5;
+
 interface props {
   getUserMortgageDataResponse: object;
   getProjectedDataResponse: object;
@@ -86,7 +88,8 @@ export class UnconnectedTargetStepIndicator extends React.Component<
     let endYear = mortgageCreatedYear + mortgageTerm;
     const steps = endYear - startYear;
     const stepFactor =
-      (STYLE_CONSTANTS.device.SCREEN_WIDTH - 5 * STYLE_CONSTANTS.margin.LARGE) /
+      (STYLE_CONSTANTS.device.SCREEN_WIDTH -
+        WIDTH_STYLE_FACTOR * STYLE_CONSTANTS.margin.LARGE) /
       steps;
     const targetYearPosition = stepFactor * (targetYear - startYear);
     const projectedYearPosition = stepFactor * (projectedYear - startYear);
@@ -119,22 +122,22 @@ export class UnconnectedTargetStepIndicator extends React.Component<
     const isTargetPositionLeft =
       (this.state.targetYearPosition - STYLE_CONSTANTS.padding.BELOW_NORMAL) /
         (STYLE_CONSTANTS.device.SCREEN_WIDTH -
-          5 * STYLE_CONSTANTS.margin.LARGE) <
+          WIDTH_STYLE_FACTOR * STYLE_CONSTANTS.margin.LARGE) <
       MIN_LIMIT_FACTOR;
     const isTargetPositionRight =
       (this.state.targetYearPosition - STYLE_CONSTANTS.padding.BELOW_NORMAL) /
         (STYLE_CONSTANTS.device.SCREEN_WIDTH -
-          5 * STYLE_CONSTANTS.margin.LARGE) >
+          WIDTH_STYLE_FACTOR * STYLE_CONSTANTS.margin.LARGE) >
       MAX_LIMIT_FACTOR;
     const isProjectedPositionLeft =
       this.state.projectedYearPosition /
         (STYLE_CONSTANTS.device.SCREEN_WIDTH -
-          5 * STYLE_CONSTANTS.margin.LARGE) <
+          WIDTH_STYLE_FACTOR * STYLE_CONSTANTS.margin.LARGE) <
       MIN_LIMIT_FACTOR;
     const isProjectedPositionRight =
       this.state.projectedYearPosition /
         (STYLE_CONSTANTS.device.SCREEN_WIDTH -
-          5 * STYLE_CONSTANTS.margin.LARGE) >
+          WIDTH_STYLE_FACTOR * STYLE_CONSTANTS.margin.LARGE) >
       MAX_LIMIT_FACTOR;
     return (
       <View style={styles.mainContainerStepIndicator}>

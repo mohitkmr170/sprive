@@ -40,6 +40,7 @@ import {AmountContainer} from './amountContainer';
 import {CardDetails} from './cardDetails';
 
 const INC_DEC_OFFSET = 10;
+const ACCOUNT_BALANCE = '21,312';
 const EDIT_ICON_NAME = 'pencil';
 const OVERPAYMENT_MAX_CAP = 10000;
 const OVERPAYMENT_MIN_CAP = 0;
@@ -279,7 +280,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                     title={localeString(
                       LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
                     )}
-                    monthlyTarget={'21,312'}
+                    monthlyTarget={ACCOUNT_BALANCE}
                   />
                 </View>
                 <View style={styles.rightContainer}>
