@@ -89,6 +89,7 @@ export const LOCALE_STRING = {
     MINIMUM_REQ_AGE: 'validationMessages.minimumRequiredAge',
     WEAK_PASSWORD: 'validationMessages.weakPassword',
     MAX_AGE_LIMIT: 'validationMessages.maxAgeLimit',
+    DECIMAL_VALIDATION: 'validationMessages.decimals',
   },
   SET_GOAL_SCREEN: {
     TITLE: 'setGoalScreen.title',

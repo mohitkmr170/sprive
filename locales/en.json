@@ -95,7 +95,8 @@
     "invalidDob": "Invalid Date of Birth",
     "minimumRequiredAge": "Minimum age required is 18",
     "weakPassword": "Password too weak",
-    "maxAgeLimit": "Age cannot be greater than 120"
+    "maxAgeLimit": "Age cannot be greater than 120",
+    "decimals": "Decimals not allowed"
   },
   "setGoalScreen": {
     "title": "Set Goal",
