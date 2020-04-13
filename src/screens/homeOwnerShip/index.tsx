@@ -216,7 +216,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
           getProjectedDataResponse,
           DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
           null,
-        )
+        ) - 1
       ];
     let targetYear =
       mortgageCreatedYear +
