@@ -96,7 +96,7 @@
     "minimumRequiredAge": "Minimum age required is 18",
     "weakPassword": "Password too weak",
     "maxAgeLimit": "Age cannot be greater than 120",
-    "decimals": "Decimals not allowed"
+    "decimals": "Please enter a value to the nearest whole number"
   },
   "setGoalScreen": {
     "title": "Set Goal",

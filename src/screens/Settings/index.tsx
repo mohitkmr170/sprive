@@ -222,12 +222,7 @@ export class UnconnectedSettings extends React.Component<props, state> {
                           true: COLOR.TOGGLE_ENABLED_GREEN,
                         }}
                         ios_backgroundColor={COLOR.TOGGLE_DISABLED_GRAY}
-                        onValueChange={() => {
-                          if (item.type === SECURITY_TYPE.PIN)
-                            this.hanldeSecureLoginToggle();
-                          if (item.type === SECURITY_TYPE.FACE)
-                            this.handleFaceIdToggle();
-                        }}
+                        onValueChange={item.action}
                         disabled={
                           item.type === SECURITY_TYPE.FACE
                             ? !isPinEnabledFlag
