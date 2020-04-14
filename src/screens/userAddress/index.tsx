@@ -214,7 +214,6 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
       getUserInfoResponse,
       updateUserAddress,
     } = this.props;
-    console.log('asjdbaksdasdas', getUserInfoResponse);
     if (
       !(
         _get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&

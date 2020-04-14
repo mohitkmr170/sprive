@@ -86,6 +86,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: STYLE_CONSTANTS.margin.EXTRA_HUMUNGOUS,
+    paddingBottom: STYLE_CONSTANTS.padding.HUGISH,
+    paddingTop: STYLE_CONSTANTS.padding.SMALLEST,
   },
   trackStyle: {
     flex: 1,
