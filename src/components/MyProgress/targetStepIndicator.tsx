@@ -162,37 +162,44 @@ export class UnconnectedTargetStepIndicator extends React.Component<
         </View>
         <View style={styles.trackStyle}>
           {/* Target */}
-          <View
-            style={[
-              styles.targetContainer,
-              {
-                left: this.state.targetYearPosition,
-              },
-            ]}>
-            <Image
-              source={iPointer}
-              style={styles.pointerStyle}
-              resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
-            />
-            <View style={styles.targetTooltip} />
+          {targetYear !== projectedYear && (
             <View
-              style={{
-                flexWrap: isTargetPositionLeft ? 'wrap' : 'nowrap',
-                right: isTargetPositionRight
-                  ? STYLE_CONSTANTS.margin.LARGEST
-                  : 0,
-              }}>
+              style={[
+                styles.targetContainer,
+                {
+                  left: this.state.targetYearPosition,
+                },
+              ]}>
+              <Image
+                source={iPointer}
+                style={styles.pointerStyle}
+                resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
+              />
+              <View style={styles.targetTooltip} />
               <View
-                style={[styles.targetInnerContainer, styles.targetTooltipAdd]}>
-                <Text style={styles.targetText}>
-                  {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.TARGET)}
-                </Text>
-                <Text style={styles.targetDateStyle}>
-                  {targetMonth + ' ' + this.state.targetYear}
-                </Text>
+                style={{
+                  flexWrap: isTargetPositionLeft ? 'wrap' : 'nowrap',
+                  right: isTargetPositionRight
+                    ? STYLE_CONSTANTS.margin.LARGEST
+                    : 0,
+                }}>
+                <View
+                  style={[
+                    styles.targetInnerContainer,
+                    styles.targetTooltipAdd,
+                  ]}>
+                  <Text style={styles.targetText}>
+                    {localeString(
+                      LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.TARGET,
+                    )}
+                  </Text>
+                  <Text style={styles.targetDateStyle}>
+                    {targetMonth + ' ' + this.state.targetYear}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
+          )}
           {/* Projected */}
           {endYear !== projectedYear && (
             <View
