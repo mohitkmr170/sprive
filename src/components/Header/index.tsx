@@ -2,7 +2,12 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
 import {iBack} from '../../assets';
-import {APP_CONSTANTS, STYLE_CONSTANTS} from '../../utils';
+import {
+  localeString,
+  LOCALE_STRING,
+  APP_CONSTANTS,
+  STYLE_CONSTANTS,
+} from '../../utils';
 interface props {
   title: String;
   rightIconPresent: boolean;
@@ -48,9 +53,11 @@ export class Header extends React.Component<props, state> {
             style={[
               styles.middleContainer,
               {
-                paddingLeft: leftIconPresent
-                  ? 0
-                  : STYLE_CONSTANTS.margin.LARGER,
+                paddingLeft:
+                  this.props.title ===
+                  localeString(LOCALE_STRING.HOME_OWNERSHIP.MY_HOME)
+                    ? STYLE_CONSTANTS.margin.LARGER
+                    : 0,
               },
             ]}>
             {this.props.title}

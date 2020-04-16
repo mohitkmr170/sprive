@@ -218,7 +218,9 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
       !(
         _get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
         _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null)
-      )
+      ) ||
+      Object.keys(_get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}))
+        .length
     ) {
       const payload = this.getAddressPayload(formValues, true);
       if (payload) {

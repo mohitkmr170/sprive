@@ -122,15 +122,15 @@ export class UnconnectedTargetStepIndicator extends React.Component<
     */
     let projectedMonth =
       APP_CONSTANTS.MONTH_NAMES[
-        Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month() - 1
-      ];
-    let targetMonth =
-      APP_CONSTANTS.MONTH_NAMES[
         _get(
           getProjectedDataResponse,
           DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
           null,
         ) - 1
+      ];
+    let targetMonth =
+      APP_CONSTANTS.MONTH_NAMES[
+        Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month() - 1
       ];
     const isTargetPositionLeft =
       (this.state.targetYearPosition - STYLE_CONSTANTS.padding.BELOW_NORMAL) /
@@ -162,7 +162,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
         </View>
         <View style={styles.trackStyle}>
           {/* Target */}
-          {targetYear !== projectedYear && endYear !== targetYear && (
+          {targetYear !== projectedYear && (
             <View
               style={[
                 styles.targetContainer,
@@ -312,15 +312,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
             </View>
           )}
         </View>
-        {endYear !== targetYear ? (
-          <View style={styles.circularView} />
-        ) : (
-          <Icon
-            name="check-circle"
-            size={STYLE_CONSTANTS.margin.LARGEST}
-            color={COLOR.CARIBBEAN_GREEN}
-          />
-        )}
+        <View style={styles.circularView} />
         <View style={styles.endPointContainer}>
           <Text style={styles.startDate}>{this.state.endYear}</Text>
         </View>
