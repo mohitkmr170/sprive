@@ -152,6 +152,9 @@ export class UnconnectedSettings extends React.Component<props, state> {
     if (!this.state.isFaceIdEnrolled) {
       showSnackBar({}, 'Face ID not enrolled, please enroll it from settings');
     } else {
+      this.setState({
+        isFaceIdEnabled: !this.state.isFaceIdEnabled,
+      });
       const payload = {
         [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_FACE_ID_ENABLED]: !this.state
           .isFaceIdEnabled,
@@ -159,12 +162,13 @@ export class UnconnectedSettings extends React.Component<props, state> {
       await this.props.updateUserProfile(payload, {
         id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
       });
+      if (
+        !_get(this.props.updateUserProfileResponse, DB_KEYS.ERROR, true) &&
+        this.state.isFaceIdEnabled
+      ) {
+        showSnackBar({}, 'Face ID added succesfully');
+      }
       await this.props.getUserInfo();
-      const {getUserInfoResponse} = this.props;
-      this.setState({
-        isFaceIdEnabled:
-          _get(getUserInfoResponse, DB_KEYS.IS_FACE_ID_ENABLED, false) && true,
-      });
     }
   };
 
@@ -251,6 +255,7 @@ export class UnconnectedSettings extends React.Component<props, state> {
 const mapStateToProps = state => ({
   getUserInfoResponse: state.getUserInfo,
   getPendingTaskResponse: state.getPendingTask,
+  updateUserProfileResponse: state.updateUserProfile,
 });
 
 const bindActions = dispatch => ({
