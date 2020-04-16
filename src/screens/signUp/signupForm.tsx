@@ -144,6 +144,9 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     /*
     TODO : Onlick of T&C to be handled
     */
+    this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.GENERIC_WEB_VIEW, {
+      webViewUri: WEB_VIEW_PARAMS.WEB_VIEW_URI_TERMS,
+    });
   };
 
   handlePrivacyPolicyClick = () => {
@@ -151,7 +154,7 @@ class UnConnectedSignUpForm extends React.Component<props, state> {
     TODO : Onlick of Privacy prolicy to be handled
     */
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.GENERIC_WEB_VIEW, {
-      webViewUri: WEB_VIEW_PARAMS.WEB_VIEW_URI,
+      webViewUri: WEB_VIEW_PARAMS.WEB_VIEW_URI_PRIVACY,
     });
   };
 

@@ -96,8 +96,8 @@ export const STAGE_NAME_INDEX = {
 export const WEB_VIEW_PARAMS = {
   WEB_VIEW: 'state.params.webViewUri',
   IS_POLICY: 'state.params.isPolicy',
-  WEB_VIEW_URI:
-    'https://drive.google.com/open?id=1245ani10Xj25jnGUyUYtaU5idZ2Je9LZ',
+  WEB_VIEW_URI_TERMS: 'https://www.sprive.com/terms',
+  WEB_VIEW_URI_PRIVACY: 'https://www.sprive.com/privacy',
 };
 export const APP_REGEX = {
   POST_CODE_UK: /[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}/i,
