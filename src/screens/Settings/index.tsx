@@ -128,6 +128,9 @@ export class UnconnectedSettings extends React.Component<props, state> {
       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.CREATE_PIN);
       return;
     } else {
+      this.setState({
+        isSecureLoginEnabled: false,
+      });
       const payload = {
         [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_PIN_ENABLED]: false,
       };
@@ -136,9 +139,6 @@ export class UnconnectedSettings extends React.Component<props, state> {
       });
       await this.props.getUserInfo();
       const {getUserInfoResponse} = this.props;
-      this.setState({
-        isSecureLoginEnabled: false,
-      });
       if (
         !_get(getUserInfoResponse, DB_KEYS.IS_PIN_ENABLED, false) &&
         _get(getUserInfoResponse, DB_KEYS.IS_FACE_ID_ENABLED, false)
@@ -156,8 +156,11 @@ export class UnconnectedSettings extends React.Component<props, state> {
         isFaceIdEnabled: !this.state.isFaceIdEnabled,
       });
       const payload = {
-        [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_FACE_ID_ENABLED]: !this.state
-          .isFaceIdEnabled,
+        [PAYLOAD_KEYS.TWO_FACTOR_AUTH.IS_FACE_ID_ENABLED]: !_get(
+          this.props.getUserInfoResponse,
+          DB_KEYS.IS_FACE_ID_ENABLED,
+          false,
+        ),
       };
       await this.props.updateUserProfile(payload, {
         id: _get(this.props.getUserInfoResponse, DB_KEYS.DATA_ID, null),
