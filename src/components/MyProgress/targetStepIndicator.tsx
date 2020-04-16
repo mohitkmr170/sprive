@@ -265,7 +265,9 @@ export class UnconnectedTargetStepIndicator extends React.Component<
           {targetYear === projectedYear && (
             <View
               style={[
-                {left: this.state.projectedYearPosition},
+                {
+                  left: this.state.projectedYearPosition,
+                },
                 styles.commonPointIconContainer,
               ]}>
               <Icon
@@ -287,19 +289,26 @@ export class UnconnectedTargetStepIndicator extends React.Component<
                   styles.onTrackTrackLine,
                 ]}
               />
-              <Text
-                style={[
-                  styles.targetDateStyle,
-                  styles.onTrackText,
-                  {
-                    left:
-                      this.state.projectedYearPosition -
-                      STYLE_CONSTANTS.margin.HUMONGOUS,
-                  },
-                  styles.onTrackView,
-                ]}>
-                On track
-              </Text>
+              <View
+                style={{
+                  right: isProjectedPositionRight
+                    ? STYLE_CONSTANTS.margin.HUMONGOUS
+                    : STYLE_CONSTANTS.margin.SMALLEST,
+                }}>
+                <Text
+                  style={[
+                    styles.targetDateStyle,
+                    styles.onTrackText,
+                    {
+                      left:
+                        this.state.projectedYearPosition -
+                        STYLE_CONSTANTS.margin.HUMONGOUS,
+                    },
+                    styles.onTrackView,
+                  ]}>
+                  On track
+                </Text>
+              </View>
             </View>
           )}
         </View>
