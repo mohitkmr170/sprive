@@ -184,13 +184,25 @@ export const styles = StyleSheet.create({
     backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
   },
   onTrackView: {
+    justifyContent: 'center',
     backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
     marginTop: STYLE_CONSTANTS.margin.LARGER,
-    paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
-    paddingVertical: STYLE_CONSTANTS.padding.SMALLER,
+    paddingHorizontal:
+      STYLE_CONSTANTS.padding.HUGISH + STYLE_CONSTANTS.padding.LARGEST,
+    alignItems: 'center',
+    paddingVertical:
+      STYLE_CONSTANTS.padding.SMALLER + STYLE_CONSTANTS.padding.SMALLER,
     borderRadius: 8,
   },
   targetDateStyle: {
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
+    color: COLOR.LIGHT_TEXT_GREEN,
+    textAlign: 'center',
+  },
+  targetDateStyles: {
+    position: 'absolute',
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
