@@ -208,11 +208,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
             interestSaving: newGoal.totalSavings,
             loading: false,
             ercLimitCrossed: newGoal.monthlyOverPayment * 12 > mortgageErc,
-            minYearLimit: _get(
-              minYearLimit,
-              LOCAL_KEYS.YEAR,
-              SLIDER_START_VALUE,
-            ),
+            minYearLimit: minYearLimit,
           },
           /*
           NOTES : ercLimitCrossed is a boolean value, hence conditioned according to that
@@ -232,11 +228,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
             interestSaving: totalInterest,
             loading: false,
             ercLimitCrossed: monthlyOverPayment * 12 > mortgageErc,
-            minYearLimit: _get(
-              minYearLimit,
-              LOCAL_KEYS.YEAR,
-              SLIDER_START_VALUE,
-            ),
+            minYearLimit: minYearLimit,
           } /*, ()=>{
             console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: STATE -->', {...this.state});
             console.log('SetGoal:: handleInitialMount:: NORMAL UPDATE CASE:: CHECK:: mortgageErc -->', mortgageErc);
@@ -325,7 +317,7 @@ export class UnconnectedSetGoal extends React.Component<props, state> {
         interestSaving: newGoal.totalSavings,
         loading: false,
         ercLimitCrossed: newGoal.monthlyOverPayment * 12 > mortgageErc,
-        minYearLimit: _get(minYearLimit, LOCAL_KEYS.YEAR, SLIDER_START_VALUE),
+        minYearLimit: minYearLimit,
       } /*, ()=>{
       console.log('SetGoal:: goalUpdate:: CHECK:: STATE AFTER -->', {...this.state});
     }*/,
