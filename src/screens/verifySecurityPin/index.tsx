@@ -179,10 +179,10 @@ export class UnconnectedVerifySecurityPin extends React.Component<
     if (!_get(setUserAuthPinResponse, DB_KEYS.ERROR, true)) {
       Keyboard.dismiss();
       // this.setState({loading: false});
-      showSnackBar(
-        {},
-        _get(setUserAuthPinResponse, DB_KEYS.RESPONSE_MESSAGE, ''),
-      );
+      /*
+      NOTES : This is to be changed from BE
+      */
+      showSnackBar({}, 'PIN created successfully');
       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
     }
   };
@@ -190,6 +190,9 @@ export class UnconnectedVerifySecurityPin extends React.Component<
   render() {
     const {getUserInfoResponse, setUserAuthPin} = this.props;
     const {loading} = this.state;
+    const prevCode = _get(this.props, STATE_PARAMS.NAV_PARAMS, null)
+      ? _get(this.props, STATE_PARAMS.NAV_PARAMS, null).code
+      : '';
     if (loading) {
       return <LoadingModal loadingText="Loading..." />;
     } else
@@ -211,7 +214,10 @@ export class UnconnectedVerifySecurityPin extends React.Component<
                 {localeString(LOCALE_STRING.SECURE_LOGIN.VERIFY_INFO)}
               </Text>
               <View style={styles.codeInputContainer}>
-                <CodeInput getCompleteCode={this.handleCode} />
+                <CodeInput
+                  getCompleteCode={this.handleCode}
+                  prevCode={prevCode}
+                />
               </View>
             </View>
           </View>

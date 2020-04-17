@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, Keyboard, Alert} from 'react-native';
 
 import {
@@ -9,19 +9,29 @@ import {
 } from 'react-native-confirmation-code-field';
 import {styles} from './styles';
 import {get as _get} from 'lodash';
-import {COLOR, APP_CONSTANTS, DB_KEYS} from '../../utils';
+import {
+  localeString,
+  LOCALE_STRING,
+  COLOR,
+  APP_CONSTANTS,
+  DB_KEYS,
+  showSnackBar,
+} from '../../utils';
 
 interface CodeInputProps {
   getCompleteCode: (params?: string) => void;
   verifyUserPinResponse: object;
+  prevCode: string;
 }
 
 export const CodeInput = (codeInputProps: CodeInputProps) => {
-  const {verifyUserPinResponse} = codeInputProps;
+  const refTextInput = useRef(null);
+  const {verifyUserPinResponse, prevCode} = codeInputProps;
   const clearCodeInput = () => {
     setValue('');
   };
   const [value, setValue] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const ref = useBlurOnFulfill({
     value,
     cellCount: APP_CONSTANTS.PIN_CELL_COUNT,
@@ -31,13 +41,32 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
     setValue,
   });
   useEffect(() => {
+    if (prevCode && prevCode.length === 5 && value.length === 5) {
+      if (prevCode !== value && isSubmitted) {
+        clearCodeInput();
+        setIsSubmitted(false);
+        showSnackBar(
+          {},
+          localeString(LOCALE_STRING.SECURE_LOGIN.PIN_NOT_MATCHED),
+        );
+        setTimeout(() => {
+          refTextInput.current.focus();
+        }, 1000);
+      }
+    }
+  }, [isSubmitted]);
+  useEffect(() => {
     if (_get(verifyUserPinResponse, DB_KEYS.ERROR, false)) {
       clearCodeInput();
+      setTimeout(() => {
+        refTextInput.current.focus();
+      }, 1000);
     }
   }, [_get(verifyUserPinResponse, DB_KEYS.ERROR, '')]);
   return (
     <View style={styles.root}>
       <CodeField
+        ref={refTextInput}
         {...props}
         value={value}
         onChangeText={setValue}
@@ -46,7 +75,10 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
         rootStyle={styles.codeFiledRoot}
         keyboardType="number-pad"
         returnKeyType="done"
-        onSubmitEditing={() => Keyboard.dismiss()}
+        onSubmitEditing={() => {
+          setIsSubmitted(true);
+          Keyboard.dismiss();
+        }}
         secureTextEntry={true}
         autoFocus={true}
         renderCell={({index, symbol, isFocused}) => {
