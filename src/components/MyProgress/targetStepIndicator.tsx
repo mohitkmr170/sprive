@@ -172,7 +172,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               ]}>
               <Image
                 source={iPointer}
-                style={styles.pointerStyle}
+                style={{zIndex: 999}}
                 resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
               />
               <View style={styles.targetTooltip} />

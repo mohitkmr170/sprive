@@ -152,19 +152,23 @@ export const styles = StyleSheet.create({
   },
   commonPointIconContainer: {
     position: 'absolute',
-    bottom: -STYLE_CONSTANTS.margin.SMALLER,
+    bottom:
+      -STYLE_CONSTANTS.margin.SMALLER - STYLE_CONSTANTS.margin.SMALLER / 8,
     height: STYLE_CONSTANTS.margin.LARGEST,
     width: STYLE_CONSTANTS.margin.LARGEST,
     backgroundColor: COLOR.WHITE,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 999,
   },
   targetTooltip: {
     position: 'absolute',
-    top: STYLE_CONSTANTS.margin.LARGEST,
-    left: STYLE_CONSTANTS.padding.ABOVE_SMALLEST,
+    top: STYLE_CONSTANTS.margin.LARGEST - STYLE_CONSTANTS.padding.SMALLEST / 2,
+    left:
+      STYLE_CONSTANTS.padding.ABOVE_SMALLEST -
+      STYLE_CONSTANTS.padding.SMALLEST / 6,
     flexDirection: 'row',
-    height: STYLE_CONSTANTS.margin.HUGER,
+    height: STYLE_CONSTANTS.margin.HUMONGOUS,
     width: STYLE_CONSTANTS.margin.SMALLEST / 2,
     backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
   },
@@ -177,9 +181,9 @@ export const styles = StyleSheet.create({
   },
   onTrackTrackLine: {
     position: 'absolute',
-    top: STYLE_CONSTANTS.margin.SMALLER,
     flexDirection: 'row',
-    height: STYLE_CONSTANTS.margin.HUGER,
+    top: 0,
+    height: STYLE_CONSTANTS.margin.HUMONGOUS,
     width: STYLE_CONSTANTS.margin.SMALLEST / 2,
     backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
   },
@@ -209,7 +213,6 @@ export const styles = StyleSheet.create({
     color: COLOR.LIGHT_TEXT_GREEN,
     textAlign: 'center',
   },
-  pointerStyle: {},
   toolTipTopContainer: {
     position: 'absolute',
     bottom: STYLE_CONSTANTS.margin.HUGISH,
