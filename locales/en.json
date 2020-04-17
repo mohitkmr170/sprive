@@ -349,7 +349,7 @@
     "verifyHeader": "Please confirm your PIN",
     "verifyInfo": "Please type in your PIN to verify",
     "doYouWantToEnableFaceId": "Do you want to enable Face-ID?",
-    "pinNotMatched": "Pin did not match",
+    "pinNotMatched": "PIN did not match",
     "faceIdNotEnrolled": "Face ID not enrolled, please enroll it from settings",
     "verifyPinHeader": "Hello! Please enter your PIN",
     "faceNotEnrolled": "Face ID not enrolled",
