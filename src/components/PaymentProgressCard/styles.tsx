@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     shadowOffset: {height: 0, width: 3},
     shadowOpacity: 1,
     shadowRadius: 20,
-    elevation: 100,
+    elevation: 10,
     borderRadius: 12,
     marginTop: STYLE_CONSTANTS.margin.HUMONGOUS,
   },
