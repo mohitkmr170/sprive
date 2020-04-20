@@ -483,7 +483,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
               fieldLabelStyle={styles.fieldLabelStyle}
               component={ReduxFormField}
               props={{
-                maxLength: 7,
+                maxLength: 8,
                 autoCapitalize: 'characters',
                 autoCorrect: false,
                 style: styles.formInput,
