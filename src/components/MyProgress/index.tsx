@@ -212,29 +212,6 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
           </TouchableOpacity>
         </View>
         <View style={styles.middleContainer}>
-          {isCheaperDealSelected &&
-            !Object.keys(
-              _get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}),
-            ).length && (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => this.hanldeCompleteYourProfileClick()}
-                style={styles.blockedViewContainer}>
-                <Animatable.View style={{flex: 1}} animation="fadeIn">
-                  <LinearGradient
-                    colors={BLOCK_GRADIENT}
-                    style={styles.blockedInnerContainer}>
-                    <Image source={iPadLocks} style={{opacity: 1}} />
-                    <Text style={styles.completeYourProfileText}>
-                      {localeString(
-                        LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS
-                          .COMPLETE_YOUR_PROFILE,
-                      )}
-                    </Text>
-                  </LinearGradient>
-                </Animatable.View>
-              </TouchableOpacity>
-            )}
           {isMortgageSelected ? (
             <TargetStepIndicator />
           ) : (
@@ -317,6 +294,28 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
             <ProjectedDataContainer />
           </View>
         </View>
+        {isCheaperDealSelected &&
+          !Object.keys(_get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}))
+            .length && (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => this.hanldeCompleteYourProfileClick()}
+              style={styles.blockedViewContainer}>
+              <Animatable.View style={{flex: 1}} animation="fadeIn">
+                <LinearGradient
+                  colors={BLOCK_GRADIENT}
+                  style={styles.blockedInnerContainer}>
+                  <Image source={iPadLocks} style={{opacity: 1}} />
+                  <Text style={styles.completeYourProfileText}>
+                    {localeString(
+                      LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS
+                        .COMPLETE_YOUR_PROFILE,
+                    )}
+                  </Text>
+                </LinearGradient>
+              </Animatable.View>
+            </TouchableOpacity>
+          )}
       </Animatable.View>
     );
   }
