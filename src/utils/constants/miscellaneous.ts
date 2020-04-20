@@ -100,7 +100,7 @@ export const WEB_VIEW_PARAMS = {
   WEB_VIEW_URI_PRIVACY: 'https://www.sprive.com/privacy',
 };
 export const APP_REGEX = {
-  POST_CODE_UK: /[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}/i,
+  POST_CODE_UK: /^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})$/,
 };
 export const SEARCH_ADDRESS = {
   ITEM_INDEX: 'index',
