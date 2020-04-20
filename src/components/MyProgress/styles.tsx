@@ -5,7 +5,10 @@ export const styles = StyleSheet.create({
   mainContainer: {
     paddingHorizontal: STYLE_CONSTANTS.padding.BELOW_NORMAL,
     flex: 1,
-    justifyContent: 'space-around',
+  },
+  middleContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
   myProgressText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
@@ -85,7 +88,7 @@ export const styles = StyleSheet.create({
   mainContainerStepIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: STYLE_CONSTANTS.margin.EXTRA_HUMUNGOUS,
+    marginTop: 2 * STYLE_CONSTANTS.margin.HUGE,
     paddingBottom: STYLE_CONSTANTS.padding.HUGISH,
     paddingTop: STYLE_CONSTANTS.padding.SMALLEST,
   },

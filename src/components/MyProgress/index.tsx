@@ -211,106 +211,111 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
             </Text>
           </TouchableOpacity>
         </View>
-        {isCheaperDealSelected &&
-          !Object.keys(_get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}))
-            .length && (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => this.hanldeCompleteYourProfileClick()}
-              style={styles.blockedViewContainer}>
-              <Animatable.View style={{flex: 1}} animation="fadeIn">
-                <LinearGradient
-                  colors={BLOCK_GRADIENT}
-                  style={styles.blockedInnerContainer}>
-                  <Image source={iPadLocks} style={{opacity: 1}} />
-                  <Text style={styles.completeYourProfileText}>
-                    {localeString(
-                      LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS
-                        .COMPLETE_YOUR_PROFILE,
-                    )}
-                  </Text>
-                </LinearGradient>
-              </Animatable.View>
-            </TouchableOpacity>
-          )}
-        {isMortgageSelected ? (
-          <TargetStepIndicator />
-        ) : (
-          <Animatable.View animation="fadeIn" duration={300}>
-            <Text style={styles.currentLtvText}>
-              {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.CURRENT_LTV)}
-            </Text>
-            <View style={styles.progressBarContainer}>
-              <Text style={styles.percentageText}>
-                {_get(
-                  getLtvRangeAndPercentage(CURRENT_LTV),
-                  PERCENTAGE_RANGE_VALUES.END_VAL,
-                  '',
+        <View style={styles.middleContainer}>
+          {isCheaperDealSelected &&
+            !Object.keys(
+              _get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}),
+            ).length && (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => this.hanldeCompleteYourProfileClick()}
+                style={styles.blockedViewContainer}>
+                <Animatable.View style={{flex: 1}} animation="fadeIn">
+                  <LinearGradient
+                    colors={BLOCK_GRADIENT}
+                    style={styles.blockedInnerContainer}>
+                    <Image source={iPadLocks} style={{opacity: 1}} />
+                    <Text style={styles.completeYourProfileText}>
+                      {localeString(
+                        LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS
+                          .COMPLETE_YOUR_PROFILE,
+                      )}
+                    </Text>
+                  </LinearGradient>
+                </Animatable.View>
+              </TouchableOpacity>
+            )}
+          {isMortgageSelected ? (
+            <TargetStepIndicator />
+          ) : (
+            <Animatable.View animation="fadeIn" duration={300}>
+              <Text style={styles.currentLtvText}>
+                {localeString(
+                  LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.CURRENT_LTV,
                 )}
               </Text>
-              <View
-                style={styles.progressContainer}
-                onLayout={event =>
-                  this.getNativeEvent(event.nativeEvent.layout)
-                }>
+              <View style={styles.progressBarContainer}>
+                <Text style={styles.percentageText}>
+                  {_get(
+                    getLtvRangeAndPercentage(CURRENT_LTV),
+                    PERCENTAGE_RANGE_VALUES.END_VAL,
+                    '',
+                  )}
+                </Text>
                 <View
-                  style={[
-                    {
-                      right: toolTipPosition,
-                    },
-                    styles.toolTipTopContainer,
-                  ]}>
-                  <Text style={styles.toolTipText}>{CURRENT_LTV}%</Text>
+                  style={styles.progressContainer}
+                  onLayout={event =>
+                    this.getNativeEvent(event.nativeEvent.layout)
+                  }>
+                  <View
+                    style={[
+                      {
+                        right: toolTipPosition,
+                      },
+                      styles.toolTipTopContainer,
+                    ]}>
+                    <Text style={styles.toolTipText}>{CURRENT_LTV}%</Text>
+                  </View>
+                  <View
+                    style={[
+                      {
+                        right: toolTipBasePosition,
+                      },
+                      styles.toolTipBottomContainer,
+                    ]}
+                  />
+                  <Progress.Bar
+                    progress={
+                      1 -
+                      _get(
+                        getLtvRangeAndPercentage(CURRENT_LTV),
+                        PERCENTAGE_RANGE_VALUES.PERCENTAGE,
+                        0,
+                      )
+                    }
+                    color={COLOR.DARKEST_YELLOW}
+                    height={10}
+                    width={null}
+                    borderRadius={5}
+                    unfilledColor={COLOR.LIGHTEST_YELLOW}
+                    borderWidth={0}
+                  />
                 </View>
-                <View
-                  style={[
-                    {
-                      right: toolTipBasePosition,
-                    },
-                    styles.toolTipBottomContainer,
-                  ]}
-                />
-                <Progress.Bar
-                  progress={
-                    1 -
-                    _get(
-                      getLtvRangeAndPercentage(CURRENT_LTV),
-                      PERCENTAGE_RANGE_VALUES.PERCENTAGE,
-                      0,
-                    )
-                  }
-                  color={COLOR.DARKEST_YELLOW}
-                  height={10}
-                  width={null}
-                  borderRadius={5}
-                  unfilledColor={COLOR.LIGHTEST_YELLOW}
-                  borderWidth={0}
-                />
-              </View>
-              <Text style={styles.percentageText}>
-                {_get(
-                  getLtvRangeAndPercentage(CURRENT_LTV),
-                  PERCENTAGE_RANGE_VALUES.START_VAL,
-                  '',
-                )}
-              </Text>
-            </View>
-            <Text style={styles.unlockbetterDealsText}>
-              {localeString(
-                LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.UNLOCK_DEALS,
-                {
-                  ltv: _get(
+                <Text style={styles.percentageText}>
+                  {_get(
                     getLtvRangeAndPercentage(CURRENT_LTV),
                     PERCENTAGE_RANGE_VALUES.START_VAL,
                     '',
-                  ),
-                },
-              )}
-            </Text>
-          </Animatable.View>
-        )}
-        <View>
-          <ProjectedDataContainer />
+                  )}
+                </Text>
+              </View>
+              <Text style={styles.unlockbetterDealsText}>
+                {localeString(
+                  LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.UNLOCK_DEALS,
+                  {
+                    ltv: _get(
+                      getLtvRangeAndPercentage(CURRENT_LTV),
+                      PERCENTAGE_RANGE_VALUES.START_VAL,
+                      '',
+                    ),
+                  },
+                )}
+              </Text>
+            </Animatable.View>
+          )}
+          <View>
+            <ProjectedDataContainer />
+          </View>
         </View>
       </Animatable.View>
     );
