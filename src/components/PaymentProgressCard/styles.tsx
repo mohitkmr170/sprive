@@ -26,14 +26,13 @@ export const styles = StyleSheet.create({
   },
   PaginationContainerStyle: {
     justifyContent: 'center',
-    bottom: 0,
+    bottom: -(2 * STYLE_CONSTANTS.padding.NORMAL),
   },
   swiperCardContainer: {
+    flex: 1,
     backgroundColor: COLOR.WHITE,
     paddingVertical: STYLE_CONSTANTS.padding.HUGISH,
     borderRadius: 12,
-    height:
-      10 * STYLE_CONSTANTS.margin.HUMONGOUS - STYLE_CONSTANTS.margin.LARGEST,
   },
   swiperContainer: {
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
