@@ -41,6 +41,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 20,
     elevation: 10,
+    backgroundColor: COLOR.WHITE,
     borderRadius: 12,
     marginTop: STYLE_CONSTANTS.margin.HUMONGOUS,
   },
