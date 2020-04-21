@@ -19,6 +19,14 @@ export const styles = StyleSheet.create({
     borderWidth: 0.5,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
   },
+  logoContainer: {flexDirection: 'row'},
+  lenderPaymentText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    paddingLeft: STYLE_CONSTANTS.padding.SMALL,
+    alignSelf: 'center',
+  },
   loadingContainer: {
     position: 'relative',
     paddingVertical: STYLE_CONSTANTS.padding.LARGEST,

@@ -152,7 +152,8 @@
   },
   "overPaymentHistory": {
     "overPayment": "Overpayment",
-    "overPaymentHistory": "Overpayment History",
+    "overPaymentHistory": "Payment Activity",
+    "lenderPayment": "Lender Payment",
     "searchMonth": "Search Month",
     "overPaymentOf": "Overpayment of",
     "availableBalance": "Available Balance",

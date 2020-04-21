@@ -1,9 +1,15 @@
 import React from 'react';
 import {View, Image, Text} from 'react-native';
 import {get as _get} from 'lodash';
-import {hsbcBank} from '../../assets';
+import {iSpriveLogo} from '../../assets';
 import {styles} from './styles';
-import {getNumberWithCommas, COLOR, DB_KEYS} from '../../utils';
+import {
+  getNumberWithCommas,
+  COLOR,
+  DB_KEYS,
+  localeString,
+  LOCALE_STRING,
+} from '../../utils';
 import Moment from 'moment';
 
 interface props {
@@ -25,11 +31,16 @@ export class PaymentHistoryList extends React.Component<props, state> {
     ).format('DD/MM/YY');
     return (
       <View style={styles.cardContainer}>
-        <Image source={hsbcBank} />
+        <View style={styles.logoContainer}>
+          <Image source={iSpriveLogo} />
+          <Text style={styles.lenderPaymentText}>
+            {localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.LENDER_PAYMENT)}
+          </Text>
+        </View>
         <View style={styles.cardMainContainer}>
           <View>
             <Text style={styles.dateText}>{formattedDate}</Text>
-            <Text style={styles.refIdText}>
+            {/* <Text style={styles.refIdText}>
               {_get(item, DB_KEYS.PAYMENT_HISTORY.REFERENCE_NUMBER, '')
                 ? _get(item, DB_KEYS.PAYMENT_HISTORY.REFERENCE_NUMBER, '')
                 : 'Ref EHSLW6191CIQLN'}
@@ -38,7 +49,7 @@ export class PaymentHistoryList extends React.Component<props, state> {
               {_get(item, DB_KEYS.PAYMENT_HISTORY.ID, '')
                 ? _get(item, DB_KEYS.PAYMENT_HISTORY.ID, '')
                 : '55557777'}
-            </Text>
+            </Text> */}
           </View>
           <View style={styles.rightContainer}>
             <View

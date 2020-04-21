@@ -146,6 +146,7 @@ export const LOCALE_STRING = {
   OVER_PAYMENT_HISTORY: {
     OVER_PAYMENT: 'overPaymentHistory.overPayment',
     OVER_PAYMENT_HISTORY: 'overPaymentHistory.overPaymentHistory',
+    LENDER_PAYMENT: 'overPaymentHistory.lenderPayment',
     SEARCH_MONTH: 'overPaymentHistory.searchMonth',
     OVER_PAYMENT_OF: 'overPaymentHistory.overPaymentOf',
     AVAILABLE_BALANCE: 'overPaymentHistory.availableBalance',
