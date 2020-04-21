@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {View, Keyboard, Alert} from 'react-native';
-
+import KeyboardManager from 'react-native-keyboard-manager';
 import {
   CodeField,
   Cursor,
@@ -18,6 +18,9 @@ import {
   showSnackBar,
 } from '../../utils';
 
+const CODE_LENGTH = 5,
+  KEYBOARD_REFOCUS_TIME = 1000;
+
 interface CodeInputProps {
   getCompleteCode: (params?: string) => void;
   verifyUserPinResponse: object;
@@ -25,6 +28,7 @@ interface CodeInputProps {
 }
 
 export const CodeInput = (codeInputProps: CodeInputProps) => {
+  KeyboardManager.setEnableAutoToolbar(false);
   const refTextInput = useRef(null);
   const {verifyUserPinResponse, prevCode} = codeInputProps;
   const clearCodeInput = () => {
@@ -40,8 +44,20 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
     value,
     setValue,
   });
+  const handleSubmit = (input: any) => {
+    setValue(input);
+    if (input.length === CODE_LENGTH) {
+      codeInputProps.getCompleteCode(input);
+      setIsSubmitted(true);
+      Keyboard.dismiss();
+    }
+  };
   useEffect(() => {
-    if (prevCode && prevCode.length === 5 && value.length === 5) {
+    if (
+      prevCode &&
+      prevCode.length === CODE_LENGTH &&
+      value.length === CODE_LENGTH
+    ) {
       if (prevCode !== value && isSubmitted) {
         clearCodeInput();
         setIsSubmitted(false);
@@ -51,7 +67,7 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
         );
         setTimeout(() => {
           refTextInput.current.focus();
-        }, 1000);
+        }, KEYBOARD_REFOCUS_TIME);
       }
     }
   }, [isSubmitted]);
@@ -60,7 +76,7 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
       clearCodeInput();
       setTimeout(() => {
         refTextInput.current.focus();
-      }, 1000);
+      }, KEYBOARD_REFOCUS_TIME);
     }
   }, [_get(verifyUserPinResponse, DB_KEYS.ERROR, '')]);
   return (
@@ -69,16 +85,10 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
         ref={refTextInput}
         {...props}
         value={value}
-        onChangeText={setValue}
+        onChangeText={input => handleSubmit(input)}
         cellCount={APP_CONSTANTS.PIN_CELL_COUNT}
-        onEndEditing={() => codeInputProps.getCompleteCode(value)}
         rootStyle={styles.codeFiledRoot}
         keyboardType="number-pad"
-        returnKeyType="done"
-        onSubmitEditing={() => {
-          setIsSubmitted(true);
-          Keyboard.dismiss();
-        }}
         secureTextEntry={true}
         autoFocus={true}
         renderCell={({index, symbol, isFocused}) => {
