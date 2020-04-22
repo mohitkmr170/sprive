@@ -292,7 +292,10 @@
     "searchFlat": "Search house or flat number",
     "noAddressFound": "No Address Found!",
     "done": "Find out your home value",
-    "edit": "Edit"
+    "edit": "Edit",
+    "questionText": "How much is your house worth?",
+    "guessText": "Take your best guess for now, you can always update this later",
+    "valuationLabel": "Home Valuation"
   },
   "myProgressAndPayment": {
     "myPayments": "My Payments",

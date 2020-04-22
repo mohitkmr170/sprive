@@ -27,3 +27,4 @@ export * from './createSecurityPin';
 export * from './verifySecurityPin';
 export * from './Profile';
 export * from './Settings';
+export * from './manualValuation';

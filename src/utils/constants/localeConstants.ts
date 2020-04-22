@@ -286,6 +286,9 @@ export const LOCALE_STRING = {
     NO_ADDRESS_FOUND: 'userProfile.noAddressFound',
     DONE: 'userProfile.done',
     EDIT: 'userProfile.edit',
+    QUESTION: 'userProfile.questionText',
+    GUESS: 'userProfile.guessText',
+    VALUATION_LABEL: 'userProfile.valuationLabel',
   },
   MY_PROGRESS_AND_PAYMENTS: {
     MY_PAYMENTS: 'myProgressAndPayment.myPayments',
