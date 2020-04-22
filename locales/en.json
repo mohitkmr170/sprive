@@ -359,5 +359,10 @@
     "faceNotAvailable": "Face ID not available",
     "generalFaceIdError": "Something went wrong with FaceID",
     "enterPin": "Enter PIN"
+  },
+  "notification": {
+    "notification": "Notifications",
+    "dismissAll": "Dismiss All",
+    "noNotification": "No active notification"
   }
 }
