@@ -87,6 +87,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     }
   };
 
+  /*
+  NOTES : item.item should be removed and updated once integrated with BE
+  */
+
   renderNotifications = (item: object) => {
     return (
       <TouchableOpacity
