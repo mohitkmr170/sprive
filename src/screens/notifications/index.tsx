@@ -21,6 +21,7 @@ import {
 import {
   paymentReminder,
   policyUpdate,
+  notification,
 } from '../../../src/store/actions/actions';
 import {
   COLOR,
@@ -31,6 +32,9 @@ import {
   NOTIFICATION_CONSTANTS,
   SEARCH_ADDRESS,
   NOTIFICATION_TYPES,
+  showSnackBar,
+  APP_CONSTANTS,
+  APP_KEYS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 
@@ -42,6 +46,7 @@ interface props {
   getUserInfoResponse: object;
   paymentReminder: (notificationId: number) => void;
   policyUpdate: (notificationId: number) => void;
+  notification: (notificationId: number) => void;
   getAllNotifications: (payload: object, extraPayload: object) => void;
   getAllNotificationsResponse: object;
   dismissSingleNotification: (payload: object, qParams: object) => void;
@@ -69,8 +74,8 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     const {getUserInfoResponse, getAllNotifications} = this.props;
     const qParam = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-      'createdAt[$gt]': creationDate,
-      dismissed: false,
+      [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
+      [PAYLOAD_KEYS.NOTIFICATION.DISMISSED]: false,
     };
     await getAllNotifications({}, qParam);
     this.setState({
@@ -153,8 +158,14 @@ export class UnconnectedNotifications extends React.Component<props, state> {
       case NOTIFICATION_TYPES.PAYMENT_REMINDER:
         await this.props.paymentReminder(notificationId);
         break;
+      case NOTIFICATION_TYPES.USER_FEEDBACK:
+        await this.props.notification(notificationId);
+        break;
       default:
-        Linking.openURL('https://sprive.com/');
+        /*
+        NOTES : Condition when no target is revceived
+        */
+        showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
     }
   };
 
@@ -171,6 +182,28 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     }
   };
 
+  handleTargetRoute = (targetCategory: string, item: object) => {
+    switch (targetCategory) {
+      case NOTIFICATION_CONSTANTS.SPRIVE_URL:
+        this.handleNotification(
+          /*
+          NOTES : Actual target screen to be passed here!
+          */
+          'privacy_policy',
+          _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_ID, ''),
+        );
+        break;
+      case NOTIFICATION_CONSTANTS.WEB_URL:
+        this.handleClear(
+          _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_ID, ''),
+        );
+        Linking.openURL(APP_KEYS.SPRIVE_WEB_URL);
+        break;
+      default:
+        showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
+    }
+  };
+
   /*
   NOTES : item.item should be removed and updated once integrated with BE
   */
@@ -180,9 +213,9 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     return (
       <TouchableOpacity
         onPress={() =>
-          this.handleNotification(
-            'payment_reminder',
-            _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_ID, ''),
+          this.handleTargetRoute(
+            notificationCategory[NOTIFICATION_CONSTANTS.TARGET_CATEGORY],
+            item,
           )
         }
         style={[
@@ -281,6 +314,7 @@ const mapStateToProps = state => ({
 const bindActions = dispatch => ({
   paymentReminder: notificationId => dispatch(paymentReminder(notificationId)),
   policyUpdate: notificationId => dispatch(policyUpdate(notificationId)),
+  notification: notificationId => dispatch(notification(notificationId)),
   getAllNotifications: (payload, extraPayload) =>
     dispatch(getAllNotifications.fetchCall(payload, extraPayload)),
   dismissSingleNotification: (payload, extraPayload) =>

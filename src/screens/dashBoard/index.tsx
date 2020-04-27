@@ -183,13 +183,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     };
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
-    const creationDate = Moment()
-      .subtract(48, 'days')
-      .format('YYYY-MM-DD');
     const qParamNotification = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-      'createdAt[$gt]': creationDate,
-      dismissed: false,
+      [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
+      [PAYLOAD_KEYS.NOTIFICATION.DISMISSED]: false,
     };
     await getAllNotifications({}, qParamNotification);
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
@@ -272,17 +269,14 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     await dismissSingleNotification(payload, qParam);
     const {dismissSingleNotificationResponse, getAllNotifications} = this.props;
     if (!_get(dismissSingleNotificationResponse, DB_KEYS.ERROR, true)) {
-      const creationDate = Moment()
-        .subtract(48, 'days')
-        .format('YYYY-MM-DD');
       const qParam = {
         [PAYLOAD_KEYS.USER_ID]: _get(
           getUserInfoResponse,
           DB_KEYS.DATA_ID,
           null,
         ),
-        'createdAt[$gt]': creationDate,
-        dismissed: false,
+        [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
+        [PAYLOAD_KEYS.NOTIFICATION.DISMISSED]: false,
       };
       await getAllNotifications({}, qParam);
       this.setState({loading: false});
@@ -410,9 +404,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     );
     const activeNotificationCount = _get(
       getAllNotificationsResponse,
-      DB_KEYS.RESPONSE_DATA,
-      [],
-    ).length;
+      DB_KEYS.META_TOTAL,
+      0,
+    );
     if (
       this.state.loading ||
       _get(pushNotificationResponse, DB_KEYS.IS_FETCHING, false)

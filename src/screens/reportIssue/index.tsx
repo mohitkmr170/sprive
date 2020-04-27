@@ -7,7 +7,12 @@ import {Dropdown} from 'react-native-material-dropdown';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
 import KeyboardManager from 'react-native-keyboard-manager';
-import {getIssueCategories, setIssue} from '../../store/reducers';
+import {
+  getIssueCategories,
+  setIssue,
+  dismissSingleNotification,
+  getAllNotifications,
+} from '../../store/reducers';
 import {notification} from '../../store/actions/actions';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
@@ -19,6 +24,7 @@ import {
   LOCALE_STRING,
   PAYLOAD_KEYS,
   COLOR,
+  NOTIFICATION_CONSTANTS,
 } from '../../utils';
 
 // const BUG_CATEGORY = [];
@@ -36,6 +42,9 @@ interface props {
   getUserInfoResponse: object;
   notification: () => void;
   notificationResponse: object;
+  getAllNotifications: (payload: object, extraPayload: object) => void;
+  dismissSingleNotification: (payload: object, qParams: object) => void;
+  dismissSingleNotificationResponse: object;
 }
 interface state {
   issue: string;
@@ -93,6 +102,40 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
       _gaSetCurrentScreen(NAVIGATION_SCREEN_NAME.REPORT_ISSUE);
     } catch (error) {}
   };
+
+  handleNotificationAction = async () => {
+    const {
+      dismissSingleNotification,
+      getUserInfoResponse,
+      notificationResponse,
+    } = this.props;
+    const payload = {
+      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      dismissed: true,
+    };
+    const qParam = {
+      id: _get(
+        notificationResponse,
+        NOTIFICATION_CONSTANTS.NOTIFCATION_STORE_ID,
+        null,
+      ),
+    };
+    await dismissSingleNotification(payload, qParam);
+    const {dismissSingleNotificationResponse, getAllNotifications} = this.props;
+    if (!_get(dismissSingleNotificationResponse, DB_KEYS.ERROR, true)) {
+      const qParam = {
+        [PAYLOAD_KEYS.USER_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.DATA_ID,
+          null,
+        ),
+        [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
+        [PAYLOAD_KEYS.NOTIFICATION.DISMISSED]: false,
+      };
+      await getAllNotifications({}, qParam);
+      this.setState({loading: false});
+    }
+  };
   /**
    * Function called on Submit
    */
@@ -103,6 +146,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
       notificationResponse,
       notification,
     } = this.props;
+    this.handleNotificationAction();
     const isUserFeedbackNotificationReceived = _get(
       notificationResponse,
       DB_KEYS.IS_NOTIFICATION_RECEIVED,
@@ -121,10 +165,13 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
     */
     if (!_get(setIssueResponse, DB_KEYS.ERROR, true)) {
       showSnackBar({}, localeString(LOCALE_STRING.REPORT_ISSUE.BUG_REPORTED));
-      this.props.navigation.goBack();
-      if (isUserFeedbackNotificationReceived) {
-        notification();
-      }
+      this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.DASHBOARD_SCREEN);
+      /*
+      NOTES : Commented for now, might be required further
+      */
+      // if (isUserFeedbackNotificationReceived) {
+      //   notification();
+      // }
       // this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
     }
   };
@@ -236,12 +283,17 @@ const mapStateToProps = (state: object) => ({
   setIssueResponse: state.setIssue,
   getUserInfoResponse: state.getUserInfo,
   notificationResponse: state.notification,
+  dismissSingleNotificationResponse: state.dismissSingleNotification,
 });
 
 const bindActions = dispatch => ({
   getIssueCategories: () => dispatch(getIssueCategories.fetchCall()),
   setIssue: payload => dispatch(setIssue.fetchCall(payload)),
   notification: () => dispatch(notification()),
+  dismissSingleNotification: (payload, extraPayload) =>
+    dispatch(dismissSingleNotification.fetchCall(payload, extraPayload)),
+  getAllNotifications: (payload, extraPayload) =>
+    dispatch(getAllNotifications.fetchCall(payload, extraPayload)),
 });
 
 export const ReportIssue = connect(
