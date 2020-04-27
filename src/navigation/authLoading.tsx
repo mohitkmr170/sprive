@@ -281,8 +281,8 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
     const creationDate = Moment()
-      .subtract(NOTIFICATION_CONSTANTS.BEFORE_DATE, NOTIFICATION_CONSTANTS.DAYS)
-      .format(NOTIFICATION_CONSTANTS.YYYY_MM_DD);
+      .subtract(48, 'days')
+      .format('YYYY-MM-DD');
     const qParam = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponses, DB_KEYS.DATA_ID, null),
       'createdAt[$gt]': creationDate,

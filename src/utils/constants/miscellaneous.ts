@@ -104,6 +104,7 @@ export const APP_REGEX = {
 };
 export const SEARCH_ADDRESS = {
   ITEM_INDEX: 'index',
+  ITEM: 'item',
   ITEM_COMPLETE_ADDRESS: 'item.completeAddress',
   COMPLETE_ADDRESS: 'completeAddress',
 };
@@ -141,4 +142,19 @@ export const BIOMETRIC_KEYS = {
     USER_FALLBACK: 'UserFallback',
     CANCEL: 'UserCancel',
   },
+};
+export const NOTIFICATION_CONSTANTS = {
+  CATEGORY_NAME: 'notification_category.name',
+  NOTIFICATION_MESSAGE: 'item.message',
+  NOTIFICATION_DATA: 'item.data',
+  NOTIFICATION_ID: 'item.id',
+  NOTIFCATION_STORE_ID: 'notificationId',
+  DAYS: 'days',
+  YYYY_MM_DD: 'YYYY-MM-DDD',
+  BEFORE_DATE: 48,
+  MAX_NOTIFICATION_COUNT: 9,
+  NOTIFICATION_COUNT: '9+',
+  TYPE_ERROR: 'error',
+  TYPE_BLOG: 'blog',
+  TYPE_ACTION: 'action-item',
 };
