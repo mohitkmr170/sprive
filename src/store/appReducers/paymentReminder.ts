@@ -4,6 +4,7 @@ import {NAVIGATION_SCREEN_NAME} from '../../utils';
 
 const initialState = {
   isPaymentReminderReceived: false,
+  notificationId: null,
 };
 export const paymentReminder = (state = initialState, action: any) => {
   switch (action.type) {
@@ -13,6 +14,7 @@ export const paymentReminder = (state = initialState, action: any) => {
       */
       navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {});
       state.isPaymentReminderReceived = !state.isPaymentReminderReceived;
+      state.notificationId = action.payload;
       return {
         ...state,
       };
