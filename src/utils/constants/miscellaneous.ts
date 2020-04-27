@@ -147,6 +147,7 @@ export const BIOMETRIC_KEYS = {
 };
 export const NOTIFICATION_CONSTANTS = {
   CATEGORY_NAME: 'notification_category.name',
+  TARGET_CATEGORY: 'notification_target.name',
   NOTIFICATION_MESSAGE: 'item.message',
   NOTIFICATION_DATA: 'item.data',
   NOTIFICATION_ID: 'item.id',
@@ -159,4 +160,6 @@ export const NOTIFICATION_CONSTANTS = {
   TYPE_ERROR: 'error',
   TYPE_BLOG: 'blog',
   TYPE_ACTION: 'action-item',
+  SPRIVE_URL: 'sprive-url',
+  WEB_URL: 'web-url',
 };

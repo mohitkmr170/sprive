@@ -75,4 +75,9 @@ export const PAYLOAD_KEYS: any = {
     IS_FACE_ID_ENABLED: 'is_face_id_enabled',
     PIN: 'pin',
   },
+  NOTIFICATION: {
+    LIMIT: '$limit',
+    DISMISSED: 'dismissed',
+    CREATION_DATE: 'createdAt[$gt]',
+  },
 };
