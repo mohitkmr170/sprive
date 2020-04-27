@@ -12,7 +12,7 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {
   dashBoardCard,
-  report,
+  iNotification_message,
   correct,
   iViewArrow,
   questionMark,
@@ -373,11 +373,15 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate(
-                    NAVIGATION_SCREEN_NAME.REPORT_ISSUE,
+                    NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN,
                   )
                 }
                 style={styles.supportIcon}>
-                <Image source={report} />
+                <View style={styles.badgeContainer}>
+                  {/* This is to be replaced by actual count */}
+                  <Text style={styles.badgeCountText}>1</Text>
+                </View>
+                <Image source={iNotification_message} />
               </TouchableOpacity>
               <Text style={styles.thisMonthText}>
                 {localeString(LOCALE_STRING.DASHBOARD_SCREEN.THIS_MONTH)}

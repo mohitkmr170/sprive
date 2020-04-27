@@ -351,4 +351,9 @@ export const LOCALE_STRING = {
     GENERAL_FACE_ID_ERROR: 'secureLogin.generalFaceIdError',
     ENTER_PIN: 'secureLogin.enterPin',
   },
+  NOTIFICATION: {
+    NOTIFICATION: 'notification.notification',
+    DISMISS_ALL: 'notification.dismissAll',
+    NO_NOTIFICATION: 'notification.noNotification',
+  },
 };
