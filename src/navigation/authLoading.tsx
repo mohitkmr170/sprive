@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {splashScreen, iSprive} from '../assets';
 import {get as _get} from 'lodash';
+import Moment from 'moment';
 import {
   getUserInfo,
   getMonthlyPaymentRecord,
@@ -19,6 +20,7 @@ import {
   getUserMortgageData,
   getUserGoal,
   getPendingTask,
+  getAllNotifications,
 } from '../store/reducers';
 import {connect} from 'react-redux';
 import {
@@ -31,6 +33,7 @@ import {
   APP_CONSTANTS,
   LOCALE_STRING,
   BIOMETRY_TYPE,
+  NOTIFICATION_CONSTANTS,
   BIOMETRIC_KEYS,
   STYLE_CONSTANTS,
   NAVIGATION_SCREEN_NAME,
@@ -76,6 +79,8 @@ interface props {
   getPendingTask: (payload: object, extraPayload: object) => void;
   getPendingTaskResponse: object;
   handlePopupDismissed: () => void;
+  getAllNotifications: (payload: object, extraPayload: object) => void;
+  getAllNotificationsResponse: object;
 }
 
 interface state {}
@@ -256,6 +261,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       getUserGoal,
       notificationResponse,
       getPendingTask,
+      getAllNotifications,
     } = this.props;
     const userId = _get(getUserInfoResponses, DB_KEYS.DATA_ID, null);
     const isNotificationReceived = _get(
@@ -274,6 +280,15 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     };
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
+    const creationDate = Moment()
+      .subtract(NOTIFICATION_CONSTANTS.BEFORE_DATE, NOTIFICATION_CONSTANTS.DAYS)
+      .format(NOTIFICATION_CONSTANTS.YYYY_MM_DD);
+    const qParam = {
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponses, DB_KEYS.DATA_ID, null),
+      'createdAt[$gt]': creationDate,
+      dismissed: false,
+    };
+    await getAllNotifications({}, qParam);
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
       navigation.navigate(
         isNotificationReceived
@@ -465,6 +480,7 @@ const mapStateToProps = state => ({
   getUserGoalResponse: state.getUserGoal,
   notificationResponse: state.notification,
   getPendingTaskResponse: state.getPendingTask,
+  getAllNotificationsResponse: state.getAllNotifications,
 });
 
 const bindActions = dispatch => ({
@@ -481,6 +497,8 @@ const bindActions = dispatch => ({
   notification: () => dispatch(notification()),
   getPendingTask: (payload, extraPayload) =>
     dispatch(getPendingTask.fetchCall(payload, extraPayload)),
+  getAllNotifications: (payload, extraPayload) =>
+    dispatch(getAllNotifications.fetchCall(payload, extraPayload)),
 });
 
 export const AuthLoading = connect(
