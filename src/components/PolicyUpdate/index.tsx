@@ -65,11 +65,8 @@ export class UnconnectedPolicyUpdate extends React.Component<props, state> {
     const {dismissSingleNotificationResponse, getAllNotifications} = this.props;
     if (!_get(dismissSingleNotificationResponse, DB_KEYS.ERROR, true)) {
       const creationDate = Moment()
-        .subtract(
-          NOTIFICATION_CONSTANTS.BEFORE_DATE,
-          NOTIFICATION_CONSTANTS.DAYS,
-        )
-        .format(NOTIFICATION_CONSTANTS.YYYY_MM_DD);
+        .subtract(48, 'days')
+        .format('YYYY-MM-DD');
       const qParam = {
         [PAYLOAD_KEYS.USER_ID]: _get(
           getUserInfoResponse,

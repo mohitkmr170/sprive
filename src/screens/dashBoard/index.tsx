@@ -183,8 +183,12 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     };
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
+    const creationDate = Moment()
+      .subtract(48, 'days')
+      .format('YYYY-MM-DD');
     const qParamNotification = {
       [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      'createdAt[$gt]': creationDate,
       dismissed: false,
     };
     await getAllNotifications({}, qParamNotification);
@@ -269,11 +273,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     const {dismissSingleNotificationResponse, getAllNotifications} = this.props;
     if (!_get(dismissSingleNotificationResponse, DB_KEYS.ERROR, true)) {
       const creationDate = Moment()
-        .subtract(
-          NOTIFICATION_CONSTANTS.BEFORE_DATE,
-          NOTIFICATION_CONSTANTS.DAYS,
-        )
-        .format(NOTIFICATION_CONSTANTS.YYYY_MM_DD);
+        .subtract(48, 'days')
+        .format('YYYY-MM-DD');
       const qParam = {
         [PAYLOAD_KEYS.USER_ID]: _get(
           getUserInfoResponse,
