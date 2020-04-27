@@ -42,6 +42,8 @@ export const ICON_NAME = {
   RIGHT_ICON: 'angle-right',
 };
 export const FE_FORM_VALUE_CONSTANTS = {
+  ADDRESS_VALUES: 'userAddress.values',
+  HOME_VALUATION: 'home_valuation',
   MORTGAGE_INPUT: {
     MORTGAGE_BALANCE: 'mortgageAmount',
     MORTGAGE_TERM: 'timePeriod',

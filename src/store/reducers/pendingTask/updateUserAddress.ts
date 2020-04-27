@@ -1,6 +1,7 @@
 import {updateUserAddress as getApi} from '../../../apiServices';
 import {StoreFetchableData} from '../base';
-import {showSnackBar, APP_CONSTANTS} from '../../../utils';
+import {get as _get} from 'lodash';
+import {showSnackBar, APP_CONSTANTS, DB_KEYS} from '../../../utils';
 
 class updateUserAddressData extends StoreFetchableData {
   constructor() {
@@ -15,7 +16,8 @@ class updateUserAddressData extends StoreFetchableData {
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));
-          showSnackBar(err, '', APP_CONSTANTS.SCREEN_TYPE_FORM);
+          if (_get(err, DB_KEYS.IS_ADDRESS_VERIFIED, false))
+            showSnackBar(err, '', APP_CONSTANTS.SCREEN_TYPE_FORM);
         });
   }
 }

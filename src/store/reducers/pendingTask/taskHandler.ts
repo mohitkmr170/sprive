@@ -16,7 +16,8 @@ class taskHandlerData extends StoreFetchableData {
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));
-          showSnackBar({}, _get(err, DB_KEYS.ERROR_MESSAGE, ''));
+          if (_get(err, DB_KEYS.IS_ADDRESS_VERIFIED, false))
+            showSnackBar({}, _get(err, DB_KEYS.ERROR_MESSAGE, ''));
         });
   }
 }

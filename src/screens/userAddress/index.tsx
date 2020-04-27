@@ -7,10 +7,10 @@ import {
   StatusBar,
 } from 'react-native';
 import {Button, Input} from 'react-native-elements';
-import {Field, reduxForm, formValues} from 'redux-form';
+import {Field, reduxForm, reset} from 'redux-form';
 import {connect} from 'react-redux';
 import {get as _get} from 'lodash';
-import {reset} from '../../navigation/navigationService';
+import {reset as resetNavigation} from '../../navigation/navigationService';
 import Icon from 'react-native-vector-icons/Feather';
 import {
   getAddress,
@@ -19,7 +19,12 @@ import {
   updateUserAddress,
 } from '../../store/reducers';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Header, ReduxFormField, GeneralStatusBar} from '../../components';
+import {
+  Header,
+  ReduxFormField,
+  GeneralStatusBar,
+  LoadingModal,
+} from '../../components';
 import {chatIcon} from '../../assets';
 import {
   alphaNumeric,
@@ -57,6 +62,7 @@ interface props {
   getUserInfo: () => void;
   updateUserAddress: (payload: object, qParams: object) => void;
   updateUserAddressResponse: object;
+  resetForm: (formName: string) => void;
 }
 interface state {
   postCode: string;
@@ -70,7 +76,14 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     };
     StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
-  componentDidMount = () => {};
+  componentDidMount() {
+    if (
+      !Object.keys(
+        _get(this.props.getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}),
+      ).length
+    )
+      this.props.resetForm(APP_CONSTANTS.USER_ADDRESS_FORM);
+  }
   getAddressPayload = (formValues: object, isEdit: boolean) => {
     const {getUserInfoResponse} = this.props;
     if (isEdit) {
@@ -214,11 +227,8 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
       getUserInfoResponse,
       updateUserAddress,
     } = this.props;
+    await this.props.getUserInfo();
     if (
-      !(
-        _get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
-        _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null)
-      ) ||
       Object.keys(_get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}))
         .length
     ) {
@@ -227,6 +237,17 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
         await updateUserAddress(payload, {
           id: _get(getUserInfoResponse, DB_KEYS.USER_ADDRESS_ID, null),
         });
+        if (
+          !_get(
+            this.props.updateUserAddressResponse,
+            DB_KEYS.IS_ADDRESS_VERIFIED,
+            true,
+          )
+        ) {
+          this.props.navigation.navigate(
+            NAVIGATION_SCREEN_NAME.MANUAL_VALUATION_SCREEN,
+          );
+        }
       } else {
         isAddressChanged = false;
       }
@@ -234,16 +255,22 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
       const payload = this.getAddressPayload(formValues, false);
       if (payload) {
         await taskHandler(payload);
+        if (
+          !_get(
+            this.props.taskHandlerResponse,
+            DB_KEYS.IS_ADDRESS_VERIFIED,
+            true,
+          )
+        ) {
+          this.props.navigation.navigate(
+            NAVIGATION_SCREEN_NAME.MANUAL_VALUATION_SCREEN,
+          );
+        }
       }
     }
     const {taskHandlerResponse, updateUserAddressResponse} = this.props;
     console.log('TASK SUBMISSION : TASK-1 : STAGE-2 :', taskHandlerResponse);
-    if (
-      !(
-        _get(taskHandlerResponse, DB_KEYS.ERROR, false) ||
-        _get(updateUserAddressResponse, DB_KEYS.ERROR, false)
-      )
-    ) {
+    if (!isAddressChanged) {
       await getUserInfo();
       this.props.navigation.navigate(
         NAVIGATION_SCREEN_NAME.USER_PROFILE_VIEW_MODE,
@@ -252,6 +279,18 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           isAddressChanged: isAddressChanged,
         },
       );
+    } else {
+      if (
+        !(
+          _get(taskHandlerResponse, DB_KEYS.ERROR, false) ||
+          _get(updateUserAddressResponse, DB_KEYS.ERROR, false)
+        )
+      ) {
+        await getUserInfo();
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.HOME_OWNERSHIP, {
+          lastRouteName: NAVIGATION_SCREEN_NAME.USER_ADDRESS,
+        });
+      }
     }
   };
   handleFormSubmit = (values: object) => {
@@ -317,7 +356,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
   handleCompleteLater = () => {
     _get(this.props.navigation, STATE_PARAMS.IS_FIRST_ROUTE, false)
       ? this.props.navigation.goBack()
-      : reset(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
+      : resetNavigation(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR, {
           isUserDataChanged: true,
         });
   };
@@ -370,154 +409,160 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           null,
         )) ||
       _get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, false);
-    return (
-      <View style={styles.mainContainer}>
-        <GeneralStatusBar />
-        <Header
-          leftIconPresent
-          title={localeString(LOCALE_STRING.USER_PROFILE.USER_PROFILE)}
-          rightIconPresent
-          iconName={chatIcon}
-          iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
-          navigation={this.props.navigation}
-          onBackPress={() => this.props.navigation.goBack()}
-        />
-        <View style={styles.mainView}>
-          <KeyboardAwareScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.fieldContainer}>
-            <Text style={styles.aboutYouText}>
-              {localeString(LOCALE_STRING.USER_PROFILE.ABOUT_YOU)}
-            </Text>
-            <Text style={styles.enterResidentialAddress}>
-              {localeString(
-                LOCALE_STRING.USER_PROFILE.ENTER_RESIDENTIAL_ADDRESS,
-              )}
-            </Text>
-            <Input
-              leftIcon={
-                <Icon
-                  name="search"
-                  size={STYLE_CONSTANTS.padding.NORMAL}
-                  color={COLOR.VOILET}
-                />
-              }
-              autoCapitalize="characters"
-              autoCorrect={false}
-              maxLength={8}
-              containerStyle={styles.inputContainerWrapper}
-              inputContainerStyle={styles.inputContainer}
-              leftIconContainerStyle={styles.leftIconContainer}
-              inputStyle={styles.textInput}
-              placeholder={localeString(
-                LOCALE_STRING.USER_PROFILE.SEARCH_POST_CODE,
-              )}
-              onChangeText={postCode => this.handlePostCodeEntry(postCode)}
-            />
-            <TouchableOpacity
-              hitSlop={APP_CONSTANTS.HIT_SLOP}
-              onPress={() => this.handleAddressSearch()}
-              style={styles.findAddressContainer}>
-              {_get(getAddressResponse, DB_KEYS.IS_FETCHING, false) ? (
-                <ActivityIndicator style={styles.searchLoader} />
-              ) : (
-                <Text style={styles.findMyAddressText}>
-                  {localeString(LOCALE_STRING.USER_PROFILE.FIND_ADDRESS)}
-                </Text>
-              )}
-            </TouchableOpacity>
-            <Text style={styles.enterManuallyText}>
-              {localeString(LOCALE_STRING.USER_PROFILE.ENTER_MANUALLY)}
-            </Text>
-            <Field
-              name="address_line_1"
-              label={localeString(LOCALE_STRING.USER_PROFILE.FLAT_NUMBER)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-              }}
-              validate={[alphaNumeric, required]}
-            />
-            <Field
-              name="address_line_2"
-              label={localeString(LOCALE_STRING.USER_PROFILE.STREET_NAME)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-              }}
-              validate={[alphaNumeric]}
-            />
-            <Field
-              name="town_or_city"
-              label={localeString(LOCALE_STRING.USER_PROFILE.CITY)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-              }}
-              validate={[alphaNumeric, required]}
-            />
-            <Field
-              name="county_or_region"
-              label={localeString(LOCALE_STRING.USER_PROFILE.COUNTY)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                style: styles.formInput,
-                autoCapitalize: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-              }}
-              validate={[alphaNumeric]}
-            />
-            <Field
-              name="postcode"
-              label={localeString(LOCALE_STRING.USER_PROFILE.POST_CODE)}
-              fieldLabelStyle={styles.fieldLabelStyle}
-              component={ReduxFormField}
-              props={{
-                maxLength: 8,
-                autoCapitalize: 'characters',
-                autoCorrect: false,
-                style: styles.formInput,
-                autoCapitalize: false,
-                returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
-              }}
-              validate={[alphaNumeric, required]}
-            />
-          </KeyboardAwareScrollView>
-          <Button
-            title={localeString(LOCALE_STRING.USER_PROFILE.NEXT)}
-            titleStyle={styles.buttonTextStyle}
-            onPress={handleSubmit(this.handleFormSubmit)}
-            buttonStyle={styles.buttonStyle}
-            disabled={!isFormValuesFilled}
-            loading={
-              _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
-              _get(updateUserAddressResponse, DB_KEYS.IS_FETCHING, false)
-            }
+    if (
+      _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
+      _get(updateUserAddressResponse, DB_KEYS.IS_FETCHING, false)
+    )
+      return <LoadingModal loadingText="Validating address..." />;
+    else
+      return (
+        <View style={styles.mainContainer}>
+          <GeneralStatusBar />
+          <Header
+            leftIconPresent
+            title={localeString(LOCALE_STRING.USER_PROFILE.USER_PROFILE)}
+            rightIconPresent
+            iconName={chatIcon}
+            iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
+            navigation={this.props.navigation}
+            onBackPress={() => this.props.navigation.goBack()}
           />
-          {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
-            _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
+          <View style={styles.mainView}>
+            <KeyboardAwareScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.fieldContainer}>
+              <Text style={styles.aboutYouText}>
+                {localeString(LOCALE_STRING.USER_PROFILE.ABOUT_YOU)}
+              </Text>
+              <Text style={styles.enterResidentialAddress}>
+                {localeString(
+                  LOCALE_STRING.USER_PROFILE.ENTER_RESIDENTIAL_ADDRESS,
+                )}
+              </Text>
+              <Input
+                leftIcon={
+                  <Icon
+                    name="search"
+                    size={STYLE_CONSTANTS.padding.NORMAL}
+                    color={COLOR.VOILET}
+                  />
+                }
+                autoCapitalize="characters"
+                autoCorrect={false}
+                maxLength={8}
+                containerStyle={styles.inputContainerWrapper}
+                inputContainerStyle={styles.inputContainer}
+                leftIconContainerStyle={styles.leftIconContainer}
+                inputStyle={styles.textInput}
+                placeholder={localeString(
+                  LOCALE_STRING.USER_PROFILE.SEARCH_POST_CODE,
+                )}
+                onChangeText={postCode => this.handlePostCodeEntry(postCode)}
+              />
               <TouchableOpacity
-                style={styles.completeLaterContainer}
                 hitSlop={APP_CONSTANTS.HIT_SLOP}
-                onPress={() => this.handleCompleteLater()}>
-                <Text style={styles.completeLaterText}>
-                  {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
-                </Text>
+                onPress={() => this.handleAddressSearch()}
+                style={styles.findAddressContainer}>
+                {_get(getAddressResponse, DB_KEYS.IS_FETCHING, false) ? (
+                  <ActivityIndicator style={styles.searchLoader} />
+                ) : (
+                  <Text style={styles.findMyAddressText}>
+                    {localeString(LOCALE_STRING.USER_PROFILE.FIND_ADDRESS)}
+                  </Text>
+                )}
               </TouchableOpacity>
-            )}
+              <Text style={styles.enterManuallyText}>
+                {localeString(LOCALE_STRING.USER_PROFILE.ENTER_MANUALLY)}
+              </Text>
+              <Field
+                name="address_line_1"
+                label={localeString(LOCALE_STRING.USER_PROFILE.FLAT_NUMBER)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                }}
+                validate={[alphaNumeric, required]}
+              />
+              <Field
+                name="address_line_2"
+                label={localeString(LOCALE_STRING.USER_PROFILE.STREET_NAME)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                }}
+                validate={[alphaNumeric]}
+              />
+              <Field
+                name="town_or_city"
+                label={localeString(LOCALE_STRING.USER_PROFILE.CITY)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                }}
+                validate={[alphaNumeric, required]}
+              />
+              <Field
+                name="county_or_region"
+                label={localeString(LOCALE_STRING.USER_PROFILE.COUNTY)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                }}
+                validate={[alphaNumeric]}
+              />
+              <Field
+                name="postcode"
+                label={localeString(LOCALE_STRING.USER_PROFILE.POST_CODE)}
+                fieldLabelStyle={styles.fieldLabelStyle}
+                component={ReduxFormField}
+                props={{
+                  maxLength: 8,
+                  autoCapitalize: 'characters',
+                  autoCorrect: false,
+                  style: styles.formInput,
+                  autoCapitalize: false,
+                  returnKeyType: APP_CONSTANTS.KEYBOARD_RETURN_TYPE.GO,
+                }}
+                validate={[alphaNumeric, required]}
+              />
+            </KeyboardAwareScrollView>
+            <Button
+              title={localeString(LOCALE_STRING.USER_PROFILE.NEXT)}
+              titleStyle={styles.buttonTextStyle}
+              onPress={handleSubmit(this.handleFormSubmit)}
+              buttonStyle={styles.buttonStyle}
+              disabled={!isFormValuesFilled}
+              loading={
+                _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
+                _get(updateUserAddressResponse, DB_KEYS.IS_FETCHING, false)
+              }
+            />
+            {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
+              _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
+                <TouchableOpacity
+                  style={styles.completeLaterContainer}
+                  hitSlop={APP_CONSTANTS.HIT_SLOP}
+                  onPress={() => this.handleCompleteLater()}>
+                  <Text style={styles.completeLaterText}>
+                    {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
+                  </Text>
+                </TouchableOpacity>
+              )}
+          </View>
         </View>
-      </View>
-    );
+      );
   }
 }
 export const UserAddressForm = reduxForm({
@@ -556,6 +601,7 @@ const bindActions = dispatch => ({
   getUserInfo: () => dispatch(getUserInfo.fetchCall()),
   updateUserAddress: (payload, extraPayload) =>
     dispatch(updateUserAddress.fetchCall(payload, extraPayload)),
+  resetForm: formName => dispatch(reset(formName)),
 });
 
 export const UserAddress = connect(
