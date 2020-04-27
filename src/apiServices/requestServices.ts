@@ -120,7 +120,7 @@ export const patchRequest = (
   return new Promise(async (resolve, reject) => {
     const token = await getAuthToken();
     axios
-      .patch(getCompleteUrl(endPoint) + `/${qParams.id}`, params, {
+      .patch(getCompleteUrl(endPoint) + `/${_get(qParams, 'id', '')}`, params, {
         headers: getHeaders(token),
         params: qParams,
         timeout: apiConstants.TIMEOUT,

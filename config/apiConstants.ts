@@ -32,5 +32,6 @@ export default {
     PAYMENT_SCHEDULE_REMINDER: '/payment-schedule-reminder',
     PIN_AUTH: '/pin_auth',
     VERIFY_PIN: '/verify-pin',
+    NOTIFICATIONS: '/notifications',
   },
 };
