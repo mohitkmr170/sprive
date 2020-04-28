@@ -8,6 +8,7 @@
 
 export const PAYLOAD_KEYS: any = {
   USER_ID: 'user_id',
+  PUSH_NOTIFICATION_ID: 'push_notification_id',
   ID: 'id',
   EMAIL: 'email',
   OVERPAYMENT: {
