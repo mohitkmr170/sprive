@@ -73,7 +73,11 @@ export class UnconnectedNotifications extends React.Component<props, state> {
       .format('YYYY-MM-DD');
     const {getUserInfoResponse, getAllNotifications} = this.props;
     const qParam = {
-      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+        getUserInfoResponse,
+        DB_KEYS.PUSH_NOTIFICATION,
+        null,
+      ),
       [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
       [PAYLOAD_KEYS.NOTIFICATION.DISMISSED]: false,
     };
@@ -95,7 +99,11 @@ export class UnconnectedNotifications extends React.Component<props, state> {
       dismissed: true,
     };
     const qParams = {
-      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+        getUserInfoResponse,
+        DB_KEYS.PUSH_NOTIFICATION,
+        null,
+      ),
     };
     await dismissAllNotifications(payload, qParams);
     if (!_get(dismissAllNotificationsResponse, DB_KEYS.ERROR, true)) {
@@ -103,12 +111,12 @@ export class UnconnectedNotifications extends React.Component<props, state> {
         .subtract(48, 'days')
         .format('YYYY-MM-DD');
       const qParam = {
-        [PAYLOAD_KEYS.USER_ID]: _get(
+        [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
           getUserInfoResponse,
-          DB_KEYS.DATA_ID,
+          DB_KEYS.PUSH_NOTIFICATION,
           null,
         ),
-        'createdAt[$gt]': creationDate,
+        [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
         dismissed: false,
       };
       await getAllNotifications({}, qParam);
@@ -125,7 +133,11 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     } = this.props;
     this.setState({loading: true});
     const payload = {
-      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+        getUserInfoResponse,
+        DB_KEYS.PUSH_NOTIFICATION,
+        null,
+      ),
       dismissed: true,
     };
     const qParam = {
@@ -137,12 +149,12 @@ export class UnconnectedNotifications extends React.Component<props, state> {
         .subtract(48, 'days')
         .format('YYYY-MM-DD');
       const qParam = {
-        [PAYLOAD_KEYS.USER_ID]: _get(
+        [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
           getUserInfoResponse,
-          DB_KEYS.DATA_ID,
+          DB_KEYS.PUSH_NOTIFICATION,
           null,
         ),
-        'createdAt[$gt]': creationDate,
+        [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
         dismissed: false,
       };
       await getAllNotifications({}, qParam);
@@ -183,13 +195,20 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   };
 
   handleTargetRoute = (targetCategory: string, item: object) => {
+    const notificationData = JSON.parse(
+      _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_DATA, ''),
+    );
     switch (targetCategory) {
       case NOTIFICATION_CONSTANTS.SPRIVE_URL:
         this.handleNotification(
           /*
           NOTES : Actual target screen to be passed here!
           */
-          'privacy_policy',
+          _get(
+            notificationData,
+            DB_KEYS.NOTIFICATION_DATA.TARGET_SCREEN_NAME,
+            '',
+          ),
           _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_ID, ''),
         );
         break;
@@ -197,7 +216,9 @@ export class UnconnectedNotifications extends React.Component<props, state> {
         this.handleClear(
           _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_ID, ''),
         );
-        Linking.openURL(APP_KEYS.SPRIVE_WEB_URL);
+        Linking.openURL(
+          _get(notificationData, DB_KEYS.NOTIFICATION_DATA.TARGET_URL, ''),
+        );
         break;
       default:
         showSnackBar({}, APP_CONSTANTS.GENERAL_ERROR);
@@ -210,6 +231,9 @@ export class UnconnectedNotifications extends React.Component<props, state> {
 
   renderNotifications = (item: object) => {
     let notificationCategory = _get(item, SEARCH_ADDRESS.ITEM, null);
+    const notificationData = JSON.parse(
+      _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_DATA, ''),
+    );
     return (
       <TouchableOpacity
         onPress={() =>
@@ -232,10 +256,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
               ellipsizeMode="tail"
               numberOfLines={1}
               style={styles.titleText}>
-              {_get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_MESSAGE, '')}
+              {_get(notificationData, DB_KEYS.NOTIFICATION_DATA.TITLE, '')}
             </Text>
             <Text style={styles.typeText}>
-              {_get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_DATA, '')}
+              {_get(notificationData, DB_KEYS.NOTIFICATION_DATA.SUB_TITLE, '')}
             </Text>
           </View>
           <TouchableOpacity
