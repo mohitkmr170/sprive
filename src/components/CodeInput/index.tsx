@@ -18,6 +18,9 @@ import {
   showSnackBar,
 } from '../../utils';
 
+const CODE_LENGTH = 5,
+  KEYBOARD_REFOCUS_TIME = 1000;
+
 interface CodeInputProps {
   getCompleteCode: (params?: string) => void;
   verifyUserPinResponse: object;
@@ -41,7 +44,11 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
     setValue,
   });
   useEffect(() => {
-    if (prevCode && prevCode.length === 5 && value.length === 5) {
+    if (
+      prevCode &&
+      prevCode.length === CODE_LENGTH &&
+      value.length === CODE_LENGTH
+    ) {
       if (prevCode !== value && isSubmitted) {
         clearCodeInput();
         setIsSubmitted(false);
@@ -51,7 +58,7 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
         );
         setTimeout(() => {
           refTextInput.current.focus();
-        }, 1000);
+        }, KEYBOARD_REFOCUS_TIME);
       }
     }
   }, [isSubmitted]);
@@ -60,7 +67,7 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
       clearCodeInput();
       setTimeout(() => {
         refTextInput.current.focus();
-      }, 1000);
+      }, KEYBOARD_REFOCUS_TIME);
     }
   }, [_get(verifyUserPinResponse, DB_KEYS.ERROR, '')]);
   return (
