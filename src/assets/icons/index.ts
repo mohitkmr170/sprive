@@ -19,3 +19,4 @@ export const iPadLocks = require('../icons/padlocks.png');
 export const iViewArrow = require('../icons/view-arrow.png');
 export const iSpriveLogo = require('../icons/sprive_icon.png');
 export const iNotification_message = require('../icons/notification.png');
+export const iSolidCircle = require('../icons/blueCircle.png');
