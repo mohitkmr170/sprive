@@ -18,6 +18,7 @@ export const LOCAL_KEYS = {
   YEAR: 'year',
   PUSH_NOTIFICATION_ACCESS_GRANTED: 'granted',
   DATE_FORMAT_SLASH: 'DD/MM/YYYY',
+  TEXT: 'text',
 };
 export const NOTIFICATION_TYPES = {
   PRIVACY_POLICY: 'privacy_policy',

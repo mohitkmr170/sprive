@@ -68,13 +68,14 @@
     "secondListTwo": "Chip away without impacting your lifestyle",
     "buttonText": "Start saving with Sprive",
     "negativeInterest": "Interest cannot be negative",
-    "currentlySupports": "Sprive currently supports",
+    "currentlySupports": "Sprive supports repayment mortgages on your home",
     "residential": "Residential mortgages",
     "repayment": "Repayment mortgages",
     "continue": "Continue",
     "notYou": "Not you? ",
     "register": "Register interest ",
-    "readyForYou": "and we’ll let you know as soon as we’re ready for you"
+    "readyForYou": "and we’ll let you know as soon as we’re ready for you",
+    "noSupport": "We currently do not support:"
   },
   "validationMessages": {
     "required": "Required",
