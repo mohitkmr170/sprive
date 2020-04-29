@@ -3,6 +3,7 @@ import {View, Text, Image, StatusBar, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {
+  showSnackBar,
   localeString,
   STYLE_CONSTANTS,
   LOCALE_STRING,
@@ -83,6 +84,7 @@ export class IntroCarousel extends React.Component<props, state> {
     );
   };
   handleSignUpForFree = () => {
+    showSnackBar({}, localeString(LOCALE_STRING.LOGIN_SCREEN.THANKS_FOR_LOGIN));
     this.props.navigation.navigate(
       NAVIGATION_SCREEN_NAME.MORTGAGE_INPUT_SCREEN,
     );
@@ -104,9 +106,9 @@ export class IntroCarousel extends React.Component<props, state> {
             horizontal
             onTouchStart={() => this.setState({isTouchActive: true})}
             onTouchEnd={() => this.setState({isTouchActive: false})}
-            onMomentumScrollEnd={()=>{
-              if(this.state.isTouchActive) {
-                this.setState({isTouchActive: false})
+            onMomentumScrollEnd={() => {
+              if (this.state.isTouchActive) {
+                this.setState({isTouchActive: false});
               }
             }}
             autoplayTimeout={CAROUSEL_AUTO_SCROLL_INTERVAL}
