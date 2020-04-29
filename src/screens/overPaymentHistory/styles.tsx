@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     marginBottom: STYLE_CONSTANTS.margin.SMALLISH,
   },
   monthYearText: {
-    color: COLOR.VOILET,
+    color: COLOR.DARK_BLUE,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
