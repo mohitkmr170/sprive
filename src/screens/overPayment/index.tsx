@@ -262,7 +262,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                     </TouchableOpacity>
                   </View>
                   <Text style={styles.overPaymentOfText}>
-                    {currentRemainingBalance
+                    {Number(currentRemainingBalance)
                       ? `£${currentRemainingBalance} more to go`
                       : localeString(
                           LOCALE_STRING.OVER_PAYMENT_HISTORY.ON_TARCK,
@@ -275,31 +275,27 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                 />
               </View>
               <View style={styles.amountContainer}>
-                <View style={styles.leftContainer}>
-                  <AmountContainer
-                    title={localeString(
-                      LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
-                    )}
-                    monthlyTarget={ACCOUNT_BALANCE}
-                  />
-                </View>
-                <View style={styles.rightContainer}>
-                  <AmountContainer
-                    title={localeString(
-                      LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
-                    )}
-                    monthlyTarget={getNumberWithCommas(String(monthlyTarget))}
-                  />
-                </View>
+                {/* <AmountContainer
+                  title={localeString(
+                    LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
+                  )}
+                  monthlyTarget={ACCOUNT_BALANCE}
+                /> */}
+                <AmountContainer
+                  title={localeString(
+                    LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
+                  )}
+                  monthlyTarget={getNumberWithCommas(String(monthlyTarget))}
+                />
               </View>
-              <View style={styles.cardDetailsContainer}>
+              {/* <View style={styles.cardDetailsContainer}>
                 <CardDetails />
-              </View>
+              </View> */}
+            </View>
+            <View style={styles.button}>
               <Text style={styles.staticText}>
                 {localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.BASIC_INFO)}
               </Text>
-            </View>
-            <View style={styles.button}>
               <Button
                 title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.PAY_NOW)}
                 onPress={() => this.handlePayNow()}

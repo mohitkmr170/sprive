@@ -32,10 +32,11 @@ export const styles = StyleSheet.create({
   amountContainer: {
     marginTop: STYLE_CONSTANTS.margin.HUGISH,
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   cardDetailsContainer: {marginTop: STYLE_CONSTANTS.margin.LARGEST},
   leftContainer: {marginRight: STYLE_CONSTANTS.margin.SMALL, flex: 1},
-  rightContainer: {marginLeft: STYLE_CONSTANTS.margin.SMALL, flex: 1},
+  // rightContainer: {marginLeft: STYLE_CONSTANTS.margin.SMALL},
   overPaymentOfText: {
     color: COLOR.WHITE,
     opacity: 0.7,
@@ -71,7 +72,7 @@ export const styles = StyleSheet.create({
     //Font size to be added here
     color: COLOR.VOILET,
     opacity: 0.3,
-    marginTop: STYLE_CONSTANTS.margin.LARGEST,
+    marginVertical: STYLE_CONSTANTS.margin.LARGEST,
     marginHorizontal: STYLE_CONSTANTS.margin.SMALLISH,
   },
   cardMainContainer: {
@@ -129,13 +130,17 @@ export const styles = StyleSheet.create({
   amountCardContainer: {
     alignItems: 'center',
     paddingVertical: STYLE_CONSTANTS.padding.LARGER,
-    borderWidth: 1,
+    paddingHorizontal: STYLE_CONSTANTS.padding.HUGE,
     borderRadius: STYLE_CONSTANTS.padding.SMALL,
-    borderColor: COLOR.LIGHT_GRAY,
-    shadowColor: COLOR.BLACK_SHADOW_COLOR,
-    shadowOffset: {height: 3, width: 0},
-    shadowOpacity: 1,
-    shadowRadius: 1,
+    shadowColor: COLOR.SHADOW_COLOR_LATEST,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 10, // Reuired for Andorid
+    backgroundColor: COLOR.WHITE, // Compulsory to pass in view-having shadow
   },
   amountCardTitleText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
