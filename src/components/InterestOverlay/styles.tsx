@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     color: COLOR.PRIMARY,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
-    marginTop: STYLE_CONSTANTS.margin.SMALLER,
+    marginTop: STYLE_CONSTANTS.margin.HUMONGOUS,
     textAlign: 'center',
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     color: COLOR.PRIMARY,
   },
   listView: {
-    marginTop: STYLE_CONSTANTS.margin.HUGER,
+    marginTop: STYLE_CONSTANTS.margin.LARGER,
   },
   list: {
     marginBottom: STYLE_CONSTANTS.margin.SMALL,
@@ -66,9 +66,20 @@ export const styles = StyleSheet.create({
   },
   iconStyle: {alignSelf: 'center'},
   listText: {
-    alignSelf: 'center',
     color: COLOR.VOILET,
     opacity: 0.5,
-    paddingLeft: 8,
+    marginLeft: STYLE_CONSTANTS.margin.SMALLER,
+    fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    marginTop: STYLE_CONSTANTS.margin.SMALLEST,
+  },
+  noSupportText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
+    color: COLOR.VOILET,
+    opacity: 0.8,
+    marginTop: STYLE_CONSTANTS.margin.HUGISH,
   },
 });
