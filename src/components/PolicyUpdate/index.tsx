@@ -40,7 +40,7 @@ export class UnconnectedPolicyUpdate extends React.Component<props, state> {
   handleTermsAndCondition = () => {
     this.handleNotificationAction();
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.GENERIC_WEB_VIEW, {
-      webViewUri: WEB_VIEW_PARAMS.WEB_VIEW,
+      webViewUri: WEB_VIEW_PARAMS.WEB_VIEW_URI_TERMS,
       isPolicy: true,
     });
   };
