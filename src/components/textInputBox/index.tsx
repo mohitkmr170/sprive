@@ -61,6 +61,7 @@ export class TextInputBox extends React.Component<props, state> {
             <TouchableOpacity
               onPress={onIconPress}
               disabled={!(onIconPress && value)}
+              style={textInputBoxStyle.rightIconContainer}
               hitSlop={APP_CONSTANTS.HIT_SLOP}>
               {parameterText ? (
                 <Text style={textInputBoxStyle.parameterText}>

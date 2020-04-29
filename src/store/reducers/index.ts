@@ -7,3 +7,4 @@ export * from './userGoal';
 export * from './miscellaneous';
 export * from './pendingTask';
 export * from './getAddress';
+export * from './notification';

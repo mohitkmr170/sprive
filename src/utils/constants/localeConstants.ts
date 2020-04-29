@@ -287,6 +287,9 @@ export const LOCALE_STRING = {
     NO_ADDRESS_FOUND: 'userProfile.noAddressFound',
     DONE: 'userProfile.done',
     EDIT: 'userProfile.edit',
+    QUESTION: 'userProfile.questionText',
+    GUESS: 'userProfile.guessText',
+    VALUATION_LABEL: 'userProfile.valuationLabel',
   },
   MY_PROGRESS_AND_PAYMENTS: {
     MY_PAYMENTS: 'myProgressAndPayment.myPayments',
@@ -348,5 +351,10 @@ export const LOCALE_STRING = {
     FACE_NOT_AVAILABLE: 'secureLogin.faceNotAvailable',
     GENERAL_FACE_ID_ERROR: 'secureLogin.generalFaceIdError',
     ENTER_PIN: 'secureLogin.enterPin',
+  },
+  NOTIFICATION: {
+    NOTIFICATION: 'notification.notification',
+    DISMISS_ALL: 'notification.dismissAll',
+    NO_NOTIFICATION: 'notification.noNotification',
   },
 };

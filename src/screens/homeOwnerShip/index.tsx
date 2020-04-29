@@ -95,8 +95,10 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
         [PAYLOAD_KEYS.USER_ID]: userId,
       };
       await getUserMortgageData({}, qParamsInfo);
+      this.setState({loading: false});
+    } else {
+      this.setState({loading: false});
     }
-    this.setState({loading: false});
   };
 
   handleDonePressed = () => {

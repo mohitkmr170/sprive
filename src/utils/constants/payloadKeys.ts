@@ -8,6 +8,7 @@
 
 export const PAYLOAD_KEYS: any = {
   USER_ID: 'user_id',
+  PUSH_NOTIFICATION_ID: 'push_notification_id',
   ID: 'id',
   EMAIL: 'email',
   OVERPAYMENT: {
@@ -74,5 +75,10 @@ export const PAYLOAD_KEYS: any = {
     IS_PIN_ENABLED: 'is_pin_enabled',
     IS_FACE_ID_ENABLED: 'is_face_id_enabled',
     PIN: 'pin',
+  },
+  NOTIFICATION: {
+    LIMIT: '$limit',
+    DISMISSED: 'dismissed',
+    CREATION_DATE: 'createdAt[$gt]',
   },
 };
