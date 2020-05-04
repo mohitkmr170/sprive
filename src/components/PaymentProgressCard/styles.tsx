@@ -26,14 +26,13 @@ export const styles = StyleSheet.create({
   },
   PaginationContainerStyle: {
     justifyContent: 'center',
-    bottom: 0,
+    bottom: -(2 * STYLE_CONSTANTS.padding.NORMAL),
   },
   swiperCardContainer: {
+    flex: 1,
     backgroundColor: COLOR.WHITE,
     paddingVertical: STYLE_CONSTANTS.padding.HUGISH,
     borderRadius: 12,
-    height:
-      10 * STYLE_CONSTANTS.margin.HUMONGOUS - STYLE_CONSTANTS.margin.LARGEST,
   },
   swiperContainer: {
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
@@ -41,7 +40,8 @@ export const styles = StyleSheet.create({
     shadowOffset: {height: 0, width: 3},
     shadowOpacity: 1,
     shadowRadius: 20,
-    elevation: 100,
+    elevation: 10,
+    backgroundColor: COLOR.WHITE,
     borderRadius: 12,
     marginTop: STYLE_CONSTANTS.margin.HUMONGOUS,
   },

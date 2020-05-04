@@ -70,19 +70,32 @@ export function getErcBreach(
     rateCalc(numberPayments, monthlyPayment, -outstandingLoan) * 12;
 
   //Calculate the period which might trigger an ERC breach - ***add a buffer of 1 year in the UI***
-  var ercCalcM = monthlyOverpaymentCalc.calculatePayments(
+  let ercCalcM_erc_based = monthlyOverpaymentCalc.calculatePayments(
     outstandingLoan,
     outstandingTermYrs,
     interestRate * 100,
     maxMonthlyOverpayment,
   );
-  var minErcYrsM = ercCalcM.monthlypayments
+  let ercCalcM_monthly_payment_based = monthlyOverpaymentCalc.calculatePayments(
+    outstandingLoan,
+    outstandingTermYrs,
+    interestRate * 100,
+    monthlyPayment,
+  );
+  let minErcYrsM_erc_based = ercCalcM_erc_based.monthlypayments
+    .filter(z => z.balance === 0)
+    .reduce((x, y) => (x.year < y.year || x.month < y.month ? x : y));
+  let minErcYrsM_monthly_payment_based = ercCalcM_monthly_payment_based.monthlypayments
     .filter(z => z.balance === 0)
     .reduce((x, y) => (x.year < y.year || x.month < y.month ? x : y));
   console.log(
-    'Min years before risk of triggering ERC: %s years %s months',
-    minErcYrsM.year,
-    minErcYrsM.month,
+    'Min years before risk of triggering ERC: %s years, %s year',
+    minErcYrsM_erc_based.year,
+    minErcYrsM_monthly_payment_based.year,
+    minErcYrsM_monthly_payment_based.month,
   );
-  return minErcYrsM;
+  return Math.max(
+    minErcYrsM_erc_based.year,
+    minErcYrsM_monthly_payment_based.year,
+  );
 }

@@ -2,6 +2,14 @@ import {Dimensions, StyleSheet} from 'react-native';
 import {verticalScale} from 'react-native-size-matters/extend';
 
 export const STYLE_CONSTANTS = {
+  animations: {
+    TYPE: {
+      FADE_ID: 'fadeIn',
+    },
+    DURATION: {
+      NORMAL: 300,
+    },
+  },
   device: {
     SCREEN_HEIGHT: Dimensions.get('screen').height,
     SCREEN_WIDTH: Dimensions.get('screen').width,

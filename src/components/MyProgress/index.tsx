@@ -31,6 +31,7 @@ const PERCENTAGE_RANGE_VALUES = {
   END_VAL: 'endVal',
   PERCENTAGE: 'percentage',
 };
+const PROGRESS_BAR_HEIGHT = 10;
 interface props {
   navigation: {
     navigate: (routeName: string, params?: object) => void;
@@ -132,7 +133,7 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
       : null;
   };
   getNativeEvent = (width: object) => {
-    ltvProgressBarPosition = _get(width, 'width', 0);
+    ltvProgressBarPosition = _get(width, NATIVE_EVENTS.WIDTH, 0);
     if (!this.state.progressWidth) {
       this.setState({progressWidth: _get(width, NATIVE_EVENTS.WIDTH, 0)});
     } else return;
@@ -153,8 +154,8 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
       STYLE_CONSTANTS.padding.ABOVE_SMALLEST;
     return (
       <Animatable.View
-        animation="fadeIn"
-        duration={300}
+        animation={STYLE_CONSTANTS.animations.TYPE.FADE_ID}
+        duration={STYLE_CONSTANTS.animations.DURATION.NORMAL}
         style={styles.mainContainer}>
         <Text style={styles.myProgressText}>
           {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.MY_PRGRESS)}
@@ -211,14 +212,104 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
             </Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.middleContainer}>
+          {isMortgageSelected ? (
+            <TargetStepIndicator />
+          ) : (
+            <Animatable.View
+              animation={STYLE_CONSTANTS.animations.TYPE.FADE_ID}
+              duration={STYLE_CONSTANTS.animations.DURATION.NORMAL}>
+              <Text style={styles.currentLtvText}>
+                {localeString(
+                  LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.CURRENT_LTV,
+                )}
+              </Text>
+              <View style={styles.progressBarContainer}>
+                <Text style={styles.percentageText}>
+                  {_get(
+                    getLtvRangeAndPercentage(CURRENT_LTV),
+                    PERCENTAGE_RANGE_VALUES.END_VAL,
+                    '',
+                  )}
+                </Text>
+                <View
+                  style={styles.progressContainer}
+                  onLayout={event =>
+                    this.getNativeEvent(event.nativeEvent.layout)
+                  }>
+                  <View
+                    style={[
+                      {
+                        right: toolTipPosition,
+                      },
+                      styles.toolTipTopContainer,
+                    ]}>
+                    <Text style={styles.toolTipText}>{CURRENT_LTV}%</Text>
+                  </View>
+                  <View
+                    style={[
+                      {
+                        right: toolTipBasePosition,
+                      },
+                      styles.toolTipBottomContainer,
+                    ]}
+                  />
+                  {/*
+                  NOTES : Progress takes 1 as 100%, hence below is calculated as per this factor
+                  */}
+                  <Progress.Bar
+                    progress={
+                      1 -
+                      _get(
+                        getLtvRangeAndPercentage(CURRENT_LTV),
+                        PERCENTAGE_RANGE_VALUES.PERCENTAGE,
+                        0,
+                      )
+                    }
+                    color={COLOR.DARKEST_YELLOW}
+                    height={PROGRESS_BAR_HEIGHT}
+                    width={null}
+                    borderRadius={PROGRESS_BAR_HEIGHT / 2}
+                    unfilledColor={COLOR.LIGHTEST_YELLOW}
+                    borderWidth={0}
+                  />
+                </View>
+                <Text style={styles.percentageText}>
+                  {_get(
+                    getLtvRangeAndPercentage(CURRENT_LTV),
+                    PERCENTAGE_RANGE_VALUES.START_VAL,
+                    '',
+                  )}
+                </Text>
+              </View>
+              <Text style={styles.unlockbetterDealsText}>
+                {localeString(
+                  LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.UNLOCK_DEALS,
+                  {
+                    ltv: _get(
+                      getLtvRangeAndPercentage(CURRENT_LTV),
+                      PERCENTAGE_RANGE_VALUES.START_VAL,
+                      '',
+                    ),
+                  },
+                )}
+              </Text>
+            </Animatable.View>
+          )}
+          <View>
+            <ProjectedDataContainer />
+          </View>
+        </View>
         {isCheaperDealSelected &&
           !Object.keys(_get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, {}))
             .length && (
             <TouchableOpacity
-              activeOpacity={0.8}
+              activeOpacity={0.8} // Opacity reduced to 80% on touchable_opacity being active/tap
               onPress={() => this.hanldeCompleteYourProfileClick()}
               style={styles.blockedViewContainer}>
-              <Animatable.View style={{flex: 1}} animation="fadeIn">
+              <Animatable.View
+                style={styles.linearGradientContainer}
+                animation={STYLE_CONSTANTS.animations.TYPE.FADE_ID}>
                 <LinearGradient
                   colors={BLOCK_GRADIENT}
                   style={styles.blockedInnerContainer}>
@@ -233,85 +324,6 @@ export class UnconnectedMyProgress extends React.Component<props, state> {
               </Animatable.View>
             </TouchableOpacity>
           )}
-        {isMortgageSelected ? (
-          <TargetStepIndicator />
-        ) : (
-          <Animatable.View animation="fadeIn" duration={300}>
-            <Text style={styles.currentLtvText}>
-              {localeString(LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.CURRENT_LTV)}
-            </Text>
-            <View style={styles.progressBarContainer}>
-              <Text style={styles.percentageText}>
-                {_get(
-                  getLtvRangeAndPercentage(CURRENT_LTV),
-                  PERCENTAGE_RANGE_VALUES.END_VAL,
-                  '',
-                )}
-              </Text>
-              <View
-                style={styles.progressContainer}
-                onLayout={event =>
-                  this.getNativeEvent(event.nativeEvent.layout)
-                }>
-                <View
-                  style={[
-                    {
-                      right: toolTipPosition,
-                    },
-                    styles.toolTipTopContainer,
-                  ]}>
-                  <Text style={styles.toolTipText}>{CURRENT_LTV}%</Text>
-                </View>
-                <View
-                  style={[
-                    {
-                      right: toolTipBasePosition,
-                    },
-                    styles.toolTipBottomContainer,
-                  ]}
-                />
-                <Progress.Bar
-                  progress={
-                    1 -
-                    _get(
-                      getLtvRangeAndPercentage(CURRENT_LTV),
-                      PERCENTAGE_RANGE_VALUES.PERCENTAGE,
-                      0,
-                    )
-                  }
-                  color={COLOR.DARKEST_YELLOW}
-                  height={10}
-                  width={null}
-                  borderRadius={5}
-                  unfilledColor={COLOR.LIGHTEST_YELLOW}
-                  borderWidth={0}
-                />
-              </View>
-              <Text style={styles.percentageText}>
-                {_get(
-                  getLtvRangeAndPercentage(CURRENT_LTV),
-                  PERCENTAGE_RANGE_VALUES.START_VAL,
-                  '',
-                )}
-              </Text>
-            </View>
-            <Text style={styles.unlockbetterDealsText}>
-              {localeString(
-                LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.UNLOCK_DEALS,
-                {
-                  ltv: _get(
-                    getLtvRangeAndPercentage(CURRENT_LTV),
-                    PERCENTAGE_RANGE_VALUES.START_VAL,
-                    '',
-                  ),
-                },
-              )}
-            </Text>
-          </Animatable.View>
-        )}
-        <View>
-          <ProjectedDataContainer />
-        </View>
       </Animatable.View>
     );
   }

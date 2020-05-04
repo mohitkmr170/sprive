@@ -57,6 +57,8 @@ export const numeric = (value: any) => {
   const withoutCommas = value.replace(/,/g, '');
   if (Number(withoutCommas) === 0)
     return localeString(LOCALE_STRING.VALIDATIONS.POSITIVE_NUMBER);
+  else if (withoutCommas && withoutCommas.includes('.'))
+    return localeString(LOCALE_STRING.VALIDATIONS.DECIMAL_VALIDATION);
   else
     return withoutCommas && REGEX.NUMERIC.test(withoutCommas)
       ? localeString(LOCALE_STRING.VALIDATIONS.POSITIVE_NUMBER)

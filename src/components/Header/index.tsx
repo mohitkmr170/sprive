@@ -2,7 +2,12 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {styles} from './styles';
 import {iBack} from '../../assets';
-import {APP_CONSTANTS, STYLE_CONSTANTS} from '../../utils';
+import {
+  localeString,
+  LOCALE_STRING,
+  APP_CONSTANTS,
+  STYLE_CONSTANTS,
+} from '../../utils';
 interface props {
   title: String;
   rightIconPresent: boolean;
@@ -29,34 +34,44 @@ export class Header extends React.Component<props, state> {
     return (
       <View style={styles.mainContainer}>
         {leftIconPresent ? (
-          <TouchableOpacity
-            onPress={this.props.onBackPress}
-            hitSlop={APP_CONSTANTS.HIT_SLOP}
-            style={styles.touchable}>
-            {/* .svg not working for SvgUri, UI specs to be inspected */}
-            <Image
-              source={iBack}
-              height={STYLE_CONSTANTS.margin.LARGER}
-              width={STYLE_CONSTANTS.margin.LARGER}
-            />
-          </TouchableOpacity>
+          <View
+            style={{
+              width: STYLE_CONSTANTS.margin.HUMONGOUS,
+              height: STYLE_CONSTANTS.margin.HUMONGOUS,
+            }}>
+            <TouchableOpacity
+              onPress={this.props.onBackPress}
+              hitSlop={APP_CONSTANTS.HIT_SLOP}
+              style={styles.touchable}>
+              {/* .svg not working for SvgUri, UI specs to be inspected */}
+              <Image
+                source={iBack}
+                height={STYLE_CONSTANTS.margin.LARGER}
+                width={STYLE_CONSTANTS.margin.LARGER}
+              />
+            </TouchableOpacity>
+          </View>
         ) : (
           <View style={styles.emptyLeftContainer} />
         )}
         {rightIconPresent && (
-          <Text
-            style={[
-              styles.middleContainer,
-              {
-                paddingLeft: leftIconPresent
-                  ? 0
-                  : STYLE_CONSTANTS.margin.LARGER,
-              },
-            ]}>
-            {this.props.title}
-          </Text>
+          <View style={styles.middleTextContainer}>
+            <Text
+              style={[
+                styles.middleContainer,
+                {
+                  paddingLeft:
+                    this.props.title ===
+                    localeString(LOCALE_STRING.HOME_OWNERSHIP.MY_HOME)
+                      ? STYLE_CONSTANTS.margin.LARGER
+                      : 0,
+                },
+              ]}>
+              {this.props.title}
+            </Text>
+          </View>
         )}
-        {rightIconPresent && (
+        {rightIconPresent && iconName ? (
           <TouchableOpacity
             onPress={() => navigation.navigate(iconPath)}
             style={iconStyle}>
@@ -66,6 +81,13 @@ export class Header extends React.Component<props, state> {
               width={STYLE_CONSTANTS.margin.HUMONGOUS}
             />
           </TouchableOpacity>
+        ) : (
+          <View
+            style={{
+              width: STYLE_CONSTANTS.margin.HUMONGOUS,
+              height: STYLE_CONSTANTS.margin.HUMONGOUS,
+            }}
+          />
         )}
       </View>
     );

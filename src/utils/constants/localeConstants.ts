@@ -89,6 +89,7 @@ export const LOCALE_STRING = {
     MINIMUM_REQ_AGE: 'validationMessages.minimumRequiredAge',
     WEAK_PASSWORD: 'validationMessages.weakPassword',
     MAX_AGE_LIMIT: 'validationMessages.maxAgeLimit',
+    DECIMAL_VALIDATION: 'validationMessages.decimals',
   },
   SET_GOAL_SCREEN: {
     TITLE: 'setGoalScreen.title',
@@ -297,6 +298,7 @@ export const LOCALE_STRING = {
     COMPLETE_YOUR_PROFILE: 'myProgressAndPayment.completeYourprofile',
     CURRENT_LTV: 'myProgressAndPayment.currentLtv',
     UNLOCK_DEALS: 'myProgressAndPayment.unlockBetterDeals',
+    ON_TRACK: 'myProgressAndPayment.onTrack',
   },
   HOME_OWNERSHIP: {
     HOME_OWNERSHIP: 'homeOwnership.homeOwnerShip',
@@ -346,5 +348,6 @@ export const LOCALE_STRING = {
     FACE_NOT_AVAILABLE: 'secureLogin.faceNotAvailable',
     GENERAL_FACE_ID_ERROR: 'secureLogin.generalFaceIdError',
     ENTER_PIN: 'secureLogin.enterPin',
+    PIN_SUCCESS: 'secureLogin.pinSuccess',
   },
 };

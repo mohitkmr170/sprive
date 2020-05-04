@@ -5,7 +5,10 @@ export const styles = StyleSheet.create({
   mainContainer: {
     paddingHorizontal: STYLE_CONSTANTS.padding.BELOW_NORMAL,
     flex: 1,
-    justifyContent: 'space-around',
+  },
+  middleContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
   myProgressText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
@@ -26,6 +29,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  pointerImageContainer: {zIndex: 999},
+  linearGradientContainer: {flex: 1},
   completeYourProfileText: {
     color: COLOR.PRIMARY,
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
@@ -85,7 +90,9 @@ export const styles = StyleSheet.create({
   mainContainerStepIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: STYLE_CONSTANTS.margin.EXTRA_HUMUNGOUS,
+    marginTop: 2 * STYLE_CONSTANTS.margin.HUGE,
+    paddingBottom: STYLE_CONSTANTS.padding.HUGISH,
+    paddingTop: STYLE_CONSTANTS.padding.SMALLEST,
   },
   trackStyle: {
     flex: 1,
@@ -150,19 +157,23 @@ export const styles = StyleSheet.create({
   },
   commonPointIconContainer: {
     position: 'absolute',
-    bottom: -STYLE_CONSTANTS.margin.SMALLER,
+    bottom:
+      -STYLE_CONSTANTS.margin.SMALLER - STYLE_CONSTANTS.margin.SMALLER / 8,
     height: STYLE_CONSTANTS.margin.LARGEST,
     width: STYLE_CONSTANTS.margin.LARGEST,
     backgroundColor: COLOR.WHITE,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 999,
   },
   targetTooltip: {
     position: 'absolute',
-    top: STYLE_CONSTANTS.margin.LARGEST,
-    left: STYLE_CONSTANTS.padding.ABOVE_SMALLEST,
+    top: STYLE_CONSTANTS.margin.LARGEST - STYLE_CONSTANTS.padding.SMALLEST / 2,
+    left:
+      STYLE_CONSTANTS.padding.ABOVE_SMALLEST -
+      STYLE_CONSTANTS.padding.SMALLEST / 6,
     flexDirection: 'row',
-    height: STYLE_CONSTANTS.margin.HUGER,
+    height: STYLE_CONSTANTS.margin.HUMONGOUS,
     width: STYLE_CONSTANTS.margin.SMALLEST / 2,
     backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
   },
@@ -175,17 +186,21 @@ export const styles = StyleSheet.create({
   },
   onTrackTrackLine: {
     position: 'absolute',
-    top: STYLE_CONSTANTS.margin.SMALLER,
     flexDirection: 'row',
-    height: STYLE_CONSTANTS.margin.HUGER,
+    top: 0,
+    height: STYLE_CONSTANTS.margin.HUMONGOUS,
     width: STYLE_CONSTANTS.margin.SMALLEST / 2,
     backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
   },
   onTrackView: {
+    justifyContent: 'center',
     backgroundColor: COLOR.SLIGHT_BLUE_WHITEL,
     marginTop: STYLE_CONSTANTS.margin.LARGER,
-    paddingHorizontal: STYLE_CONSTANTS.padding.HUGISH,
-    paddingVertical: STYLE_CONSTANTS.padding.SMALLER,
+    paddingHorizontal:
+      STYLE_CONSTANTS.padding.HUGISH + STYLE_CONSTANTS.padding.LARGEST,
+    alignItems: 'center',
+    paddingVertical:
+      STYLE_CONSTANTS.padding.SMALLER + STYLE_CONSTANTS.padding.SMALLER,
     borderRadius: 8,
   },
   targetDateStyle: {
@@ -195,7 +210,14 @@ export const styles = StyleSheet.create({
     color: COLOR.LIGHT_TEXT_GREEN,
     textAlign: 'center',
   },
-  pointerStyle: {},
+  targetDateStyles: {
+    position: 'absolute',
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,
+    color: COLOR.LIGHT_TEXT_GREEN,
+    textAlign: 'center',
+  },
   toolTipTopContainer: {
     position: 'absolute',
     bottom: STYLE_CONSTANTS.margin.HUGISH,

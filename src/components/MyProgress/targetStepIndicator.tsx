@@ -122,15 +122,18 @@ export class UnconnectedTargetStepIndicator extends React.Component<
     */
     let projectedMonth =
       APP_CONSTANTS.MONTH_NAMES[
-        Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month() - 1
-      ];
-    let targetMonth =
-      APP_CONSTANTS.MONTH_NAMES[
         _get(
           getProjectedDataResponse,
           DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
           null,
         ) - 1
+      ];
+    /*
+    NOTES : Below calculations is for different edge cases of time-line view
+    */
+    let targetMonth =
+      APP_CONSTANTS.MONTH_NAMES[
+        Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month() - 1
       ];
     const isTargetPositionLeft =
       (this.state.targetYearPosition - STYLE_CONSTANTS.padding.BELOW_NORMAL) /
@@ -162,7 +165,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
         </View>
         <View style={styles.trackStyle}>
           {/* Target */}
-          {targetYear !== projectedYear && endYear !== targetYear && (
+          {targetYear !== projectedYear && (
             <View
               style={[
                 styles.targetContainer,
@@ -172,7 +175,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               ]}>
               <Image
                 source={iPointer}
-                style={styles.pointerStyle}
+                style={styles.pointerImageContainer}
                 resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
               />
               <View style={styles.targetTooltip} />
@@ -265,7 +268,11 @@ export class UnconnectedTargetStepIndicator extends React.Component<
           {targetYear === projectedYear && (
             <View
               style={[
-                {left: this.state.projectedYearPosition},
+                {
+                  left:
+                    this.state.projectedYearPosition -
+                    STYLE_CONSTANTS.padding.SMALLEST,
+                },
                 styles.commonPointIconContainer,
               ]}>
               <Icon
@@ -282,36 +289,38 @@ export class UnconnectedTargetStepIndicator extends React.Component<
                   {
                     left:
                       this.state.projectedYearPosition +
-                      STYLE_CONSTANTS.margin.SMALLER,
+                      STYLE_CONSTANTS.padding.SMALLEST,
                   },
                   styles.onTrackTrackLine,
                 ]}
               />
-              <Text
-                style={[
-                  styles.targetDateStyle,
-                  styles.onTrackText,
-                  {
-                    left:
-                      this.state.projectedYearPosition -
-                      STYLE_CONSTANTS.margin.HUMONGOUS,
-                  },
-                  styles.onTrackView,
-                ]}>
-                On track
-              </Text>
+              <View
+                style={{
+                  right: isProjectedPositionRight
+                    ? STYLE_CONSTANTS.margin.HUMONGOUS
+                    : STYLE_CONSTANTS.margin.SMALLEST,
+                }}>
+                <View
+                  style={[
+                    styles.onTrackView,
+                    styles.onTrackText,
+                    {
+                      left:
+                        this.state.projectedYearPosition -
+                        STYLE_CONSTANTS.margin.HUMONGOUS,
+                    },
+                  ]}>
+                  <Text style={[styles.targetDateStyles]}>
+                    {localeString(
+                      LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.ON_TRACK,
+                    )}
+                  </Text>
+                </View>
+              </View>
             </View>
           )}
         </View>
-        {endYear !== targetYear ? (
-          <View style={styles.circularView} />
-        ) : (
-          <Icon
-            name="check-circle"
-            size={STYLE_CONSTANTS.margin.LARGEST}
-            color={COLOR.CARIBBEAN_GREEN}
-          />
-        )}
+        <View style={styles.circularView} />
         <View style={styles.endPointContainer}>
           <Text style={styles.startDate}>{this.state.endYear}</Text>
         </View>

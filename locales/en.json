@@ -95,7 +95,8 @@
     "invalidDob": "Invalid Date of Birth",
     "minimumRequiredAge": "Minimum age required is 18",
     "weakPassword": "Password too weak",
-    "maxAgeLimit": "Age cannot be greater than 120"
+    "maxAgeLimit": "Age cannot be greater than 120",
+    "decimals": "Please enter a value to the nearest whole number"
   },
   "setGoalScreen": {
     "title": "Set Goal",
@@ -303,7 +304,8 @@
     "projected": "Projected",
     "completeYourprofile": "Complete your profile",
     "currentLtv": "Loan-to-Value (LTV)",
-    "unlockBetterDeals": "Unlock cheaper deals at {{ltv}} the next time you remortgage"
+    "unlockBetterDeals": "Unlock cheaper deals at {{ltv}} the next time you remortgage",
+    "onTrack": "On track"
   },
   "homeOwnership": {
     "homeOwnerShip": "Home Ownership",
@@ -348,12 +350,13 @@
     "verifyHeader": "Please confirm your PIN",
     "verifyInfo": "Please type in your PIN to verify",
     "doYouWantToEnableFaceId": "Do you want to enable Face-ID?",
-    "pinNotMatched": "Pin did not match",
+    "pinNotMatched": "PIN did not match",
     "faceIdNotEnrolled": "Face ID not enrolled, please enroll it from settings",
     "verifyPinHeader": "Hello! Please enter your PIN",
     "faceNotEnrolled": "Face ID not enrolled",
     "faceNotAvailable": "Face ID not available",
     "generalFaceIdError": "Something went wrong with FaceID",
-    "enterPin": "Enter PIN"
+    "enterPin": "Enter PIN",
+    "pinSuccess": "PIN created successfully"
   }
 }
