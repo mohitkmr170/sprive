@@ -274,20 +274,20 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                   onDecrementPress={() => this.handleDecPress()}
                 />
               </View>
-              <View style={styles.amountContainer}>
-                {/* <AmountContainer
+              {/* <View style={styles.amountContainer}>
+                <AmountContainer
                   title={localeString(
                     LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
                   )}
                   monthlyTarget={ACCOUNT_BALANCE}
-                /> */}
+                />
                 <AmountContainer
                   title={localeString(
                     LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
                   )}
                   monthlyTarget={getNumberWithCommas(String(monthlyTarget))}
                 />
-              </View>
+              </View> */}
               {/* <View style={styles.cardDetailsContainer}>
                 <CardDetails />
               </View> */}
