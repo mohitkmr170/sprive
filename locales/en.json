@@ -307,7 +307,8 @@
     "projected": "Projected",
     "completeYourprofile": "Complete your profile",
     "currentLtv": "Loan-to-Value (LTV)",
-    "unlockBetterDeals": "Unlock cheaper deals at {{ltv}} the next time you remortgage"
+    "unlockBetterDeals": "Unlock cheaper deals at {{ltv}} the next time you remortgage",
+    "onTrack": "On track"
   },
   "homeOwnership": {
     "homeOwnerShip": "Home Ownership",
@@ -364,5 +365,7 @@
     "notification": "Notifications",
     "dismissAll": "Dismiss All",
     "noNotification": "No active notification"
+    "enterPin": "Enter PIN",
+    "pinSuccess": "PIN created successfully"
   }
 }

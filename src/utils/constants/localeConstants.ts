@@ -301,6 +301,7 @@ export const LOCALE_STRING = {
     COMPLETE_YOUR_PROFILE: 'myProgressAndPayment.completeYourprofile',
     CURRENT_LTV: 'myProgressAndPayment.currentLtv',
     UNLOCK_DEALS: 'myProgressAndPayment.unlockBetterDeals',
+    ON_TRACK: 'myProgressAndPayment.onTrack',
   },
   HOME_OWNERSHIP: {
     HOME_OWNERSHIP: 'homeOwnership.homeOwnerShip',
@@ -350,6 +351,7 @@ export const LOCALE_STRING = {
     FACE_NOT_AVAILABLE: 'secureLogin.faceNotAvailable',
     GENERAL_FACE_ID_ERROR: 'secureLogin.generalFaceIdError',
     ENTER_PIN: 'secureLogin.enterPin',
+    PIN_SUCCESS: 'secureLogin.pinSuccess',
   },
   NOTIFICATION: {
     NOTIFICATION: 'notification.notification',
