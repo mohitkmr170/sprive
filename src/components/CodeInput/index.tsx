@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Keyboard, Alert} from 'react-native';
+import {View, Keyboard, Platform} from 'react-native';
 import KeyboardManager from 'react-native-keyboard-manager';
 import {
   CodeField,
@@ -28,7 +28,9 @@ interface CodeInputProps {
 }
 
 export const CodeInput = (codeInputProps: CodeInputProps) => {
-  KeyboardManager.setEnableAutoToolbar(false);
+  if (Platform.OS === 'ios') {
+    KeyboardManager.setEnableAutoToolbar(false);
+  }
   const refTextInput = useRef(null);
   const {verifyUserPinResponse, prevCode} = codeInputProps;
   const clearCodeInput = () => {
