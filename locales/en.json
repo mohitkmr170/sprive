@@ -128,7 +128,7 @@
   "dashBoard": {
     "thisMonth": "My Target",
     "overPaymentTarget": "Your overpayment target",
-    "paymentReminder": "Next payment reminder due on {{month}} 25th",
+    "paymentReminder": "Next payment reminder due on {{month}} {{date}}",
     "amountLeft": "Amount Left:",
     "income": "Income",
     "spent": "Spent",

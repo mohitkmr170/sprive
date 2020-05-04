@@ -49,6 +49,8 @@ export const DB_KEYS = {
   SIGNUP_PASSWORD: 'signup.values.password',
   SUCCESS: 'Success',
   VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
+  UPCOMING_PAYMENT_REMINDER_DATE:
+    'response.data.upcoming_payment_reminder_date',
   ADDRESS_RESPONSE: 'response.data.address',
   USER_ADDRESS_ID: 'response.data.address.id',
   LTV: 'response.data[0].ltv',

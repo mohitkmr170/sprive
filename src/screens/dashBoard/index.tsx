@@ -368,8 +368,21 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     } else this.setState({isPendingTaskVisible: true});
   };
 
+  getNthDateSuffix = (date: number) => {
+    if (date > 3 && date < 21) return 'th';
+    switch (date % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  };
+
   render() {
-    console.log('Inside Dashboard Render');
     const {
       getMonthlyPaymentRecordResponse,
       getProjectedDataResponse,
@@ -380,6 +393,24 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getPendingTaskResponse,
       getAllNotificationsResponse,
     } = this.props;
+    const upcomingPaymentDate = Moment(
+      _get(
+        getProjectedDataResponse,
+        DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
+        '',
+      ),
+    ).date();
+    const upcomingPaymentMonth =
+      APP_CONSTANTS.MONTH_NAMES[
+        Moment(
+          _get(
+            getProjectedDataResponse,
+            DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
+            '',
+          ),
+        ).month()
+      ];
+    console.log('Inside Dashboard Render');
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
       DB_KEYS.BALANCE_AMOUNT,
@@ -496,7 +527,12 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                     ? `Stay on track. £${balanceAmountWithCommas} to go!`
                     : localeString(
                         LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
-                        {month: APP_CONSTANTS.MONTH_NAMES[CURRENT_MONTH]},
+                        {
+                          month: upcomingPaymentMonth,
+                          date:
+                            upcomingPaymentDate +
+                            this.getNthDateSuffix(upcomingPaymentDate),
+                        },
                       )}
                 </Text>
               )}
