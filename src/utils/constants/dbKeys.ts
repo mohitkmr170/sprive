@@ -102,6 +102,7 @@ export const DB_KEYS = {
     IS_VERIFIED: 'data.is_verified',
     IS_BLOCKED: 'data.is_blocked',
     DATA_OF_IS_VERIFIED: 'response.data.is_verified',
+    DATA_OF_IS_BLOCKED: 'response.data.is_blocked',
     GET_USERO_INFO_ISBLOCKED: 'getUserInfo.response.data.is_blocked',
   },
   FORGOT_PASSWORD_EMAIL: 'forgotPassword.values.email',
