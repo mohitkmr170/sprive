@@ -348,6 +348,6 @@ export const LOCALE_STRING = {
     FACE_NOT_AVAILABLE: 'secureLogin.faceNotAvailable',
     GENERAL_FACE_ID_ERROR: 'secureLogin.generalFaceIdError',
     ENTER_PIN: 'secureLogin.enterPin',
-    PIN_SUCCESS: 'ssecureLogin.pinSuccess',
+    PIN_SUCCESS: 'secureLogin.pinSuccess',
   },
 };
