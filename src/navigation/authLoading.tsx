@@ -280,18 +280,13 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
     };
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
-    const creationDate = Moment()
-      .subtract(48, 'days')
-      .format('YYYY-MM-DD');
     const qParam = {
       [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
         getUserInfoResponses,
         DB_KEYS.PUSH_NOTIFICATION,
         null,
       ),
-      [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
       [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
-      dismissed: false,
     };
     await getAllNotifications({}, qParam);
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {

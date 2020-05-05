@@ -183,9 +183,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     };
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
-    const creationDate = Moment()
-      .subtract(48, 'days')
-      .format('YYYY-MM-DD');
     const qParamNotification = {
       [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
         getUserInfoResponse,
@@ -193,8 +190,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         null,
       ),
       [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
-      [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
-      [PAYLOAD_KEYS.NOTIFICATION.DISMISSED]: false,
     };
     await getAllNotifications({}, qParamNotification);
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
@@ -281,9 +276,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     await dismissSingleNotification(payload, qParam);
     const {dismissSingleNotificationResponse, getAllNotifications} = this.props;
     if (!_get(dismissSingleNotificationResponse, DB_KEYS.ERROR, true)) {
-      const creationDate = Moment()
-        .subtract(48, 'days')
-        .format('YYYY-MM-DD');
       const qParam = {
         [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
           getUserInfoResponse,
@@ -291,8 +283,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           null,
         ),
         [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
-        [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
-        [PAYLOAD_KEYS.NOTIFICATION.DISMISSED]: false,
       };
       await getAllNotifications({}, qParam);
       this.setState({loading: false});
