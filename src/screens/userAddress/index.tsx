@@ -66,6 +66,7 @@ interface props {
 }
 interface state {
   postCode: string;
+  loading: boolean;
 }
 
 export class UnConnectedUserAddress extends React.Component<props, state> {
@@ -73,6 +74,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
     super(props);
     this.state = {
       postCode: '',
+      loading: false,
     };
     StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
@@ -247,6 +249,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           this.props.navigation.navigate(
             NAVIGATION_SCREEN_NAME.MANUAL_VALUATION_SCREEN,
           );
+          this.setState({loading: false});
         }
       } else {
         isAddressChanged = false;
@@ -265,6 +268,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           this.props.navigation.navigate(
             NAVIGATION_SCREEN_NAME.MANUAL_VALUATION_SCREEN,
           );
+          this.setState({loading: false});
         }
       }
     }
@@ -295,6 +299,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
   };
   handleFormSubmit = (values: object) => {
     const {reducerResponse} = this.props;
+    this.setState({loading: true});
     const selectedAddressIndex = _get(
       this.props.navigation,
       STATE_PARAMS.SELECTED_SEARCH_ADDRESS_INDEX,
@@ -409,10 +414,7 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
           null,
         )) ||
       _get(getUserInfoResponse, DB_KEYS.ADDRESS_RESPONSE, false);
-    if (
-      _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
-      _get(updateUserAddressResponse, DB_KEYS.IS_FETCHING, false)
-    )
+    if (this.state.loading)
       return <LoadingModal loadingText="Validating address..." />;
     else
       return (

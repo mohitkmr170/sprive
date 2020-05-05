@@ -365,6 +365,6 @@
   "notification": {
     "notification": "Notifications",
     "dismissAll": "Dismiss All",
-    "noNotification": "No notification"
+    "noNotification": "No new notifications"
   }
 }
