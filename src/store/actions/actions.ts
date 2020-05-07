@@ -42,3 +42,9 @@ export const paymentReminder = (notification_id?: number) => {
     payload: notification_id,
   };
 };
+export const blogPostNotification = (notification_id?: number) => {
+  return {
+    type: actionTypes.IS_BLOG_POST_NOTIFICATION_RECEIVED,
+    payload: notification_id,
+  };
+};

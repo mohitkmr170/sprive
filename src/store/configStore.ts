@@ -14,6 +14,7 @@ import {logoutUser} from '../store/appReducers/logoutUser';
 import {notification} from '../store/appReducers/notification';
 import {policyUpdate} from './appReducers/policyUpdate';
 import {paymentReminder} from './appReducers/paymentReminder';
+import {blogPostNotification} from './appReducers/blogPostNotification';
 
 const appReducers = {
   ...mapValues(reducers, 'reducers'),
@@ -24,6 +25,7 @@ const appReducers = {
   notification,
   policyUpdate,
   paymentReminder,
+  blogPostNotification,
 };
 
 const appReducer = combineReducers(appReducers);

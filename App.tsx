@@ -19,9 +19,10 @@ import {
 import {get as _get} from 'lodash';
 import OneSignal from 'react-native-onesignal';
 import {
-  notification,
+  notification as userFeedNotification,
   policyUpdate,
   paymentReminder,
+  blogPostNotification,
 } from './src/store/actions/actions';
 import {showSnackBar, localeString} from './src/utils';
 
@@ -173,6 +174,12 @@ class App extends React.Component<props, state> {
         case NOTIFICATION_TYPES.PAYMENT_REMINDER:
           await store.dispatch(paymentReminder());
           break;
+        case NOTIFICATION_TYPES.USER_FEEDBACK:
+          await store.dispatch(userFeedNotification());
+          break;
+        case NOTIFICATION_TYPES.BLOG_POST_NOTIFICATION:
+          await store.dispatch(blogPostNotification());
+          break;
         default:
           showSnackBar(
             {},
@@ -201,9 +208,9 @@ class App extends React.Component<props, state> {
         break;
       case NOTIFICATION_TYPES.USER_FEEDBACK:
         if (_get(store.getState(), DB_KEYS.USER_INFO, null)) {
-          await store.dispatch(notification());
+          await store.dispatch(userFeedNotification());
           navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE, {});
-        } else await store.dispatch(notification());
+        } else await store.dispatch(userFeedNotification());
         break;
       case NOTIFICATION_TYPES.PAYMENT_REMINDER:
         if (
@@ -214,6 +221,12 @@ class App extends React.Component<props, state> {
           )
         )
           await store.dispatch(paymentReminder());
+        break;
+      case NOTIFICATION_TYPES.BLOG_POST_NOTIFICATION:
+        if (_get(store.getState(), DB_KEYS.USER_INFO, null)) {
+          await store.dispatch(blogPostNotification());
+          navigate(NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN, {});
+        } else await store.dispatch(blogPostNotification());
         break;
       default:
         showSnackBar(
