@@ -134,46 +134,52 @@ export class AnimatedCircularProgressBar extends React.Component<props, state> {
           </AnimatedCircularProgress>
         </View>
         <View style={styles.bottomContainer}>
-          <View style={styles.ownedPercentageContainer} />
-          <Svg height="80" width="80" style={styles.svgLineStyle}>
-            <Line
-              /*
+          <View style={styles.svgLineContainer}>
+            <View style={styles.ownedPercentageContainer} />
+            <Svg height="80" width="80" style={styles.svgLineStyle}>
+              <Line
+                /*
                   NOTES : Plotting values
                   */
-              x1="0"
-              y1="40"
-              x2="80"
-              y2="40"
-              stroke={COLOR.VOILET_ONE_THIRD}
-              strokeDasharray="8, 8"
-              strokeWidth="2"
-            />
-          </Svg>
-          <Text
-            style={[
-              styles.percentageText,
-              {paddingLeft: STYLE_CONSTANTS.padding.SMALL},
-            ]}>
-            {houseOwned}%
-          </Text>
-          <Svg height="80" width="80">
-            <Line
-              /*
+                x1="0"
+                y1="40"
+                x2="80"
+                y2="40"
+                stroke={COLOR.VOILET_ONE_THIRD}
+                strokeDasharray="8, 8"
+                strokeWidth="2"
+              />
+            </Svg>
+          </View>
+          <View>
+            <Text
+              style={[
+                styles.percentageText,
+                {paddingLeft: STYLE_CONSTANTS.padding.SMALL},
+              ]}>
+              {houseOwned}%
+            </Text>
+          </View>
+          <View style={styles.svgLineContainer}>
+            <Svg height="80" width="80">
+              <Line
+                /*
                   NOTES : Plotting values
                   */
-              x1="16"
-              y1="40"
-              x2="80"
-              y2="40"
-              stroke={COLOR.VOILET_ONE_THIRD}
-              strokeDasharray="8, 8"
-              strokeWidth="2"
-            />
-          </Svg>
-          {/* This is to be tested */}
-          <Text style={styles.dateText}>
-            {targetMonth} {targetYear}’
-          </Text>
+                x1="16"
+                y1="40"
+                x2="80"
+                y2="40"
+                stroke={COLOR.VOILET_ONE_THIRD}
+                strokeDasharray="8, 8"
+                strokeWidth="2"
+              />
+            </Svg>
+            {/* This is to be tested */}
+            <Text style={styles.dateText}>
+              {targetMonth} {targetYear}’
+            </Text>
+          </View>
         </View>
         <Text style={styles.myHouseText}>
           {localeString(LOCALE_STRING.HOME_OWNERSHIP.OF_MY_HOUSE)}
