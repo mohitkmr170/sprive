@@ -25,7 +25,7 @@
     "invalidAmount": "Invalid Amount",
     "notification": "Notifications blocked, please enable it from settings",
     "notifications": "Notifications",
-    "noDataFoundNotification": "Data not found in notification",
+    "noDataFoundNotification": "Target route data not found in notification",
     "no": "No",
     "yes": "Yes"
   },

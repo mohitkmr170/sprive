@@ -24,6 +24,7 @@ export const NOTIFICATION_TYPES = {
   PRIVACY_POLICY: 'privacy_policy',
   USER_FEEDBACK: 'user_feedback',
   PAYMENT_REMINDER: 'payment_reminder',
+  BLOG_POST_NOTIFICATION: 'notifications',
 };
 export const NATIVE_EVENTS = {
   WIDTH: 'width',

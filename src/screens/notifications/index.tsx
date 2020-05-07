@@ -35,6 +35,7 @@ import {
   showSnackBar,
   APP_CONSTANTS,
   APP_KEYS,
+  NAVIGATION_SCREEN_NAME,
 } from '../../utils';
 import {get as _get} from 'lodash';
 
@@ -151,12 +152,15 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     switch (targetRoute) {
       case NOTIFICATION_TYPES.PRIVACY_POLICY:
         await this.props.policyUpdate(notificationId);
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
         break;
       case NOTIFICATION_TYPES.PAYMENT_REMINDER:
         await this.props.paymentReminder(notificationId);
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
         break;
       case NOTIFICATION_TYPES.USER_FEEDBACK:
         await this.props.notification(notificationId);
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE);
         break;
       default:
         /*
