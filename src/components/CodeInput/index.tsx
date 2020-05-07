@@ -19,7 +19,8 @@ import {
 } from '../../utils';
 
 const CODE_LENGTH = 5,
-  KEYBOARD_REFOCUS_TIME = 1000;
+  KEYBOARD_REFOCUS_TIME = 1000,
+  PIN_SUBMIT_TIME = 200;
 
 interface CodeInputProps {
   getCompleteCode: (params?: string) => void;
@@ -49,9 +50,11 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
   const handleSubmit = (input: any) => {
     setValue(input);
     if (input.length === CODE_LENGTH) {
-      codeInputProps.getCompleteCode(input);
-      setIsSubmitted(true);
-      Keyboard.dismiss();
+      setTimeout(() => {
+        codeInputProps.getCompleteCode(input);
+        setIsSubmitted(true);
+        Keyboard.dismiss();
+      }, PIN_SUBMIT_TIME);
     }
   };
   useEffect(() => {

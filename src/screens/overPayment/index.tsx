@@ -124,7 +124,8 @@ class UnconnectedOverPayment extends React.Component<props, state> {
       let overPaymentAmount = Number(withOutCommas);
       if (
         overPaymentAmount > OVERPAYMENT_MIN_CAP &&
-        overPaymentAmount <= OVERPAYMENT_MAX_CAP
+        overPaymentAmount <= OVERPAYMENT_MAX_CAP &&
+        Number.isInteger(overPaymentAmount)
       ) {
         return resolve(true);
       } else return reject(false);
@@ -159,7 +160,15 @@ class UnconnectedOverPayment extends React.Component<props, state> {
         }
       })
       .catch(err => {
-        showSnackBar({}, localeString(LOCALE_STRING.INVALID_AMOUNT));
+        const {amount} = this.state;
+        let withOutCommas = amount.replace(/,/g, '');
+        let overPaymentAmount = Number(withOutCommas);
+        if (!Number.isInteger(overPaymentAmount))
+          showSnackBar(
+            {},
+            localeString(LOCALE_STRING.VALIDATIONS.DECIMAL_VALIDATION),
+          );
+        else showSnackBar({}, localeString(LOCALE_STRING.INVALID_AMOUNT));
       });
   };
 
