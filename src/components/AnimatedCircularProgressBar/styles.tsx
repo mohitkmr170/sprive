@@ -51,6 +51,11 @@ export const styles = StyleSheet.create({
     color: COLOR.CARIBBEAN_GREEN,
     marginLeft: STYLE_CONSTANTS.padding.ABOVE_SMALLEST,
   },
+  textContainer: {
+    marginHorizontal: STYLE_CONSTANTS.margin.HUMONGOUS,
+    alignItems: 'center',
+    paddingRight: STYLE_CONSTANTS.margin.NORMAL,
+  },
   dateText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,

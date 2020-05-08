@@ -166,7 +166,7 @@ export const dobValidation = (value: string) => {
       : years >= MINIMUM_AGE_CRITERION
       ? undefined
       : localeString(LOCALE_STRING.VALIDATIONS.MINIMUM_REQ_AGE);
-  }
+  } else return localeString(LOCALE_STRING.VALIDATIONS.INVALID_DOB);
 };
 /**
  *
