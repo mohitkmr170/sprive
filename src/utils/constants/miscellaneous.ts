@@ -19,6 +19,7 @@ export const LOCAL_KEYS = {
   PUSH_NOTIFICATION_ACCESS_GRANTED: 'granted',
   DATE_FORMAT_SLASH: 'DD/MM/YYYY',
   TEXT: 'text',
+  DEFAULT_REMINDER_DAY_OF_MONTH: 8,
 };
 export const NOTIFICATION_TYPES = {
   PRIVACY_POLICY: 'privacy_policy',

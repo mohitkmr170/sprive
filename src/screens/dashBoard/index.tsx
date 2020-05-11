@@ -39,7 +39,7 @@ import {
   DB_KEYS,
   COLOR,
   PAYLOAD_KEYS,
-  STYLE_CONSTANTS,
+  LOCAL_KEYS,
   showSnackBar,
   NATIVE_EVENTS,
   NOTIFICATION_CONSTANTS,
@@ -365,7 +365,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         _get(
           getRemoteConfigDataResponse,
           DB_KEYS.PAYMENT_REMINDER_DATE_OF_MONTH,
-          1,
+          LOCAL_KEYS.DEFAULT_REMINDER_DAY_OF_MONTH,
         ),
       )
       .format();
