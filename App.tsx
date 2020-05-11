@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configStore';
@@ -15,6 +15,7 @@ import {
   DB_KEYS,
   NOTIFICATION_TYPES,
   LOCALE_STRING,
+  STYLE_CONSTANTS,
 } from './src/utils/constants';
 import {get as _get} from 'lodash';
 import OneSignal from 'react-native-onesignal';
@@ -47,24 +48,24 @@ class App extends React.Component<props, state> {
     /*
      ******Reset system font for OnePlus device****
      */
-    // const TextRender = Text.render;
-    // Text.render = function render(props) {
-    //   const oldProps = props;
-    //   props = {
-    //     ...props,
-    //     style: [
-    //       Platform.OS === 'android'
-    //         ? {fontFamily: 'Roboto', color: '#333333'}
-    //         : {},
-    //       props.style,
-    //     ],
-    //   };
-    //   try {
-    //     return TextRender.apply(this, arguments);
-    //   } finally {
-    //     props = oldProps;
-    //   }
-    // };
+    const TextRender = Text.render;
+    Text.render = function render(props) {
+      const oldProps = props;
+      props = {
+        ...props,
+        style: [
+          {
+            fontFamily: STYLE_CONSTANTS.font.FONT_FAMILY.OPENSANS_REGULAR,
+          },
+          props.style,
+        ],
+      };
+      try {
+        return TextRender.apply(this, arguments);
+      } finally {
+        props = oldProps;
+      }
+    };
   }
   async componentDidMount() {
     /*
@@ -160,7 +161,6 @@ class App extends React.Component<props, state> {
       'onReceived : Notification received : notification => ',
       notification,
     );
-
     if (_get(store.getState(), DB_KEYS.USER_INFO, null)) {
       const notificationType = _get(
         notification,

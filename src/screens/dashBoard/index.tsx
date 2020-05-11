@@ -530,7 +530,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <Text style={styles.thisMonthText}>
                 {localeString(LOCALE_STRING.DASHBOARD_SCREEN.THIS_MONTH)}
               </Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={styles.targetAmonutContainer}>
                 <Text
                   style={[
                     styles.overPaymentTargetAmount,
@@ -541,8 +541,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   £{monthlyTargetWithCommas}
                 </Text>
                 {!balanceAmount && (
-                  <View style={styles.paidButton}>
-                    <Text style={{color: COLOR.WHITE}}>Paid</Text>
+                  <View style={styles.targetTextContainer}>
+                    <View style={styles.paidButton}>
+                      <Text style={{color: COLOR.WHITE}}>Paid</Text>
+                    </View>
                   </View>
                 )}
               </View>

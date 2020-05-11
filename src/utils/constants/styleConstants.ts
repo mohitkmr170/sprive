@@ -83,6 +83,10 @@ export const STYLE_CONSTANTS = {
       SEMI_BOLD: '600',
       BOLD: '900',
     },
+    FONT_FAMILY: {
+      OPENSANS_REGULAR: 'OpenSans-Regular',
+      OPENSANS_BOLD: 'OpenSans-Bold',
+    },
   },
   border: {
     WIDTH: {
