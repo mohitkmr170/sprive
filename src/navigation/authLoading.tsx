@@ -44,7 +44,7 @@ import {reset} from '../navigation/navigationService';
 import Snackbar from 'react-native-snackbar';
 import OneSignal from 'react-native-onesignal';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
-import {notification} from '../store/actions/actions';
+import {notification, blogPostNotification} from '../store/actions/actions';
 const codePush = require('react-native-code-push');
 const APP_UPDATED_SUCCESS: string = 'App has been updated.';
 
@@ -76,6 +76,8 @@ interface props {
   getUserGoalResponse: object;
   notification: () => void;
   notificationResponse: object;
+  blogPostNotification: () => void;
+  blogPostNotificationResponse: object;
   getPendingTask: (payload: object, extraPayload: object) => void;
   getPendingTaskResponse: object;
   handlePopupDismissed: () => void;
@@ -262,11 +264,17 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       notificationResponse,
       getPendingTask,
       getAllNotifications,
+      blogPostNotificationResponse,
     } = this.props;
     const userId = _get(getUserInfoResponses, DB_KEYS.DATA_ID, null);
     const isNotificationReceived = _get(
       notificationResponse,
       DB_KEYS.IS_NOTIFICATION_RECEIVED,
+      false,
+    );
+    const isBlogPostNotificationReceived = _get(
+      blogPostNotificationResponse,
+      DB_KEYS.IS_BLOG_NOTIFICATION_RECEIVED,
       false,
     );
     if (!getUserInfoResponses || !userId)
@@ -293,6 +301,8 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       navigation.navigate(
         isNotificationReceived
           ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+          : isBlogPostNotificationReceived
+          ? NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
         {
           isUserDataChanged: true,
@@ -313,6 +323,8 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       navigation.navigate(
         isNotificationReceived
           ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+          : isBlogPostNotificationReceived
+          ? NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
         {
           isUserDataChanged: true,
@@ -349,6 +361,8 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       navigation.navigate(
         isNotificationReceived
           ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+          : isBlogPostNotificationReceived
+          ? NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
         {
           isUserDataChanged: false,
@@ -358,6 +372,8 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       navigation.navigate(
         isNotificationReceived
           ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+          : isBlogPostNotificationReceived
+          ? NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN
           : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
         {
           isUserDataChanged: true,
@@ -479,6 +495,7 @@ const mapStateToProps = state => ({
   getUserMortgageDataResponse: state.getUserMortgageData,
   getUserGoalResponse: state.getUserGoal,
   notificationResponse: state.notification,
+  blogPostNotificationResponse: state.blogPostNotification,
   getPendingTaskResponse: state.getPendingTask,
   getAllNotificationsResponse: state.getAllNotifications,
 });
@@ -495,6 +512,7 @@ const bindActions = dispatch => ({
   getUserGoal: (payload, extraPayload) =>
     dispatch(getUserGoal.fetchCall(payload, extraPayload)),
   notification: () => dispatch(notification()),
+  blogPostNotification: () => dispatch(blogPostNotification()),
   getPendingTask: (payload, extraPayload) =>
     dispatch(getPendingTask.fetchCall(payload, extraPayload)),
   getAllNotifications: (payload, extraPayload) =>

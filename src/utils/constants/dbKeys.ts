@@ -18,6 +18,7 @@ export const DB_KEYS = {
   TOTAL_INTEREST: 'response.data.totalInterest',
   AUTH_STATUS: 'status',
   IS_NOTIFICATION_RECEIVED: 'isNotificationReceived',
+  IS_BLOG_NOTIFICATION_RECEIVED: 'isBlogNotificationReceived',
   CURRENT_USER_EMAIL: 'response.data.email',
   DATA_ID: 'response.data.id',
   DATA_OF_ZERO_ID: 'response.data[0].id',
