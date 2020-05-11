@@ -21,6 +21,7 @@ import {
   getUserGoal,
   getPendingTask,
   getAllNotifications,
+  getRemoteConfigData,
 } from '../store/reducers';
 import {connect} from 'react-redux';
 import {
@@ -83,6 +84,8 @@ interface props {
   handlePopupDismissed: () => void;
   getAllNotifications: (payload: object, extraPayload: object) => void;
   getAllNotificationsResponse: object;
+  getRemoteConfigData: (payload: object) => void;
+  getRemoteConfigDataResponse: object;
 }
 
 interface state {}
@@ -265,6 +268,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       getPendingTask,
       getAllNotifications,
       blogPostNotificationResponse,
+      getRemoteConfigData,
     } = this.props;
     const userId = _get(getUserInfoResponses, DB_KEYS.DATA_ID, null);
     const isNotificationReceived = _get(
@@ -283,6 +287,7 @@ class UnconnectedAuthLoading extends React.Component<props, state> {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
+    await getRemoteConfigData({});
     const pendingTask_qParam = {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
@@ -498,6 +503,7 @@ const mapStateToProps = state => ({
   blogPostNotificationResponse: state.blogPostNotification,
   getPendingTaskResponse: state.getPendingTask,
   getAllNotificationsResponse: state.getAllNotifications,
+  getRemoteConfigDataResponse: state.getRemoteConfigData,
 });
 
 const bindActions = dispatch => ({
@@ -517,6 +523,8 @@ const bindActions = dispatch => ({
     dispatch(getPendingTask.fetchCall(payload, extraPayload)),
   getAllNotifications: (payload, extraPayload) =>
     dispatch(getAllNotifications.fetchCall(payload, extraPayload)),
+  getRemoteConfigData: payload =>
+    dispatch(getRemoteConfigData.fetchCall(payload)),
 });
 
 export const AuthLoading = connect(
