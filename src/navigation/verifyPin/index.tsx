@@ -20,6 +20,8 @@ import {
   getUserMortgageData,
   getUserGoal,
   getPendingTask,
+  getAllNotifications,
+  getRemoteConfigData,
 } from '../../store/reducers';
 import {connect} from 'react-redux';
 import {
@@ -34,6 +36,7 @@ import {
 import {verifyUserPin} from '../../store/reducers';
 import OneSignal from 'react-native-onesignal';
 import {get as _get} from 'lodash';
+import {blogPostNotification} from '../../store/actions/actions';
 
 interface props {
   navigation: {
@@ -60,6 +63,12 @@ interface props {
   getPendingTask: (payload: object, extraPayload: object) => void;
   getPendingTaskResponse: object;
   handlePopupDismissed: () => void;
+  blogPostNotification: () => void;
+  blogPostNotificationResponse: object;
+  getAllNotifications: (payload: object, extraPayload: object) => void;
+  getAllNotificationsResponse: object;
+  getRemoteConfigData: (payload: object) => void;
+  getRemoteConfigDataResponse: object;
 }
 interface state {
   value: string;
@@ -112,11 +121,19 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
       getUserGoal,
       notificationResponse,
       getPendingTask,
+      getAllNotifications,
+      blogPostNotificationResponse,
+      getRemoteConfigData,
     } = this.props;
     const userId = _get(getUserInfoResponses, DB_KEYS.DATA_ID, null);
     const isNotificationReceived = _get(
       notificationResponse,
       DB_KEYS.IS_NOTIFICATION_RECEIVED,
+      false,
+    );
+    const isBlogPostNotificationReceived = _get(
+      blogPostNotificationResponse,
+      DB_KEYS.IS_BLOG_NOTIFICATION_RECEIVED,
       false,
     );
     if (!getUserInfoResponses || !userId) {
@@ -128,16 +145,28 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
+    await getRemoteConfigData({});
     const pendingTask_qParam = {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
+    const qParam = {
+      [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+        getUserInfoResponses,
+        DB_KEYS.PUSH_NOTIFICATION,
+        null,
+      ),
+      [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
+    };
+    await getAllNotifications({}, qParam);
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
       this.setState({loading: false}, () => {
         navigation.navigate(
           isNotificationReceived
             ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+            : isBlogPostNotificationReceived
+            ? NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN
             : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
           {
             isUserDataChanged: true,
@@ -160,6 +189,8 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
         navigation.navigate(
           isNotificationReceived
             ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+            : isBlogPostNotificationReceived
+            ? NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN
             : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
           {
             isUserDataChanged: true,
@@ -199,6 +230,8 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
           navigation.navigate(
             isNotificationReceived
               ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+              : isBlogPostNotificationReceived
+              ? NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN
               : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
             {
               isUserDataChanged: false,
@@ -211,6 +244,8 @@ export class UnconnectedVerifyPin extends React.Component<props, state> {
         navigation.navigate(
           isNotificationReceived
             ? NAVIGATION_SCREEN_NAME.REPORT_ISSUE
+            : isBlogPostNotificationReceived
+            ? NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN
             : NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR,
           {
             isUserDataChanged: true,
@@ -279,6 +314,9 @@ const mapStateToProps = state => ({
   getUserGoalResponse: state.getUserGoal,
   notificationResponse: state.notification,
   getPendingTaskResponse: state.getPendingTask,
+  blogPostNotificationResponse: state.blogPostNotification,
+  getAllNotificationsResponse: state.getAllNotifications,
+  getRemoteConfigDataResponse: state.getRemoteConfigData,
 });
 
 const bindActions = dispatch => ({
@@ -291,11 +329,16 @@ const bindActions = dispatch => ({
   triggerUserDataChange: value => dispatch(triggerUserDataChangeEvent(value)),
   getUserMortgageData: (payload, extraPayload) =>
     dispatch(getUserMortgageData.fetchCall(payload, extraPayload)),
+  blogPostNotification: () => dispatch(blogPostNotification()),
   getUserGoal: (payload, extraPayload) =>
     dispatch(getUserGoal.fetchCall(payload, extraPayload)),
   notification: () => dispatch(notification()),
   getPendingTask: (payload, extraPayload) =>
     dispatch(getPendingTask.fetchCall(payload, extraPayload)),
+  getAllNotifications: (payload, extraPayload) =>
+    dispatch(getAllNotifications.fetchCall(payload, extraPayload)),
+  getRemoteConfigData: payload =>
+    dispatch(getRemoteConfigData.fetchCall(payload)),
 });
 
 export const VerifyPin = connect(
