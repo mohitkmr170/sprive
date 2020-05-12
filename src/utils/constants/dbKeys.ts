@@ -20,6 +20,8 @@ export const DB_KEYS = {
   AUTH_STATUS: 'status',
   IS_NOTIFICATION_RECEIVED: 'isNotificationReceived',
   IS_BLOG_NOTIFICATION_RECEIVED: 'isBlogNotificationReceived',
+  UPCOMING_PAYMENT_DATE_REMINDER:
+    'response.data[0].upcoming_payment_reminder_date',
   PAYMENT_REMINDER_DATE_OF_MONTH:
     'response.data.parameters.PAYMENT_REMINDER_EXECUTION_DAY_OF_MONTH.defaultValue.value',
   CURRENT_USER_EMAIL: 'response.data.email',

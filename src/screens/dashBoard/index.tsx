@@ -114,6 +114,7 @@ interface state {
   isPaymentReminderReceived: boolean;
   isModalAlertVisible: boolean;
   isPendingTaskVisible: boolean;
+  nextPaymentReminderDate: string;
 }
 export class UnconnectedDashBoard extends React.Component<props, state> {
   constructor(props: props) {
@@ -128,6 +129,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       isPaymentReminderReceived: false,
       isModalAlertVisible: false,
       isPendingTaskVisible: true,
+      nextPaymentReminderDate: '',
     };
     StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
   }
@@ -169,6 +171,13 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         ) {
           this.setToInitialState();
           this.handleInitialMount();
+          this.setState({
+            nextPaymentReminderDate: _get(
+              this.props.getProjectedDataResponse,
+              DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
+              '',
+            ),
+          });
           this.props.userDataChangeEvent.userDataChanged &&
             this.props.triggerUserDataChange(false);
         } else {
@@ -258,7 +267,14 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
       };
       await getProjectedData({}, qParamProjectData);
-      this.setState({loading: false});
+      this.setState({
+        loading: false,
+        nextPaymentReminderDate: _get(
+          this.props.getProjectedDataResponse,
+          DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
+          '',
+        ),
+      });
       navigation.setParams({
         isUserDataChanged: false,
       });
@@ -357,16 +373,23 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         await paymentRescheduleReminder(payload, qParams);
         const {paymentRescheduleReminderResponse} = this.props;
         if (!_get(paymentRescheduleReminderResponse, DB_KEYS.ERROR, true))
-          showSnackBar(
-            {},
-            _get(
+          this.setState({
+            nextPaymentReminderDate: _get(
               paymentRescheduleReminderResponse,
-              DB_KEYS.RESPONSE_MESSAGE,
-              localeString(
-                LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_TOMORROW,
-              ),
+              DB_KEYS.UPCOMING_PAYMENT_DATE_REMINDER,
+              null,
             ),
-          );
+          });
+        showSnackBar(
+          {},
+          _get(
+            paymentRescheduleReminderResponse,
+            DB_KEYS.RESPONSE_MESSAGE,
+            localeString(
+              LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_TOMORROW,
+            ),
+          ),
+        );
       },
     );
   };
@@ -400,10 +423,13 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     await updateNextPaymentReminderDate(payload, qParams);
     const {updateNextPaymentReminderDateResponse} = this.props;
     if (!_get(updateNextPaymentReminderDateResponse, DB_KEYS.ERROR, true)) {
-      const qParamProjectData = {
-        user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
-      };
-      await getProjectedData({}, qParamProjectData);
+      this.setState({
+        nextPaymentReminderDate: _get(
+          updateNextPaymentReminderDateResponse,
+          DB_KEYS.UPCOMING_PAYMENT_DATE_REMINDER,
+          null,
+        ),
+      });
     }
   };
 
@@ -449,21 +475,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getAllNotificationsResponse,
     } = this.props;
     const upcomingPaymentDate = Moment(
-      _get(
-        getProjectedDataResponse,
-        DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
-        '',
-      ),
+      this.state.nextPaymentReminderDate,
     ).date();
     const upcomingPaymentMonth =
       APP_CONSTANTS.MONTH_NAMES[
-        Moment(
-          _get(
-            getProjectedDataResponse,
-            DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
-            '',
-          ),
-        ).month()
+        Moment(this.state.nextPaymentReminderDate).month()
       ];
     console.log('Inside Dashboard Render');
     const balanceAmount = _get(
