@@ -228,11 +228,18 @@ export class UnconnectedTargetStepIndicator extends React.Component<
                   {projectedMonth + ' ' + this.state.projectedYear}
                 </Text>
               </View>
-              <Image
-                source={iPointer}
-                resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
-                style={[{transform: [{rotate: '180deg'}]}, styles.pointerStyle]}
-              />
+              {targetYear !== projectedYear ? (
+                <Image
+                  source={iPointer}
+                  resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
+                  style={[
+                    {transform: [{rotate: '180deg'}]},
+                    styles.pointerStyle,
+                  ]}
+                />
+              ) : (
+                <View style={styles.dummyContainer} />
+              )}
             </View>
           )}
           {targetYear === projectedYear ||
