@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  AppState,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
@@ -139,8 +140,24 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     });
   };
 
+  _handleAppStateChange = async (nextAppState: string) => {
+    if (nextAppState === 'active') {
+      const {getUserInfoResponse, getAllNotifications} = this.props;
+      const qParamNotification = {
+        [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.PUSH_NOTIFICATION,
+          null,
+        ),
+        [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
+      };
+      await getAllNotifications({}, qParamNotification);
+    }
+  };
+
   componentDidMount = async () => {
     // this.handleInitialMount();
+    AppState.addEventListener('change', this._handleAppStateChange);
     this.didFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
@@ -160,6 +177,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       },
     );
   };
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
 
   handleInitialMount = async () => {
     try {

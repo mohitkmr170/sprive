@@ -1,6 +1,7 @@
 export const DB_KEYS = {
   USER_INFO_NAME: 'response.data.name',
   USER_INFO: 'getUserInfo.response',
+  USER_INFO_P_ID: 'getUserInfo.response.data.push_notification_id',
   NOTIFICATION_TYPE: 'payload.additionalData.screen_name',
   IS_POLICY_UPDATE_RECEIVED_FLAG: 'policyUpdate.isPolicyUpdateReceived',
   IS_PAYMENT_REMINDER_RECEIVED_FLAG:

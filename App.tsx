@@ -9,13 +9,14 @@ import AppNavigator from './src/navigation/appFlow';
 import {setNavigator} from './src/navigation/navigationService';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {navigate} from './src/navigation/navigationService';
-import {getUserInfo} from './src/store/reducers';
+import {getUserInfo, getAllNotifications} from './src/store/reducers';
 import {
   NAVIGATION_SCREEN_NAME,
   DB_KEYS,
   NOTIFICATION_TYPES,
   LOCALE_STRING,
   STYLE_CONSTANTS,
+  PAYLOAD_KEYS,
 } from './src/utils/constants';
 import {get as _get} from 'lodash';
 import OneSignal from 'react-native-onesignal';
@@ -167,6 +168,14 @@ class App extends React.Component<props, state> {
         DB_KEYS.NOTIFICATION_TYPE,
         '',
       );
+      const qParam = {
+        [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+          store.getState(),
+          DB_KEYS.USER_INFO_P_ID,
+          null,
+        ),
+      };
+      await store.dispatch(getAllNotifications.fetchCall({}, qParam));
       switch (notificationType) {
         case NOTIFICATION_TYPES.PRIVACY_POLICY:
           await store.dispatch(policyUpdate());
@@ -199,6 +208,14 @@ class App extends React.Component<props, state> {
       DB_KEYS.NOTIFICATION_TYPE,
       '',
     );
+    const qParam = {
+      [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+        store.getState(),
+        DB_KEYS.USER_INFO_P_ID,
+        null,
+      ),
+    };
+    await store.dispatch(getAllNotifications.fetchCall({}, qParam));
     switch (notificationType) {
       case NOTIFICATION_TYPES.PRIVACY_POLICY:
         if (

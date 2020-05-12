@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   Linking,
+  AppState,
 } from 'react-native';
 import {Header, GeneralStatusBar, LoadingModal} from '../../components';
 import {cross} from '../../assets';
@@ -68,7 +69,22 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
 
+  _handleAppStateChange = async (nextAppState: string) => {
+    if (nextAppState === 'active') {
+      const {getUserInfoResponse, getAllNotifications} = this.props;
+      const qParam = {
+        [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.PUSH_NOTIFICATION,
+          null,
+        ),
+      };
+      await getAllNotifications({}, qParam);
+    }
+  };
+
   componentDidMount = async () => {
+    AppState.addEventListener('change', this._handleAppStateChange);
     const {getUserInfoResponse, getAllNotifications} = this.props;
     const qParam = {
       [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
@@ -82,6 +98,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
       loading: false,
     });
   };
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
 
   handleClearAll = async () => {
     const {
