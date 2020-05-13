@@ -539,29 +539,29 @@ export class UnConnectedUserAddress extends React.Component<props, state> {
                 }}
                 validate={[alphaNumeric, required]}
               />
+              <Button
+                title={localeString(LOCALE_STRING.USER_PROFILE.NEXT)}
+                titleStyle={styles.buttonTextStyle}
+                onPress={handleSubmit(this.handleFormSubmit)}
+                buttonStyle={styles.buttonStyle}
+                disabled={!isFormValuesFilled}
+                loading={
+                  _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
+                  _get(updateUserAddressResponse, DB_KEYS.IS_FETCHING, false)
+                }
+              />
+              {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
+                _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
+                  <TouchableOpacity
+                    style={styles.completeLaterContainer}
+                    hitSlop={APP_CONSTANTS.HIT_SLOP}
+                    onPress={() => this.handleCompleteLater()}>
+                    <Text style={styles.completeLaterText}>
+                      {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
+                    </Text>
+                  </TouchableOpacity>
+                )}
             </KeyboardAwareScrollView>
-            <Button
-              title={localeString(LOCALE_STRING.USER_PROFILE.NEXT)}
-              titleStyle={styles.buttonTextStyle}
-              onPress={handleSubmit(this.handleFormSubmit)}
-              buttonStyle={styles.buttonStyle}
-              disabled={!isFormValuesFilled}
-              loading={
-                _get(taskHandlerResponse, DB_KEYS.IS_FETCHING, false) ||
-                _get(updateUserAddressResponse, DB_KEYS.IS_FETCHING, false)
-              }
-            />
-            {_get(this.props.navigation, STATE_PARAMS.TASK_ID, null) &&
-              _get(this.props.navigation, STATE_PARAMS.STAGE_ID, null) && (
-                <TouchableOpacity
-                  style={styles.completeLaterContainer}
-                  hitSlop={APP_CONSTANTS.HIT_SLOP}
-                  onPress={() => this.handleCompleteLater()}>
-                  <Text style={styles.completeLaterText}>
-                    {localeString(LOCALE_STRING.USER_PROFILE.COMPLETE_LATER)}
-                  </Text>
-                </TouchableOpacity>
-              )}
           </View>
         </View>
       );
