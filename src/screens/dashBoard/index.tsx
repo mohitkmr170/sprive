@@ -159,6 +159,13 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
 
   componentDidMount = async () => {
     // this.handleInitialMount();
+    this.setState({
+      nextPaymentReminderDate: _get(
+        this.props.getProjectedDataResponse,
+        DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
+        '',
+      ),
+    });
     AppState.addEventListener('change', this._handleAppStateChange);
     this.didFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
@@ -171,6 +178,19 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         ) {
           this.setToInitialState();
           this.handleInitialMount();
+          this.props.userDataChangeEvent.userDataChanged &&
+            this.props.triggerUserDataChange(false);
+        } else {
+          StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
+          //This is added, when userDataChanged is not changed and CDM not executed
+          const qParamProjectData = {
+            user_id: _get(
+              this.props.getUserInfoResponse,
+              DB_KEYS.DATA_ID,
+              null,
+            ),
+          };
+          await this.props.getProjectedData({}, qParamProjectData);
           this.setState({
             nextPaymentReminderDate: _get(
               this.props.getProjectedDataResponse,
@@ -178,10 +198,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               '',
             ),
           });
-          this.props.userDataChangeEvent.userDataChanged &&
-            this.props.triggerUserDataChange(false);
-        } else {
-          StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
         }
       },
     );
