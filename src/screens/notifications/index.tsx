@@ -202,8 +202,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   };
 
   handleTargetRoute = (targetCategory: string, item: object) => {
-    const notificationData = JSON.parse(
-      _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_DATA, ''),
+    const notificationData = _get(
+      item,
+      NOTIFICATION_CONSTANTS.NOTIFICATION_DATA,
+      '',
     );
     switch (targetCategory) {
       case NOTIFICATION_CONSTANTS.SPRIVE_URL:
@@ -238,8 +240,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
 
   renderNotifications = (item: object) => {
     let notificationCategory = _get(item, SEARCH_ADDRESS.ITEM, null);
-    const notificationData = JSON.parse(
-      _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_DATA, ''),
+    const notificationData = _get(
+      item,
+      NOTIFICATION_CONSTANTS.NOTIFICATION_DATA,
+      '',
     );
     return (
       <TouchableOpacity
