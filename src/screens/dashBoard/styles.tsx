@@ -171,6 +171,17 @@ export const styles = StyleSheet.create({
     marginTop: STYLE_CONSTANTS.margin.EXTRA_HUMUNGOUS,
     marginBottom: STYLE_CONSTANTS.margin.LARGEST,
   },
+  badgeContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    height: STYLE_CONSTANTS.padding.NORMAL,
+    width: STYLE_CONSTANTS.padding.NORMAL,
+    borderRadius: STYLE_CONSTANTS.padding.NORMAL / 2,
+    backgroundColor: COLOR.PRIMARY,
+    alignItems: 'center',
+  },
+  badgeCountText: {fontSize: 12, color: COLOR.WHITE},
   bottomCardInnerStyle: {borderRadius: STYLE_CONSTANTS.margin.SMALL},
   ownerShipText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,

@@ -12,7 +12,7 @@ import {Button} from 'react-native-elements';
 import {styles} from './styles';
 import {
   dashBoardCard,
-  report,
+  iNotification_message,
   correct,
   iViewArrow,
   questionMark,
@@ -42,6 +42,7 @@ import {
   STYLE_CONSTANTS,
   showSnackBar,
   NATIVE_EVENTS,
+  NOTIFICATION_CONSTANTS,
 } from '../../utils';
 import {
   getMonthlyPaymentRecord,
@@ -51,6 +52,8 @@ import {
   getUserGoal,
   getPendingTask,
   paymentRescheduleReminder,
+  getAllNotifications,
+  dismissSingleNotification,
 } from '../../store/reducers';
 import {policyUpdate, paymentReminder} from '../../store/actions/actions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
@@ -89,6 +92,10 @@ interface props {
   paymentReminderResponse: object;
   paymentRescheduleReminder: (payload: object, extraPayload: object) => void;
   paymentRescheduleReminderResponse: object;
+  getAllNotifications: (payload: object, extraPayload: object) => void;
+  getAllNotificationsResponse: object;
+  dismissSingleNotification: (payload: object, qParams: object) => void;
+  dismissSingleNotificationResponse: object;
 }
 
 interface state {
@@ -162,6 +169,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getUserMortgageData,
       getUserGoal,
       getPendingTask,
+      getAllNotifications,
     } = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     if (!getUserInfoResponse || !userId)
@@ -175,6 +183,15 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     };
     await getPendingTask({}, pendingTask_qParam);
     const {getUserMortgageDataResponse} = this.props;
+    const creationDate = Moment()
+      .subtract(48, 'days')
+      .format('YYYY-MM-DD');
+    const qParamNotification = {
+      [PAYLOAD_KEYS.USER_ID]: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      'createdAt[$gt]': creationDate,
+      dismissed: false,
+    };
+    await getAllNotifications({}, qParamNotification);
     if (!_get(getUserMortgageDataResponse, DB_KEYS.RESPONSE_DATA, null)) {
       this.setState({loading: false});
       return;
@@ -235,13 +252,52 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.HOME_OWNERSHIP);
   };
 
+  handleNotificationAction = async () => {
+    const {
+      dismissSingleNotification,
+      getUserInfoResponse,
+      paymentReminderResponse,
+    } = this.props;
+    const payload = {
+      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      dismissed: true,
+    };
+    const qParam = {
+      id: _get(
+        paymentReminderResponse,
+        NOTIFICATION_CONSTANTS.NOTIFCATION_STORE_ID,
+        null,
+      ),
+    };
+    await dismissSingleNotification(payload, qParam);
+    const {dismissSingleNotificationResponse, getAllNotifications} = this.props;
+    if (!_get(dismissSingleNotificationResponse, DB_KEYS.ERROR, true)) {
+      const creationDate = Moment()
+        .subtract(48, 'days')
+        .format('YYYY-MM-DD');
+      const qParam = {
+        [PAYLOAD_KEYS.USER_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.DATA_ID,
+          null,
+        ),
+        'createdAt[$gt]': creationDate,
+        dismissed: false,
+      };
+      await getAllNotifications({}, qParam);
+      this.setState({loading: false});
+    }
+  };
+
   handlePaymentFirstButton = () => {
+    this.handleNotificationAction();
     this.setState({isPaymentReminderReceived: false});
     this.props.paymentReminder();
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.OVERPAYMENT);
   };
 
   handlePaymentSecondButton = () => {
+    this.handleNotificationAction();
     this.props.paymentReminder();
     this.setState({
       isPaymentReminderReceived: false,
@@ -312,6 +368,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       pushNotificationResponse,
       navigation,
       getPendingTaskResponse,
+      getAllNotificationsResponse,
     } = this.props;
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
@@ -351,6 +408,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
       '-',
     );
+    const activeNotificationCount = _get(
+      getAllNotificationsResponse,
+      DB_KEYS.RESPONSE_DATA,
+      [],
+    ).length;
     if (
       this.state.loading ||
       _get(pushNotificationResponse, DB_KEYS.IS_FETCHING, false)
@@ -373,11 +435,22 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <TouchableOpacity
                 onPress={() =>
                   this.props.navigation.navigate(
-                    NAVIGATION_SCREEN_NAME.REPORT_ISSUE,
+                    NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN,
                   )
                 }
                 style={styles.supportIcon}>
-                <Image source={report} />
+                {activeNotificationCount ? (
+                  <View style={styles.badgeContainer}>
+                    {/* This is to be replaced by actual count */}
+                    <Text style={styles.badgeCountText}>
+                      {activeNotificationCount >
+                      NOTIFICATION_CONSTANTS.MAX_NOTIFICATION_COUNT
+                        ? NOTIFICATION_CONSTANTS.NOTIFICATION_COUNT
+                        : activeNotificationCount}
+                    </Text>
+                  </View>
+                ) : null}
+                <Image source={iNotification_message} />
               </TouchableOpacity>
               <Text style={styles.thisMonthText}>
                 {localeString(LOCALE_STRING.DASHBOARD_SCREEN.THIS_MONTH)}
@@ -564,6 +637,8 @@ const mapStateToProps = state => ({
   policyUpdateResponse: state.policyUpdate,
   paymentReminderResponse: state.paymentReminder,
   paymentRescheduleReminderResponse: state.paymentRescheduleReminder,
+  getAllNotificationsResponse: state.getAllNotifications,
+  dismissSingleNotificationResponse: state.dismissSingleNotification,
 });
 
 const bindActions = dispatch => ({
@@ -583,6 +658,10 @@ const bindActions = dispatch => ({
   paymentReminder: () => dispatch(paymentReminder()),
   paymentRescheduleReminder: (payload, extraPayload) =>
     dispatch(paymentRescheduleReminder.fetchCall(payload, extraPayload)),
+  getAllNotifications: (payload, extraPayload) =>
+    dispatch(getAllNotifications.fetchCall(payload, extraPayload)),
+  dismissSingleNotification: (payload, extraPayload) =>
+    dispatch(dismissSingleNotification.fetchCall(payload, extraPayload)),
 });
 
 export const DashBoard = connect(

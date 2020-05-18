@@ -40,6 +40,8 @@ import {
   VerifySecurityPin,
   Profile,
   Settings,
+  ManualValuation,
+  Notifications,
 } from '../screens';
 import {AuthLoading} from '../navigation/authLoading';
 import {VerifyPin} from '../navigation/verifyPin';
@@ -216,6 +218,12 @@ const AppStackNavigator = createStackNavigator(
     },
     SettingsScreen: {
       screen: Settings,
+    },
+    ManualValuationScreen: {
+      screen: ManualValuation,
+    },
+    NotificationsScreen: {
+      screen: Notifications,
     },
   },
   {

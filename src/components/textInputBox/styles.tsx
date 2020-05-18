@@ -40,6 +40,9 @@ export const textInputBoxStyle = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
+  rightIconContainer: {
+    justifyContent: 'center',
+  },
   textInputContainer: {flex: 1, justifyContent: 'center'},
   parameterText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
@@ -48,7 +51,5 @@ export const textInputBoxStyle = StyleSheet.create({
     opacity: 0.3,
     fontStyle: 'italic',
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
-    textAlignVertical: 'center',
-    flex: 1,
   },
 });

@@ -28,14 +28,16 @@ export const clearFormData = () => {
   };
 };
 
-export const policyUpdate = () => {
+export const policyUpdate = (notification_id?: number) => {
   return {
     type: actionTypes.IS_POLICY_UPDATE_RECEIVED,
+    payload: notification_id,
   };
 };
 
-export const paymentReminder = () => {
+export const paymentReminder = (notification_id?: number) => {
   return {
     type: actionTypes.IS_PAYMENT_REMINDER_RECEIVED,
+    payload: notification_id,
   };
 };

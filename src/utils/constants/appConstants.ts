@@ -6,6 +6,7 @@ export const APP_CONSTANTS = {
   USER_PROFILE_FORM: 'userProfile',
   USER_PROFILE_FORM_VIEW_MODE: 'userProfileViewMode',
   USER_ADDRESS_FORM: 'userAddress',
+  MANUAL_VALUATION: 'manualValuation',
   MORTGAGE_INPUT_FORM: 'MortgageInput',
   FORGOT_PASSWORD_FORM: 'forgotPassword',
   RESET_PASSWORD_FORM: 'resetPassword',

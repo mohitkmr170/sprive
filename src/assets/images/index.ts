@@ -30,3 +30,4 @@ export const fourtyComplete = require('../images/40%complete.png');
 export const sixtyComplete = require('../images/60%complete.png');
 export const eightyComplete = require('../images/80%complete.png');
 export const hundredComplete = require('../images/100%complete.png');
+export const cross = require('../images/x-circle.png');
