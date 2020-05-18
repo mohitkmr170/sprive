@@ -179,10 +179,7 @@ export class UnconnectedVerifySecurityPin extends React.Component<
     if (!_get(setUserAuthPinResponse, DB_KEYS.ERROR, true)) {
       Keyboard.dismiss();
       // this.setState({loading: false});
-      /*
-      NOTES : This is to be changed from BE
-      */
-      showSnackBar({}, 'PIN created successfully');
+      showSnackBar({}, localeString(LOCALE_STRING.SECURE_LOGIN.PIN_SUCCESS));
       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
     }
   };

@@ -185,7 +185,11 @@ export class UnconnectedManualValuation extends React.Component<props, state> {
       const payload = this.getAddressPayload(formValues, true, values);
       if (payload) {
         await updateUserAddress(payload, {
-          id: _get(getUserInfoResponse, DB_KEYS.USER_ADDRESS_ID, null),
+          [PAYLOAD_KEYS.ID]: _get(
+            getUserInfoResponse,
+            DB_KEYS.USER_ADDRESS_ID,
+            null,
+          ),
         });
       }
     } else {
