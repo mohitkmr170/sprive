@@ -179,9 +179,13 @@ export const styles = StyleSheet.create({
     width: STYLE_CONSTANTS.padding.NORMAL,
     borderRadius: STYLE_CONSTANTS.padding.NORMAL / 2,
     backgroundColor: COLOR.PRIMARY,
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  badgeCountText: {fontSize: 12, color: COLOR.WHITE},
+  badgeCountText: {
+    fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
+    color: COLOR.WHITE,
+  },
   bottomCardInnerStyle: {borderRadius: STYLE_CONSTANTS.margin.SMALL},
   ownerShipText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGEST,

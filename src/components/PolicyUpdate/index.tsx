@@ -40,7 +40,7 @@ export class UnconnectedPolicyUpdate extends React.Component<props, state> {
   handleTermsAndCondition = () => {
     this.handleNotificationAction();
     this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.GENERIC_WEB_VIEW, {
-      webViewUri: WEB_VIEW_PARAMS.WEB_VIEW,
+      webViewUri: WEB_VIEW_PARAMS.WEB_VIEW_URI_TERMS,
       isPolicy: true,
     });
   };
@@ -51,7 +51,11 @@ export class UnconnectedPolicyUpdate extends React.Component<props, state> {
       policyUpdateResponse,
     } = this.props;
     const payload = {
-      user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
+      [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+        getUserInfoResponse,
+        DB_KEYS.PUSH_NOTIFICATION,
+        null,
+      ),
       dismissed: true,
     };
     const qParam = {
@@ -68,13 +72,14 @@ export class UnconnectedPolicyUpdate extends React.Component<props, state> {
         .subtract(48, 'days')
         .format('YYYY-MM-DD');
       const qParam = {
-        [PAYLOAD_KEYS.USER_ID]: _get(
+        [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
           getUserInfoResponse,
-          DB_KEYS.DATA_ID,
+          DB_KEYS.PUSH_NOTIFICATION,
           null,
         ),
-        'createdAt[$gt]': creationDate,
-        dismissed: false,
+        [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
+        [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
+        [PAYLOAD_KEYS.NOTIFICATION.DISMISSED]: false,
       };
       await getAllNotifications({}, qParam);
       this.setState({loading: false});

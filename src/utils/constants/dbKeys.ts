@@ -195,4 +195,10 @@ export const DB_KEYS = {
   GET_ADDRESS: {
     DISPLAY_ADDRESS: 'display_address',
   },
+  NOTIFICATION_DATA: {
+    TITLE: 'title',
+    SUB_TITLE: 'subtitle',
+    TARGET_SCREEN_NAME: 'screen_name',
+    TARGET_URL: 'url',
+  },
 };
