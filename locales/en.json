@@ -364,7 +364,7 @@
   "notification": {
     "notification": "Notifications",
     "dismissAll": "Dismiss All",
-    "noNotification": "No active notification"
+    "noNotification": "No active notification",
     "enterPin": "Enter PIN",
     "pinSuccess": "PIN created successfully"
   }
