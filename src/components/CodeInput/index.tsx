@@ -16,6 +16,7 @@ import {
   APP_CONSTANTS,
   DB_KEYS,
   showSnackBar,
+  STYLE_CONSTANTS,
 } from '../../utils';
 
 const CODE_LENGTH = 5,
@@ -29,7 +30,7 @@ interface CodeInputProps {
 }
 
 export const CodeInput = (codeInputProps: CodeInputProps) => {
-  if (Platform.OS === 'ios') {
+  if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_IOS) {
     KeyboardManager.setEnableAutoToolbar(false);
   }
   const refTextInput = useRef(null);
