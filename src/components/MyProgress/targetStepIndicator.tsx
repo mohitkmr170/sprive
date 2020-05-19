@@ -128,6 +128,9 @@ export class UnconnectedTargetStepIndicator extends React.Component<
           null,
         ) - 1
       ];
+    /*
+    NOTES : Below calculations is for different edge cases of time-line view
+    */
     let targetMonth =
       APP_CONSTANTS.MONTH_NAMES[
         Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month() - 1
@@ -172,7 +175,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               ]}>
               <Image
                 source={iPointer}
-                style={{zIndex: 999}}
+                style={styles.pointerImageContainer}
                 resizeMode={STYLE_CONSTANTS.IMAGE_RESIZE_CONFIG.CONTAIN}
               />
               <View style={styles.targetTooltip} />
@@ -309,7 +312,11 @@ export class UnconnectedTargetStepIndicator extends React.Component<
                         STYLE_CONSTANTS.margin.HUMONGOUS,
                     },
                   ]}>
-                  <Text style={[styles.targetDateStyles]}>On track</Text>
+                  <Text style={[styles.targetDateStyles]}>
+                    {localeString(
+                      LOCALE_STRING.MY_PROGRESS_AND_PAYMENTS.ON_TRACK,
+                    )}
+                  </Text>
                 </View>
               </View>
             </View>
