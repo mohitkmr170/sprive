@@ -747,7 +747,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           <PaymentReminderModal
             isVisible={this.state.isModalAlertVisible}
             handleDismiss={() => this.handleDismissAction()}
-            monthlyTarget={monthlyTargetWithCommas}
+            balanceAmount={balanceAmountWithCommas}
             remindeMeTomorrow={() => this.remindMeLater('days')}
             remindeMeNextWeek={() => this.remindMeLater('weeks')}
           />
