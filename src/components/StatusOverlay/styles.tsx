@@ -48,7 +48,6 @@ export const styles = StyleSheet.create({
     color: COLOR.PRIMARY,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
-    marginTop: STYLE_CONSTANTS.margin.HUGER,
     textAlign: 'center',
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
@@ -57,7 +56,6 @@ export const styles = StyleSheet.create({
     opacity: 0.3,
     fontSize: STYLE_CONSTANTS.font.SIZE.LARGE,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGE,
-    marginTop: STYLE_CONSTANTS.margin.NORMAL,
     textAlign: 'center',
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
@@ -68,6 +66,12 @@ export const styles = StyleSheet.create({
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     paddingTop: STYLE_CONSTANTS.padding.SMALLISH,
     textAlign: 'center',
+  },
+  firstButtonContainer: {
+    marginTop: STYLE_CONSTANTS.margin.HUGER,
+  },
+  secondbuttonContainer: {
+    marginTop: STYLE_CONSTANTS.margin.NORMAL,
   },
   subTitle: {
     color: COLOR.VOILET,

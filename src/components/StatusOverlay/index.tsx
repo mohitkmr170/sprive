@@ -44,6 +44,7 @@ export class StatusOverlay extends React.Component<props, state> {
           )}
           {this.props.firstButtonText && (
             <TouchableOpacity
+              style={styles.firstButtonContainer}
               onPress={this.props.handleFirstButton}
               hitSlop={APP_CONSTANTS.HIT_SLOP}>
               <Text style={styles.firstText}>{this.props.firstButtonText}</Text>
@@ -51,6 +52,7 @@ export class StatusOverlay extends React.Component<props, state> {
           )}
           {this.props.secondButtonText && (
             <TouchableOpacity
+              style={styles.secondbuttonContainer}
               onPress={this.props.handleSecondButton}
               hitSlop={APP_CONSTANTS.HIT_SLOP}>
               <Text style={styles.secondText}>

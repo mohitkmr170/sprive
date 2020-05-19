@@ -29,6 +29,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  pointerImageContainer: {zIndex: 999},
+  linearGradientContainer: {flex: 1},
   completeYourProfileText: {
     color: COLOR.PRIMARY,
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
