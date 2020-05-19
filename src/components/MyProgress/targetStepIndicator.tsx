@@ -204,7 +204,9 @@ export class UnconnectedTargetStepIndicator extends React.Component<
             </View>
           )}
           {/* Projected */}
-          {endYear !== projectedYear && (
+          {(endYear !== projectedYear ||
+            targetYear === projectedYear ||
+            endYear === projectedYear) && (
             <View
               style={[
                 styles.projectedContainer,
@@ -238,7 +240,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
               />
             </View>
           )}
-          {targetYear === projectedYear ||
+          {/* {targetYear === projectedYear ||
             (endYear === projectedYear && (
               <View
                 style={[
@@ -264,7 +266,7 @@ export class UnconnectedTargetStepIndicator extends React.Component<
                   {projectedMonth + ' ' + this.state.projectedYear}
                 </Text>
               </View>
-            ))}
+            ))} */}
           {targetYear === projectedYear && (
             <View
               style={[

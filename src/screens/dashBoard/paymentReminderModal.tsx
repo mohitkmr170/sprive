@@ -8,7 +8,7 @@ import {localeString, LOCALE_STRING} from '../../utils';
 interface props {
   isVisible: boolean;
   handleDismiss: () => void;
-  monthlyTarget: string;
+  balanceAmount: string;
   remindeMeTomorrow: () => void;
   remindeMeNextWeek: () => void;
 }
@@ -21,14 +21,14 @@ export class PaymentReminderModal extends React.Component<props, state> {
   }
 
   render() {
-    const {isVisible, handleDismiss, monthlyTarget} = this.props;
+    const {isVisible, handleDismiss, balanceAmount} = this.props;
     return (
       <Modal isVisible={isVisible} style={{justifyContent: 'flex-end'}}>
         <View style={styles.paymentModalContainer}>
           <View style={styles.modalTopContainer}>
             <Text style={styles.stayOnTrackText}>
               {localeString(LOCALE_STRING.PAYMENT_REMINDER.STAY_ON_TRACK)}
-              <Text style={styles.overPaymentText}> £{monthlyTarget}</Text>{' '}
+              <Text style={styles.overPaymentText}> £{balanceAmount}</Text>{' '}
               {localeString(LOCALE_STRING.PAYMENT_REMINDER.TOWARDS_MORTGAGE)}
             </Text>
           </View>
