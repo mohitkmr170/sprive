@@ -20,6 +20,8 @@ export const LOCAL_KEYS = {
   DATE_FORMAT_SLASH: 'DD/MM/YYYY',
   TEXT: 'text',
   DEFAULT_REMINDER_DAY_OF_MONTH: 8,
+  ID: 'id',
+  ONESIGNAL_MESSAGE_ID: 'onesignal_message_id',
 };
 export const NOTIFICATION_TYPES = {
   PRIVACY_POLICY: 'privacy_policy',
@@ -155,6 +157,7 @@ export const NOTIFICATION_CONSTANTS = {
   NOTIFICATION_DATA: 'item.data',
   NOTIFICATION_ID: 'item.id',
   NOTIFCATION_STORE_ID: 'notificationId',
+  ONESIGNAL_MESSAGE_ID: 'onesignal_message_id',
   DAYS: 'days',
   YYYY_MM_DD: 'YYYY-MM-DDD',
   BEFORE_DATE: 48,

@@ -80,5 +80,7 @@ export const PAYLOAD_KEYS: any = {
     LIMIT: '$limit',
     DISMISSED: 'dismissed',
     CREATION_DATE: 'createdAt[$gt]',
+    PUSH_NOTIFICATION_ID: 'push_notification_id',
+    ONESIGNAL_MESSAGE_ID: 'onesignal_message_id',
   },
 };

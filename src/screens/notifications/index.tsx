@@ -46,9 +46,9 @@ interface props {
     goBack: () => void;
   };
   getUserInfoResponse: object;
-  paymentReminder: (notificationId: number) => void;
-  policyUpdate: (notificationId: number) => void;
-  notification: (notificationId: number) => void;
+  paymentReminder: (notificationId: object) => void;
+  policyUpdate: (notificationId: object) => void;
+  notification: (notificationId: object) => void;
   getAllNotifications: (payload: object, extraPayload: object) => void;
   getAllNotificationsResponse: object;
   dismissSingleNotification: (payload: object, qParams: object) => void;
@@ -169,15 +169,15 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   handleNotification = async (targetRoute: string, notificationId: number) => {
     switch (targetRoute) {
       case NOTIFICATION_TYPES.PRIVACY_POLICY:
-        await this.props.policyUpdate(notificationId);
+        await this.props.policyUpdate({[PAYLOAD_KEYS.ID]: notificationId});
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
         break;
       case NOTIFICATION_TYPES.PAYMENT_REMINDER:
-        await this.props.paymentReminder(notificationId);
+        await this.props.paymentReminder({[PAYLOAD_KEYS.ID]: notificationId});
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
         break;
       case NOTIFICATION_TYPES.USER_FEEDBACK:
-        await this.props.notification(notificationId);
+        await this.props.notification({[PAYLOAD_KEYS.ID]: notificationId});
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE);
         break;
       default:
