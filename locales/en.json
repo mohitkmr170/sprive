@@ -25,7 +25,7 @@
     "invalidAmount": "Invalid Amount",
     "notification": "Notifications blocked, please enable it from settings",
     "notifications": "Notifications",
-    "noDataFoundNotification": "Data not found in notification",
+    "noDataFoundNotification": "Target route data not found in notification",
     "no": "No",
     "yes": "Yes"
   },
@@ -68,13 +68,14 @@
     "secondListTwo": "Chip away without impacting your lifestyle",
     "buttonText": "Start saving with Sprive",
     "negativeInterest": "Interest cannot be negative",
-    "currentlySupports": "Sprive currently supports",
+    "currentlySupports": "Sprive supports repayment mortgages on your home",
     "residential": "Residential mortgages",
     "repayment": "Repayment mortgages",
     "continue": "Continue",
     "notYou": "Not you? ",
     "register": "Register interest ",
-    "readyForYou": "and we’ll let you know as soon as we’re ready for you"
+    "readyForYou": "and we’ll let you know as soon as we’re ready for you",
+    "noSupport": "We currently do not support:"
   },
   "validationMessages": {
     "required": "Required",
@@ -127,7 +128,7 @@
   "dashBoard": {
     "thisMonth": "My Target",
     "overPaymentTarget": "Your overpayment target",
-    "paymentReminder": "Next payment reminder due on {{month}} 25th",
+    "paymentReminder": "Next payment reminder due on {{month}} {{date}}",
     "amountLeft": "Amount Left:",
     "income": "Income",
     "spent": "Spent",
@@ -152,7 +153,8 @@
   },
   "overPaymentHistory": {
     "overPayment": "Overpayment",
-    "overPaymentHistory": "Overpayment History",
+    "overPaymentHistory": "Payment Activity",
+    "lenderPayment": "Lender Payment",
     "searchMonth": "Search Month",
     "overPaymentOf": "Overpayment of",
     "availableBalance": "Available Balance",

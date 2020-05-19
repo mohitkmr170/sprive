@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Keyboard, Alert} from 'react-native';
-
+import {View, Keyboard, Platform} from 'react-native';
+import KeyboardManager from 'react-native-keyboard-manager';
 import {
   CodeField,
   Cursor,
@@ -16,10 +16,12 @@ import {
   APP_CONSTANTS,
   DB_KEYS,
   showSnackBar,
+  STYLE_CONSTANTS,
 } from '../../utils';
 
 const CODE_LENGTH = 5,
-  KEYBOARD_REFOCUS_TIME = 1000;
+  KEYBOARD_REFOCUS_TIME = 1000,
+  PIN_SUBMIT_TIME = 200;
 
 interface CodeInputProps {
   getCompleteCode: (params?: string) => void;
@@ -28,6 +30,9 @@ interface CodeInputProps {
 }
 
 export const CodeInput = (codeInputProps: CodeInputProps) => {
+  if (Platform.OS === STYLE_CONSTANTS.device.DEVICE_TYPE_IOS) {
+    KeyboardManager.setEnableAutoToolbar(false);
+  }
   const refTextInput = useRef(null);
   const {verifyUserPinResponse, prevCode} = codeInputProps;
   const clearCodeInput = () => {
@@ -43,6 +48,16 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
     value,
     setValue,
   });
+  const handleSubmit = (input: any) => {
+    setValue(input);
+    if (input.length === CODE_LENGTH) {
+      setTimeout(() => {
+        codeInputProps.getCompleteCode(input);
+        setIsSubmitted(true);
+        Keyboard.dismiss();
+      }, PIN_SUBMIT_TIME);
+    }
+  };
   useEffect(() => {
     if (
       prevCode &&
@@ -76,16 +91,10 @@ export const CodeInput = (codeInputProps: CodeInputProps) => {
         ref={refTextInput}
         {...props}
         value={value}
-        onChangeText={setValue}
+        onChangeText={input => handleSubmit(input)}
         cellCount={APP_CONSTANTS.PIN_CELL_COUNT}
-        onEndEditing={() => codeInputProps.getCompleteCode(value)}
         rootStyle={styles.codeFiledRoot}
         keyboardType="number-pad"
-        returnKeyType="done"
-        onSubmitEditing={() => {
-          setIsSubmitted(true);
-          Keyboard.dismiss();
-        }}
         secureTextEntry={true}
         autoFocus={true}
         renderCell={({index, symbol, isFocused}) => {

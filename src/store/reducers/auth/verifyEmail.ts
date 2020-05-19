@@ -17,10 +17,6 @@ class verifyEmailData extends StoreFetchableData {
       this.fetchData(data)
         .then((res: any) => {
           dispatch(this.actions.response(res));
-          showSnackBar(
-            {},
-            localeString(LOCALE_STRING.LOGIN_SCREEN.THANKS_FOR_LOGIN),
-          );
         })
         .catch((err: any) => {
           dispatch(this.actions.error(err));

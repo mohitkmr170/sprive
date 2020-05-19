@@ -222,11 +222,21 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
       ];
     let targetYear =
       mortgageCreatedYear +
-      _get(
+      (_get(
         getProjectedDataResponse,
-        DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+        DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
         null,
-      );
+      ) === 12
+        ? _get(
+            getProjectedDataResponse,
+            DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+            null,
+          ) + 1
+        : _get(
+            getProjectedDataResponse,
+            DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_YEARS,
+            null,
+          ));
     targetYear = targetYear % NUMERIC_FACTORS.PERCENT_FACTOR;
     if (this.state.loading) {
       return <LoadingModal loadingText="Loading..." />;

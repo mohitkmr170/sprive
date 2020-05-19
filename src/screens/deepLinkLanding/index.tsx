@@ -188,7 +188,13 @@ export class UnconnectedDeepLinkLanding extends React.Component<props, state> {
     if (_get(getUserInfoResponse, DB_KEYS.ERROR)) {
       this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.LOGIN_SCREEN);
     } else {
-      if (_get(getUserInfoResponse, DB_KEYS.VERIFICATION_FLOW.IS_BLOCKED, true))
+      if (
+        _get(
+          getUserInfoResponse,
+          DB_KEYS.VERIFICATION_FLOW.DATA_OF_IS_BLOCKED,
+          true,
+        )
+      )
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.ACCOUNT_BLOCKED, {
           blockedType: DB_KEYS.RESET_PASSWORD.MALICIOUS_ATTEMPT,
         });

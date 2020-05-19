@@ -1,7 +1,7 @@
 export const DB_KEYS = {
   USER_INFO_NAME: 'response.data.name',
   USER_INFO: 'getUserInfo.response',
-  NOTIFICATION_TYPE: 'payload.additionalData.notification_type',
+  NOTIFICATION_TYPE: 'payload.additionalData.screen_name',
   IS_POLICY_UPDATE_RECEIVED_FLAG: 'policyUpdate.isPolicyUpdateReceived',
   IS_PAYMENT_REMINDER_RECEIVED_FLAG:
     'paymentReminder.isPaymentReminderReceived',
@@ -49,6 +49,8 @@ export const DB_KEYS = {
   SIGNUP_PASSWORD: 'signup.values.password',
   SUCCESS: 'Success',
   VERIFICATION_ERROR_MESSAGE: 'response.response.data.message',
+  UPCOMING_PAYMENT_REMINDER_DATE:
+    'response.data.upcoming_payment_reminder_date',
   ADDRESS_RESPONSE: 'response.data.address',
   USER_ADDRESS_ID: 'response.data.address.id',
   LTV: 'response.data[0].ltv',
@@ -100,6 +102,7 @@ export const DB_KEYS = {
     IS_VERIFIED: 'data.is_verified',
     IS_BLOCKED: 'data.is_blocked',
     DATA_OF_IS_VERIFIED: 'response.data.is_verified',
+    DATA_OF_IS_BLOCKED: 'response.data.is_blocked',
     GET_USERO_INFO_ISBLOCKED: 'getUserInfo.response.data.is_blocked',
   },
   FORGOT_PASSWORD_EMAIL: 'forgotPassword.values.email',

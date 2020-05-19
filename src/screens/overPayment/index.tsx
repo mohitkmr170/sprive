@@ -124,7 +124,8 @@ class UnconnectedOverPayment extends React.Component<props, state> {
       let overPaymentAmount = Number(withOutCommas);
       if (
         overPaymentAmount > OVERPAYMENT_MIN_CAP &&
-        overPaymentAmount <= OVERPAYMENT_MAX_CAP
+        overPaymentAmount <= OVERPAYMENT_MAX_CAP &&
+        Number.isInteger(overPaymentAmount)
       ) {
         return resolve(true);
       } else return reject(false);
@@ -159,7 +160,15 @@ class UnconnectedOverPayment extends React.Component<props, state> {
         }
       })
       .catch(err => {
-        showSnackBar({}, localeString(LOCALE_STRING.INVALID_AMOUNT));
+        const {amount} = this.state;
+        let withOutCommas = amount.replace(/,/g, '');
+        let overPaymentAmount = Number(withOutCommas);
+        if (!Number.isInteger(overPaymentAmount))
+          showSnackBar(
+            {},
+            localeString(LOCALE_STRING.VALIDATIONS.DECIMAL_VALIDATION),
+          );
+        else showSnackBar({}, localeString(LOCALE_STRING.INVALID_AMOUNT));
       });
   };
 
@@ -262,7 +271,7 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                     </TouchableOpacity>
                   </View>
                   <Text style={styles.overPaymentOfText}>
-                    {currentRemainingBalance
+                    {Number(currentRemainingBalance)
                       ? `£${currentRemainingBalance} more to go`
                       : localeString(
                           LOCALE_STRING.OVER_PAYMENT_HISTORY.ON_TARCK,
@@ -274,32 +283,28 @@ class UnconnectedOverPayment extends React.Component<props, state> {
                   onDecrementPress={() => this.handleDecPress()}
                 />
               </View>
-              <View style={styles.amountContainer}>
-                <View style={styles.leftContainer}>
-                  <AmountContainer
-                    title={localeString(
-                      LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
-                    )}
-                    monthlyTarget={ACCOUNT_BALANCE}
-                  />
-                </View>
-                <View style={styles.rightContainer}>
-                  <AmountContainer
-                    title={localeString(
-                      LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
-                    )}
-                    monthlyTarget={getNumberWithCommas(String(monthlyTarget))}
-                  />
-                </View>
-              </View>
-              <View style={styles.cardDetailsContainer}>
+              {/* <View style={styles.amountContainer}>
+                <AmountContainer
+                  title={localeString(
+                    LOCALE_STRING.OVER_PAYMENT_HISTORY.AVAILABLE_BALANCE,
+                  )}
+                  monthlyTarget={ACCOUNT_BALANCE}
+                />
+                <AmountContainer
+                  title={localeString(
+                    LOCALE_STRING.OVER_PAYMENT_HISTORY.MONTHLY_TARGET,
+                  )}
+                  monthlyTarget={getNumberWithCommas(String(monthlyTarget))}
+                />
+              </View> */}
+              {/* <View style={styles.cardDetailsContainer}>
                 <CardDetails />
-              </View>
+              </View> */}
+            </View>
+            <View style={styles.button}>
               <Text style={styles.staticText}>
                 {localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.BASIC_INFO)}
               </Text>
-            </View>
-            <View style={styles.button}>
               <Button
                 title={localeString(LOCALE_STRING.OVER_PAYMENT_HISTORY.PAY_NOW)}
                 onPress={() => this.handlePayNow()}

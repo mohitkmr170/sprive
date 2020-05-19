@@ -26,6 +26,11 @@ export const styles = StyleSheet.create({
     marginHorizontal: STYLE_CONSTANTS.margin.HUMONGOUS,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  svgLineContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   centerImage: {
     height: 10 * STYLE_CONSTANTS.margin.LARGE,
@@ -46,11 +51,17 @@ export const styles = StyleSheet.create({
     color: COLOR.CARIBBEAN_GREEN,
     marginLeft: STYLE_CONSTANTS.padding.ABOVE_SMALLEST,
   },
+  textContainer: {
+    marginHorizontal: STYLE_CONSTANTS.margin.HUMONGOUS,
+    alignItems: 'center',
+    paddingRight: STYLE_CONSTANTS.margin.NORMAL,
+  },
   dateText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.HUGISH,
     color: COLOR.VOILET,
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
+    marginLeft: STYLE_CONSTANTS.padding.ABOVE_SMALLEST,
   },
   myHouseText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.NORMAL,

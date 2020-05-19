@@ -59,6 +59,7 @@ export const LOCALE_STRING = {
     NOT_YOU: 'saveInterest.notYou',
     REGISTER: 'saveInterest.register',
     READY_FOR_YOU: 'saveInterest.readyForYou',
+    NO_SUPPORT_FOR: 'saveInterest.noSupport',
   },
   LOADING: 'Loading',
   INVALID_AMOUNT: 'global.invalidAmount',
@@ -146,6 +147,7 @@ export const LOCALE_STRING = {
   OVER_PAYMENT_HISTORY: {
     OVER_PAYMENT: 'overPaymentHistory.overPayment',
     OVER_PAYMENT_HISTORY: 'overPaymentHistory.overPaymentHistory',
+    LENDER_PAYMENT: 'overPaymentHistory.lenderPayment',
     SEARCH_MONTH: 'overPaymentHistory.searchMonth',
     OVER_PAYMENT_OF: 'overPaymentHistory.overPaymentOf',
     AVAILABLE_BALANCE: 'overPaymentHistory.availableBalance',

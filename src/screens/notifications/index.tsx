@@ -35,6 +35,7 @@ import {
   showSnackBar,
   APP_CONSTANTS,
   APP_KEYS,
+  NAVIGATION_SCREEN_NAME,
 } from '../../utils';
 import {get as _get} from 'lodash';
 
@@ -68,9 +69,6 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   }
 
   componentDidMount = async () => {
-    const creationDate = Moment()
-      .subtract(48, 'days')
-      .format('YYYY-MM-DD');
     const {getUserInfoResponse, getAllNotifications} = this.props;
     const qParam = {
       [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
@@ -78,8 +76,6 @@ export class UnconnectedNotifications extends React.Component<props, state> {
         DB_KEYS.PUSH_NOTIFICATION,
         null,
       ),
-      [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
-      [PAYLOAD_KEYS.NOTIFICATION.DISMISSED]: false,
     };
     await getAllNotifications({}, qParam);
     this.setState({
@@ -107,17 +103,12 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     };
     await dismissAllNotifications(payload, qParams);
     if (!_get(dismissAllNotificationsResponse, DB_KEYS.ERROR, true)) {
-      const creationDate = Moment()
-        .subtract(48, 'days')
-        .format('YYYY-MM-DD');
       const qParam = {
         [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
           getUserInfoResponse,
           DB_KEYS.PUSH_NOTIFICATION,
           null,
         ),
-        [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
-        dismissed: false,
       };
       await getAllNotifications({}, qParam);
       this.setState({loading: false});
@@ -145,17 +136,12 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     };
     await dismissSingleNotification(payload, qParam);
     if (!_get(dismissSingleNotificationResponse, DB_KEYS.ERROR, true)) {
-      const creationDate = Moment()
-        .subtract(48, 'days')
-        .format('YYYY-MM-DD');
       const qParam = {
         [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
           getUserInfoResponse,
           DB_KEYS.PUSH_NOTIFICATION,
           null,
         ),
-        [PAYLOAD_KEYS.NOTIFICATION.CREATION_DATE]: creationDate,
-        dismissed: false,
       };
       await getAllNotifications({}, qParam);
       this.setState({loading: false});
@@ -166,12 +152,15 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     switch (targetRoute) {
       case NOTIFICATION_TYPES.PRIVACY_POLICY:
         await this.props.policyUpdate(notificationId);
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
         break;
       case NOTIFICATION_TYPES.PAYMENT_REMINDER:
         await this.props.paymentReminder(notificationId);
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
         break;
       case NOTIFICATION_TYPES.USER_FEEDBACK:
         await this.props.notification(notificationId);
+        this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE);
         break;
       default:
         /*
