@@ -33,5 +33,6 @@ export default {
     PIN_AUTH: '/pin_auth',
     VERIFY_PIN: '/verify-pin',
     NOTIFICATIONS: '/notifications',
+    GET_REMOTE_CONFIG: '/get-remote-config',
   },
 };

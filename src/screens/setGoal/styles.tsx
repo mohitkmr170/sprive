@@ -136,13 +136,16 @@ export const styles = StyleSheet.create({
     marginTop: STYLE_CONSTANTS.margin.NORMAL,
     marginHorizontal: STYLE_CONSTANTS.margin.LARGEST,
     paddingVertical: STYLE_CONSTANTS.padding.LARGEST,
-    borderWidth: 1,
     borderRadius: STYLE_CONSTANTS.margin.SMALL,
-    borderColor: COLOR.SHADOW_BORDER,
-    shadowColor: COLOR.SHADOW_COLOR,
-    shadowOffset: {width: 0, height: 3},
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    shadowColor: COLOR.SHADOW_COLOR_LATEST,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 5, // Required for Andorid
+    backgroundColor: COLOR.WHITE, // Compulsory to pass in view-having shadow
   },
   bottonContainerInner: {flexDirection: 'row'},
   leftContainer: {

@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  AppState,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from './styles';
@@ -39,10 +40,11 @@ import {
   DB_KEYS,
   COLOR,
   PAYLOAD_KEYS,
-  STYLE_CONSTANTS,
+  LOCAL_KEYS,
   showSnackBar,
   NATIVE_EVENTS,
   NOTIFICATION_CONSTANTS,
+  LISTENERS,
 } from '../../utils';
 import {
   getMonthlyPaymentRecord,
@@ -54,6 +56,8 @@ import {
   paymentRescheduleReminder,
   getAllNotifications,
   dismissSingleNotification,
+  updateNextPaymentReminderDate,
+  getRemoteConfigData,
 } from '../../store/reducers';
 import {policyUpdate, paymentReminder} from '../../store/actions/actions';
 import {triggerUserDataChangeEvent} from '../../store/actions/user-date-change-action.ts';
@@ -96,6 +100,10 @@ interface props {
   getAllNotificationsResponse: object;
   dismissSingleNotification: (payload: object, qParams: object) => void;
   dismissSingleNotificationResponse: object;
+  updateNextPaymentReminderDate: (payload: object, qParams: object) => void;
+  updateNextPaymentReminderDateResponse: object;
+  getRemoteConfigData: (payload: object) => void;
+  getRemoteConfigDataResponse: object;
 }
 
 interface state {
@@ -107,6 +115,7 @@ interface state {
   isPaymentReminderReceived: boolean;
   isModalAlertVisible: boolean;
   isPendingTaskVisible: boolean;
+  nextPaymentReminderDate: string;
 }
 export class UnconnectedDashBoard extends React.Component<props, state> {
   constructor(props: props) {
@@ -121,6 +130,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       isPaymentReminderReceived: false,
       isModalAlertVisible: false,
       isPendingTaskVisible: true,
+      nextPaymentReminderDate: '',
     };
     StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
   }
@@ -133,8 +143,34 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     });
   };
 
+  _handleAppStateChange = async (nextAppState: string) => {
+    if (nextAppState === LISTENERS.APP_STATE.STATE.ACTIVE) {
+      const {getUserInfoResponse, getAllNotifications} = this.props;
+      const qParamNotification = {
+        [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.PUSH_NOTIFICATION,
+          null,
+        ),
+        [PAYLOAD_KEYS.NOTIFICATION.LIMIT]: 0,
+      };
+      await getAllNotifications({}, qParamNotification);
+    }
+  };
+
   componentDidMount = async () => {
     // this.handleInitialMount();
+    this.setState({
+      nextPaymentReminderDate: _get(
+        this.props.getProjectedDataResponse,
+        DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
+        '',
+      ),
+    });
+    AppState.addEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
     this.didFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
@@ -150,6 +186,22 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             this.props.triggerUserDataChange(false);
         } else {
           StatusBar.setBackgroundColor(COLOR.DARK_BLUE, true);
+          //This is added, when userDataChanged is not changed and CDM not executed
+          const qParamProjectData = {
+            user_id: _get(
+              this.props.getUserInfoResponse,
+              DB_KEYS.DATA_ID,
+              null,
+            ),
+          };
+          await this.props.getProjectedData({}, qParamProjectData);
+          this.setState({
+            nextPaymentReminderDate: _get(
+              this.props.getProjectedDataResponse,
+              DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
+              '',
+            ),
+          });
         }
       },
     );
@@ -170,6 +222,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getUserGoal,
       getPendingTask,
       getAllNotifications,
+      getRemoteConfigData,
     } = this.props;
     const userId = _get(getUserInfoResponse, DB_KEYS.DATA_ID, null);
     if (!getUserInfoResponse || !userId)
@@ -178,6 +231,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
     await getUserMortgageData({}, qParamsInfo);
+    await getRemoteConfigData({});
     const pendingTask_qParam = {
       [PAYLOAD_KEYS.USER_ID]: userId,
     };
@@ -229,7 +283,14 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         user_id: _get(getUserInfoResponse, DB_KEYS.DATA_ID, null),
       };
       await getProjectedData({}, qParamProjectData);
-      this.setState({loading: false});
+      this.setState({
+        loading: false,
+        nextPaymentReminderDate: _get(
+          this.props.getProjectedDataResponse,
+          DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
+          '',
+        ),
+      });
       navigation.setParams({
         isUserDataChanged: false,
       });
@@ -246,6 +307,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   handleLogOut = () => {};
   componentWillUnmount() {
     this.didFocusListener.remove();
+    AppState.removeEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
   }
 
   hanldeHomeOwnerShip = () => {
@@ -328,18 +393,64 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         await paymentRescheduleReminder(payload, qParams);
         const {paymentRescheduleReminderResponse} = this.props;
         if (!_get(paymentRescheduleReminderResponse, DB_KEYS.ERROR, true))
-          showSnackBar(
-            {},
-            _get(
+          this.setState({
+            nextPaymentReminderDate: _get(
               paymentRescheduleReminderResponse,
-              DB_KEYS.RESPONSE_MESSAGE,
-              localeString(
-                LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_TOMORROW,
-              ),
+              DB_KEYS.UPCOMING_PAYMENT_DATE_REMINDER,
+              null,
             ),
-          );
+          });
+        showSnackBar(
+          {},
+          _get(
+            paymentRescheduleReminderResponse,
+            DB_KEYS.RESPONSE_MESSAGE,
+            localeString(
+              LOCALE_STRING.NOTIFICATION_PERMISSIONS.RESCHEDULED_TOMORROW,
+            ),
+          ),
+        );
       },
     );
+  };
+
+  handleDismissAction = async () => {
+    this.setState({isModalAlertVisible: false});
+    const {
+      updateNextPaymentReminderDate,
+      getUserInfoResponse,
+      getProjectedData,
+      getRemoteConfigDataResponse,
+    } = this.props;
+    let currentDate = Moment().format(APP_CONSTANTS.DATE_FORMAT);
+    let defaultReminderDate = Moment()
+      .add(1, 'month')
+      .date(
+        _get(
+          getRemoteConfigDataResponse,
+          DB_KEYS.PAYMENT_REMINDER_DATE_OF_MONTH,
+          LOCAL_KEYS.DEFAULT_REMINDER_DAY_OF_MONTH,
+        ),
+      )
+      .format();
+    const payload = {
+      upcoming_payment_reminder_date: defaultReminderDate,
+    };
+    const qParams = {
+      current_date: currentDate,
+      user_id: _get(getUserInfoResponse, DB_KEYS.USER_ID, null),
+    };
+    await updateNextPaymentReminderDate(payload, qParams);
+    const {updateNextPaymentReminderDateResponse} = this.props;
+    if (!_get(updateNextPaymentReminderDateResponse, DB_KEYS.ERROR, true)) {
+      this.setState({
+        nextPaymentReminderDate: _get(
+          updateNextPaymentReminderDateResponse,
+          DB_KEYS.UPCOMING_PAYMENT_DATE_REMINDER,
+          null,
+        ),
+      });
+    }
   };
 
   onCloseToBottom = (nativeEvent: {
@@ -384,21 +495,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getAllNotificationsResponse,
     } = this.props;
     const upcomingPaymentDate = Moment(
-      _get(
-        getProjectedDataResponse,
-        DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
-        '',
-      ),
+      this.state.nextPaymentReminderDate,
     ).date();
     const upcomingPaymentMonth =
       APP_CONSTANTS.MONTH_NAMES[
-        Moment(
-          _get(
-            getProjectedDataResponse,
-            DB_KEYS.UPCOMING_PAYMENT_REMINDER_DATE,
-            '',
-          ),
-        ).month()
+        Moment(this.state.nextPaymentReminderDate).month()
       ];
     console.log('Inside Dashboard Render');
     const balanceAmount = _get(
@@ -486,7 +587,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <Text style={styles.thisMonthText}>
                 {localeString(LOCALE_STRING.DASHBOARD_SCREEN.THIS_MONTH)}
               </Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={styles.targetAmountContainer}>
                 <Text
                   style={[
                     styles.overPaymentTargetAmount,
@@ -497,8 +598,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   £{monthlyTargetWithCommas}
                 </Text>
                 {!balanceAmount && (
-                  <View style={styles.paidButton}>
-                    <Text style={{color: COLOR.WHITE}}>Paid</Text>
+                  <View style={styles.targetTextContainer}>
+                    <View style={styles.paidButton}>
+                      <Text style={{color: COLOR.WHITE}}>Paid</Text>
+                    </View>
                   </View>
                 )}
               </View>
@@ -630,8 +733,8 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           )}
           <PaymentReminderModal
             isVisible={this.state.isModalAlertVisible}
-            handleDismiss={() => this.setState({isModalAlertVisible: false})}
-            balanceAmount={balanceAmountWithCommas}
+            handleDismiss={() => this.handleDismissAction()}
+            monthlyTarget={monthlyTargetWithCommas}
             remindeMeTomorrow={() => this.remindMeLater('days')}
             remindeMeNextWeek={() => this.remindMeLater('weeks')}
           />
@@ -675,6 +778,8 @@ const mapStateToProps = state => ({
   paymentRescheduleReminderResponse: state.paymentRescheduleReminder,
   getAllNotificationsResponse: state.getAllNotifications,
   dismissSingleNotificationResponse: state.dismissSingleNotification,
+  updateNextPaymentReminderDateResponse: state.updateNextPaymentReminderDate,
+  getRemoteConfigDataResponse: state.getRemoteConfigData,
 });
 
 const bindActions = dispatch => ({
@@ -698,6 +803,10 @@ const bindActions = dispatch => ({
     dispatch(getAllNotifications.fetchCall(payload, extraPayload)),
   dismissSingleNotification: (payload, extraPayload) =>
     dispatch(dismissSingleNotification.fetchCall(payload, extraPayload)),
+  updateNextPaymentReminderDate: (payload, extraPayload) =>
+    dispatch(updateNextPaymentReminderDate.fetchCall(payload, extraPayload)),
+  getRemoteConfigData: payload =>
+    dispatch(getRemoteConfigData.fetchCall(payload)),
 });
 
 export const DashBoard = connect(

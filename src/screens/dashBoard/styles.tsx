@@ -39,10 +39,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
-    marginTop: STYLE_CONSTANTS.margin.NORMAL,
     marginLeft: STYLE_CONSTANTS.margin.NORMAL,
     borderRadius: 14,
   },
+  targetAmountContainer: {
+    flexDirection: 'row',
+    marginTop: STYLE_CONSTANTS.margin.LARGEST,
+  },
+  targetTextContainer: {justifyContent: 'center'},
   thisMonthText: {
     marginTop: STYLE_CONSTANTS.margin.SMALL,
     fontSize: STYLE_CONSTANTS.font.SIZE.HUGE,
@@ -51,7 +55,6 @@ export const styles = StyleSheet.create({
     fontWeight: STYLE_CONSTANTS.font.WEIGHT.SEMI_BOLD,
   },
   overPaymentTargetAmount: {
-    marginTop: STYLE_CONSTANTS.margin.LARGEST,
     fontSize: STYLE_CONSTANTS.font.SIZE.HUMONGOUS,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGEST_HUMONGOUS,
     color: COLOR.WHITE,

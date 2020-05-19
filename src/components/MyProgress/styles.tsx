@@ -131,6 +131,11 @@ export const styles = StyleSheet.create({
     bottom: -STYLE_CONSTANTS.margin.SMALLER,
     // flexWrap: 'wrap',
   },
+  dummyContainer: {
+    height: STYLE_CONSTANTS.margin.LARGEST,
+    backgroundColor: COLOR.WHITE,
+    width: STYLE_CONSTANTS.padding.BELOW_NORMAL,
+  },
   targetText: {
     fontSize: STYLE_CONSTANTS.font.SIZE.SMALL,
     lineHeight: STYLE_CONSTANTS.font.LINEHEIGHT.LARGISH,

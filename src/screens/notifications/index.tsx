@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   Linking,
+  AppState,
 } from 'react-native';
 import {Header, GeneralStatusBar, LoadingModal} from '../../components';
 import {cross} from '../../assets';
@@ -36,6 +37,7 @@ import {
   APP_CONSTANTS,
   APP_KEYS,
   NAVIGATION_SCREEN_NAME,
+  LISTENERS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 
@@ -68,7 +70,25 @@ export class UnconnectedNotifications extends React.Component<props, state> {
     StatusBar.setBackgroundColor(COLOR.WHITE, true);
   }
 
+  _handleAppStateChange = async (nextAppState: string) => {
+    if (nextAppState === LISTENERS.APP_STATE.STATE.ACTIVE) {
+      const {getUserInfoResponse, getAllNotifications} = this.props;
+      const qParam = {
+        [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
+          getUserInfoResponse,
+          DB_KEYS.PUSH_NOTIFICATION,
+          null,
+        ),
+      };
+      await getAllNotifications({}, qParam);
+    }
+  };
+
   componentDidMount = async () => {
+    AppState.addEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
     const {getUserInfoResponse, getAllNotifications} = this.props;
     const qParam = {
       [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
@@ -82,6 +102,13 @@ export class UnconnectedNotifications extends React.Component<props, state> {
       loading: false,
     });
   };
+
+  componentWillUnmount() {
+    AppState.removeEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
+  }
 
   handleClearAll = async () => {
     const {
@@ -182,8 +209,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   };
 
   handleTargetRoute = (targetCategory: string, item: object) => {
-    const notificationData = JSON.parse(
-      _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_DATA, ''),
+    const notificationData = _get(
+      item,
+      NOTIFICATION_CONSTANTS.NOTIFICATION_DATA,
+      '',
     );
     switch (targetCategory) {
       case NOTIFICATION_CONSTANTS.SPRIVE_URL:
@@ -218,8 +247,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
 
   renderNotifications = (item: object) => {
     let notificationCategory = _get(item, SEARCH_ADDRESS.ITEM, null);
-    const notificationData = JSON.parse(
-      _get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_DATA, ''),
+    const notificationData = _get(
+      item,
+      NOTIFICATION_CONSTANTS.NOTIFICATION_DATA,
+      '',
     );
     return (
       <TouchableOpacity
