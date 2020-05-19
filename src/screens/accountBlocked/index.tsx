@@ -15,7 +15,7 @@ import {
 import {get as _get} from 'lodash';
 
 const CONTACT_ADMIN_SUPPORT = {
-  SUPPORT_MAIL_ID: 'support@sprive.com',
+  SUPPORT_MAIL_ID: 'contact@sprive.com',
   SUBJECT: 'Account Locked!',
   BODY: 'Some Phrase',
 };

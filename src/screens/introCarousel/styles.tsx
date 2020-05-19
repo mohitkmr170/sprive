@@ -27,6 +27,10 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 2 * STYLE_CONSTANTS.padding.LARGEST,
   },
+  comingSoonText: {
+    color: COLOR.BLUE,
+    fontWeight: STYLE_CONSTANTS.font.WEIGHT.BOLD,
+  },
   dotStyle: {
     width: STYLE_CONSTANTS.margin.SMALLISH,
     height: STYLE_CONSTANTS.margin.SMALLISH,

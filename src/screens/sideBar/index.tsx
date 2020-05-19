@@ -121,7 +121,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       isDisabled: false,
     },
     {
-      title: localeString(LOCALE_STRING.SIDE_BAR.SUPPORT),
+      title: localeString(LOCALE_STRING.SIDE_BAR.GIVE_FEEDBACK),
       icon: iSupport,
       action: () =>
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE),

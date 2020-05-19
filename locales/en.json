@@ -38,8 +38,8 @@
     "secondTitle": "Smarter monthly payments",
     "secondSubTitle": "We suggest the optimal amount to pay, taking years off your mortgage and saving you thousands of pounds",
     "thirdTitle": "Always on the best deal",
-    "thirdSubTitle": "Daily monitoring. Our free expert advisors could save you up to £300 per month by remortgaging to a better deal (coming soon)",
-    "signUpForFree": "Sign up for free",
+    "thirdSubTitle": "Daily monitoring. Our free expert advisors could save you up to £300 per month by remortgaging to a better deal",
+    "signUpForFree": "Get started",
     "alreadyRegistered": "Already have an account? ",
     "setupAccc": "Set up your secure account",
     "byClickingText": "By clicking on Create Account, you are accepting our",
@@ -48,6 +48,7 @@
     "privacyPolicy": "Privacy Policy",
     "accountAlreadyExist": "Already have an account?",
     "emailClients": "Email Clients found on your device",
+    "comingSoon": " (Coming soon)"
   },
   "mortgageForm": {
     "title": "Your Mortgage",
@@ -104,7 +105,7 @@
     "titleMortgage": "Set Mortgage",
     "howQuickly": "How quickly would you like to be Mortgage free?",
     "setTarget": "Set target in years",
-    "youCanAdjust": "You can adjust your goals anytime and no payment will ever leave your account without your approval",
+    "youCanAdjust": "You can adjust your goals anytime",
     "basedOnTarget": "Based on your target",
     "estimate": "Estimated Monthly",
     "overPayment": "Overpayment",
@@ -133,7 +134,7 @@
     "income": "Income",
     "spent": "Spent",
     "avaialbleBalance": "Available Balance",
-    "makeOverPayment": "Record a Payment",
+    "makeOverPayment": "Log a Payment",
     "myProgress": "My Progress",
     "projectedMortgage": "Projected: Mortgage free in",
     "keepItUp": "You’re on track. Keep it up"
@@ -178,7 +179,7 @@
     "chLeft": "characters left",
     "reportIssue": "Send",
     "bugReported": "Feedback submitted successfully",
-    "reportIssue": "Report Issue",
+    "reportIssue": "Submit",
     "bugReported": "Issue reported successfully!",
     "loveToHear": "We’d love to hear your feedback"
     },
@@ -203,13 +204,14 @@
     "security": "Security",
     "personalDetails": "Personal Details",
     "secureLogin": "Secure Login",
-    "enableFaceId": "Enable Face ID"
+    "enableFaceId": "Enable Face ID",
+    "giveFeedback": "Give Feedback"
   },
   "emailVerification": {
     "okay": "Okay",
     "verification": "Verification",
-    "successTitle": "Success! Account Verified",
-    "successMessage": "You are successfully registered, press okay to proceed",
+    "successTitle": "Success",
+    "successMessage": "Account verified",
     "failTitle": "Account verification failed",
     "failMessage": "Please SignUp again to Continue",
     "emailSentAgain": "Email sent again",

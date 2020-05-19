@@ -40,6 +40,7 @@ export const LOCALE_STRING = {
     THIRD_TITLE: 'signUp.thirdTitle',
     THIRD_SUB_TITLE: 'signUp.thirdSubTitle',
     EMAIL_CLIENTS: 'signUp.emailClients',
+    COMING_SOON: 'signUp.comingSoon',
   },
   SHOW_INTEREST_SCREEN: {
     SAVE_INTEREST: 'mortgageForm.mortgageData',
@@ -171,7 +172,6 @@ export const LOCALE_STRING = {
     CHAR_LEFT: 'reportIssue.chLeft',
     REPORT_ISSUE: 'reportIssue.reportIssue',
     BUG_REPORTED: 'reportIssue.bugReported',
-    LOVE_TO_HEAR: 'reportIssue.loveToHear',
   },
   UPDATE_MORTGAGE: {
     UPDATE_MORTGAGE: 'updateMortgage.updateMortgage',
@@ -195,6 +195,7 @@ export const LOCALE_STRING = {
     PERSONAL_DETAILS: 'sideBar.personalDetails',
     SECURE_LOGIN: 'sideBar.secureLogin',
     FACE_ID: 'sideBar.enableFaceId',
+    GIVE_FEEDBACK: 'sideBar.giveFeedback',
   },
   EMAIL_VERIFICATION: {
     EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',
