@@ -144,7 +144,7 @@ export const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     shadowRadius: 10,
-    elevation: 5, // Reuired for Andorid
+    elevation: 5, // Required for Andorid
     backgroundColor: COLOR.WHITE, // Compulsory to pass in view-having shadow
   },
   bottonContainerInner: {flexDirection: 'row'},

@@ -44,6 +44,7 @@ import {
   showSnackBar,
   NATIVE_EVENTS,
   NOTIFICATION_CONSTANTS,
+  LISTENERS,
 } from '../../utils';
 import {
   getMonthlyPaymentRecord,
@@ -143,7 +144,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   };
 
   _handleAppStateChange = async (nextAppState: string) => {
-    if (nextAppState === 'active') {
+    if (nextAppState === LISTENERS.APP_STATE.STATE.ACTIVE) {
       const {getUserInfoResponse, getAllNotifications} = this.props;
       const qParamNotification = {
         [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
@@ -166,7 +167,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
         '',
       ),
     });
-    AppState.addEventListener('change', this._handleAppStateChange);
+    AppState.addEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
     this.didFocusListener = this.props.navigation.addListener(
       APP_CONSTANTS.LISTENER.DID_FOCUS,
       async () => {
@@ -202,10 +206,6 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       },
     );
   };
-
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
-  }
 
   handleInitialMount = async () => {
     try {
@@ -307,6 +307,10 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
   handleLogOut = () => {};
   componentWillUnmount() {
     this.didFocusListener.remove();
+    AppState.removeEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
   }
 
   hanldeHomeOwnerShip = () => {
@@ -583,7 +587,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
               <Text style={styles.thisMonthText}>
                 {localeString(LOCALE_STRING.DASHBOARD_SCREEN.THIS_MONTH)}
               </Text>
-              <View style={styles.targetAmonutContainer}>
+              <View style={styles.targetAmountContainer}>
                 <Text
                   style={[
                     styles.overPaymentTargetAmount,
