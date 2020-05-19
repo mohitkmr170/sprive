@@ -267,10 +267,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
               ellipsizeMode="tail"
               numberOfLines={1}
               style={styles.titleText}>
-              {_get(notificationData, DB_KEYS.NOTIFICATION_DATA.TITLE, '')}
+              {_get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_MESSAGE, '')}
             </Text>
             <Text style={styles.typeText}>
-              {_get(notificationData, DB_KEYS.NOTIFICATION_DATA.SUB_TITLE, '')}
+              {_get(notificationData, DB_KEYS.NOTIFICATION_DATA.TITLE, '')}
             </Text>
           </View>
           <TouchableOpacity
