@@ -86,7 +86,7 @@
     "length10": "Must be 10 characters",
     "invalidEmail": "Invalid email address",
     "alphaNumberic": "Atleast one character and one number",
-    "alphaBetsWithSpaces": "Only aplhabets allowed",
+    "alphaBetsWithSpaces": "Please enter a valid name",
     "maxLimitMortgage": "Invalid amount. Please re-enter a value less than £10,000,000",
     "maxLimitMonthlyMortgage": "Invalid amount. Please re-enter a value less than £10,000",
     "yearRange": "should be between [0-35] range",

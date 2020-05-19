@@ -90,7 +90,7 @@ export class UnconnectedNotifications extends React.Component<props, state> {
       dismissAllNotificationsResponse,
       getAllNotifications,
     } = this.props;
-    this.setState({loading: true});
+    // this.setState({loading: true});
     const payload = {
       dismissed: true,
     };
@@ -111,7 +111,7 @@ export class UnconnectedNotifications extends React.Component<props, state> {
         ),
       };
       await getAllNotifications({}, qParam);
-      this.setState({loading: false});
+      // this.setState({loading: false});
     }
   };
 
@@ -122,7 +122,6 @@ export class UnconnectedNotifications extends React.Component<props, state> {
       dismissSingleNotificationResponse,
       getAllNotifications,
     } = this.props;
-    this.setState({loading: true});
     const payload = {
       [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
         getUserInfoResponse,
@@ -144,7 +143,6 @@ export class UnconnectedNotifications extends React.Component<props, state> {
         ),
       };
       await getAllNotifications({}, qParam);
-      this.setState({loading: false});
     }
   };
 

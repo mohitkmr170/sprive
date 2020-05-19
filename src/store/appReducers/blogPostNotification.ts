@@ -1,13 +1,13 @@
 import {actionTypes} from '../actionTypes';
 
 const initialState = {
-  isNotificationReceived: false,
+  isBlogNotificationReceived: false,
   notificationId: null,
 };
 export const blogPostNotification = (state = initialState, action: any) => {
   switch (action.type) {
-    case actionTypes.IS_NOTIFICATION_RECEIVED:
-      state.isNotificationReceived = !state.isNotificationReceived;
+    case actionTypes.IS_BLOG_POST_NOTIFICATION_RECEIVED:
+      state.isBlogNotificationReceived = !state.isBlogNotificationReceived;
       state.notificationId = action.payload;
       return {
         ...state,
