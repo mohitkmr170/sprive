@@ -243,6 +243,9 @@ export class UnconnectedTargetStepIndicator extends React.Component<
                   ]}
                 />
               ) : (
+                /*
+                NOTES : This is dummy container, that is shown at the time of on-track, t make background white
+                */
                 <View style={styles.dummyContainer} />
               )}
             </View>

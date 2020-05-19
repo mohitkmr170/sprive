@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     marginLeft: STYLE_CONSTANTS.margin.NORMAL,
     borderRadius: 14,
   },
-  targetAmonutContainer: {
+  targetAmountContainer: {
     flexDirection: 'row',
     marginTop: STYLE_CONSTANTS.margin.LARGEST,
   },

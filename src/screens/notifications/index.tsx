@@ -37,6 +37,7 @@ import {
   APP_CONSTANTS,
   APP_KEYS,
   NAVIGATION_SCREEN_NAME,
+  LISTENERS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 
@@ -70,7 +71,7 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   }
 
   _handleAppStateChange = async (nextAppState: string) => {
-    if (nextAppState === 'active') {
+    if (nextAppState === LISTENERS.APP_STATE.STATE.ACTIVE) {
       const {getUserInfoResponse, getAllNotifications} = this.props;
       const qParam = {
         [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
@@ -84,7 +85,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   };
 
   componentDidMount = async () => {
-    AppState.addEventListener('change', this._handleAppStateChange);
+    AppState.addEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
     const {getUserInfoResponse, getAllNotifications} = this.props;
     const qParam = {
       [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
@@ -100,7 +104,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   };
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    AppState.removeEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
   }
 
   handleClearAll = async () => {

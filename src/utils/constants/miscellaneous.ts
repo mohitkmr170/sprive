@@ -169,3 +169,11 @@ export const NOTIFICATION_CONSTANTS = {
   SPRIVE_URL: 'sprive-url',
   WEB_URL: 'web-url',
 };
+export const LISTENERS = {
+  APP_STATE: {
+    CHANGE: 'change',
+    STATE: {
+      ACTIVE: 'active',
+    },
+  },
+};
