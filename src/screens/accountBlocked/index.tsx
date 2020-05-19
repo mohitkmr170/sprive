@@ -52,9 +52,7 @@ export class UnconnectedAccountBlocked extends React.Component<props, state> {
     return true;
   }
   handleContactAdmin = () => {
-    Linking.openURL(
-      `mailto:${CONTACT_ADMIN_SUPPORT.SUPPORT_MAIL_ID}?subject=${CONTACT_ADMIN_SUPPORT.SUBJECT}&body=${CONTACT_ADMIN_SUPPORT.BODY}`,
-    );
+    Linking.openURL(`mailto:${CONTACT_ADMIN_SUPPORT.SUPPORT_MAIL_ID}`);
   };
   getAccountBlockedReason = (blockedType: string) => {
     switch (blockedType) {
