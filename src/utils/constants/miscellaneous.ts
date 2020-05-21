@@ -20,6 +20,9 @@ export const LOCAL_KEYS = {
   DATE_FORMAT_SLASH: 'DD/MM/YYYY',
   TEXT: 'text',
   DEFAULT_REMINDER_DAY_OF_MONTH: 8,
+  PAYMENT_AMOUNT: 'paymentAmount',
+  PAYMENT_MESSAGE: 'paymentMessage',
+  PAYMENT_PAID_COLOR: 'paymentPaidColor',
 };
 export const NOTIFICATION_TYPES = {
   PRIVACY_POLICY: 'privacy_policy',

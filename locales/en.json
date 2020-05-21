@@ -137,7 +137,10 @@
     "makeOverPayment": "Log a Payment",
     "myProgress": "My Progress",
     "projectedMortgage": "Projected: Mortgage free in",
-    "keepItUp": "You’re on track. Keep it up"
+    "keepItUp": "You’re on track. Keep it up",
+    "keepGoing": "Keep going! Chipping away saves your loads",
+    "setYourGoal": "Set your goal to start saving!",
+    "brilliant": "Brilliant! At this rate, you’ll be mortgage free in no time"
   },
   "statusOverlay": {
     "message": "Goal not set, please go ahead and set your goal to continue",
@@ -205,7 +208,8 @@
     "personalDetails": "Personal Details",
     "secureLogin": "Secure Login",
     "enableFaceId": "Enable Face ID",
-    "giveFeedback": "Give Feedback"
+    "giveFeedback": "Give Feedback",
+    "appVersion": "App version"
   },
   "emailVerification": {
     "okay": "Okay",

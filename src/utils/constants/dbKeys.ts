@@ -42,6 +42,7 @@ export const DB_KEYS = {
   USER_ID: 'response.data.id', //Same
   BALANCE_AMOUNT: 'response.data.balance_amount',
   MONTHLY_TARGET: 'response.data.monthly_target',
+  INTERIM_AMOUNT: 'response.data.interim_amount',
   RESPONSE_DATA: 'response.data',
   CREATED_AT: 'response.data[0].createdAt',
   UPDATE_AT: 'response.data[0].updatedAt',

@@ -131,6 +131,9 @@ export const LOCALE_STRING = {
     MY_PROGRESS: 'dashBoard.myProgress',
     PROJECTED_MORTGAGE: 'dashBoard.projectedMortgage',
     KEEP_IT_UP: 'dashBoard.keepItUp',
+    KEEP_GOING: 'dashBoard.keepGoing',
+    SET_YOUR_GOAL: 'dashBoard.setYourGoal',
+    BRILLIANT: 'dashBoard.brilliant',
   },
   STATUS_OVERLAY: {
     MESSAGE: 'statusOverlay.message',
@@ -196,6 +199,7 @@ export const LOCALE_STRING = {
     SECURE_LOGIN: 'sideBar.secureLogin',
     FACE_ID: 'sideBar.enableFaceId',
     GIVE_FEEDBACK: 'sideBar.giveFeedback',
+    APP_VERSION: 'sideBar.appVersion',
   },
   EMAIL_VERIFICATION: {
     EMAIL_SENT_AGAIN: 'emailVerification.emailSentAgain',
