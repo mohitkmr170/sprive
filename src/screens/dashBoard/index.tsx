@@ -479,6 +479,63 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     }
   };
 
+  getReminderMessage = (
+    interimAmount: any,
+    monthlyTarget: any,
+    balanceAmount: any,
+  ) => {
+    let paymentStatusObject = {
+      paymentAmount: '',
+      paymentPaidColor: '',
+      paymentMessage: '',
+    };
+    const monthlyTargetWithCommas = getNumberWithCommas(
+      Math.round(monthlyTarget),
+    );
+    const balanceWithCommas = getNumberWithCommas(Math.round(balanceAmount));
+    const interimAmountWithCommas = getNumberWithCommas(
+      Math.round(interimAmount),
+    );
+    if (!interimAmount && !monthlyTarget && !balanceAmount) {
+      paymentStatusObject.paymentAmount = monthlyTargetWithCommas;
+      paymentStatusObject.paymentPaidColor = COLOR.WHITE;
+      paymentStatusObject.paymentMessage = localeString(LOCALE_STRING.DASHBOARD_SCREEN.SET_YOUR_GOAL);
+    } else if (interimAmount === 0) {
+      const upcomingPaymentDate = Moment(
+        this.state.nextPaymentReminderDate,
+      ).date();
+      const upcomingPaymentMonth =
+        APP_CONSTANTS.MONTH_NAMES[
+          Moment(this.state.nextPaymentReminderDate).month()
+        ];
+      paymentStatusObject.paymentAmount = monthlyTargetWithCommas;
+      paymentStatusObject.paymentPaidColor = COLOR.WHITE;
+      paymentStatusObject.paymentMessage = localeString(
+        LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
+        {
+          month: upcomingPaymentMonth,
+          date:
+            upcomingPaymentDate + this.getNthDateSuffix(upcomingPaymentDate),
+        },
+      );
+    } else if (balanceAmount > 0 && balanceAmount < monthlyTarget) {
+      paymentStatusObject.paymentAmount = balanceWithCommas;
+      paymentStatusObject.paymentPaidColor = COLOR.WHITE;
+      paymentStatusObject.paymentMessage =
+      localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_GOING);
+    } else if (interimAmount === monthlyTarget) {
+      paymentStatusObject.paymentAmount = monthlyTargetWithCommas;
+      paymentStatusObject.paymentPaidColor = COLOR.SHADED_GREEN;
+      paymentStatusObject.paymentMessage = localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_IT_UP);
+    } else if (interimAmount > monthlyTarget) {
+      paymentStatusObject.paymentAmount = interimAmountWithCommas;
+      paymentStatusObject.paymentPaidColor = COLOR.SHADED_GREEN;
+      paymentStatusObject.paymentMessage =
+      localeString(LOCALE_STRING.DASHBOARD_SCREEN.BRILLIANT);
+    }
+    return paymentStatusObject;
+  };
+
   render() {
     const {
       getMonthlyPaymentRecordResponse,
@@ -490,18 +547,16 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getPendingTaskResponse,
       getAllNotificationsResponse,
     } = this.props;
-    const upcomingPaymentDate = Moment(
-      this.state.nextPaymentReminderDate,
-    ).date();
-    const upcomingPaymentMonth =
-      APP_CONSTANTS.MONTH_NAMES[
-        Moment(this.state.nextPaymentReminderDate).month()
-      ];
     console.log('Inside Dashboard Render');
     const balanceAmount = _get(
       getMonthlyPaymentRecordResponse,
       DB_KEYS.BALANCE_AMOUNT,
       null,
+    );
+    const interimAmount = _get(
+      getMonthlyPaymentRecordResponse,
+      DB_KEYS.INTERIM_AMOUNT,
+      0,
     );
     const monthlyTarget = _get(
       getMonthlyPaymentRecordResponse,
@@ -540,6 +595,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       getAllNotificationsResponse,
       DB_KEYS.META_TOTAL,
       0,
+    );
+    const currentPaymentStatusObject = this.getReminderMessage(
+      interimAmount,
+      monthlyTarget,
+      balanceAmount,
     );
     if (
       this.state.loading ||
@@ -588,43 +648,31 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   style={[
                     styles.overPaymentTargetAmount,
                     {
-                      color: !balanceAmount ? COLOR.SHADED_GREEN : COLOR.WHITE,
+                      color: _get(
+                        currentPaymentStatusObject,
+                        LOCAL_KEYS.PAYMENT_PAID_COLOR,
+                        COLOR.WHITE,
+                      ),
                     },
                   ]}>
-                  £{monthlyTargetWithCommas}
+                  £{_get(currentPaymentStatusObject, LOCAL_KEYS.PAYMENT_AMOUNT, '')}
                 </Text>
-                {!balanceAmount && (
+                {!balanceAmount && monthlyTarget && interimAmount ? (
                   <View style={styles.targetTextContainer}>
                     <View style={styles.paidButton}>
                       <Text style={{color: COLOR.WHITE}}>Paid</Text>
                     </View>
                   </View>
-                )}
+                ) : null}
               </View>
               <Text style={styles.overPaymentTargetText}>
                 {APP_CONSTANTS.FULL_MONTH_NAMES[CURRENT_MONTH] +
                   ' ' +
                   new Date().getFullYear()}
               </Text>
-              {balanceAmount === 0 ? (
-                <Text style={styles.dueReminderText}>
-                  {localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_IT_UP)}
-                </Text>
-              ) : (
-                <Text style={styles.dueReminderText}>
-                  {balanceAmount > 0 && balanceAmount < monthlyTarget
-                    ? `Stay on track. £${balanceAmountWithCommas} to go!`
-                    : localeString(
-                        LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
-                        {
-                          month: upcomingPaymentMonth,
-                          date:
-                            upcomingPaymentDate +
-                            this.getNthDateSuffix(upcomingPaymentDate),
-                        },
-                      )}
-                </Text>
-              )}
+              <Text style={styles.dueReminderText}>
+                {_get(currentPaymentStatusObject, LOCAL_KEYS.PAYMENT_MESSAGE, '')}
+              </Text>
             </ImageBackground>
             <Button
               title={localeString(

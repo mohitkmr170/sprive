@@ -225,7 +225,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
             </ScrollView>
             <View>
               <Text style={[styles.logOutText, {paddingBottom: 16}]}>
-                {appName} v{appVersion}
+                {localeString(LOCALE_STRING.SIDE_BAR.APP_VERSION)} v{appVersion}
               </Text>
               <View style={styles.logOutContainer}>
                 <TouchableOpacity
