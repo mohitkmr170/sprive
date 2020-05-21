@@ -138,7 +138,7 @@ export class UnconnectedReportIssue extends React.Component<props, state> {
           ),
           [PAYLOAD_KEYS.NOTIFICATION.ONESIGNAL_MESSAGE_ID]: _get(
             notificationResponse,
-            NOTIFICATION_CONSTANTS.ONESIGNAL_MESSAGE_ID,
+            LOCAL_KEYS.ONESIGNAL_MESSAGE_ID,
             null,
           ),
         };

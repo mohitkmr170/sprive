@@ -78,7 +78,7 @@ export class UnconnectedPolicyUpdate extends React.Component<props, state> {
           ),
           [PAYLOAD_KEYS.NOTIFICATION.ONESIGNAL_MESSAGE_ID]: _get(
             policyUpdateResponse,
-            NOTIFICATION_CONSTANTS.ONESIGNAL_MESSAGE_ID,
+            LOCAL_KEYS.ONESIGNAL_MESSAGE_ID,
             null,
           ),
         };

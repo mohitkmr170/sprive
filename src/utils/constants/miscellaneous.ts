@@ -157,7 +157,6 @@ export const NOTIFICATION_CONSTANTS = {
   NOTIFICATION_DATA: 'item.data',
   NOTIFICATION_ID: 'item.id',
   NOTIFCATION_STORE_ID: 'notificationId',
-  ONESIGNAL_MESSAGE_ID: 'onesignal_message_id',
   DAYS: 'days',
   YYYY_MM_DD: 'YYYY-MM-DDD',
   BEFORE_DATE: 48,
