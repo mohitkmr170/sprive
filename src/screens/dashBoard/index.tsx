@@ -331,13 +331,30 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       ),
       dismissed: true,
     };
-    const qParam = {
-      id: _get(
-        paymentReminderResponse,
-        NOTIFICATION_CONSTANTS.NOTIFCATION_STORE_ID,
-        null,
-      ),
-    };
+    const qParam = _get(
+      paymentReminderResponse,
+      NOTIFICATION_CONSTANTS.NOTIFCATION_STORE_ID,
+      null,
+    )
+      ? {
+          [PAYLOAD_KEYS.ID]: _get(
+            paymentReminderResponse,
+            NOTIFICATION_CONSTANTS.NOTIFCATION_STORE_ID,
+            null,
+          ),
+        }
+      : {
+          [PAYLOAD_KEYS.NOTIFICATION.PUSH_NOTIFICATION_ID]: _get(
+            getUserInfoResponse,
+            DB_KEYS.PUSH_NOTIFICATION,
+            null,
+          ),
+          [PAYLOAD_KEYS.NOTIFICATION.ONESIGNAL_MESSAGE_ID]: _get(
+            paymentReminderResponse,
+            LOCAL_KEYS.ONESIGNAL_MESSAGE_ID,
+            null,
+          ),
+        };
     await dismissSingleNotification(payload, qParam);
     const {dismissSingleNotificationResponse, getAllNotifications} = this.props;
     if (!_get(dismissSingleNotificationResponse, DB_KEYS.ERROR, true)) {
@@ -734,7 +751,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
           <PaymentReminderModal
             isVisible={this.state.isModalAlertVisible}
             handleDismiss={() => this.handleDismissAction()}
-            monthlyTarget={monthlyTargetWithCommas}
+            balanceAmount={balanceAmountWithCommas}
             remindeMeTomorrow={() => this.remindMeLater('days')}
             remindeMeNextWeek={() => this.remindMeLater('weeks')}
           />
