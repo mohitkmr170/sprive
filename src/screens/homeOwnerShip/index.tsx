@@ -246,11 +246,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
           <GeneralStatusBar />
           <Header
             leftIconPresent={isLastRouteProfile ? false : true}
-            title={
-              isLastRouteProfile
-                ? localeString(LOCALE_STRING.HOME_OWNERSHIP.MY_HOME)
-                : localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)
-            }
+            title={localeString(LOCALE_STRING.HOME_OWNERSHIP.HOME_OWNERSHIP)}
             rightIconPresent
             iconName={chatIcon}
             iconPath={NAVIGATION_SCREEN_NAME.REPORT_ISSUE}
@@ -336,7 +332,7 @@ export class UnconnectedHomeOwnerShip extends React.Component<props, state> {
             )}
             {isLastRouteProfile ? (
               <Button
-                title={localeString(LOCALE_STRING.GLOBAL.OKAY)}
+                title={localeString(LOCALE_STRING.STATUS_OVERLAY.NEXT)}
                 titleStyle={styles.buttonTextStyle}
                 onPress={() => this.handleDonePressed()}
                 buttonStyle={styles.buttonStyle}

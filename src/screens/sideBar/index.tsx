@@ -33,6 +33,7 @@ import {closeDrawer} from '../../navigation/navigationService';
 import {get as _get} from 'lodash';
 import Icon from 'react-native-vector-icons/AntDesign';
 import OneSignal from 'react-native-onesignal';
+import {version as appVersion, name as appName} from '../../../package.json';
 
 interface props {
   navigation: {
@@ -120,7 +121,7 @@ export class UnconnectedSideBar extends React.Component<props, state> {
       isDisabled: false,
     },
     {
-      title: localeString(LOCALE_STRING.SIDE_BAR.SUPPORT),
+      title: localeString(LOCALE_STRING.SIDE_BAR.GIVE_FEEDBACK),
       icon: iSupport,
       action: () =>
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE),
@@ -223,6 +224,9 @@ export class UnconnectedSideBar extends React.Component<props, state> {
                 : null}
             </ScrollView>
             <View>
+              <Text style={[styles.logOutText, {paddingBottom: 16}]}>
+                {localeString(LOCALE_STRING.SIDE_BAR.APP_VERSION)} v{appVersion}
+              </Text>
               <View style={styles.logOutContainer}>
                 <TouchableOpacity
                   style={styles.logOutTouch}

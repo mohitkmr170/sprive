@@ -26,7 +26,7 @@ interface state {
   isTouchActive: boolean;
 }
 
-const CAROUSEL_AUTO_SCROLL_INTERVAL = 3;
+const CAROUSEL_AUTO_SCROLL_INTERVAL = 2;
 
 const SAMPLE_DATA_CAROUSEL = [
     {
@@ -78,6 +78,12 @@ export class IntroCarousel extends React.Component<props, state> {
           </Text>
           <Text style={styles.subTitleText}>
             {_get(item, DB_KEYS.INTRO_CAROUSEL.SUB_TITLE, '')}
+            {_get(item, DB_KEYS.INTRO_CAROUSEL.TITLE, '') ===
+              localeString(LOCALE_STRING.SIGNUP_FORM.THIRD_TITLE) && (
+              <Text style={styles.comingSoonText}>
+                {localeString(LOCALE_STRING.SIGNUP_FORM.COMING_SOON)}
+              </Text>
+            )}
           </Text>
         </View>
       </View>
