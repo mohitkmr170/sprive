@@ -168,6 +168,11 @@ class App extends React.Component<props, state> {
         DB_KEYS.NOTIFICATION_TYPE,
         '',
       );
+      const onesignal_message_id = _get(
+        notification,
+        DB_KEYS.ONE_SIGNAL_MESSAGE_ID,
+        '',
+      );
       const qParam = {
         [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
           store.getState(),
@@ -178,16 +183,36 @@ class App extends React.Component<props, state> {
       await store.dispatch(getAllNotifications.fetchCall({}, qParam));
       switch (notificationType) {
         case NOTIFICATION_TYPES.PRIVACY_POLICY:
-          await store.dispatch(policyUpdate());
+          await store.dispatch(
+            policyUpdate({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
           break;
         case NOTIFICATION_TYPES.PAYMENT_REMINDER:
-          await store.dispatch(paymentReminder());
+          await store.dispatch(
+            paymentReminder({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
           break;
         case NOTIFICATION_TYPES.USER_FEEDBACK:
-          await store.dispatch(userFeedNotification());
+          await store.dispatch(
+            userFeedNotification({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
           break;
         case NOTIFICATION_TYPES.BLOG_POST_NOTIFICATION:
-          await store.dispatch(blogPostNotification());
+          await store.dispatch(
+            blogPostNotification({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
           break;
         default:
           showSnackBar(
@@ -208,6 +233,11 @@ class App extends React.Component<props, state> {
       DB_KEYS.NOTIFICATION_TYPE,
       '',
     );
+    const onesignal_message_id = _get(
+      openResult.notification,
+      DB_KEYS.ONE_SIGNAL_MESSAGE_ID,
+      '',
+    );
     const qParam = {
       [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
         store.getState(),
@@ -221,13 +251,29 @@ class App extends React.Component<props, state> {
         if (
           !_get(store.getState(), DB_KEYS.IS_POLICY_UPDATE_RECEIVED_FLAG, true)
         )
-          await store.dispatch(policyUpdate());
+          await store.dispatch(
+            policyUpdate({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
         break;
       case NOTIFICATION_TYPES.USER_FEEDBACK:
         if (_get(store.getState(), DB_KEYS.USER_INFO, null)) {
-          await store.dispatch(userFeedNotification());
+          await store.dispatch(
+            userFeedNotification({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
           navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE, {});
-        } else await store.dispatch(userFeedNotification());
+        } else
+          await store.dispatch(
+            userFeedNotification({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
         break;
       case NOTIFICATION_TYPES.PAYMENT_REMINDER:
         if (
@@ -237,13 +283,29 @@ class App extends React.Component<props, state> {
             true,
           )
         )
-          await store.dispatch(paymentReminder());
+          await store.dispatch(
+            paymentReminder({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
         break;
       case NOTIFICATION_TYPES.BLOG_POST_NOTIFICATION:
         if (_get(store.getState(), DB_KEYS.USER_INFO, null)) {
-          await store.dispatch(blogPostNotification());
+          await store.dispatch(
+            blogPostNotification({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
           navigate(NAVIGATION_SCREEN_NAME.NOTIFICATION_SCREEN, {});
-        } else await store.dispatch(blogPostNotification());
+        } else
+          await store.dispatch(
+            blogPostNotification({
+              [PAYLOAD_KEYS.NOTIFICATION
+                .ONESIGNAL_MESSAGE_ID]: onesignal_message_id,
+            }),
+          );
         break;
       default:
         showSnackBar(

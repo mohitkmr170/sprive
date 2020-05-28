@@ -367,13 +367,13 @@
     "faceNotEnrolled": "Face ID not enrolled",
     "faceNotAvailable": "Face ID not available",
     "generalFaceIdError": "Something went wrong with FaceID",
-    "enterPin": "Enter PIN"
+    "enterPin": "Enter PIN",
+    "pinSuccess": "PIN created successfully"
   },
   "notification": {
     "notification": "Notifications",
     "dismissAll": "Dismiss All",
     "noNotification": "No active notification",
     "enterPin": "Enter PIN",
-    "pinSuccess": "PIN created successfully"
   }
 }

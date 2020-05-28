@@ -23,6 +23,8 @@ export const LOCAL_KEYS = {
   PAYMENT_AMOUNT: 'paymentAmount',
   PAYMENT_MESSAGE: 'paymentMessage',
   PAYMENT_PAID_COLOR: 'paymentPaidColor',
+  ID: 'id',
+  ONESIGNAL_MESSAGE_ID: 'onesignal_message_id',
 };
 export const NOTIFICATION_TYPES = {
   PRIVACY_POLICY: 'privacy_policy',
@@ -168,4 +170,12 @@ export const NOTIFICATION_CONSTANTS = {
   TYPE_ACTION: 'action-item',
   SPRIVE_URL: 'sprive-url',
   WEB_URL: 'web-url',
+};
+export const LISTENERS = {
+  APP_STATE: {
+    CHANGE: 'change',
+    STATE: {
+      ACTIVE: 'active',
+    },
+  },
 };

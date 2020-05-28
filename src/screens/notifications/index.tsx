@@ -37,6 +37,7 @@ import {
   APP_CONSTANTS,
   APP_KEYS,
   NAVIGATION_SCREEN_NAME,
+  LISTENERS,
 } from '../../utils';
 import {get as _get} from 'lodash';
 
@@ -46,9 +47,9 @@ interface props {
     goBack: () => void;
   };
   getUserInfoResponse: object;
-  paymentReminder: (notificationId: number) => void;
-  policyUpdate: (notificationId: number) => void;
-  notification: (notificationId: number) => void;
+  paymentReminder: (notificationId: object) => void;
+  policyUpdate: (notificationId: object) => void;
+  notification: (notificationId: object) => void;
   getAllNotifications: (payload: object, extraPayload: object) => void;
   getAllNotificationsResponse: object;
   dismissSingleNotification: (payload: object, qParams: object) => void;
@@ -70,7 +71,7 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   }
 
   _handleAppStateChange = async (nextAppState: string) => {
-    if (nextAppState === 'active') {
+    if (nextAppState === LISTENERS.APP_STATE.STATE.ACTIVE) {
       const {getUserInfoResponse, getAllNotifications} = this.props;
       const qParam = {
         [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
@@ -84,7 +85,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   };
 
   componentDidMount = async () => {
-    AppState.addEventListener('change', this._handleAppStateChange);
+    AppState.addEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
     const {getUserInfoResponse, getAllNotifications} = this.props;
     const qParam = {
       [PAYLOAD_KEYS.PUSH_NOTIFICATION_ID]: _get(
@@ -100,7 +104,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   };
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    AppState.removeEventListener(
+      LISTENERS.APP_STATE.CHANGE,
+      this._handleAppStateChange,
+    );
   }
 
   handleClearAll = async () => {
@@ -169,15 +176,15 @@ export class UnconnectedNotifications extends React.Component<props, state> {
   handleNotification = async (targetRoute: string, notificationId: number) => {
     switch (targetRoute) {
       case NOTIFICATION_TYPES.PRIVACY_POLICY:
-        await this.props.policyUpdate(notificationId);
+        await this.props.policyUpdate({[PAYLOAD_KEYS.ID]: notificationId});
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
         break;
       case NOTIFICATION_TYPES.PAYMENT_REMINDER:
-        await this.props.paymentReminder(notificationId);
+        await this.props.paymentReminder({[PAYLOAD_KEYS.ID]: notificationId});
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.TAB_NAVIGATOR);
         break;
       case NOTIFICATION_TYPES.USER_FEEDBACK:
-        await this.props.notification(notificationId);
+        await this.props.notification({[PAYLOAD_KEYS.ID]: notificationId});
         this.props.navigation.navigate(NAVIGATION_SCREEN_NAME.REPORT_ISSUE);
         break;
       default:
@@ -267,10 +274,10 @@ export class UnconnectedNotifications extends React.Component<props, state> {
               ellipsizeMode="tail"
               numberOfLines={1}
               style={styles.titleText}>
-              {_get(notificationData, DB_KEYS.NOTIFICATION_DATA.TITLE, '')}
+              {_get(item, NOTIFICATION_CONSTANTS.NOTIFICATION_MESSAGE, '')}
             </Text>
             <Text style={styles.typeText}>
-              {_get(notificationData, DB_KEYS.NOTIFICATION_DATA.SUB_TITLE, '')}
+              {_get(notificationData, DB_KEYS.NOTIFICATION_DATA.TITLE, '')}
             </Text>
           </View>
           <TouchableOpacity
