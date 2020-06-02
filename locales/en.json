@@ -373,7 +373,7 @@
   "notification": {
     "notification": "Notifications",
     "dismissAll": "Dismiss All",
-    "noNotification": "No active notification",
+    "noNotification": "No new notification",
     "enterPin": "Enter PIN",
   }
 }
