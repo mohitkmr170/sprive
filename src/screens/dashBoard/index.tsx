@@ -520,15 +520,22 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     if (!interimAmount && !monthlyTarget && !balanceAmount) {
       paymentStatusObject.paymentAmount = monthlyTargetWithCommas;
       paymentStatusObject.paymentPaidColor = COLOR.WHITE;
-      paymentStatusObject.paymentMessage = localeString(LOCALE_STRING.DASHBOARD_SCREEN.SET_YOUR_GOAL);
+      paymentStatusObject.paymentMessage = localeString(
+        LOCALE_STRING.DASHBOARD_SCREEN.SET_YOUR_GOAL,
+      );
     } else if (interimAmount === 0) {
       const upcomingPaymentDate = Moment(
         this.state.nextPaymentReminderDate,
-      ).date();
-      const upcomingPaymentMonth =
-        APP_CONSTANTS.MONTH_NAMES[
-          Moment(this.state.nextPaymentReminderDate).month()
-        ];
+      ).date()
+        ? Moment(this.state.nextPaymentReminderDate).date()
+        : LOCAL_KEYS.DEFAULT_REMINDER_DAY_OF_MONTH;
+      const upcomingPaymentMonth = APP_CONSTANTS.MONTH_NAMES[
+        Moment(this.state.nextPaymentReminderDate).month()
+      ]
+        ? APP_CONSTANTS.MONTH_NAMES[
+            Moment(this.state.nextPaymentReminderDate).month()
+          ]
+        : APP_CONSTANTS.MONTH_NAMES[new Date().getMonth()];
       paymentStatusObject.paymentAmount = monthlyTargetWithCommas;
       paymentStatusObject.paymentPaidColor = COLOR.WHITE;
       paymentStatusObject.paymentMessage = localeString(
@@ -542,17 +549,21 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     } else if (balanceAmount > 0 && balanceAmount < monthlyTarget) {
       paymentStatusObject.paymentAmount = balanceWithCommas;
       paymentStatusObject.paymentPaidColor = COLOR.WHITE;
-      paymentStatusObject.paymentMessage =
-      localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_GOING);
+      paymentStatusObject.paymentMessage = localeString(
+        LOCALE_STRING.DASHBOARD_SCREEN.KEEP_GOING,
+      );
     } else if (interimAmount === monthlyTarget) {
       paymentStatusObject.paymentAmount = monthlyTargetWithCommas;
       paymentStatusObject.paymentPaidColor = COLOR.SHADED_GREEN;
-      paymentStatusObject.paymentMessage = localeString(LOCALE_STRING.DASHBOARD_SCREEN.KEEP_IT_UP);
+      paymentStatusObject.paymentMessage = localeString(
+        LOCALE_STRING.DASHBOARD_SCREEN.KEEP_IT_UP,
+      );
     } else if (interimAmount > monthlyTarget) {
       paymentStatusObject.paymentAmount = interimAmountWithCommas;
       paymentStatusObject.paymentPaidColor = COLOR.SHADED_GREEN;
-      paymentStatusObject.paymentMessage =
-      localeString(LOCALE_STRING.DASHBOARD_SCREEN.BRILLIANT);
+      paymentStatusObject.paymentMessage = localeString(
+        LOCALE_STRING.DASHBOARD_SCREEN.BRILLIANT,
+      );
     }
     return paymentStatusObject;
   };
@@ -676,7 +687,12 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                       ),
                     },
                   ]}>
-                  £{_get(currentPaymentStatusObject, LOCAL_KEYS.PAYMENT_AMOUNT, '')}
+                  £
+                  {_get(
+                    currentPaymentStatusObject,
+                    LOCAL_KEYS.PAYMENT_AMOUNT,
+                    '',
+                  )}
                 </Text>
                 {!balanceAmount && monthlyTarget && interimAmount ? (
                   <View style={styles.targetTextContainer}>
@@ -692,7 +708,11 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   new Date().getFullYear()}
               </Text>
               <Text style={styles.dueReminderText}>
-                {_get(currentPaymentStatusObject, LOCAL_KEYS.PAYMENT_MESSAGE, '')}
+                {_get(
+                  currentPaymentStatusObject,
+                  LOCAL_KEYS.PAYMENT_MESSAGE,
+                  '',
+                )}
               </Text>
             </ImageBackground>
             <Button
