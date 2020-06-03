@@ -90,7 +90,7 @@
     "alphaBetsWithSpaces": "Please enter a valid name",
     "maxLimitMortgage": "Invalid amount. Please re-enter a value less than £10,000,000",
     "maxLimitMonthlyMortgage": "Invalid amount. Please re-enter a value less than £10,000",
-    "yearRange": "should be between [0-35] range",
+    "yearRange": "should be between [1-40] range",
     "inValidAmount": "Invalid amount. Please provide a larger monthly payment amount",
     "whiteSpaces": "Whitespaces not allowed",
     "passwordNotMatched": "password did not match",
@@ -138,7 +138,7 @@
     "myProgress": "My Progress",
     "projectedMortgage": "Projected: Mortgage free in",
     "keepItUp": "You’re on track. Keep it up",
-    "keepGoing": "Keep going! Chipping away saves your loads",
+    "keepGoing": "Keep going! Chipping away saves you loads",
     "setYourGoal": "Set your goal to start saving!",
     "brilliant": "Brilliant! At this rate, you’ll be mortgage free in no time"
   },
@@ -164,7 +164,7 @@
     "availableBalance": "Available Balance",
     "monthlyTarget": "Monthly Target",
     "basicInfo": "Most lenders allow you to overpay up to 10% of your mortgage balance a year but do check if you’re not sure. You risk being charged early repayment fees if you pay over the permitted amount.",
-    "payNow": "Pay Now",
+    "payNow": "Log Payment",
     "accNumber": "Account Number",
     "sortCode": "Sort Code",
     "refCode": "Reference Code",
@@ -373,7 +373,7 @@
   "notification": {
     "notification": "Notifications",
     "dismissAll": "Dismiss All",
-    "noNotification": "No active notification",
+    "noNotification": "No new notification",
     "enterPin": "Enter PIN",
   }
 }

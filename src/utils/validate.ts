@@ -121,7 +121,7 @@ export const alphaBets = (value: any) =>
     : undefined;
 
 export const yearRange = (value: any) =>
-  value && value > 0 && value < 35
+  value && value > 0 && value <= 40
     ? undefined
     : localeString(LOCALE_STRING.VALIDATIONS.YEAR_RANGE);
 
