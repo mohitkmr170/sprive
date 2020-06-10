@@ -120,21 +120,31 @@ export class UnconnectedTargetStepIndicator extends React.Component<
     /*
     NOTES : BE-Month renges from [1-12], hence (-1) from all BE month response
     */
-    let projectedMonth =
-      APP_CONSTANTS.MONTH_NAMES[
-        _get(
-          getProjectedDataResponse,
-          DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
-          null,
-        ) - 1
-      ];
+    let projectedMonth = APP_CONSTANTS.MONTH_NAMES[
+      _get(
+        getProjectedDataResponse,
+        DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
+        null,
+      ) - 1
+    ]
+      ? APP_CONSTANTS.MONTH_NAMES[
+          _get(
+            getProjectedDataResponse,
+            DB_KEYS.PROJECTED_DATA.ESTIMATED_TIME_MONTHS,
+            null,
+          ) - 1
+        ]
+      : '';
     /*
     NOTES : Below calculations is for different edge cases of time-line view
     */
-    let targetMonth =
-      APP_CONSTANTS.MONTH_NAMES[
-        Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month() - 1
-      ];
+    let targetMonth = APP_CONSTANTS.MONTH_NAMES[
+      Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month() - 1
+    ]
+      ? APP_CONSTANTS.MONTH_NAMES[
+          Moment(_get(getUserGoalResponse, DB_KEYS.UPDATE_AT, null)).month() - 1
+        ]
+      : '';
     const isTargetPositionLeft =
       (this.state.targetYearPosition - STYLE_CONSTANTS.padding.BELOW_NORMAL) /
         (STYLE_CONSTANTS.device.SCREEN_WIDTH -

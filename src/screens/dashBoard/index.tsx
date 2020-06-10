@@ -526,26 +526,22 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
     } else if (interimAmount === 0) {
       const upcomingPaymentDate = Moment(
         this.state.nextPaymentReminderDate,
-      ).date()
-        ? Moment(this.state.nextPaymentReminderDate).date()
-        : LOCAL_KEYS.DEFAULT_REMINDER_DAY_OF_MONTH;
-      const upcomingPaymentMonth = APP_CONSTANTS.MONTH_NAMES[
-        Moment(this.state.nextPaymentReminderDate).month()
-      ]
-        ? APP_CONSTANTS.MONTH_NAMES[
-            Moment(this.state.nextPaymentReminderDate).month()
-          ]
-        : APP_CONSTANTS.MONTH_NAMES[new Date().getMonth()];
+      ).date();
+      const upcomingPaymentMonth =
+        APP_CONSTANTS.MONTH_NAMES[
+          Moment(this.state.nextPaymentReminderDate).month()
+        ];
       paymentStatusObject.paymentAmount = monthlyTargetWithCommas;
       paymentStatusObject.paymentPaidColor = COLOR.WHITE;
-      paymentStatusObject.paymentMessage = localeString(
-        LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER,
-        {
-          month: upcomingPaymentMonth,
-          date:
-            upcomingPaymentDate + this.getNthDateSuffix(upcomingPaymentDate),
-        },
-      );
+      paymentStatusObject.paymentMessage =
+        upcomingPaymentMonth && upcomingPaymentMonth
+          ? localeString(LOCALE_STRING.DASHBOARD_SCREEN.PAYMENT_REMINDER, {
+              month: upcomingPaymentMonth,
+              date:
+                upcomingPaymentDate +
+                this.getNthDateSuffix(upcomingPaymentDate),
+            })
+          : '';
     } else if (balanceAmount > 0 && balanceAmount < monthlyTarget) {
       paymentStatusObject.paymentAmount = balanceWithCommas;
       paymentStatusObject.paymentPaidColor = COLOR.WHITE;
@@ -707,13 +703,19 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
                   ' ' +
                   new Date().getFullYear()}
               </Text>
-              <Text style={styles.dueReminderText}>
-                {_get(
-                  currentPaymentStatusObject,
-                  LOCAL_KEYS.PAYMENT_MESSAGE,
-                  '',
-                )}
-              </Text>
+              {_get(
+                currentPaymentStatusObject,
+                LOCAL_KEYS.PAYMENT_MESSAGE,
+                '',
+              ) ? (
+                <Text style={styles.dueReminderText}>
+                  {_get(
+                    currentPaymentStatusObject,
+                    LOCAL_KEYS.PAYMENT_MESSAGE,
+                    '',
+                  )}
+                </Text>
+              ) : null}
             </ImageBackground>
             <Button
               title={localeString(
