@@ -625,9 +625,9 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
       0,
     );
     const currentPaymentStatusObject = this.getReminderMessage(
-      interimAmount,
-      monthlyTarget,
-      balanceAmount,
+      Math.round(interimAmount),
+      Math.round(monthlyTarget),
+      Math.round(balanceAmount),
     );
     if (
       this.state.loading ||
@@ -727,7 +727,7 @@ export class UnconnectedDashBoard extends React.Component<props, state> {
             />
             <PaymentProgressCard
               navigation={navigation}
-              currentMonthTarget={monthlyTarget}
+              currentMonthTarget={Math.round(monthlyTarget)}
             />
             <ImageBackground
               source={homeOwnershipCard}
