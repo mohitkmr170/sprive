@@ -215,8 +215,9 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
         currentMonthArray.push(
           APP_CONSTANTS.MONTH_NAMES[currentgraphDataArray[item].month - 1],
         );
-        currentGraphData[graphMonthIndex].monthlyMortgage.value =
-          currentgraphDataArray[item].mortgage_amount;
+        currentGraphData[graphMonthIndex].monthlyMortgage.value = Math.round(
+          currentgraphDataArray[item].mortgage_amount,
+        );
         currentGraphData[graphMonthIndex].monthlyMortgage.svg.fill = COLORS[0];
         currentGraphData[graphMonthIndex].overPayment.value = Number(
           currentgraphDataArray[item].overpayment,
@@ -234,8 +235,8 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
           activeGraphIndex = graphMonthIndex;
         }
         if (
-          Number(currentgraphDataArray[item].overpayment) >=
-          Number(currentgraphDataArray[item].monthly_target)
+          Math.round(Number(currentgraphDataArray[item].overpayment)) >=
+          Math.round(Number(currentgraphDataArray[item].monthly_target))
         )
           currentGraphData[graphMonthIndex].overPayment.svg.fill =
             COLOR.SLIDER_COLOR;
@@ -251,10 +252,8 @@ export class UnconnectedStackBarGraph extends React.Component<props, state> {
             );
           }
 
-          currentGraphData[graphMonthIndex].monthlyMortgage.value = _get(
-            getUserMortgageDataResponse,
-            DB_KEYS.MORTGAGE_PAYMENT,
-            null,
+          currentGraphData[graphMonthIndex].monthlyMortgage.value = Math.round(
+            _get(getUserMortgageDataResponse, DB_KEYS.MORTGAGE_PAYMENT, null),
           );
           this.setState(
             {
